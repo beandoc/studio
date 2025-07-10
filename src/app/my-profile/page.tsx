@@ -38,21 +38,21 @@ const steps = [
 
 const formSchema = z.object({
   // Step 1
-  fullName: z.string().min(1, "Full name is required"),
-  age: z.coerce.number().min(1, "Age is required"),
-  gender: z.string().min(1, "Gender is required"),
-  height: z.coerce.number().min(1, "Height is required"),
-  weight: z.coerce.number().min(1, "Weight is required"),
+  fullName: z.string().optional(),
+  age: z.coerce.number().optional(),
+  gender: z.string().optional(),
+  height: z.coerce.number().optional(),
+  weight: z.coerce.number().optional(),
   bmi: z.string().optional(),
 
   // Step 2
-  stage: z.string().min(1, "Please select your kidney disease stage"),
+  stage: z.string().optional(),
   conditions: z.array(z.string()).optional(),
   otherCondition: z.string().optional(),
-  restrictions: z.string().min(1, "Please specify dietary restrictions"),
+  restrictions: z.string().optional(),
 
   // Step 3
-  dietType: z.string().min(1, "Please select a diet type"),
+  dietType: z.string().optional(),
   likes: z.string().optional(),
   dislikes: z.string().optional(),
   allergies: z.string().optional(),
@@ -86,7 +86,7 @@ export default function MyProfilePage() {
     },
   });
 
-  const { watch, setValue, trigger } = form;
+  const { watch, setValue } = form;
   const height = watch("height");
   const weight = watch("weight");
 
@@ -102,21 +102,10 @@ export default function MyProfilePage() {
 
 
   const handleNext = async () => {
-    let fieldsToValidate: (keyof FormValues)[] = [];
-    if (currentStep === 1) fieldsToValidate = ['fullName', 'age', 'gender', 'height', 'weight'];
-    if (currentStep === 2) fieldsToValidate = ['stage', 'restrictions'];
-    if (currentStep === 3) fieldsToValidate = ['dietType'];
-    if (currentStep === 4) fieldsToValidate = []; // No validation on the last step before submit
-
-
-    const result = await trigger(fieldsToValidate);
-
-    if (result) {
-        if (currentStep < steps.length) {
-            setCurrentStep(currentStep + 1);
-        } else {
-            form.handleSubmit(onSubmit)();
-        }
+    if (currentStep < steps.length) {
+        setCurrentStep(currentStep + 1);
+    } else {
+        form.handleSubmit(onSubmit)();
     }
   };
 
@@ -193,7 +182,6 @@ export default function MyProfilePage() {
                                     <SelectContent>
                                         <SelectItem value="male">Male</SelectItem>
                                         <SelectItem value="female">Female</SelectItem>
-                                        <SelectItem value="other">Other</SelectItem>
                                     </SelectContent>
                                 </Select>
                             )}
@@ -338,3 +326,5 @@ export default function MyProfilePage() {
     </div>
   );
 }
+
+    
