@@ -68,23 +68,23 @@ export default function FoodDetailPage({ params }: { params: { slug: string } })
                             <p className="text-right font-bold pt-1">% Daily Values*</p>
                             <Separator />
                             <NutrientRow label="Total Fat" value={food.nutritionFacts.totalFat.value} unit="g" percent={food.nutritionFacts.totalFat.percent} bold/>
-                            <NutrientRow label="Saturated Fat" value={food.nutritionFacts.saturatedFat.value} unit="g" percent={food.nutritionFacts.saturatedFat.percent} indent/>
-                            <NutrientRow label="Trans Fat" value={food.nutritionFacts.transFat.value} unit="g" indent/>
-                            <NutrientRow label="Polyunsaturated Fat" value={food.nutritionFacts.polyunsaturatedFat.value} unit="g" indent/>
-                            <NutrientRow label="Monounsaturated Fat" value={food.nutritionFacts.monounsaturatedFat.value} unit="g" indent/>
+                            {food.nutritionFacts.saturatedFat && <NutrientRow label="Saturated Fat" value={food.nutritionFacts.saturatedFat.value} unit="g" percent={food.nutritionFacts.saturatedFat.percent} indent/>}
+                            {food.nutritionFacts.transFat && <NutrientRow label="Trans Fat" value={food.nutritionFacts.transFat.value} unit="g" indent/>}
+                            {food.nutritionFacts.polyunsaturatedFat && <NutrientRow label="Polyunsaturated Fat" value={food.nutritionFacts.polyunsaturatedFat.value} unit="g" indent/>}
+                            {food.nutritionFacts.monounsaturatedFat && <NutrientRow label="Monounsaturated Fat" value={food.nutritionFacts.monounsaturatedFat.value} unit="g" indent/>}
                             <NutrientRow label="Cholesterol" value={food.nutritionFacts.cholesterol.value} unit="mg" percent={food.nutritionFacts.cholesterol.percent} bold/>
                             <NutrientRow label="Sodium" value={food.nutritionFacts.sodium.value} unit="mg" percent={food.nutritionFacts.sodium.percent} bold/>
                             <NutrientRow label="Total Carbohydrate" value={food.nutritionFacts.totalCarbohydrate.value} unit="g" percent={food.nutritionFacts.totalCarbohydrate.percent} bold/>
-                            <NutrientRow label="Dietary Fiber" value={food.nutritionFacts.dietaryFiber.value} unit="g" percent={food.nutritionFacts.dietaryFiber.percent} indent/>
-                            <NutrientRow label="Sugars" value={food.nutritionFacts.sugars.value} unit="g" indent/>
+                            {food.nutritionFacts.dietaryFiber && <NutrientRow label="Dietary Fiber" value={food.nutritionFacts.dietaryFiber.value} unit="g" percent={food.nutritionFacts.dietaryFiber.percent} indent/>}
+                            {food.nutritionFacts.sugars && <NutrientRow label="Sugars" value={food.nutritionFacts.sugars.value} unit="g" indent/>}
                             <NutrientRow label="Protein" value={food.nutritionFacts.protein.value} unit="g" bold/>
                             <Separator className="h-4 bg-muted-foreground my-1"/>
-                            <NutrientRow label="Vitamin D" value={food.nutritionFacts.vitaminD.value} unit="mcg" percent={food.nutritionFacts.vitaminD.percent}/>
-                            <NutrientRow label="Calcium" value={food.nutritionFacts.calcium.value} unit="mg" percent={food.nutritionFacts.calcium.percent}/>
-                            <NutrientRow label="Iron" value={food.nutritionFacts.iron.value} unit="mg" percent={food.nutritionFacts.iron.percent}/>
+                            {food.nutritionFacts.vitaminD && <NutrientRow label="Vitamin D" value={food.nutritionFacts.vitaminD.value} unit="mcg" percent={food.nutritionFacts.vitaminD.percent}/>}
+                            {food.nutritionFacts.calcium && <NutrientRow label="Calcium" value={food.nutritionFacts.calcium.value} unit="mg" percent={food.nutritionFacts.calcium.percent}/>}
+                            {food.nutritionFacts.iron && <NutrientRow label="Iron" value={food.nutritionFacts.iron.value} unit="mg" percent={food.nutritionFacts.iron.percent}/>}
                             <NutrientRow label="Potassium" value={food.nutritionFacts.potassium.value} unit="mg" percent={food.nutritionFacts.potassium.percent}/>
-                            <NutrientRow label="Vitamin A" value={food.nutritionFacts.vitaminA.value} unit="mcg" percent={food.nutritionFacts.vitaminA.percent}/>
-                            <NutrientRow label="Vitamin C" value={food.nutritionFacts.vitaminC.value} unit="mg" percent={food.nutritionFacts.vitaminC.percent}/>
+                            {food.nutritionFacts.vitaminA && <NutrientRow label="Vitamin A" value={food.nutritionFacts.vitaminA.value} unit="mcg" percent={food.nutritionFacts.vitaminA.percent}/>}
+                            {food.nutritionFacts.vitaminC && <NutrientRow label="Vitamin C" value={food.nutritionFacts.vitaminC.value} unit="mg" percent={food.nutritionFacts.vitaminC.percent}/>}
 
                             <p className="text-xs mt-4 text-muted-foreground">* The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a day is used for general nutrition advice.</p>
                         </CardContent>
@@ -117,7 +117,7 @@ export default function FoodDetailPage({ params }: { params: { slug: string } })
                         </CardContent>
                     </Card>
 
-                    <Card>
+                    {food.servingSizes && food.servingSizes.length > 0 && <Card>
                         <CardHeader><CardTitle>Common Serving Sizes</CardTitle></CardHeader>
                         <CardContent>
                             <ul className="space-y-2">
@@ -132,9 +132,9 @@ export default function FoodDetailPage({ params }: { params: { slug: string } })
                                 ))}
                             </ul>
                         </CardContent>
-                    </Card>
+                    </Card>}
 
-                    {food.relatedTypes.bakedBeans.length > 0 && <Card>
+                    {food.relatedTypes?.bakedBeans && food.relatedTypes.bakedBeans.length > 0 && <Card>
                         <CardHeader><CardTitle>Related Types of Baked Beans</CardTitle></CardHeader>
                         <CardContent>
                             <ul className="space-y-2">
@@ -146,7 +146,7 @@ export default function FoodDetailPage({ params }: { params: { slug: string } })
                         </CardContent>
                     </Card>}
 
-                    {food.relatedTypes.beans.length > 0 && <Card>
+                    {food.relatedTypes?.beans && food.relatedTypes.beans.length > 0 && <Card>
                         <CardHeader><CardTitle>Related Types of Beans</CardTitle></CardHeader>
                         <CardContent>
                             <ul className="space-y-2">

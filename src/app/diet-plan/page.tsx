@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { useForm, type SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { generateDietPlan } from "@/ai/flows/generate-diet-plan";
+import { generateDietPlan, type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/header";
 import {
@@ -27,13 +27,21 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Download, Loader2, Info } from "lucide-react";
+import { Download, Loader2, Info, Replace } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { useRouter } from "next/navigation";
+
 
 const FormSchema = z.object({
   gender: z.string().min(1, "Gender is required."),
@@ -56,19 +64,29 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
+type Meal = { name: string; calories: number; description: string; };
+type DayPlan = { breakfast?: Meal; lunch?: Meal; dinner?: Meal; snacks?: Meal; notes?: string; };
+const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+
 export default function DietPlanPage() {
-  const [dietPlan, setDietPlan] = useState<string | null>(null);
+  const [dietPlan, setDietPlan] = useState<GenerateDietPlanOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const dietPlanRef = useRef<HTMLDivElement>(null);
   const [showForm, setShowForm] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    const storedPlan = localStorage.getItem("dietPlan");
-    if (storedPlan) {
-      setDietPlan(storedPlan);
-    } else {
+    try {
+        const storedPlan = localStorage.getItem("dietPlan");
+        if (storedPlan) {
+            setDietPlan(JSON.parse(storedPlan));
+        } else {
+            setShowForm(true);
+        }
+    } catch (e) {
         setShowForm(true);
+        localStorage.removeItem("dietPlan");
     }
   }, []);
 
@@ -95,7 +113,6 @@ export default function DietPlanPage() {
     setIsLoading(true);
     setDietPlan(null);
 
-    // Combine form data into the format expected by the AI flow
     const healthRequirements = `
       - Health Context: ${data.healthRequirements}
       - Activity Level: ${data.activityLevel}
@@ -116,8 +133,8 @@ export default function DietPlanPage() {
 
     try {
       const result = await generateDietPlan({ healthRequirements, preferences });
-      setDietPlan(result.dietPlan);
-      localStorage.setItem("dietPlan", result.dietPlan);
+      setDietPlan(result);
+      localStorage.setItem("dietPlan", JSON.stringify(result));
       setShowForm(false);
     } catch (error) {
       console.error(error);
@@ -134,24 +151,38 @@ export default function DietPlanPage() {
   const handleExportPdf = () => {
     const input = dietPlanRef.current;
     if (input) {
-      html2canvas(input, {
-        scrollX: 0,
-        scrollY: -window.scrollY,
-        windowWidth: document.documentElement.offsetWidth,
-        windowHeight: document.documentElement.offsetHeight,
-      }).then((canvas) => {
+      html2canvas(input, { scale: 2 }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF({
-          orientation: "p",
-          unit: "px",
-          format: [canvas.width, canvas.height],
-        });
-        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+        const pdf = new jsPDF({ orientation: "p", unit: "px", format: "a4" });
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        const width = pdfWidth;
+        const height = width / ratio;
+        let position = 0;
+        let pageHeight = canvasHeight;
+
+        if (height > pdfHeight) {
+            pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+        } else {
+             pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+        }
         pdf.save("diet-plan.pdf");
       });
     }
   };
   
+  const handleFlipMeal = (day: string, mealType: string) => {
+    const meal = (dietPlan as any)?.[day]?.[mealType];
+    if (meal) {
+        // For now, let's just log it. We will navigate to the alternatives page in the next step.
+        console.log(`Flipping ${mealType} for ${day}: ${meal.name}`);
+        router.push(`/meal-alternatives?meal=${encodeURIComponent(meal.name)}`);
+    }
+  }
+
   const units = form.watch("units");
 
   return (
@@ -324,9 +355,7 @@ export default function DietPlanPage() {
               <Skeleton className="h-8 w-1/2" />
             </CardHeader>
             <CardContent className="space-y-4">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-3/4" />
+              {[...Array(5)].map((_, i) => <Skeleton key={i} className="h-6 w-full" />)}
             </CardContent>
           </Card>
         )}
@@ -337,7 +366,7 @@ export default function DietPlanPage() {
                 <div>
                     <CardTitle>Your 7-Day Diet Plan</CardTitle>
                     <CardDescription>
-                        Below is your personalized plan. You can regenerate it if needed.
+                        Review your plan, flip meals you don't like, and export when you're ready.
                     </CardDescription>
                 </div>
               <div className="flex gap-2">
@@ -348,11 +377,51 @@ export default function DietPlanPage() {
                 </Button>
               </div>
             </CardHeader>
-            <CardContent ref={dietPlanRef}>
-              <div
-                className="prose prose-sm dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: dietPlan.replace(/\n/g, '<br />') }}
-              />
+            <CardContent>
+              <div ref={dietPlanRef} className="p-4 border rounded-md">
+                <Accordion type="multiple" defaultValue={["monday"]} className="w-full">
+                  {daysOfWeek.map(day => (
+                    (dietPlan as any)[day] && (
+                      <AccordionItem value={day} key={day}>
+                        <AccordionTrigger className="text-xl font-bold capitalize">{day}</AccordionTrigger>
+                        <AccordionContent>
+                          <div className="space-y-6">
+                            {(Object.keys((dietPlan as any)[day]) as Array<keyof DayPlan>).map(mealType => {
+                              const meal = (dietPlan as any)[day][mealType];
+                              if (typeof meal === 'object' && meal !== null) {
+                                return (
+                                  <div key={mealType}>
+                                    <h4 className="font-semibold capitalize text-lg mb-2">{mealType}</h4>
+                                    <Card className="flex justify-between items-center p-4">
+                                      <div>
+                                        <p className="font-semibold text-primary">{meal.name}</p>
+                                        <p className="text-sm text-muted-foreground mt-1">{meal.description}</p>
+                                        <p className="text-xs text-muted-foreground mt-2">{meal.calories} kcal</p>
+                                      </div>
+                                      <Button variant="outline" size="sm" onClick={() => handleFlipMeal(day, mealType)}>
+                                        <Replace className="mr-2 h-4 w-4" /> Flip Meal
+                                      </Button>
+                                    </Card>
+                                  </div>
+                                )
+                              }
+                              if (mealType === 'notes' && typeof meal === 'string') {
+                                return (
+                                     <div key={mealType}>
+                                        <h4 className="font-semibold capitalize text-lg mb-2">Notes</h4>
+                                        <p className="text-sm text-muted-foreground italic p-4 bg-amber-50 rounded-md border border-amber-200">{meal}</p>
+                                     </div>
+                                )
+                              }
+                              return null;
+                            })}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    )
+                  ))}
+                </Accordion>
+              </div>
             </CardContent>
           </Card>
         )}

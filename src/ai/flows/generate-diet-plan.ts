@@ -1,4 +1,3 @@
-// This file is machine-generated - edit at your own risk!
 
 'use server';
 
@@ -23,10 +22,28 @@ const GenerateDietPlanInputSchema = z.object({
 });
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
+const MealSchema = z.object({
+    name: z.string().describe("Name of the meal."),
+    calories: z.number().describe("Estimated calories for the meal."),
+    description: z.string().describe("A brief description of the meal."),
+});
+
+const DailyPlanSchema = z.object({
+    breakfast: MealSchema.optional(),
+    lunch: MealSchema.optional(),
+    dinner: MealSchema.optional(),
+    snacks: MealSchema.optional(),
+    notes: z.string().optional().describe("Any specific notes or tips for the day's meals."),
+});
+
 const GenerateDietPlanOutputSchema = z.object({
-  dietPlan: z
-    .string()
-    .describe('A personalized 7-day diet plan in markdown format, detailing meals for each day and nutritional information.'),
+  monday: DailyPlanSchema,
+  tuesday: DailyPlanSchema,
+  wednesday: DailyPlanSchema,
+  thursday: DailyPlanSchema,
+  friday: DailyPlanSchema,
+  saturday: DailyPlanSchema,
+  sunday: DailyPlanSchema,
 });
 export type GenerateDietPlanOutput = z.infer<typeof GenerateDietPlanOutputSchema>;
 
@@ -40,8 +57,11 @@ const prompt = ai.definePrompt({
   output: {schema: GenerateDietPlanOutputSchema},
   prompt: `You are an expert dietitian specializing in creating kidney-friendly diet plans.
 
-  Based on the user's health requirements and preferences, generate a personalized 7-day diet plan. The diet plan should include specific meals for each day, along with relevant nutritional information tailored for kidney health.
-  The response should be in markdown format.
+  Based on the user's health requirements and preferences, generate a personalized 7-day diet plan.
+  The diet plan should include specific meals for breakfast, lunch, dinner, and snacks for each day of the week.
+  For each meal, provide a name, a short description, and an estimated calorie count.
+  Also include brief daily notes with preparation tips or hydration advice.
+  Ensure the generated plan strictly adheres to the provided health requirements.
 
   Health Requirements: {{{healthRequirements}}}
   Preferences: {{{preferences}}}
