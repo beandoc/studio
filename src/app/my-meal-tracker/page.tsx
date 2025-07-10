@@ -2,9 +2,9 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { format } from "date-fns";
-import { Plus, Settings, Copy, Printer, Trash2 } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from "recharts";
+import { format, subDays, addDays } from "date-fns";
+import { Plus, Settings, Copy, Printer, Trash2, ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw } from "lucide-react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip as RechartsTooltip } from "recharts";
 
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
@@ -23,6 +23,9 @@ import {
 } from "@/components/ui/chart";
 import AddMealDialog from "@/components/add-meal-dialog";
 import { Progress } from "@/components/ui/progress";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
 
 
 // Types
@@ -59,8 +62,6 @@ export default function MyMealTrackerPage() {
   const [isAddMealOpen, setIsAddMealOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<MealCategory>("Breakfast");
 
-
-  // Recommended daily intake goals
   const goals: Goals = {
     calories: 2200,
     protein: 80,
@@ -68,26 +69,34 @@ export default function MyMealTrackerPage() {
     carbs: 300
   };
 
-  // Load from localStorage on component mount
+  const getLogKey = (date: Date) => `mealLog-${format(date, 'yyyy-MM-dd')}`;
+
+  // Load from localStorage on date change
   useEffect(() => {
     try {
-      const storedLog = localStorage.getItem("dailyMealLog");
+      const logKey = getLogKey(currentDate);
+      const storedLog = localStorage.getItem(logKey);
       if (storedLog) {
         const parsedLog = JSON.parse(storedLog);
-        // Basic validation to ensure it's not malformed
         if(MEAL_CATEGORIES.every(cat => Array.isArray(parsedLog[cat]))) {
           setDailyLog(parsedLog);
+        } else {
+            setDailyLog(getInitialLog());
         }
+      } else {
+        setDailyLog(getInitialLog());
       }
     } catch (error) {
       console.error("Failed to parse daily log from localStorage", error);
+      setDailyLog(getInitialLog());
     }
-  }, []);
+  }, [currentDate]);
 
   // Save to localStorage whenever dailyLog changes
   useEffect(() => {
-    localStorage.setItem("dailyMealLog", JSON.stringify(dailyLog));
-  }, [dailyLog]);
+    const logKey = getLogKey(currentDate);
+    localStorage.setItem(logKey, JSON.stringify(dailyLog));
+  }, [dailyLog, currentDate]);
   
 
   const handleOpenAddItem = (category: MealCategory) => {
@@ -102,11 +111,27 @@ export default function MyMealTrackerPage() {
     }));
   };
 
+  const handleLogAgain = (item: LoggedMeal) => {
+     const newMeal: Omit<LoggedMeal, 'id'> = {
+        name: item.name,
+        calories: item.calories,
+        protein: item.protein,
+        fat: item.fat,
+        carbs: item.carbs,
+        category: item.category,
+     };
+     handleAddMeal(newMeal);
+  }
+
   const handleRemoveItem = (category: MealCategory, id: string) => {
     setDailyLog(prevLog => ({
       ...prevLog,
       [category]: prevLog[category].filter(item => item.id !== id),
     }));
+  };
+
+  const changeDate = (offset: number) => {
+    setCurrentDate(current => addDays(current, offset));
   };
 
   const totals = useMemo(() => {
@@ -143,7 +168,36 @@ export default function MyMealTrackerPage() {
         {/* Top Control Bar */}
         <Card>
           <CardContent className="p-4 flex justify-between items-center">
-            <h2 className="font-semibold text-lg">{format(currentDate, "eeee, d MMMM yyyy")}</h2>
+             <div className="flex items-center gap-2">
+                <Button variant="outline" size="icon" onClick={() => changeDate(-1)}>
+                    <ChevronLeft className="h-4 w-4" />
+                </Button>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button
+                        variant={"outline"}
+                        className={cn(
+                            "w-[280px] justify-start text-left font-normal",
+                            !currentDate && "text-muted-foreground"
+                        )}
+                        >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {currentDate ? format(currentDate, "eeee, d MMMM yyyy") : <span>Pick a date</span>}
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                        <Calendar
+                        mode="single"
+                        selected={currentDate}
+                        onSelect={(date) => date && setCurrentDate(date)}
+                        initialFocus
+                        />
+                    </PopoverContent>
+                </Popover>
+                 <Button variant="outline" size="icon" onClick={() => changeDate(1)}>
+                    <ChevronRight className="h-4 w-4" />
+                </Button>
+            </div>
             <div className="flex items-center gap-2">
               <Button variant="outline" size="icon"><Settings className="h-4 w-4" /></Button>
               <Button variant="outline" size="icon"><Copy className="h-4 w-4" /></Button>
@@ -178,9 +232,7 @@ export default function MyMealTrackerPage() {
                                             <TableHead>Meal</TableHead>
                                             <TableHead className="text-right">Cals</TableHead>
                                             <TableHead className="text-right">Protein</TableHead>
-                                            <TableHead className="text-right">Fat</TableHead>
-                                            <TableHead className="text-right">Carbs</TableHead>
-                                            <TableHead className="w-[50px]"></TableHead>
+                                            <TableHead className="w-[100px]"></TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -189,10 +241,11 @@ export default function MyMealTrackerPage() {
                                                 <TableCell className="font-medium">{item.name}</TableCell>
                                                 <TableCell className="text-right">{Math.round(item.calories)}</TableCell>
                                                 <TableCell className="text-right">{item.protein.toFixed(1)}g</TableCell>
-                                                <TableCell className="text-right">{item.fat.toFixed(1)}g</TableCell>
-                                                <TableCell className="text-right">{item.carbs.toFixed(1)}g</TableCell>
-                                                <TableCell>
-                                                    <Button variant="ghost" size="icon" onClick={() => handleRemoveItem(category, item.id)}>
+                                                <TableCell className="flex justify-end gap-1">
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleLogAgain(item)}>
+                                                        <RotateCcw className="h-4 w-4 text-blue-500" />
+                                                    </Button>
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleRemoveItem(category, item.id)}>
                                                         <Trash2 className="h-4 w-4 text-destructive" />
                                                     </Button>
                                                 </TableCell>
@@ -254,7 +307,7 @@ export default function MyMealTrackerPage() {
                 <ChartContainer config={{}} className="w-full h-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
-                            <Tooltip content={<ChartTooltipContent hideLabel />} />
+                            <RechartsTooltip content={<ChartTooltipContent hideLabel />} />
                             <Pie
                                 data={calorieBreakdownData}
                                 dataKey="value"
@@ -265,7 +318,7 @@ export default function MyMealTrackerPage() {
                                 outerRadius={80}
                                 fill="#8884d8"
                                 labelLine={false}
-                                label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+                                label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
                                     const RADIAN = Math.PI / 180;
                                     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
                                     const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -295,3 +348,5 @@ export default function MyMealTrackerPage() {
     </div>
   );
 }
+
+    

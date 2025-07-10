@@ -1,7 +1,10 @@
 
 "use client"
 
+import { useEffect, useState } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts"
+import { format, subDays } from "date-fns"
+import type { DailyLog } from "@/app/my-meal-tracker/page"
 
 import {
   ChartContainer,
@@ -10,36 +13,59 @@ import {
   ChartLegendContent,
 } from "@/components/ui/chart"
 
-const chartData = [
-  { day: "Mon", calories: 1850, sodium: 1450, potassium: 2100, protein: 65 },
-  { day: "Tue", calories: 2050, sodium: 1250, potassium: 2500, protein: 75 },
-  { day: "Wed", calories: 1700, sodium: 1650, potassium: 2000, protein: 60 },
-  { day: "Thu", calories: 1950, sodium: 1350, potassium: 2600, protein: 70 },
-  { day: "Fri", calories: 2100, sodium: 1500, potassium: 2350, protein: 80 },
-  { day: "Sat", calories: 2200, sodium: 1750, potassium: 2700, protein: 85 },
-  { day: "Sun", calories: 1900, sodium: 1300, potassium: 2200, protein: 68 },
-]
-
 const chartConfig = {
   calories: {
     label: "Calories (kcal)",
     color: "hsl(var(--chart-1))",
   },
-  sodium: {
-    label: "Sodium (mg)",
-    color: "hsl(var(--chart-2))",
-  },
-  potassium: {
-    label: "Potassium (mg)",
-    color: "hsl(var(--chart-3))",
-  },
   protein: {
     label: "Protein (g)",
     color: "hsl(var(--chart-4))",
+  },
+  fat: {
+    label: "Fat (g)",
+    color: "hsl(var(--chart-2))",
   }
 }
 
 export default function WeeklyProgressChart() {
+    const [chartData, setChartData] = useState<any[]>([]);
+
+    useEffect(() => {
+        const today = new Date();
+        const weeklyData = [];
+
+        for (let i = 6; i >= 0; i--) {
+            const date = subDays(today, i);
+            const logKey = `mealLog-${format(date, 'yyyy-MM-dd')}`;
+            const storedLog = localStorage.getItem(logKey);
+
+            let totals = { calories: 0, protein: 0, fat: 0 };
+
+            if (storedLog) {
+                try {
+                    const parsedLog: DailyLog = JSON.parse(storedLog);
+                    Object.values(parsedLog).flat().forEach(item => {
+                        totals.calories += item.calories;
+                        totals.protein += item.protein;
+                        totals.fat += item.fat;
+                    });
+                } catch (e) {
+                    console.error("Failed to parse log for chart", e);
+                }
+            }
+
+            weeklyData.push({
+                day: format(date, 'E'), // "Mon", "Tue", etc.
+                calories: Math.round(totals.calories),
+                protein: parseFloat(totals.protein.toFixed(1)),
+                fat: parseFloat(totals.fat.toFixed(1)),
+            });
+        }
+        setChartData(weeklyData);
+    }, []);
+
+
   return (
     <div className="h-[300px] w-full">
         <ChartContainer config={chartConfig} className="w-full h-full">
@@ -52,19 +78,21 @@ export default function WeeklyProgressChart() {
                         tickMargin={10}
                         axisLine={false}
                     />
-                    <YAxis tickLine={false} axisLine={false} />
+                    <YAxis yAxisId="left" orientation="left" stroke="hsl(var(--chart-1))" tickLine={false} axisLine={false} />
+                    <YAxis yAxisId="right" orientation="right" stroke="hsl(var(--chart-4))" tickLine={false} axisLine={false} />
                     <Tooltip
                         cursor={false}
                         content={<ChartTooltipContent indicator="dot" />}
                     />
                     <Legend content={<ChartLegendContent />} />
-                    <Bar dataKey="calories" fill="var(--color-calories)" radius={4} />
-                    <Bar dataKey="sodium" fill="var(--color-sodium)" radius={4} />
-                    <Bar dataKey="potassium" fill="var(--color-potassium)" radius={4} />
-                    <Bar dataKey="protein" fill="var(--color-protein)" radius={4} />
+                    <Bar yAxisId="left" dataKey="calories" fill="var(--color-calories)" radius={4} />
+                    <Bar yAxisId="right" dataKey="protein" fill="var(--color-protein)" radius={4} />
+                    <Bar yAxisId="right" dataKey="fat" fill="var(--color-fat)" radius={4} />
                 </BarChart>
             </ResponsiveContainer>
         </ChartContainer>
     </div>
   )
 }
+
+    
