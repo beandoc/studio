@@ -65,6 +65,63 @@ export type FoodItem = {
 
 export const foodDatabase: FoodItem[] = [
     {
+        slug: 'chocolate-milk-lowfat',
+        name: 'Chocolate Milk (Lowfat)',
+        cuisine: 'Generic',
+        mealCategory: 'Snack',
+        foodGroup: 'Beverages',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 158,
+            totalFat: { value: 2.5, percent: 3 },
+            saturatedFat: { value: 1.54, percent: 8 },
+            polyunsaturatedFat: { value: 0.088 },
+            monounsaturatedFat: { value: 0.75 },
+            cholesterol: { value: 8, percent: 3 },
+            sodium: { value: 152, percent: 7 },
+            totalCarbohydrate: { value: 26.1, percent: 9 },
+            dietaryFiber: { value: 1.2, percent: 4 },
+            sugars: { value: 24.85 },
+            protein: { value: 8.1 },
+            vitaminD: { value: 2, percent: 13 },
+            calcium: { value: 288, percent: 22 },
+            iron: { value: 0.6, percent: 3 },
+            potassium: { value: 425, percent: 9 },
+            vitaminA: { value: 145, percent: 16 },
+            vitaminC: { value: 2.2, percent: 3 },
+        },
+        nutritionSummary: {
+            calories: 158,
+            fat: '2.5g',
+            carbs: '26.1g',
+            protein: '8.1g',
+            summaryText: 'There are 158 calories in 1 cup of Chocolate Milk (Lowfat).',
+            breakdown: '14% fat, 66% carbs, 20% protein.',
+        },
+        servingSizes: [
+            { size: '1 oz', calories: 18 },
+            { size: '100 g', calories: 63 },
+            { size: '1 cup', calories: 158 },
+        ],
+        relatedTypes: {
+            chocolateMilk: [
+                'Skim Chocolate Milk',
+                'Chocolate Milk (Reduced Fat with Added Calcium)',
+                '2% Reduced Fat Chocolate Milk',
+                'Chocolate Milk (Whole)',
+                'Chocolate Milk (Reduced Fat)',
+            ],
+            milk: [
+                '2% Fat Milk',
+                'Milk',
+                '1% Fat Milk',
+                'Whole Milk',
+                'Milk (Nonfat)',
+                'Low Fat Milk',
+            ],
+        }
+    },
+    {
         slug: 'peanuts',
         name: 'Peanuts',
         cuisine: 'Generic',
