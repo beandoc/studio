@@ -51,6 +51,9 @@ const formSchema = z.object({
   conditions: z.array(z.string()).optional(),
   otherCondition: z.string().optional(),
   restrictions: z.string().optional(),
+  sodiumGoal: z.coerce.number().optional(),
+  potassiumGoal: z.coerce.number().optional(),
+  phosphorusGoal: z.coerce.number().optional(),
 
   // Step 3
   dietType: z.string().optional(),
@@ -70,6 +73,8 @@ const conditionsList = [
     { id: 'diabetes', label: 'Diabetes' },
     { id: 'high_bp', label: 'High Blood Pressure' },
     { id: 'heart_disease', label: 'Heart Disease' },
+    { id: 'obesity', label: 'Obesity' },
+    { id: 'high_protein_loss', label: 'High Protein Loss' },
 ];
 
 export default function MyProfilePage() {
@@ -164,9 +169,9 @@ export default function MyProfilePage() {
             <CardHeader>
               <div className="flex justify-center mb-4">
                 <Image
-                    src="https://placehold.co/150x150.png"
-                    alt="Flip and Toss Logo"
-                    data-ai-hint="food logo"
+                    src="https://placehold.co/100x100.png"
+                    alt="KidneyWise Logo"
+                    data-ai-hint="health logo"
                     width={100}
                     height={100}
                     className="rounded-full"
@@ -280,9 +285,26 @@ export default function MyProfilePage() {
                              <Input {...form.register("otherCondition")} placeholder="Other (please specify)"/>
                             </div>
                         </div>
+                        <div className="space-y-2 md:col-span-2">
+                            <Label>Nutrient Goals (Optional)</Label>
+                            <div className="grid grid-cols-3 gap-2">
+                                <div className="space-y-1">
+                                    <Label htmlFor="sodiumGoal" className="text-xs text-muted-foreground">Sodium (mg)</Label>
+                                    <Input id="sodiumGoal" type="number" {...form.register("sodiumGoal")} placeholder="e.g. 2000" />
+                                </div>
+                                <div className="space-y-1">
+                                    <Label htmlFor="potassiumGoal" className="text-xs text-muted-foreground">Potassium (mg)</Label>
+                                    <Input id="potassiumGoal" type="number" {...form.register("potassiumGoal")} placeholder="e.g. 2500" />
+                                </div>
+                                <div className="space-y-1">
+                                    <Label htmlFor="phosphorusGoal" className="text-xs text-muted-foreground">Phosphorus (mg)</Label>
+                                    <Input id="phosphorusGoal" type="number" {...form.register("phosphorusGoal")} placeholder="e.g. 1000" />
+                                </div>
+                            </div>
+                        </div>
                          <div className="space-y-2 md:col-span-2">
-                           <Label htmlFor="restrictions">Dietary Restrictions</Label>
-                           <Textarea id="restrictions" {...form.register("restrictions")} placeholder="e.g., Low potassium, 2000mg sodium limit..." />
+                           <Label htmlFor="restrictions">Other Dietary Restrictions</Label>
+                           <Textarea id="restrictions" {...form.register("restrictions")} placeholder="e.g., fluid restrictions..." />
                         </div>
                     </div>
                  )}
