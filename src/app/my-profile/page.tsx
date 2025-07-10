@@ -35,6 +35,7 @@ import { generateDietPlan } from "@/ai/flows/generate-diet-plan";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Slider } from "@/components/ui/slider";
 
 
 const steps = [
@@ -230,7 +231,8 @@ export default function MyProfilePage() {
   };
 
   const showFluidFields = kidneyCondition === 'chronic_kidney_disease' || kidneyCondition === 'hemodialysis' || kidneyCondition === 'peritoneal_dialysis';
-
+  const showFluidSlider = kidneyCondition === 'hemodialysis' || kidneyCondition === 'peritoneal_dialysis';
+  const fluidGoal = watch("fluidGoal");
 
   return (
     <div className="flex flex-col w-full">
@@ -381,8 +383,25 @@ export default function MyProfilePage() {
                           {showFluidFields && (
                               <div className="md:col-span-2 space-y-4">
                                   <div className="space-y-2">
-                                      <Label htmlFor="fluidGoal">Recommended Fluid Intake (ml/day)</Label>
-                                      <Input id="fluidGoal" type="number" {...form.register("fluidGoal")} placeholder="e.g. 1000" />
+                                      <Label htmlFor="fluidGoal">Recommended Fluid Intake ({fluidGoal || 1000} ml/day)</Label>
+                                      {showFluidSlider ? (
+                                        <Controller
+                                            name="fluidGoal"
+                                            control={form.control}
+                                            defaultValue={1000}
+                                            render={({ field }) => (
+                                                <Slider
+                                                    value={[field.value || 1000]}
+                                                    onValueChange={(value) => field.onChange(value[0])}
+                                                    max={1500}
+                                                    min={500}
+                                                    step={100}
+                                                />
+                                            )}
+                                        />
+                                      ) : (
+                                        <Input id="fluidGoal" type="number" {...form.register("fluidGoal")} placeholder="e.g. 1000" />
+                                      )}
                                   </div>
                                   <Alert>
                                       <Info className="h-4 w-4" />
