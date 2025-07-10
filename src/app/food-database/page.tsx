@@ -120,8 +120,7 @@ export default function FoodDatabasePage() {
               </CardContent>
               <CardFooter>
                  <Button asChild variant="outline" size="sm" className="w-full">
-                    {/* The slug for baked-beans is hardcoded, for other categories it should be dynamic */}
-                    <Link href={`/food-database/${category.slug === 'baked-beans' ? 'baked-beans' : '#'}`}>More</Link>
+                    <Link href={`/food-database/${category.slug}`}>{`More ${category.title}`}</Link>
                  </Button>
               </CardFooter>
             </Card>
