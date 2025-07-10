@@ -7,7 +7,7 @@ import AppSidebar from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "Kidney Diet Planner",
+  title: "KidneyWise Diet",
   description: "Your kidney-friendly meal companion",
 };
 
