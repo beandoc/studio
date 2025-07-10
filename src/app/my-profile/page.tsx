@@ -281,22 +281,36 @@ export default function MyProfilePage() {
                         <Input id="age" type="number" {...form.register("age")} placeholder="Years" />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="gender">Gender</Label>
-                        <Controller
-                              control={form.control}
-                              name="gender"
-                              render={({ field }) => (
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                      <SelectTrigger>
-                                          <SelectValue placeholder="Select gender" />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                          <SelectItem value="male">Male</SelectItem>
-                                          <SelectItem value="female">Female</SelectItem>
-                                      </SelectContent>
-                                  </Select>
-                              )}
-                          />
+                        <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                                <FormItem className="space-y-3">
+                                    <Label>Gender</Label>
+                                    <FormControl>
+                                        <RadioGroup
+                                            onValueChange={field.onChange}
+                                            defaultValue={field.value}
+                                            className="flex space-x-4 pt-2"
+                                        >
+                                            <FormItem className="flex items-center space-x-2">
+                                                <FormControl>
+                                                    <RadioGroupItem value="male" id="male" />
+                                                </FormControl>
+                                                <Label htmlFor="male" className="font-normal">Male</Label>
+                                            </FormItem>
+                                            <FormItem className="flex items-center space-x-2">
+                                                <FormControl>
+                                                    <RadioGroupItem value="female" id="female" />
+                                                </FormControl>
+                                                <Label htmlFor="female" className="font-normal">Female</Label>
+                                            </FormItem>
+                                        </RadioGroup>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="height">Height (cm)</Label>
