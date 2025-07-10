@@ -87,9 +87,10 @@ export default function MyProfilePage() {
     },
   });
 
-  const { watch, setValue, trigger } = form;
+  const { watch, setValue } = form;
   const height = watch("height");
   const weight = watch("weight");
+  const stage = watch("stage");
 
   useEffect(() => {
     if (height && weight) {
@@ -100,6 +101,28 @@ export default function MyProfilePage() {
         setValue("bmi", "");
     }
   }, [height, weight, setValue]);
+
+  useEffect(() => {
+    if (stage && weight) {
+        let proteinMultiplier = 0;
+        switch(stage) {
+            case 'ckd':
+                proteinMultiplier = 0.8;
+                break;
+            case 'hemodialysis':
+                proteinMultiplier = 1.0;
+                break;
+            case 'peritoneal_dialysis':
+            case 'post_transplant':
+                proteinMultiplier = 1.2;
+                break;
+        }
+        if (proteinMultiplier > 0) {
+            const calculatedProtein = Math.round(weight * proteinMultiplier);
+            setValue("proteinGoal", calculatedProtein);
+        }
+    }
+  }, [stage, weight, setValue]);
 
 
   const handleNext = async () => {
@@ -221,11 +244,10 @@ export default function MyProfilePage() {
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <SelectTrigger><SelectValue placeholder="Select stage" /></SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="1">Stage 1</SelectItem>
-                                            <SelectItem value="2">Stage 2</SelectItem>
-                                            <SelectItem value="3">Stage 3</SelectItem>
-                                            <SelectItem value="4">Stage 4</SelectItem>
-                                            <SelectItem value="5">Stage 5</SelectItem>
+                                            <SelectItem value="ckd">Chronic kidney disease</SelectItem>
+                                            <SelectItem value="hemodialysis">Hemodialysis</SelectItem>
+                                            <SelectItem value="peritoneal_dialysis">Peritoneal dialysis</SelectItem>
+                                            <SelectItem value="post_transplant">Post transplant</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 )}
