@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -80,7 +81,7 @@ export default function MealLoggingPage() {
         <Accordion type="multiple" defaultValue={["Breakfast", "Lunch"]} className="w-full">
           {(Object.keys(meals) as MealCategory[]).map((category) => (
             <AccordionItem value={category} key={category}>
-              <AccordionTrigger className="text-lg font-medium font-headline">
+              <AccordionTrigger className="text-lg font-medium">
                 {category}
               </AccordionTrigger>
               <AccordionContent>

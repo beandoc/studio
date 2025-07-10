@@ -1,10 +1,12 @@
+
 "use client"
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from "recharts"
 
 import {
   ChartContainer,
   ChartTooltipContent,
+  ChartLegendContent
 } from "@/components/ui/chart"
 
 const chartData = [
@@ -38,7 +40,7 @@ const chartConfig = {
 
 export default function WeeklyProgressChart() {
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+    <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
       <BarChart accessibilityLayer data={chartData}>
         <CartesianGrid vertical={false} />
         <XAxis
@@ -49,9 +51,12 @@ export default function WeeklyProgressChart() {
           tickFormatter={(value) => value.slice(0, 3)}
         />
         <YAxis />
-        <Tooltip content={<ChartTooltipContent />} />
+        <Tooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
+        <Legend content={<ChartLegendContent />} />
         <Bar dataKey="calories" fill="var(--color-calories)" radius={4} />
         <Bar dataKey="sodium" fill="var(--color-sodium)" radius={4} />
+        <Bar dataKey="potassium" fill="var(--color-potassium)" radius={4} />
+        <Bar dataKey="protein" fill="var(--color-protein)" radius={4} />
       </BarChart>
     </ChartContainer>
   )

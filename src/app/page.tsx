@@ -1,10 +1,12 @@
+
 "use client";
 
 import Link from "next/link";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import { Replace } from "lucide-react";
+import WeeklyProgressChart from "@/components/weekly-progress-chart";
 
 type Meal = {
   category: "Breakfast" | "Lunch" | "Dinner" | "Snacks";
@@ -73,9 +75,9 @@ export default function Dashboard() {
     <div className="flex flex-col w-full">
       <Header
         title="Dashboard"
-        description="Here's a summary of your meals for today."
+        description="Here's a summary of your meals and progress for today."
       />
-      <div className="p-4 md:p-8">
+      <div className="p-4 md:p-8 space-y-8">
         <section>
           <h2 className="text-2xl font-bold tracking-tight mb-4">
             Today's Meals
@@ -108,6 +110,23 @@ export default function Dashboard() {
               </Card>
             ))}
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-2xl font-bold tracking-tight mb-4">
+            Weekly Progress
+          </h2>
+           <Card>
+            <CardHeader>
+              <CardTitle>Nutrient Intake This Week</CardTitle>
+              <CardDescription>
+                A summary of your key nutrient intake over the last 7 days.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <WeeklyProgressChart />
+            </CardContent>
+          </Card>
         </section>
       </div>
     </div>
