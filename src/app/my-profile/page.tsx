@@ -89,6 +89,7 @@ const cuisineOptions = [
     'Gujarati',
     'Bengali',
     'Jain',
+    'Generic',
 ];
 
 export default function MyProfilePage() {
