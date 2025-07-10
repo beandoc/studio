@@ -67,7 +67,7 @@ export default function FoodDatabasePage() {
         <Card className="mb-8">
             <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="relative md:col-span-2 lg:col-span-1">
+                    <div className="relative md:col-span-1 lg:col-span-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input 
                             placeholder="Search for a food..."

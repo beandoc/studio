@@ -91,7 +91,7 @@ export default function MealLoggingPage() {
                         Log Meal or Snack
                     </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="sm:max-w-[480px]">
                     <DialogHeader>
                         <DialogTitle>Add a meal</DialogTitle>
                         <DialogDescription>
@@ -238,7 +238,7 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
                 <div>
                     <Label className="text-base font-semibold">Meal type</Label>
                     <RadioGroup 
-                        className="grid grid-cols-2 gap-4 mt-2" 
+                        className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-2" 
                         value={selectedCategory || ""} 
                         onValueChange={(value) => setSelectedCategory(value as MealCategory)}
                         required
@@ -314,5 +314,3 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
         </form>
     )
 }
-
-    
