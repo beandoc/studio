@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +10,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { PlusCircle, Trash2 } from "lucide-react";
+import { PlusCircle, Trash2, Loader2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
@@ -24,12 +24,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { foodDatabase, type FoodItem } from "@/lib/food-data";
+import type { FoodItem } from "@/lib/food-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { Progress } from "@/components/ui/progress";
+import { searchFood } from "./actions";
+import { useToast } from "@/hooks/use-toast";
 
 type Meal = {
   id: string;
@@ -263,17 +265,23 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
     const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
     const [selectedServingSize, setSelectedServingSize] = useState<string | null>(null);
     const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
-    
+    const [isSearching, startSearchTransition] = useTransition();
+    const { toast } = useToast();
+
+    const findFoodByName = useCallback(async (foodName: string) => {
+      const results = await searchFood(foodName);
+      if (results.length > 0 && results[0].name.toLowerCase() === foodName.toLowerCase()) {
+        handleSelectFood(results[0]);
+      } else {
+        setName(foodName);
+      }
+    }, []);
+
     useEffect(() => {
         if (initialFoodName) {
-          const foundFood = foodDatabase.find(item => item.name.toLowerCase() === initialFoodName.toLowerCase());
-          if (foundFood) {
-              handleSelectFood(foundFood);
-          } else {
-              setName(initialFoodName);
-          }
+          findFoodByName(initialFoodName);
         }
-    }, [initialFoodName]);
+    }, [initialFoodName, findFoodByName]);
     
     useEffect(() => {
         if (!selectedFood) return;
@@ -312,14 +320,14 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
         setName(query);
         setSelectedFood(null); 
         
-        if (query.length > 1) {
-            const results = foodDatabase.filter(item => 
-                item.name.toLowerCase().includes(query.toLowerCase())
-            );
+        startSearchTransition(async () => {
+          if (query.length > 1) {
+            const results = await searchFood(query);
             setSearchResults(results);
-        } else {
+          } else {
             setSearchResults([]);
-        }
+          }
+        });
     };
     
     const handleSelectFood = (food: FoodItem) => {
@@ -337,7 +345,14 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedCategory || !name || !calories || !portion) return;
+        if (!selectedCategory) {
+          toast({ variant: "destructive", title: "Please select a meal type."});
+          return;
+        }
+        if (!name || !calories || !portion) {
+          toast({ variant: "destructive", title: "Please fill in all meal details."});
+          return;
+        }
         
         onAddMeal(selectedCategory, {
             name,
@@ -395,7 +410,10 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
 
                 <div className="space-y-2 relative">
                     <Label htmlFor="name">What did you eat?</Label>
-                    <Input id="name" value={name} onChange={handleSearch} placeholder="e.g., Scrambled Eggs" autoComplete="off" required />
+                    <div className="relative">
+                        <Input id="name" value={name} onChange={handleSearch} placeholder="e.g., Scrambled Eggs" autoComplete="off" required />
+                        {isSearching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin" />}
+                    </div>
                     {searchResults.length > 0 && (
                         <Card className="absolute z-10 w-full mt-1 bg-background shadow-lg">
                             <ScrollArea className="h-48">
