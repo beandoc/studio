@@ -34,6 +34,11 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
+    href: "/my-profile",
+    label: "My Profile",
+    icon: User,
+  },
+  {
     href: "/diet-plan",
     label: "Diet Plan",
     icon: BookUser,
@@ -52,11 +57,6 @@ const menuItems = [
     href: "/food-database",
     label: "Food Database",
     icon: Database,
-  },
-  {
-    href: "/my-profile",
-    label: "My Profile",
-    icon: User,
   },
 ];
 
