@@ -101,7 +101,7 @@ export default function MyProfilePage() {
   }, [height, weight, setValue]);
 
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (currentStep < steps.length) {
         setCurrentStep(currentStep + 1);
     } else {
@@ -162,12 +162,10 @@ export default function MyProfilePage() {
                     <div className="space-y-2">
                       <Label htmlFor="fullName">Full Name</Label>
                       <Input id="fullName" {...form.register("fullName")} placeholder="Enter your name" />
-                      {form.formState.errors.fullName && <p className="text-sm text-destructive">{form.formState.errors.fullName.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="age">Age</Label>
                       <Input id="age" type="number" {...form.register("age")} placeholder="Years" />
-                       {form.formState.errors.age && <p className="text-sm text-destructive">{form.formState.errors.age.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="gender">Gender</Label>
@@ -186,17 +184,14 @@ export default function MyProfilePage() {
                                 </Select>
                             )}
                         />
-                      {form.formState.errors.gender && <p className="text-sm text-destructive">{form.formState.errors.gender.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="height">Height (cm)</Label>
                       <Input id="height" type="number" {...form.register("height")} placeholder="Height in cm" />
-                       {form.formState.errors.height && <p className="text-sm text-destructive">{form.formState.errors.height.message}</p>}
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="weight">Weight (kg)</Label>
                       <Input id="weight" type="number" {...form.register("weight")} placeholder="Weight in kg" />
-                       {form.formState.errors.weight && <p className="text-sm text-destructive">{form.formState.errors.weight.message}</p>}
                     </div>
                      <div className="space-y-2">
                       <Label htmlFor="bmi">BMI (Calculated)</Label>
@@ -224,7 +219,6 @@ export default function MyProfilePage() {
                                     </Select>
                                 )}
                             />
-                            {form.formState.errors.stage && <p className="text-sm text-destructive">{form.formState.errors.stage.message}</p>}
                         </div>
                         <div className="space-y-2">
                             <Label>Other Health Conditions</Label>
@@ -256,7 +250,6 @@ export default function MyProfilePage() {
                          <div className="space-y-2 md:col-span-2">
                            <Label htmlFor="restrictions">Dietary Restrictions</Label>
                            <Textarea id="restrictions" {...form.register("restrictions")} placeholder="e.g., Low potassium, 2000mg sodium limit..." />
-                           {form.formState.errors.restrictions && <p className="text-sm text-destructive">{form.formState.errors.restrictions.message}</p>}
                         </div>
                     </div>
                  )}
@@ -275,7 +268,6 @@ export default function MyProfilePage() {
                                     </RadioGroup>
                                 )}
                             />
-                             {form.formState.errors.dietType && <p className="text-sm text-destructive">{form.formState.errors.dietType.message}</p>}
                         </div>
                         <div className="space-y-2">
                            <Label htmlFor="likes">Food Likes</Label>
@@ -296,17 +288,14 @@ export default function MyProfilePage() {
                          <div className="space-y-2">
                            <Label htmlFor="targetWeight">Target Weight (kg)</Label>
                            <Input id="targetWeight" type="number" {...form.register("targetWeight")} placeholder="e.g., 70" />
-                            {form.formState.errors.targetWeight && <p className="text-sm text-destructive">{form.formState.errors.targetWeight.message}</p>}
                          </div>
                          <div className="space-y-2">
                            <Label htmlFor="calorieGoal">Daily Calorie Goal (kcal)</Label>
                            <Input id="calorieGoal" type="number" {...form.register("calorieGoal")} placeholder="e.g., 2000" />
-                            {form.formState.errors.calorieGoal && <p className="text-sm text-destructive">{form.formState.errors.calorieGoal.message}</p>}
                          </div>
                          <div className="space-y-2 md:col-span-2">
                            <Label htmlFor="proteinGoal">Daily Protein Goal (g)</Label>
                            <Input id="proteinGoal" type="number" {...form.register("proteinGoal")} placeholder="e.g., 80" />
-                            {form.formState.errors.proteinGoal && <p className="text-sm text-destructive">{form.formState.errors.proteinGoal.message}</p>}
                          </div>
                     </div>
                  )}
@@ -327,4 +316,4 @@ export default function MyProfilePage() {
   );
 }
 
-    
+  
