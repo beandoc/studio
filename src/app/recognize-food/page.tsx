@@ -8,14 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
-import { recognizeFoodImage } from "@/ai/flows/recognize-food-image";
-import { Camera, Loader2, Sparkles, Send } from "lucide-react";
+import { recognizeFoodImage, type RecognizeFoodImageOutput } from "@/ai/flows/recognize-food-image";
+import { Camera, Loader2, Sparkles, Send, Utensils, CheckCircle2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Separator } from "@/components/ui/separator";
 
 export default function RecognizeFoodPage() {
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [identifiedFood, setIdentifiedFood] = useState<string | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<RecognizeFoodImageOutput | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { toast } = useToast();
@@ -54,7 +55,7 @@ export default function RecognizeFoodPage() {
   const handleCaptureAndRecognize = async () => {
     if (!videoRef.current || !canvasRef.current) return;
     setIsLoading(true);
-    setIdentifiedFood(null);
+    setAnalysisResult(null);
 
     const video = videoRef.current;
     const canvas = canvasRef.current;
@@ -68,17 +69,17 @@ export default function RecognizeFoodPage() {
 
     try {
       const result = await recognizeFoodImage({ photoDataUri });
-      if (result.foodName.toLowerCase() !== 'no food detected') {
-        setIdentifiedFood(result.foodName);
+      if (result.isFood) {
+        setAnalysisResult(result);
         toast({
-          title: "Food Identified!",
-          description: `We think you're eating: ${result.foodName}`,
+          title: "Meal Identified!",
+          description: `We found ${result.items.length} item(s) in your meal.`,
         });
       } else {
          toast({
           variant: "destructive",
           title: "No Food Detected",
-          description: "We couldn't identify a food item in the image. Please try again.",
+          description: "We couldn't identify any food in the image. Please try again.",
         });
       }
     } catch (error) {
@@ -94,8 +95,16 @@ export default function RecognizeFoodPage() {
   };
 
   const handleLogFood = () => {
-    if (identifiedFood) {
-      router.push(`/meal-logging?foodName=${encodeURIComponent(identifiedFood)}`);
+    if (analysisResult) {
+      const { mealName, totalCalories, totalProtein, totalFat } = analysisResult;
+      const queryParams = new URLSearchParams({
+        foodName: mealName,
+        calories: Math.round(totalCalories).toString(),
+        protein: totalProtein.toFixed(1),
+        fat: totalFat.toFixed(1),
+        carbs: '0', // Carbs are not part of the new schema, so we default to 0
+      });
+      router.push(`/meal-logging?${queryParams.toString()}`);
     }
   };
 
@@ -103,14 +112,14 @@ export default function RecognizeFoodPage() {
     <div className="flex flex-col w-full">
       <Header
         title="Recognize Food with AI"
-        description="Point your camera at a food item to identify and log it."
+        description="Point your camera at a meal to identify items and estimate nutrition."
       />
       <main className="flex-1 p-4 md:p-8">
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle>Camera View</CardTitle>
             <CardDescription>
-              Center your food item in the view below and click the button.
+              Center your meal in the view below and click the button for analysis.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -146,27 +155,71 @@ export default function RecognizeFoodPage() {
               ) : (
                 <Sparkles className="mr-2 h-5 w-5" />
               )}
-              Recognize Food
+              Analyze Meal
             </Button>
 
             {isLoading && (
-                <div className="space-y-2">
-                    <Skeleton className="h-6 w-1/2 mx-auto" />
-                    <Skeleton className="h-4 w-3/4 mx-auto" />
+                <div className="p-4 border rounded-lg space-y-4">
+                    <Skeleton className="h-8 w-3/4" />
+                    <Skeleton className="h-4 w-1/2" />
+                    <Separator />
+                    <div className="space-y-3">
+                      <div className="flex justify-between items-center"><Skeleton className="h-5 w-1/3" /> <Skeleton className="h-4 w-1/4" /></div>
+                      <div className="flex justify-between items-center"><Skeleton className="h-5 w-1/2" /> <Skeleton className="h-4 w-1/4" /></div>
+                    </div>
                 </div>
             )}
             
-            {identifiedFood && !isLoading && (
+            {analysisResult && !isLoading && (
               <Card className="bg-green-50 border-green-200">
-                <CardContent className="p-4 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-green-700">Identified as:</p>
-                    <p className="font-bold text-lg text-green-900">{identifiedFood}</p>
-                  </div>
-                  <Button onClick={handleLogFood}>
+                <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-green-900">
+                        <CheckCircle2 /> Meal Analysis Complete
+                    </CardTitle>
+                    <CardDescription className="text-green-800">
+                        Here's the nutritional breakdown of your meal: <span className="font-bold">{analysisResult.mealName}</span>
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    {/* Totals */}
+                    <div className="bg-white/60 p-4 rounded-lg">
+                        <h4 className="font-bold text-lg mb-2 text-center text-green-900">Meal Totals</h4>
+                         <div className="grid grid-cols-3 gap-2 text-center">
+                            <div>
+                                <p className="text-sm text-muted-foreground">Calories</p>
+                                <p className="font-bold text-xl">{Math.round(analysisResult.totalCalories)}</p>
+                            </div>
+                             <div>
+                                <p className="text-sm text-muted-foreground">Protein</p>
+                                <p className="font-bold text-xl">{analysisResult.totalProtein.toFixed(1)}g</p>
+                            </div>
+                             <div>
+                                <p className="text-sm text-muted-foreground">Fat</p>
+                                <p className="font-bold text-xl">{analysisResult.totalFat.toFixed(1)}g</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Items list */}
+                    <div>
+                         <h4 className="font-semibold text-md mb-2 text-green-900">Identified Items</h4>
+                         <div className="space-y-2">
+                             {analysisResult.items.map((item, index) => (
+                                <div key={index} className="p-3 rounded-md bg-white/80 flex justify-between items-center">
+                                    <p className="font-semibold">{item.name}</p>
+                                    <div className="text-right text-xs text-muted-foreground">
+                                        <p>{Math.round(item.calories)} kcal</p>
+                                        <p>P: {item.protein.toFixed(1)}g, F: {item.fat.toFixed(1)}g</p>
+                                    </div>
+                                </div>
+                             ))}
+                         </div>
+                    </div>
+                    
+                    <Button onClick={handleLogFood} className="w-full">
                       <Send className="mr-2 h-4 w-4"/>
-                      Log this food
-                  </Button>
+                      Log this Meal
+                    </Button>
                 </CardContent>
               </Card>
             )}
