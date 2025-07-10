@@ -30,21 +30,16 @@ const MealSchema = z.object({
 });
 
 const DailyPlanSchema = z.object({
-    breakfast: MealSchema.optional(),
-    lunch: MealSchema.optional(),
-    dinner: MealSchema.optional(),
-    snacks: MealSchema.optional(),
+    day: z.string().describe("The day of the week (e.g., 'Monday', 'Tuesday')."),
+    meals: z.array(z.object({
+        type: z.enum(["breakfast", "lunch", "dinner", "snacks"]).describe("The type of the meal."),
+        details: MealSchema,
+    })).describe("An array of meals for the day."),
     notes: z.string().optional().describe("Any specific notes or tips for the day's meals."),
 });
 
 const GenerateDietPlanOutputSchema = z.object({
-  monday: DailyPlanSchema,
-  tuesday: DailyPlanSchema,
-  wednesday: DailyPlanSchema,
-  thursday: DailyPlanSchema,
-  friday: DailyPlanSchema,
-  saturday: DailyPlanSchema,
-  sunday: DailyPlanSchema,
+    plan: z.array(DailyPlanSchema).describe("An array of 7 daily diet plans, one for each day of the week.")
 });
 export type GenerateDietPlanOutput = z.infer<typeof GenerateDietPlanOutputSchema>;
 
@@ -58,10 +53,9 @@ const prompt = ai.definePrompt({
   output: {schema: GenerateDietPlanOutputSchema},
   prompt: `You are an expert dietitian specializing in creating kidney-friendly diet plans.
 
-  Based on the user's health requirements and preferences, generate a personalized 7-day diet plan.
-  The diet plan should include specific meals for each day of the week for the following meal times: {{{meals}}}.
-  For each meal, provide a name, a short description, and an estimated calorie count.
-  Also include brief daily notes with preparation tips or hydration advice.
+  Based on the user's health requirements and preferences, generate a personalized 7-day diet plan as a list of daily plans.
+  For each day, provide the day name, a list of meals, and optional daily notes.
+  Each meal in the list should have a 'type' (one of: {{{meals}}}) and 'details' containing the name, description, and calorie count.
   Ensure the generated plan strictly adheres to the provided health requirements.
 
   Health Requirements: {{{healthRequirements}}}

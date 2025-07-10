@@ -68,10 +68,10 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-type Meal = { name: string; calories: number; description: string; };
-type DayPlan = { breakfast?: Meal; lunch?: Meal; dinner?: Meal; snacks?: Meal; notes?: string; };
-const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
-const mealTypes: (keyof Omit<DayPlan, 'notes'>)[] = ["breakfast", "lunch", "dinner", "snacks"];
+type MealDetails = { name: string; calories: number; description: string; };
+type Meal = { type: string; details: MealDetails; };
+type DayPlan = { day: string; meals: Meal[]; notes?: string; };
+
 const dailyMealOptions = ["breakfast", "lunch", "dinner", "snacks"];
 
 export default function DietPlanPage() {
@@ -176,7 +176,9 @@ export default function DietPlanPage() {
   };
   
   const handleFlipMeal = (day: string, mealType: string) => {
-    const meal = (dietPlan as any)?.[day]?.[mealType];
+    const dayPlan = dietPlan?.plan.find(d => d.day.toLowerCase() === day.toLowerCase());
+    const meal = dayPlan?.meals.find(m => m.type.toLowerCase() === mealType.toLowerCase())?.details;
+
     if (meal && meal.name) {
         const mealToFlip = foodDatabase.find(food => food.name === meal.name);
         if (mealToFlip) {
@@ -246,7 +248,7 @@ export default function DietPlanPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
                         <FormField control={form.control} name="activityLevel" render={({ field }) => (
-                            <FormItem><FormLabel>Activity level</FormLabel><Select onValuechange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger></FormControl><SelectContent><SelectItem value="sedentary">Sedentary</SelectItem><SelectItem value="lightly_active">Lightly Active</SelectItem><SelectItem value="moderately_active">Moderately Active</SelectItem><SelectItem value="very_active">Very Active</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+                            <FormItem><FormLabel>Activity level</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger></FormControl><SelectContent><SelectItem value="sedentary">Sedentary</SelectItem><SelectItem value="lightly_active">Lightly Active</SelectItem><SelectItem value="moderately_active">Moderately Active</SelectItem><SelectItem value="very_active">Very Active</SelectItem></SelectContent></Select><FormMessage /></FormItem>
                         )}/>
                         <div className="flex gap-2 items-center">
                             <FormField control={form.control} name="weightGoal" render={({ field }) => (
@@ -405,28 +407,26 @@ export default function DietPlanPage() {
             <CardContent>
               <div ref={dietPlanRef} className="p-4 border rounded-md">
                 <Accordion type="multiple" defaultValue={["monday"]} className="w-full">
-                  {daysOfWeek.map(day => {
-                    const dayPlan = (dietPlan as any)[day] as DayPlan | undefined;
-                    if (!dayPlan) return null;
+                  {(dietPlan.plan || []).map((dayPlan: DayPlan) => {
+                    if (!dayPlan || !dayPlan.day) return null;
 
                     return (
-                      <AccordionItem value={day} key={day}>
-                        <AccordionTrigger className="text-xl font-bold capitalize">{day}</AccordionTrigger>
+                      <AccordionItem value={dayPlan.day.toLowerCase()} key={dayPlan.day}>
+                        <AccordionTrigger className="text-xl font-bold capitalize">{dayPlan.day}</AccordionTrigger>
                         <AccordionContent>
                           <div className="space-y-6">
-                            {mealTypes.map(mealType => {
-                              const meal = dayPlan[mealType];
-                              if (meal && meal.name) {
+                            {(dayPlan.meals || []).map((meal: Meal) => {
+                              if (meal && meal.details && meal.details.name) {
                                 return (
-                                  <div key={mealType}>
-                                    <h4 className="font-semibold capitalize text-lg mb-2">{mealType}</h4>
+                                  <div key={meal.type}>
+                                    <h4 className="font-semibold capitalize text-lg mb-2">{meal.type}</h4>
                                     <Card className="flex justify-between items-center p-4">
                                       <div>
-                                        <p className="font-semibold text-primary">{meal.name}</p>
-                                        <p className="text-sm text-muted-foreground mt-1">{meal.description}</p>
-                                        <p className="text-xs text-muted-foreground mt-2">{meal.calories} kcal</p>
+                                        <p className="font-semibold text-primary">{meal.details.name}</p>
+                                        <p className="text-sm text-muted-foreground mt-1">{meal.details.description}</p>
+                                        <p className="text-xs text-muted-foreground mt-2">{meal.details.calories} kcal</p>
                                       </div>
-                                      <Button variant="outline" size="sm" onClick={() => handleFlipMeal(day, mealType)}>
+                                      <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type)}>
                                         <Replace className="mr-2 h-4 w-4" /> Flip Meal
                                       </Button>
                                     </Card>

@@ -19,6 +19,8 @@ import { Zap, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import Link from "next/link";
+import { generateDietPlan, type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
+
 
 function MealAlternativesContent() {
   const searchParams = useSearchParams();
@@ -85,34 +87,47 @@ function MealAlternativesContent() {
     const dietPlanRaw = localStorage.getItem("dietPlan");
     const dayToReplace = searchParams.get('day');
     const mealTypeToReplace = searchParams.get('mealType');
-
+  
     if (dietPlanRaw && dayToReplace && mealTypeToReplace) {
-        try {
-            let dietPlan = JSON.parse(dietPlanRaw);
-            const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
-
-            if (newMealData && dietPlan[dayToReplace] && dietPlan[dayToReplace][mealTypeToReplace]) {
-                 dietPlan[dayToReplace][mealTypeToReplace] = {
-                    name: newMealData.name,
-                    calories: newMealData.nutritionFacts.calories,
-                    description: newMealData.nutritionSummary.summaryText,
-                 };
-                 localStorage.setItem("dietPlan", JSON.stringify(dietPlan));
-                 toast({
-                    title: "Meal Swapped!",
-                    description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
-                 });
-                 router.push('/diet-plan');
+      try {
+        let dietPlan: GenerateDietPlanOutput = JSON.parse(dietPlanRaw);
+        const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
+  
+        if (newMealData) {
+          const dayIndex = dietPlan.plan.findIndex(d => d.day.toLowerCase() === dayToReplace.toLowerCase());
+          
+          if (dayIndex !== -1) {
+            const mealIndex = dietPlan.plan[dayIndex].meals.findIndex(m => m.type.toLowerCase() === mealTypeToReplace.toLowerCase());
+            
+            if (mealIndex !== -1) {
+              dietPlan.plan[dayIndex].meals[mealIndex].details = {
+                name: newMealData.name,
+                calories: newMealData.nutritionFacts.calories,
+                description: newMealData.nutritionSummary.summaryText,
+              };
+  
+              localStorage.setItem("dietPlan", JSON.stringify(dietPlan));
+              toast({
+                title: "Meal Swapped!",
+                description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
+              });
+              router.push('/diet-plan');
             } else {
-                 toast({ variant: "destructive", title: "Error", description: "Could not swap meal. Data mismatch." });
+              toast({ variant: "destructive", title: "Error", description: `Could not find meal type "${mealTypeToReplace}" to swap.` });
             }
-        } catch (error) {
-            toast({ variant: "destructive", title: "Error", description: "Failed to parse diet plan from storage." });
+          } else {
+            toast({ variant: "destructive", title: "Error", description: `Could not find day "${dayToReplace}" to swap.` });
+          }
+        } else {
+          toast({ variant: "destructive", title: "Error", description: "Could not find new meal data for the swap." });
         }
+      } catch (error) {
+        toast({ variant: "destructive", title: "Error", description: "Failed to parse diet plan from storage." });
+      }
     } else {
-        toast({ variant: "destructive", title: "Error", description: "Could not find diet plan or meal details to perform the swap." });
+      toast({ variant: "destructive", title: "Error", description: "Could not find diet plan or meal details to perform the swap." });
     }
-  }
+  };
 
 
   return (
