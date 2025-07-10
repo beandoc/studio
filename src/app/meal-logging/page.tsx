@@ -24,6 +24,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { foodDatabase, type FoodItem } from "@/lib/food-data";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type Meal = {
   id: string;
@@ -90,7 +92,7 @@ export default function MealLoggingPage() {
                     <DialogHeader>
                         <DialogTitle>Add a meal</DialogTitle>
                         <DialogDescription>
-                            Select the meal type and enter the details of what you ate.
+                            Search for a food or enter the details manually.
                         </DialogDescription>
                     </DialogHeader>
                     <AddMealForm
@@ -149,6 +151,27 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
     const [calories, setCalories] = useState('');
     const [portion, setPortion] = useState('');
     const [selectedCategory, setSelectedCategory] = useState<MealCategory | null>(null);
+    const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
+    
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const query = e.target.value;
+        setName(query);
+        if (query.length > 1) {
+            const results = foodDatabase.filter(item => 
+                item.name.toLowerCase().includes(query.toLowerCase())
+            );
+            setSearchResults(results);
+        } else {
+            setSearchResults([]);
+        }
+    };
+    
+    const handleSelectFood = (food: FoodItem) => {
+        setName(food.name);
+        setCalories(String(food.nutritionFacts.calories));
+        setPortion(food.nutritionFacts.servingSize);
+        setSearchResults([]);
+    };
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -186,9 +209,26 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
                     </RadioGroup>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 relative">
                     <Label htmlFor="name">What did you eat?</Label>
-                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g., Scrambled Eggs" required />
+                    <Input id="name" value={name} onChange={handleSearch} placeholder="e.g., Scrambled Eggs" autoComplete="off" required />
+                    {searchResults.length > 0 && (
+                        <Card className="absolute z-10 w-full mt-1 bg-background shadow-lg">
+                            <ScrollArea className="h-48">
+                                <ul className="p-2">
+                                {searchResults.map(item => (
+                                    <li 
+                                        key={item.slug} 
+                                        className="p-2 hover:bg-muted rounded-md cursor-pointer"
+                                        onClick={() => handleSelectFood(item)}
+                                    >
+                                        {item.name}
+                                    </li>
+                                ))}
+                                </ul>
+                            </ScrollArea>
+                        </Card>
+                    )}
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
