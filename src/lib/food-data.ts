@@ -831,6 +831,55 @@ export const foodDatabase: FoodItem[] = [
             { size: '1 large egg', calories: 100 },
             { size: '2 large eggs', calories: 200 }
         ],
+    },
+    {
+        slug: 'corn-flakes',
+        name: 'Corn Flakes',
+        cuisine: 'Generic',
+        mealCategory: 'Breakfast',
+        foodGroup: 'Breads & Cereals',
+        nutritionFacts: {
+            servingSize: '100 g',
+            calories: 360,
+            totalFat: { value: 0.1, percent: 0 },
+            saturatedFat: { value: 0, percent: 0 },
+            polyunsaturatedFat: { value: 0.051 },
+            monounsaturatedFat: { value: 0.03 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 949, percent: 41 },
+            totalCarbohydrate: { value: 86.7, percent: 32 },
+            dietaryFiber: { value: 4.5, percent: 16 },
+            sugars: { value: 6.5 },
+            protein: { value: 6.7 },
+            vitaminD: { value: 4, percent: 18 },
+            calcium: { value: 3, percent: 0 },
+            iron: { value: 19.29, percent: 107 },
+            potassium: { value: 117, percent: 2 },
+            vitaminA: { value: 764, percent: 85 },
+            vitaminC: { value: 0, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 360,
+            fat: '0.1g',
+            carbs: '86.7g',
+            protein: '6.7g',
+            summaryText: 'There are 360 calories in 100 grams of Corn Flakes.',
+            breakdown: '0% fat, 93% carbs, 7% protein.',
+        },
+        servingSizes: [
+            { size: '1 box, single serving (.75 oz)', calories: 76 },
+            { size: '1 cup (1 NLEA serving)', calories: 101 },
+            { size: '1 oz', calories: 102 },
+            { size: '100 g', calories: 360 },
+        ],
+        relatedTypes: {
+            cereal: [
+                'Puffed Rice Cereal (Fortified)',
+                'Shredded Wheat Cereal (Presweetened)',
+                'Bran Flakes',
+            ]
+        }
     }
 ];
+
 
