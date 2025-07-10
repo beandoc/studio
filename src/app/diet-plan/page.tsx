@@ -178,10 +178,9 @@ export default function DietPlanPage() {
   const handleFlipMeal = (day: string, mealType: string) => {
     const meal = (dietPlan as any)?.[day]?.[mealType];
     if (meal && meal.name) {
-        // Find the slug of the meal to be flipped
         const mealToFlip = foodDatabase.find(food => food.name === meal.name);
         if (mealToFlip) {
-            router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}`);
+            router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}&day=${day}&mealType=${mealType}`);
         } else {
             toast({
                 variant: "destructive",
@@ -397,7 +396,7 @@ export default function DietPlanPage() {
                           <div className="space-y-6">
                             {(Object.keys((dietPlan as any)[day]) as Array<keyof DayPlan>).map(mealType => {
                               const meal = (dietPlan as any)[day][mealType];
-                              if (typeof meal === 'object' && meal !== null) {
+                              if (typeof meal === 'object' && meal !== null && meal.name) {
                                 return (
                                   <div key={mealType}>
                                     <h4 className="font-semibold capitalize text-lg mb-2">{mealType}</h4>

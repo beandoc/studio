@@ -17,17 +17,19 @@ import {
 import { Button } from "@/components/ui/button";
 import { Zap, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { foodDatabase } from "@/lib/food-data";
+import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function MealAlternativesContent() {
   const searchParams = useSearchParams();
   const mealSlug = searchParams.get('mealSlug');
   
-  const [originalMeal, setOriginalMeal] = useState<any>(null);
+  const [originalMeal, setOriginalMeal] = useState<FoodItem | null>(null);
   const [alternatives, setAlternatives] = useState<SuggestMealAlternativesOutput['alternatives'] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
+  const router = useRouter();
 
   useEffect(() => {
     if (!mealSlug) {
@@ -80,6 +82,37 @@ function MealAlternativesContent() {
     fetchAlternatives();
   }, [mealSlug, toast]);
 
+  const handleSwap = (alternativeName: string) => {
+    const dietPlanRaw = localStorage.getItem("dietPlan");
+    const mealSlugToReplace = searchParams.get('mealSlug');
+    const dayToReplace = searchParams.get('day');
+    const mealTypeToReplace = searchParams.get('mealType');
+
+    if (dietPlanRaw && mealSlugToReplace && dayToReplace && mealTypeToReplace) {
+        let dietPlan = JSON.parse(dietPlanRaw);
+        const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
+
+        if (newMealData && dietPlan[dayToReplace] && dietPlan[dayToReplace][mealTypeToReplace]) {
+             dietPlan[dayToReplace][mealTypeToReplace] = {
+                name: newMealData.name,
+                calories: newMealData.nutritionFacts.calories,
+                description: newMealData.nutritionSummary.summaryText,
+             };
+             localStorage.setItem("dietPlan", JSON.stringify(dietPlan));
+             toast({
+                title: "Meal Swapped!",
+                description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
+             });
+             router.push('/diet-plan');
+        } else {
+             toast({ variant: "destructive", title: "Error", description: "Could not swap meal. Data mismatch." });
+        }
+    } else {
+        toast({ variant: "destructive", title: "Error", description: "Could not find diet plan or meal details to perform the swap." });
+    }
+  }
+
+
   return (
     <div className="flex flex-col w-full">
       <Header
@@ -114,7 +147,7 @@ function MealAlternativesContent() {
             <div className="lg:col-span-2">
                 {isLoading && (
                   <div className="grid gap-4">
-                    <h2 className="text-2xl font-bold tracking-tight font-headline mb-4">Finding smart alternatives...</h2>
+                    <h2 className="text-2xl font-bold tracking-tight mb-4">Finding smart alternatives...</h2>
                     {[...Array(2)].map((_, i) => (
                       <Card key={i}>
                         <CardHeader>
@@ -133,7 +166,7 @@ function MealAlternativesContent() {
 
                 {alternatives && alternatives.length > 0 && (
                   <div>
-                    <h2 className="text-2xl font-bold tracking-tight font-headline mb-4">Suggested Alternatives</h2>
+                    <h2 className="text-2xl font-bold tracking-tight mb-4">Suggested Alternatives</h2>
                     <div className="grid gap-6">
                       {alternatives.map((alt) => (
                         <Card key={alt.name} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 gap-4">
@@ -146,7 +179,7 @@ function MealAlternativesContent() {
                             <p className="text-sm text-muted-foreground mt-2 mb-2">{alt.description}</p>
                             <p className="text-sm font-medium">{alt.nutrientInformation}</p>
                           </div>
-                           <Button className="w-full sm:w-auto flex-shrink-0">
+                           <Button className="w-full sm:w-auto flex-shrink-0" onClick={() => handleSwap(alt.name)}>
                                 <Check className="mr-2 h-4 w-4" />
                                 Swap this Meal
                            </Button>
