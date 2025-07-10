@@ -69,24 +69,11 @@ export default function AppSidebar() {
             <div className="flex items-center gap-2">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    viewBox="0 0 256 256"
+                    fill="currentColor"
                     className="w-8 h-8 text-sidebar-primary"
                     >
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                    <path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
-                    <path d="M12 2v2" />
-                    <path d="M12 20v2" />
-                    <path d="m4.93 4.93 1.41 1.41" />
-                    <path d="m17.66 17.66 1.41 1.41" />
-                    <path d="M2 12h2" />
-                    <path d="M20 12h2" />
-                    <path d="m4.93 19.07 1.41-1.41" />
-                    <path d="m17.66 6.34 1.41-1.41" />
+                    <path d="M240 128a16 16 0 0 1-16 16h-16v16a16 16 0 0 1-32 0v-16h-16a16 16 0 0 1 0-32h16v-16a16 16 0 0 1 32 0v16h16a16 16 0 0 1 16 16Zm-98.78-74.18a113.82 113.82 0 0 0-82.44 82.44L12.06 148.5a16 16 0 0 0 5.46 21.9l48 32A16 16 0 0 0 84.8 200h86.4a16 16 0 0 0 15.28-20.25l-20.57-82.27a16 16 0 0 0-19.5-12.28l-40.23 10-30.17-7.54a81.91 81.91 0 0 1 54.7-54.7Z"/>
                 </svg>
                 <span className="text-lg font-semibold text-sidebar-primary-foreground">Kidney Diet Planner</span>
             </div>
@@ -114,5 +101,3 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
-
-    

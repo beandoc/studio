@@ -106,7 +106,7 @@ export default function MyProfilePage() {
     if (currentStep === 1) fieldsToValidate = ['fullName', 'age', 'gender', 'height', 'weight'];
     if (currentStep === 2) fieldsToValidate = ['stage', 'restrictions'];
     if (currentStep === 3) fieldsToValidate = ['dietType'];
-    if (currentStep === 4) fieldsToValidate = ['targetWeight', 'calorieGoal', 'proteinGoal'];
+    if (currentStep === 4) fieldsToValidate = []; // No validation on the last step before submit
 
 
     const result = await trigger(fieldsToValidate);
@@ -337,5 +337,3 @@ export default function MyProfilePage() {
       </div>
     </div>
   );
-
-    
