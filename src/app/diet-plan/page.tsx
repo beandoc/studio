@@ -86,6 +86,7 @@ export default function DietPlanPage() {
             setShowForm(true);
         }
     } catch (e) {
+        // If parsing fails, default to showing the form
         setShowForm(true);
         localStorage.removeItem("dietPlan");
     }
@@ -156,20 +157,12 @@ export default function DietPlanPage() {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF({ orientation: "p", unit: "px", format: "a4" });
         const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
-        const ratio = canvasWidth / canvasHeight;
-        const width = pdfWidth;
-        const height = width / ratio;
-        let position = 0;
-        let pageHeight = canvasHeight;
-
-        if (height > pdfHeight) {
-            pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-        } else {
-             pdf.addImage(imgData, 'PNG', 0, 0, width, height);
-        }
+        const ratio = canvasWidth / pdfWidth;
+        const height = canvasHeight / ratio;
+        
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, height);
         pdf.save("diet-plan.pdf");
       });
     }
@@ -178,10 +171,12 @@ export default function DietPlanPage() {
   const handleFlipMeal = (day: string, mealType: string) => {
     const meal = (dietPlan as any)?.[day]?.[mealType];
     if (meal && meal.name) {
+        // Find the meal slug from our database based on the meal name
         const mealToFlip = foodDatabase.find(food => food.name === meal.name);
         if (mealToFlip) {
             router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}&day=${day}&mealType=${mealType}`);
         } else {
+            // This toast is important for debugging if a generated meal isn't in our DB
             toast({
                 variant: "destructive",
                 title: "Meal not found",

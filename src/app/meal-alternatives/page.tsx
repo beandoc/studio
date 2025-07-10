@@ -84,28 +84,31 @@ function MealAlternativesContent() {
 
   const handleSwap = (alternativeName: string) => {
     const dietPlanRaw = localStorage.getItem("dietPlan");
-    const mealSlugToReplace = searchParams.get('mealSlug');
     const dayToReplace = searchParams.get('day');
     const mealTypeToReplace = searchParams.get('mealType');
 
-    if (dietPlanRaw && mealSlugToReplace && dayToReplace && mealTypeToReplace) {
-        let dietPlan = JSON.parse(dietPlanRaw);
-        const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
+    if (dietPlanRaw && dayToReplace && mealTypeToReplace) {
+        try {
+            let dietPlan = JSON.parse(dietPlanRaw);
+            const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
 
-        if (newMealData && dietPlan[dayToReplace] && dietPlan[dayToReplace][mealTypeToReplace]) {
-             dietPlan[dayToReplace][mealTypeToReplace] = {
-                name: newMealData.name,
-                calories: newMealData.nutritionFacts.calories,
-                description: newMealData.nutritionSummary.summaryText,
-             };
-             localStorage.setItem("dietPlan", JSON.stringify(dietPlan));
-             toast({
-                title: "Meal Swapped!",
-                description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
-             });
-             router.push('/diet-plan');
-        } else {
-             toast({ variant: "destructive", title: "Error", description: "Could not swap meal. Data mismatch." });
+            if (newMealData && dietPlan[dayToReplace] && dietPlan[dayToReplace][mealTypeToReplace]) {
+                 dietPlan[dayToReplace][mealTypeToReplace] = {
+                    name: newMealData.name,
+                    calories: newMealData.nutritionFacts.calories,
+                    description: newMealData.nutritionSummary.summaryText,
+                 };
+                 localStorage.setItem("dietPlan", JSON.stringify(dietPlan));
+                 toast({
+                    title: "Meal Swapped!",
+                    description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
+                 });
+                 router.push('/diet-plan');
+            } else {
+                 toast({ variant: "destructive", title: "Error", description: "Could not swap meal. Data mismatch." });
+            }
+        } catch (error) {
+            toast({ variant: "destructive", title: "Error", description: "Failed to parse diet plan from storage." });
         }
     } else {
         toast({ variant: "destructive", title: "Error", description: "Could not find diet plan or meal details to perform the swap." });
