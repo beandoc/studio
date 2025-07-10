@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -35,7 +36,7 @@ export default function WelcomePage() {
                     <CardContent>
                         <Link href="/my-profile">
                             <Button size="lg">
-                                Create My Profile
+                                Let's get started
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
                         </Link>
