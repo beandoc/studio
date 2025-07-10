@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   Replace,
   User,
+  CalendarDays,
 } from "lucide-react";
 import {
   Sidebar,
@@ -28,6 +29,11 @@ const menuItems = [
     href: "/diet-plan",
     label: "Meal Planner",
     icon: BookUser,
+  },
+  {
+    href: "/weekly-plan",
+    label: "Weekly Plan",
+    icon: CalendarDays,
   },
   {
     href: "/meal-logging",
