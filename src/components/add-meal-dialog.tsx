@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Plus, ArrowLeft } from 'lucide-react';
+import { Plus, ArrowLeft, Minus } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import type { DailyLog, MealCategory, LoggedMeal } from '@/app/my-meal-tracker/page';
@@ -24,7 +24,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
-  const [quantity, setQuantity] = useState("1");
+  const [quantity, setQuantity] = useState(1);
   const [selectedServing, setSelectedServing] = useState<string>("");
 
   const frequentItems = useMemo(() => {
@@ -59,7 +59,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     setSelectedFood(food);
     // Set default serving size to the primary one
     setSelectedServing(food.nutritionFacts.servingSize);
-    setQuantity("1");
+    setQuantity(1);
   };
 
   const handleAddMealClick = () => {
@@ -89,7 +89,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
         baseCarbs = primaryNutrients.totalCarbohydrate.value;
     }
 
-    const numQuantity = parseFloat(quantity) || 1;
+    const numQuantity = quantity;
 
     onAddMeal({
       name: `${selectedFood.name} (${numQuantity}x ${selectedServing})`,
@@ -108,6 +108,13 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     setSelectedFood(null);
     setSearchTerm('');
     onClose();
+  }
+  
+  const handleQuantityChange = (amount: number) => {
+    setQuantity(prev => {
+        const newValue = prev + amount;
+        return newValue < 0.5 ? 0.5 : newValue;
+    });
   }
 
   const renderSearchStep = () => (
@@ -169,14 +176,21 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
       <div className="grid grid-cols-2 gap-4 py-4">
         <div className="space-y-2">
             <Label htmlFor="quantity">Quantity</Label>
-            <Input 
-                id="quantity"
-                type="number"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                min="0.1"
-                step="0.1"
-            />
+             <div className="flex items-center gap-2">
+                <Button variant="outline" size="icon" className="h-10 w-10" onClick={() => handleQuantityChange(-0.5)}>
+                    <Minus className="h-4 w-4" />
+                </Button>
+                <Input 
+                    id="quantity"
+                    type="number"
+                    value={quantity}
+                    readOnly
+                    className="text-center font-bold text-lg"
+                />
+                <Button variant="outline" size="icon" className="h-10 w-10" onClick={() => handleQuantityChange(0.5)}>
+                    <Plus className="h-4 w-4" />
+                </Button>
+            </div>
         </div>
         <div className="space-y-2">
             <Label htmlFor="serving">Serving</Label>
