@@ -303,5 +303,34 @@ export const foodDatabase: FoodItem[] = [
             { size: '1 cup', calories: 230 },
             { size: '1 bowl (150g)', calories: 345 }
         ],
+    },
+    {
+        slug: 'scrambled-eggs',
+        name: 'Scrambled Eggs',
+        cuisine: 'Generic',
+        mealCategory: 'Breakfast',
+        nutritionFacts: {
+            servingSize: '1 large egg',
+            calories: 100,
+            totalFat: { value: 7.5, percent: 10 },
+            saturatedFat: { value: 2.5, percent: 13 },
+            cholesterol: { value: 185, percent: 62 },
+            sodium: { value: 180, percent: 8 },
+            totalCarbohydrate: { value: 1, percent: 0 },
+            protein: { value: 6.5 },
+            potassium: { value: 80, percent: 2 },
+        },
+        nutritionSummary: {
+            calories: 100,
+            fat: '7.5g',
+            carbs: '1g',
+            protein: '6.5g',
+            summaryText: 'Classic breakfast dish made from whisked eggs.',
+            breakdown: '68% fat, 4% carbs, 28% protein.',
+        },
+        servingSizes: [
+            { size: '1 large egg', calories: 100 },
+            { size: '2 large eggs', calories: 200 }
+        ],
     }
 ];
