@@ -578,6 +578,7 @@ export const foodDatabase: FoodItem[] = [
             calcium: { value: 1, percent: 0 },
             iron: { value: 0.08, percent: 0 },
             potassium: { value: 68, percent: 1 },
+            vitaminA: { value: 0, percent: 0 },
             vitaminC: { value: 0.1, percent: 0 },
         },
         nutritionSummary: {
@@ -602,6 +603,100 @@ export const foodDatabase: FoodItem[] = [
                 'Cappuccino',
                 'Instant Coffee (made from Powdered)',
                 'Latte Coffee',
+            ]
+        }
+    },
+    {
+        slug: 'cappuccino',
+        name: 'Cappuccino',
+        cuisine: 'Generic',
+        mealCategory: 'Snack',
+        foodGroup: 'Beverages',
+        nutritionFacts: {
+            servingSize: '1 mug (8 fl oz)',
+            calories: 74,
+            totalFat: { value: 3.98, percent: 5 },
+            saturatedFat: { value: 2.273, percent: 11 },
+            polyunsaturatedFat: { value: 0.241 },
+            monounsaturatedFat: { value: 1.007 },
+            cholesterol: { value: 12, percent: 4 },
+            sodium: { value: 50, percent: 2 },
+            totalCarbohydrate: { value: 5.81, percent: 2 },
+            dietaryFiber: { value: 0.2, percent: 1 },
+            sugars: { value: 6.41 },
+            protein: { value: 4.08 },
+            calcium: { value: 144, percent: 11 },
+            iron: { value: 0.19, percent: 1 },
+            potassium: { value: 233, percent: 5 },
+            vitaminA: { value: 34, percent: 4 },
+            vitaminC: { value: 0, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 74,
+            fat: '3.98g',
+            carbs: '5.81g',
+            protein: '4.08g',
+            summaryText: 'There are 74 calories in 1 mug of Cappuccino.',
+            breakdown: '48% fat, 31% carbs, 22% protein.',
+        },
+        servingSizes: [
+            { size: '1 fl oz', calories: 9 },
+            { size: '100 g', calories: 31 },
+            { size: '1 coffee cup (6 fl oz)', calories: 56 },
+            { size: '1 mug (8 fl oz)', calories: 74 },
+        ],
+        relatedTypes: {
+            coffee: [
+                'Coffee',
+                'Latte Coffee',
+                'Espresso Coffee',
+            ]
+        }
+    },
+    {
+        slug: 'whole-wheat-biscuit',
+        name: 'Whole Wheat Biscuit',
+        cuisine: 'Generic',
+        mealCategory: 'Breakfast',
+        foodGroup: 'Breads & Cereals',
+        nutritionFacts: {
+            servingSize: '1 small (1-1/2" dia)',
+            calories: 44,
+            totalFat: { value: 1.62, percent: 2 },
+            saturatedFat: { value: 0.373, percent: 2 },
+            polyunsaturatedFat: { value: 0.485 },
+            monounsaturatedFat: { value: 0.65 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 126, percent: 5 },
+            totalCarbohydrate: { value: 6.47, percent: 2 },
+            dietaryFiber: { value: 1, percent: 4 },
+            sugars: { value: 0.36 },
+            protein: { value: 1.35 },
+            calcium: { value: 34, percent: 3 },
+            iron: { value: 0.37, percent: 2 },
+            potassium: { value: 43, percent: 1 },
+            vitaminA: { value: 3, percent: 0 },
+            vitaminC: { value: 0, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 44,
+            fat: '1.62g',
+            carbs: '6.47g',
+            protein: '1.35g',
+            summaryText: 'There are 44 calories in 1 small Whole Wheat Biscuit.',
+            breakdown: '32% fat, 56% carbs, 12% protein.',
+        },
+        servingSizes: [
+            { size: '1 small (1-1/2" dia)', calories: 44 },
+            { size: '1 medium (2" dia)', calories: 93 },
+            { size: '1 large (2-1/2" dia)', calories: 115 },
+            { size: '100 g', calories: 311 },
+        ],
+        relatedTypes: {
+            biscuits: [
+                'Water Biscuits',
+                'Cheese Biscuit',
+                'Plain or Buttermilk Biscuits',
             ]
         }
     },
