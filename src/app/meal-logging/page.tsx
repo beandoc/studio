@@ -1,4 +1,6 @@
 
+"use client";
+
 import { Suspense } from "react";
 import Header from "@/components/header";
 import MealLoggingPageContent from "./meal-logging-content";
