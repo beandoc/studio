@@ -28,14 +28,19 @@ const chartConfig = {
   }
 }
 
-export default function WeeklyProgressChart() {
+type WeeklyProgressChartProps = {
+  view: 'weekly' | 'monthly';
+};
+
+export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) {
     const [chartData, setChartData] = useState<any[]>([]);
 
     useEffect(() => {
         const today = new Date();
-        const weeklyData = [];
+        const data = [];
+        const daysToFetch = view === 'weekly' ? 7 : 30;
 
-        for (let i = 6; i >= 0; i--) {
+        for (let i = daysToFetch - 1; i >= 0; i--) {
             const date = subDays(today, i);
             const logKey = `mealLog-${format(date, 'yyyy-MM-dd')}`;
             const storedLog = localStorage.getItem(logKey);
@@ -55,25 +60,30 @@ export default function WeeklyProgressChart() {
                 }
             }
 
-            weeklyData.push({
-                day: format(date, 'E'), // "Mon", "Tue", etc.
+            data.push({
+                date: format(date, 'E dd'), // e.g., "Mon 15"
                 calories: Math.round(totals.calories),
                 protein: parseFloat(totals.protein.toFixed(1)),
                 fat: parseFloat(totals.fat.toFixed(1)),
             });
         }
-        setChartData(weeklyData);
-    }, []);
+        setChartData(data);
+    }, [view]);
 
 
   return (
-    <div className="h-[300px] w-full">
-        <ChartContainer config={chartConfig} className="w-full h-full">
+    <div className="h-[350px] w-full">
+      <div className={view === 'monthly' ? "w-full overflow-x-auto" : ""}>
+        <ChartContainer 
+          config={chartConfig} 
+          className="w-full h-full"
+          style={view === 'monthly' ? { minWidth: '800px' } : {}}
+        >
             <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
                     <CartesianGrid vertical={false} />
                     <XAxis
-                        dataKey="day"
+                        dataKey="date"
                         tickLine={false}
                         tickMargin={10}
                         axisLine={false}
@@ -91,8 +101,7 @@ export default function WeeklyProgressChart() {
                 </BarChart>
             </ResponsiveContainer>
         </ChartContainer>
+       </div>
     </div>
   )
 }
-
-    
