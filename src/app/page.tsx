@@ -12,15 +12,15 @@ export default function WelcomePage() {
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="Welcome to Flip and Toss"
-        description="Your smart meal companion."
+        title="Welcome to KidneyWise Diet"
+        description="Your smart meal companion for kidney health."
       />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="relative aspect-square">
                  <Image
-                    src="/welcome-image.png"
-                    alt="Healthy food"
+                    src="https://placehold.co/600x600.png"
+                    alt="Healthy food collage"
                     data-ai-hint="healthy food collage"
                     fill
                     className="object-cover rounded-2xl shadow-lg"
@@ -29,9 +29,9 @@ export default function WelcomePage() {
             <div className="flex flex-col items-start">
                  <Card className="w-full border-0 shadow-none">
                     <CardHeader>
-                        <CardTitle className="text-4xl font-bold text-primary">Take Control of Your Health</CardTitle>
+                        <CardTitle className="text-4xl font-bold text-primary">Take Control of Your Kidney Health</CardTitle>
                         <CardDescription className="text-lg text-muted-foreground mt-2">
-                            Flip and Toss helps you manage your diet with personalized meal plans, tracking, and smart food suggestions. Let's get started by setting up your profile.
+                            KidneyWise Diet helps you manage your diet with personalized meal plans, tracking, and smart food suggestions. Let's get started by setting up your profile.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>

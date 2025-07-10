@@ -230,7 +230,7 @@ export default function MyProfilePage() {
               <div className="flex justify-center mb-4">
                 <Image
                     src="https://placehold.co/100x100.png"
-                    alt="Flip and Toss Logo"
+                    alt="KidneyWise Diet Logo"
                     data-ai-hint="company logo"
                     width={100}
                     height={100}

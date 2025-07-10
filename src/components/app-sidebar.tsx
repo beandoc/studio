@@ -37,7 +37,7 @@ export default function AppSidebar() {
         <div className="flex w-full items-center gap-2 p-2">
             <Logo />
             <div className="group-data-[collapsible=icon]:hidden">
-                <span className="text-lg font-semibold text-sidebar-foreground">Flip and Toss</span>
+                <span className="text-lg font-semibold text-sidebar-foreground">KidneyWise Diet</span>
             </div>
         </div>
       </SidebarHeader>
