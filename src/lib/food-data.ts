@@ -38,12 +38,59 @@ export type FoodItem = {
         calories: number;
     }[];
     relatedTypes?: {
-        bakedBeans: string[];
-        beans: string[];
+        [key: string]: string[];
     }
 };
 
 export const foodDatabase: FoodItem[] = [
+    {
+        slug: 'almonds',
+        name: 'Almonds',
+        cuisine: 'Generic',
+        mealCategory: 'Snack',
+        nutritionFacts: {
+            servingSize: '28g (about 1 oz)',
+            calories: 164,
+            totalFat: { value: 14.2, percent: 18 },
+            saturatedFat: { value: 1.1, percent: 6 },
+            transFat: { value: 0 },
+            polyunsaturatedFat: { value: 3.5 },
+            monounsaturatedFat: { value: 9 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 0, percent: 0 },
+            totalCarbohydrate: { value: 6.1, percent: 2 },
+            dietaryFiber: { value: 3.5, percent: 13 },
+            sugars: { value: 1.2 },
+            protein: { value: 6 },
+            vitaminD: { value: 0, percent: 0 },
+            calcium: { value: 76, percent: 6 },
+            iron: { value: 1, percent: 6 },
+            potassium: { value: 208, percent: 4 },
+        },
+        nutritionSummary: {
+            calories: 164,
+            fat: '14.2g',
+            carbs: '6.1g',
+            protein: '6g',
+            summaryText: 'There are 164 calories in 28g (about 1 oz) of Almonds.',
+            breakdown: '73% fat, 15% carbs, 12% protein.',
+        },
+        servingSizes: [
+            { size: '1 almond (0.04 oz)', calories: 7 },
+            { size: '28g (1 oz, ~23 kernels)', calories: 164 },
+            { size: '100g', calories: 578 },
+            { size: '1 cup, whole (143g)', calories: 827 },
+        ],
+        relatedTypes: {
+            almonds: [
+                'Honey Roasted Almonds',
+                'Blanched Almonds',
+                'Dry Roasted Almonds (with Salt Added)',
+                'Yogurt Covered Almonds',
+                'Dry Roasted Almonds (Without Salt Added)',
+            ]
+        }
+    },
     {
         slug: 'baked-beans',
         name: 'Baked Beans',
