@@ -19,9 +19,11 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 type Meal = {
   id: string;
@@ -30,7 +32,7 @@ type Meal = {
   portion: string;
 };
 
-type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Snacks";
+type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Morning Snack" | "Afternoon Snack" | "Evening Snack";
 
 const initialMeals: Record<MealCategory, Meal[]> = {
   Breakfast: [
@@ -40,18 +42,21 @@ const initialMeals: Record<MealCategory, Meal[]> = {
     { id: "l1", name: "Grilled Chicken Salad", calories: 450, portion: "1 large bowl" },
   ],
   Dinner: [],
-  Snacks: [
-    { id: "s1", name: "Apple slices", calories: 95, portion: "1 medium apple" },
+  "Morning Snack": [],
+  "Afternoon Snack": [
+     { id: "s1", name: "Apple slices", calories: 95, portion: "1 medium apple" },
   ],
+  "Evening Snack": [],
 };
+
+const mealCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Morning Snack", "Afternoon Snack", "Evening Snack"];
 
 export default function MealLoggingPage() {
   const [meals, setMeals] = useState(initialMeals);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [currentCategory, setCurrentCategory] = useState<MealCategory | null>(null);
 
   const handleAddMeal = (category: MealCategory, newMeal: Omit<Meal, 'id'>) => {
-    const mealWithId = { ...newMeal, id: `${category.toLowerCase()}${Date.now()}` };
+    const mealWithId = { ...newMeal, id: `${category.toLowerCase().replace(' ', '-')}${Date.now()}` };
     setMeals(prev => ({
       ...prev,
       [category]: [...prev[category], mealWithId],
@@ -66,11 +71,6 @@ export default function MealLoggingPage() {
     }));
   };
 
-  const openAddMealDialog = (category: MealCategory) => {
-    setCurrentCategory(category);
-    setDialogOpen(true);
-  };
-
   return (
     <div className="flex flex-col w-full">
       <Header
@@ -78,14 +78,37 @@ export default function MealLoggingPage() {
         description="Log your meals to track your nutrient intake."
       />
       <main className="flex-1 p-4 md:p-8">
-        <Accordion type="multiple" defaultValue={["Breakfast", "Lunch"]} className="w-full">
+        <div className="mb-6">
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogTrigger asChild>
+                    <Button size="lg">
+                        <PlusCircle className="mr-2 h-5 w-5" />
+                        Log Meal or Snack
+                    </Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Add a meal</DialogTitle>
+                        <DialogDescription>
+                            Select the meal type and enter the details of what you ate.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <AddMealForm
+                        onAddMeal={handleAddMeal}
+                        onCancel={() => setDialogOpen(false)}
+                    />
+                </DialogContent>
+            </Dialog>
+        </div>
+
+        <Accordion type="multiple" defaultValue={["Breakfast", "Lunch", "Afternoon Snack"]} className="w-full">
           {(Object.keys(meals) as MealCategory[]).map((category) => (
             <AccordionItem value={category} key={category}>
               <AccordionTrigger className="text-lg font-medium">
                 {category}
               </AccordionTrigger>
               <AccordionContent>
-                <div className="space-y-4">
+                <div className="space-y-4 pt-2">
                   {meals[category].length > 0 ? (
                     meals[category].map((meal) => (
                       <Card key={meal.id} className="flex justify-between items-center p-4">
@@ -105,53 +128,33 @@ export default function MealLoggingPage() {
                       No meals logged for {category.toLowerCase()}.
                     </p>
                   )}
-                  <Button variant="outline" className="w-full" onClick={() => openAddMealDialog(category)}>
-                    <PlusCircle className="mr-2 h-4 w-4" />
-                    Add Meal to {category}
-                  </Button>
                 </div>
               </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
       </main>
-
-      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent>
-            <DialogHeader>
-                <DialogTitle>Add a meal to {currentCategory}</DialogTitle>
-                <DialogDescription>
-                    Enter the details of your meal below.
-                </DialogDescription>
-            </DialogHeader>
-            <AddMealForm
-                category={currentCategory}
-                onAddMeal={handleAddMeal}
-                onCancel={() => setDialogOpen(false)}
-            />
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
 
 
 type AddMealFormProps = {
-    category: MealCategory | null;
     onAddMeal: (category: MealCategory, meal: Omit<Meal, 'id'>) => void;
     onCancel: () => void;
 }
 
-function AddMealForm({ category, onAddMeal, onCancel }: AddMealFormProps) {
+function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
     const [name, setName] = useState('');
     const [calories, setCalories] = useState('');
     const [portion, setPortion] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState<MealCategory | null>(null);
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!category || !name || !calories || !portion) return;
+        if (!selectedCategory || !name || !calories || !portion) return;
         
-        onAddMeal(category, {
+        onAddMeal(selectedCategory, {
             name,
             calories: parseInt(calories),
             portion,
@@ -160,22 +163,42 @@ function AddMealForm({ category, onAddMeal, onCancel }: AddMealFormProps) {
         setName('');
         setCalories('');
         setPortion('');
+        setSelectedCategory(null);
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">Meal</Label>
-                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" placeholder="e.g., Scrambled Eggs" required />
+            <div className="grid gap-6 py-4">
+                <div>
+                    <Label className="text-base font-semibold">Meal type</Label>
+                    <RadioGroup 
+                        className="grid grid-cols-2 gap-4 mt-2" 
+                        value={selectedCategory || ""} 
+                        onValueChange={(value) => setSelectedCategory(value as MealCategory)}
+                        required
+                    >
+                        {mealCategories.map(cat => (
+                           <div key={cat} className="flex items-center space-x-2">
+                             <RadioGroupItem value={cat} id={cat.toLowerCase().replace(' ', '-')}/>
+                             <Label htmlFor={cat.toLowerCase().replace(' ', '-')}>{cat}</Label>
+                           </div>
+                        ))}
+                    </RadioGroup>
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="calories" className="text-right">Calories</Label>
-                    <Input id="calories" type="number" value={calories} onChange={(e) => setCalories(e.target.value)} className="col-span-3" placeholder="e.g., 250" required />
+
+                <div className="space-y-2">
+                    <Label htmlFor="name">What did you eat?</Label>
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g., Scrambled Eggs" required />
                 </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="portion" className="text-right">Portion</Label>
-                    <Input id="portion" value={portion} onChange={(e) => setPortion(e.target.value)} className="col-span-3" placeholder="e.g., 2 eggs" required />
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="calories">Calories</Label>
+                        <Input id="calories" type="number" value={calories} onChange={(e) => setCalories(e.target.value)} placeholder="e.g., 250" required />
+                    </div>
+                    <div className="space-y-2">
+                        <Label htmlFor="portion">Portion</Label>
+                        <Input id="portion" value={portion} onChange={(e) => setPortion(e.target.value)} placeholder="e.g., 2 eggs" required />
+                    </div>
                 </div>
             </div>
             <DialogFooter>
