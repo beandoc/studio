@@ -103,7 +103,7 @@ export default function DietPlanPage() {
       weightGoal: "lose_fat",
       weeklyVariety: "2",
       recipeComplexity: "2",
-      dailyMeals: ["breakfast", "lunch", "dinner", "snack"],
+      dailyMeals: ["breakfast", "lunch", "dinner", "snacks"],
       dietType: "anything",
       budget: "$",
       healthRequirements: "Standard kidney-friendly diet. Low sodium, low potassium, low phosphorus.",
@@ -279,7 +279,7 @@ export default function DietPlanPage() {
                                                     <option value="breakfast">Breakfast</option>
                                                     <option value="lunch">Lunch</option>
                                                     <option value="dinner">Dinner</option>
-                                                    <option value="snack">Snack</option>
+                                                    <option value="snacks">Snacks</option>
                                                 </select>
                                             </FormControl>
                                         )}
