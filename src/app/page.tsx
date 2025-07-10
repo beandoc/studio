@@ -18,11 +18,10 @@ export default function WelcomePage() {
         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="relative aspect-square">
                  <Image
-                    src="https://placehold.co/600x600.png"
-                    alt="Healthy food collage"
-                    data-ai-hint="healthy food collage"
+                    src="/welcome-image.png"
+                    alt="Flip and Toss app logo"
                     fill
-                    className="object-cover rounded-2xl shadow-lg"
+                    className="object-contain rounded-2xl"
                 />
             </div>
             <div className="flex flex-col items-start">
