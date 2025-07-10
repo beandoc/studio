@@ -1,3 +1,4 @@
+
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -9,6 +10,7 @@ import {
   Replace,
   User,
   CalendarDays,
+  Database,
 } from "lucide-react";
 import {
   Sidebar,
@@ -44,6 +46,11 @@ const menuItems = [
     href: "/meal-alternatives",
     label: "Meal Alternatives",
     icon: Replace,
+  },
+  {
+    href: "/food-database",
+    label: "Food Database",
+    icon: Database,
   },
   {
     href: "/my-profile",
@@ -107,3 +114,5 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
+
+    
