@@ -19,7 +19,7 @@ export default function WelcomePage() {
         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="relative aspect-square">
                  <Image
-                    src="https://placehold.co/600x600.png"
+                    src="/welcome-image.png"
                     alt="Healthy food"
                     data-ai-hint="healthy food collage"
                     fill
