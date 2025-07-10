@@ -58,7 +58,7 @@ const menuItems = [
   },
   {
     href: "/recognize-food",
-    label: "Recognize Food",
+    label: "FoodLens (AI enabled scanning)",
     icon: Camera,
   },
   {
