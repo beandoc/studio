@@ -6,8 +6,6 @@ import {
   BookUser,
   ClipboardList,
   LayoutDashboard,
-  Leaf,
-  Replace,
   User,
 } from "lucide-react";
 import {
@@ -29,6 +27,11 @@ const menuItems = [
     href: "/diet-plan",
     label: "Meal Planner",
     icon: BookUser,
+  },
+  {
+    href: "/meal-logging",
+    label: "Meal Logging",
+    icon: ClipboardList,
   },
   {
     href: "/my-profile",
