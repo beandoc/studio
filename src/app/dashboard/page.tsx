@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -75,7 +76,8 @@ const goals: Goals = {
     calories: 2200,
     protein: 80,
     fat: 70,
-    carbs: 300
+    carbs: 300,
+    fluid: 2000,
 };
 
 export default function Dashboard() {
@@ -96,7 +98,7 @@ export default function Dashboard() {
         if (storedLog) {
             try {
                 const parsedLog: DailyLog = JSON.parse(storedLog);
-                Object.values(parsedLog).flat().forEach(item => {
+                Object.values(parsedLog.meals).flat().forEach(item => {
                     totalProtein += item.protein;
                     totalCarbs += item.carbs;
                 });
