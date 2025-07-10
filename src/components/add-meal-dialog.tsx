@@ -28,7 +28,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
   const [selectedServing, setSelectedServing] = useState<string>("");
 
   const frequentItems = useMemo(() => {
-    const allItemsInCategory = dailyLog[category];
+    const allItemsInCategory = dailyLog.meals[category];
     const itemCounts: Record<string, number> = {};
     allItemsInCategory.forEach(item => {
       const baseName = item.name.replace(/ \(.*/, ''); // remove quantity specifier
@@ -62,7 +62,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     setQuantity("1");
   };
 
-  const handleAddMeal = () => {
+  const handleAddMealClick = () => {
     if (!selectedFood) return;
 
     const servingSizeData = selectedFood.servingSizes.find(s => s.size === selectedServing);
@@ -195,7 +195,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
         </div>
       </div>
       <DialogFooter>
-        <Button onClick={handleAddMeal}>Add Meal to Log</Button>
+        <Button onClick={handleAddMealClick}>Add Meal to Log</Button>
       </DialogFooter>
     </>
     )

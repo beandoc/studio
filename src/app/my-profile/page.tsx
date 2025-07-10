@@ -26,13 +26,14 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
-import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Header from "@/components/header";
 import Image from "next/image";
-import { Loader2 } from "lucide-react";
+import { Loader2, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { generateDietPlan } from "@/ai/flows/generate-diet-plan";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 
 const steps = [
   { id: 1, name: "Basic Info" },
@@ -51,9 +52,8 @@ const formSchema = z.object({
   bmi: z.string().optional(),
 
   // Step 2
-  stage: z.string().optional(),
-  conditions: z.array(z.string()).optional(),
-  otherCondition: z.string().optional(),
+  kidneyCondition: z.string().optional(),
+  fluidGoal: z.coerce.number().optional(),
   sodiumGoal: z.coerce.number().optional(),
   potassiumGoal: z.coerce.number().optional(),
   phosphorusGoal: z.coerce.number().optional(),
@@ -72,14 +72,6 @@ const formSchema = z.object({
 });
 
 type FormValues = z.infer<typeof formSchema>;
-
-const conditionsList = [
-    { id: 'diabetes', label: 'Diabetes' },
-    { id: 'high_bp', label: 'High Blood Pressure' },
-    { id: 'heart_disease', label: 'Heart Disease' },
-    { id: 'obesity', label: 'Obesity' },
-    { id: 'high_protein_loss', label: 'High Protein Loss' },
-];
 
 const cuisineOptions = [
     'Maharashtrian',
@@ -103,17 +95,17 @@ export default function MyProfilePage() {
     defaultValues: {
       fullName: "",
       gender: "",
-      stage: "",
-      conditions: [],
+      kidneyCondition: "none",
       dietType: "vegetarian",
       preferredCuisine: "Maharashtrian",
+      fluidGoal: 1000,
     },
   });
 
-  const { watch, setValue, trigger } = form;
+  const { watch, setValue } = form;
   const height = watch("height");
   const weight = watch("weight");
-  const stage = watch("stage");
+  const kidneyCondition = watch("kidneyCondition");
 
   useEffect(() => {
     if (height && weight) {
@@ -126,17 +118,17 @@ export default function MyProfilePage() {
   }, [height, weight, setValue]);
 
   useEffect(() => {
-    if (stage && weight) {
+    if (kidneyCondition && weight) {
         let proteinMultiplier = 0;
-        switch(stage) {
-            case 'ckd':
+        switch(kidneyCondition) {
+            case 'chronic_kidney_disease':
                 proteinMultiplier = 0.8;
                 break;
             case 'hemodialysis':
                 proteinMultiplier = 1.0;
                 break;
             case 'peritoneal_dialysis':
-            case 'post_transplant':
+            case 'post_kidney_transplant':
                 proteinMultiplier = 1.2;
                 break;
         }
@@ -145,7 +137,7 @@ export default function MyProfilePage() {
             setValue("proteinGoal", calculatedProtein);
         }
     }
-  }, [stage, weight, setValue]);
+  }, [kidneyCondition, weight, setValue]);
 
 
   const handleNext = async () => {
@@ -165,9 +157,12 @@ export default function MyProfilePage() {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     
+    // Save profile data to localStorage
+    localStorage.setItem("userProfile", JSON.stringify(data));
+
     const healthRequirements = `
-      - Stage of Kidney Disease: ${data.stage || 'Not specified'}
-      - Other Health Conditions: ${data.conditions?.join(', ') || 'None'}, ${data.otherCondition || ''}
+      - Kidney Condition: ${data.kidneyCondition?.replace(/_/g, ' ') || 'Not specified'}
+      - Daily Fluid Goal: ${data.fluidGoal || 'Not specified'} ml
       - Daily Sodium Goal: ${data.sodiumGoal || 'Not specified'} mg
       - Daily Potassium Goal: ${data.potassiumGoal || 'Not specified'} mg
       - Daily Phosphorus Goal: ${data.phosphorusGoal || 'Not specified'} mg
@@ -189,8 +184,6 @@ export default function MyProfilePage() {
     `;
 
     try {
-      // The diet plan generation no longer needs the meals list
-      // as it's assumed to be all meals.
       const result = await generateDietPlan({ healthRequirements, preferences, meals: "breakfast, lunch, dinner, snacks" });
       localStorage.setItem("dietPlan", JSON.stringify(result));
       toast({
@@ -220,6 +213,9 @@ export default function MyProfilePage() {
     }
     return step.id;
   };
+
+  const showFluidFields = kidneyCondition === 'chronic_kidney_disease' || kidneyCondition === 'hemodialysis' || kidneyCondition === 'peritoneal_dialysis';
+
 
   return (
     <div className="flex flex-col w-full">
@@ -301,65 +297,55 @@ export default function MyProfilePage() {
                 )}
                  {currentStep === 2 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
-                        <div className="space-y-2">
-                            <Label>Stage of Health Condition</Label>
+                        <div className="space-y-2 md:col-span-2">
+                            <Label>Kidney Condition</Label>
                              <Controller
                                 control={form.control}
-                                name="stage"
+                                name="kidneyCondition"
                                 render={({ field }) => (
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <SelectTrigger><SelectValue placeholder="Select stage" /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="none">None</SelectItem>
-                                            <SelectItem value="ckd">Chronic condition</SelectItem>
-                                            <SelectItem value="hemodialysis">High Severity</SelectItem>
-                                            <SelectItem value="peritoneal_dialysis">Medium Severity</SelectItem>
-                                            <SelectItem value="post_transplant">Post Treatment</SelectItem>
+                                            <SelectItem value="chronic_kidney_disease">Chronic Kidney Disease</SelectItem>
+                                            <SelectItem value="hemodialysis">Hemodialysis</SelectItem>
+                                            <SelectItem value="peritoneal_dialysis">Peritoneal Dialysis</SelectItem>
+                                            <SelectItem value="post_kidney_transplant">Post Kidney Transplant</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 )}
                             />
                         </div>
-                        <div className="space-y-2">
-                            <Label>Other Health Conditions</Label>
-                            <div className="space-y-2">
-                            {conditionsList.map(item => (
-                                <Controller
-                                    key={item.id}
-                                    name="conditions"
-                                    control={form.control}
-                                    render={({ field }) => (
-                                         <div className="flex items-center space-x-2">
-                                            <Checkbox
-                                                id={item.id}
-                                                checked={field.value?.includes(item.id)}
-                                                onCheckedChange={(checked) => {
-                                                    return checked
-                                                        ? field.onChange([...(field.value || []), item.id])
-                                                        : field.onChange(field.value?.filter(v => v !== item.id))
-                                                }}
-                                            />
-                                            <label htmlFor={item.id} className="text-sm font-medium leading-none">{item.label}</label>
-                                         </div>
-                                    )}
-                                />
-                            ))}
-                             <Input {...form.register("otherCondition")} placeholder="Other (please specify)"/>
+
+                         {showFluidFields && (
+                            <div className="md:col-span-2 space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="fluidGoal">Recommended Fluid Intake (ml/day)</Label>
+                                    <Input id="fluidGoal" type="number" {...form.register("fluidGoal")} placeholder="e.g. 1000" />
+                                </div>
+                                <Alert>
+                                    <Info className="h-4 w-4" />
+                                    <AlertTitle>Fluid Intake Tip</AlertTitle>
+                                    <AlertDescription>
+                                        Fluid intake depends on your urine output and dialysis ultrafiltration. If unsure, restrict to 800 - 1000 ml/day and consult your nephrologist.
+                                    </AlertDescription>
+                                </Alert>
                             </div>
-                        </div>
+                         )}
+
                         <div className="space-y-2 md:col-span-2">
-                            <Label>Recommended nutrient values</Label>
+                            <Label>Recommended nutrient values (optional)</Label>
                             <div className="grid grid-cols-3 gap-2">
                                 <div className="space-y-1">
-                                    <Label htmlFor="sodiumGoal" className="text-xs text-muted-foreground">Low Sodium (mg)</Label>
+                                    <Label htmlFor="sodiumGoal" className="text-xs text-muted-foreground">Sodium (mg)</Label>
                                     <Input id="sodiumGoal" type="number" {...form.register("sodiumGoal")} placeholder="e.g. 2000" />
                                 </div>
                                 <div className="space-y-1">
-                                    <Label htmlFor="potassiumGoal" className="text-xs text-muted-foreground">Low Potassium (mg)</Label>
+                                    <Label htmlFor="potassiumGoal" className="text-xs text-muted-foreground">Potassium (mg)</Label>
                                     <Input id="potassiumGoal" type="number" {...form.register("potassiumGoal")} placeholder="e.g. 2500" />
                                 </div>
                                 <div className="space-y-1">
-                                    <Label htmlFor="phosphorusGoal" className="text-xs text-muted-foreground">Low Phosphorus (mg)</Label>
+                                    <Label htmlFor="phosphorusGoal" className="text-xs text-muted-foreground">Phosphorus (mg)</Label>
                                     <Input id="phosphorusGoal" type="number" {...form.register("phosphorusGoal")} placeholder="e.g. 1000" />
                                 </div>
                             </div>
@@ -427,7 +413,7 @@ export default function MyProfilePage() {
                          </div>
                          <div className="space-y-2 md:col-span-2">
                            <Label htmlFor="proteinGoal">Daily Protein Goal (g)</Label>
-                           <Input id="proteinGoal" type="number" {...form.register("proteinGoal")} placeholder="e.g., 80" />
+                           <Input id="proteinGoal" type="number" {...form.register("proteinGoal")} placeholder="Protein goal based on weight/condition" />
                          </div>
                     </div>
                  )}

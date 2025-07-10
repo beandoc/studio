@@ -1,3 +1,4 @@
+
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -11,6 +12,7 @@ import {
   Home,
   CalendarDays,
   Camera,
+  Droplets,
 } from "lucide-react";
 import {
   SidebarMenu,
@@ -50,6 +52,11 @@ const menuItems = [
     icon: ClipboardList,
   },
   {
+    href: "/my-meal-tracker",
+    label: "Fluid Tracker",
+    icon: Droplets,
+  },
+  {
     href: "/recognize-food",
     label: "Recognize Food",
     icon: Camera,
@@ -70,7 +77,7 @@ export default function SidebarNav() {
         <SidebarMenuItem key={item.label}>
           <Link href={item.href}>
             <SidebarMenuButton
-              isActive={pathname === item.href}
+              isActive={pathname === item.href && (item.href !== '/my-meal-tracker' || item.label === 'My Meal Tracker')}
               tooltip={item.label}
               className="justify-start"
             >

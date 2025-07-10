@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { format, addDays } from "date-fns";
-import { Plus, Settings, Copy, Printer, Trash2, ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw } from "lucide-react";
+import { Plus, Settings, Copy, Printer, Trash2, ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw, GlassWater, Droplets } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip as RechartsTooltip } from "recharts";
 
 import Header from "@/components/header";
@@ -30,30 +30,45 @@ import { cn } from "@/lib/utils";
 
 // Types
 export type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Snacks";
-export type LoggedMeal = {
+export type LoggedItem = {
   id: string;
   name: string;
   calories: number;
   protein: number;
   fat: number;
   carbs: number;
-  category: MealCategory;
 };
-export type DailyLog = Record<MealCategory, LoggedMeal[]>;
+export type LoggedMeal = LoggedItem & { category: MealCategory; }
+export type LoggedFluid = { id: string; name: string; amount: number; };
+
+export type DailyLog = {
+  meals: Record<MealCategory, LoggedMeal[]>;
+  fluids: LoggedFluid[];
+};
+
 export type Goals = {
   calories: number;
   protein: number;
   fat: number;
   carbs: number;
+  fluid: number;
 };
 
 const MEAL_CATEGORIES: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+const FLUID_OPTIONS = [
+    { name: "Cup", amount: 240 },
+    { name: "Glass", amount: 350 },
+    { name: "Bowl", amount: 300 },
+];
 
 const getInitialLog = (): DailyLog => ({
-  Breakfast: [],
-  Lunch: [],
-  Dinner: [],
-  Snacks: [],
+  meals: {
+    Breakfast: [],
+    Lunch: [],
+    Dinner: [],
+    Snacks: [],
+  },
+  fluids: [],
 });
 
 export default function MyMealTrackerPage() {
@@ -61,28 +76,44 @@ export default function MyMealTrackerPage() {
   const [dailyLog, setDailyLog] = useState<DailyLog>(getInitialLog());
   const [isAddMealOpen, setIsAddMealOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<MealCategory>("Breakfast");
-
-  const goals: Goals = {
+  const [goals, setGoals] = useState<Goals>({
     calories: 2200,
     protein: 80,
     fat: 70,
-    carbs: 300
-  };
+    carbs: 300,
+    fluid: 2000,
+  });
+
 
   const getLogKey = (date: Date) => `mealLog-${format(date, 'yyyy-MM-dd')}`;
 
   // Load from localStorage on date change
   useEffect(() => {
     try {
+        // Load goals from profile
+        const profileRaw = localStorage.getItem("userProfile");
+        if(profileRaw) {
+            const profile = JSON.parse(profileRaw);
+            setGoals(prev => ({
+                ...prev,
+                calories: profile.calorieGoal || 2200,
+                protein: profile.proteinGoal || 80,
+                fluid: profile.fluidGoal || 2000
+            }));
+        }
+
       const logKey = getLogKey(currentDate);
       const storedLog = localStorage.getItem(logKey);
       if (storedLog) {
         const parsedLog = JSON.parse(storedLog);
-        if(MEAL_CATEGORIES.every(cat => Array.isArray(parsedLog[cat]))) {
-          setDailyLog(parsedLog);
-        } else {
-            setDailyLog(getInitialLog());
+        const initialLog = getInitialLog();
+        if (parsedLog.meals && MEAL_CATEGORIES.every(cat => Array.isArray(parsedLog.meals[cat]))) {
+            initialLog.meals = parsedLog.meals;
         }
+        if (Array.isArray(parsedLog.fluids)) {
+            initialLog.fluids = parsedLog.fluids;
+        }
+        setDailyLog(initialLog);
       } else {
         setDailyLog(getInitialLog());
       }
@@ -107,23 +138,44 @@ export default function MyMealTrackerPage() {
   const handleAddMeal = (meal: Omit<LoggedMeal, 'id'>) => {
     setDailyLog(prevLog => ({
         ...prevLog,
-        [meal.category]: [...prevLog[meal.category], { ...meal, id: new Date().toISOString() }]
+        meals: {
+            ...prevLog.meals,
+            [meal.category]: [...prevLog.meals[meal.category], { ...meal, id: new Date().toISOString() }]
+        }
+    }));
+  };
+  
+  const handleAddFluid = (fluid: Omit<LoggedFluid, 'id'>) => {
+    setDailyLog(prevLog => ({
+        ...prevLog,
+        fluids: [...prevLog.fluids, { ...fluid, id: new Date().toISOString() }]
     }));
   };
 
   const handleLogAgain = (item: LoggedMeal) => {
-     // Re-adding a logged meal does not require serving selection again,
-     // as the quantity is already part of its name/data.
      setDailyLog(prevLog => ({
       ...prevLog,
-      [item.category]: [...prevLog[item.category], { ...item, id: new Date().toISOString() }]
+      meals: {
+        ...prevLog.meals,
+        [item.category]: [...prevLog.meals[item.category], { ...item, id: new Date().toISOString() }]
+      }
      }));
   }
+  
+  const handleRemoveFluid = (id: string) => {
+    setDailyLog(prevLog => ({
+      ...prevLog,
+      fluids: prevLog.fluids.filter(item => item.id !== id),
+    }));
+  };
 
   const handleRemoveItem = (category: MealCategory, id: string) => {
     setDailyLog(prevLog => ({
       ...prevLog,
-      [category]: prevLog[category].filter(item => item.id !== id),
+      meals: {
+        ...prevLog.meals,
+        [category]: prevLog.meals[category].filter(item => item.id !== id),
+      }
     }));
   };
 
@@ -133,13 +185,19 @@ export default function MyMealTrackerPage() {
 
   const totals = useMemo(() => {
     let calories = 0, protein = 0, fat = 0, carbs = 0;
-    Object.values(dailyLog).flat().forEach(item => {
+    Object.values(dailyLog.meals).flat().forEach(item => {
       calories += item.calories;
       protein += item.protein;
       fat += item.fat;
       carbs += item.carbs;
     });
-    return { calories, protein, fat, carbs };
+    
+    let fluid = 0;
+    dailyLog.fluids.forEach(item => {
+        fluid += item.amount;
+    });
+
+    return { calories, protein, fat, carbs, fluid };
   }, [dailyLog]);
 
   const calorieBreakdownData = [
@@ -159,8 +217,8 @@ export default function MyMealTrackerPage() {
       />
       <div className="flex flex-col w-full">
         <Header
-          title="My Meal Tracker"
-          description="Log your daily meals to track your nutritional intake."
+          title="My Meal & Fluid Tracker"
+          description="Log your daily intake to track your nutritional progress."
         />
         <main className="flex-1 p-4 md:p-8 space-y-8">
           {/* Top Control Bar */}
@@ -212,7 +270,7 @@ export default function MyMealTrackerPage() {
                           <CardTitle>{category}</CardTitle>
                       </CardHeader>
                       <CardContent>
-                          {dailyLog[category].length === 0 ? (
+                          {dailyLog.meals[category].length === 0 ? (
                               <div 
                                   onClick={() => handleOpenAddItem(category)}
                                   className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center cursor-pointer hover:bg-muted"
@@ -234,7 +292,7 @@ export default function MyMealTrackerPage() {
                                           </TableRow>
                                       </TableHeader>
                                       <TableBody>
-                                          {dailyLog[category].map(item => (
+                                          {dailyLog.meals[category].map(item => (
                                               <TableRow key={item.id}>
                                                   <TableCell className="font-medium">{item.name}</TableCell>
                                                   <TableCell className="text-right">{Math.round(item.calories)}</TableCell>
@@ -259,6 +317,47 @@ export default function MyMealTrackerPage() {
                       </CardContent>
                   </Card>
               ))}
+
+            {/* Fluid Log Section */}
+            <Card className="lg:col-span-2">
+                <CardHeader>
+                    <CardTitle>Fluid Log</CardTitle>
+                    <CardDescription>Log your fluid/water intake here.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex gap-2 mb-4">
+                        {FLUID_OPTIONS.map(fluid => (
+                            <Button key={fluid.name} variant="outline" className="flex-1" onClick={() => handleAddFluid({ name: fluid.name, amount: fluid.amount })}>
+                                <GlassWater className="mr-2 h-4 w-4" /> Log 1 {fluid.name} ({fluid.amount}ml)
+                            </Button>
+                        ))}
+                    </div>
+                     {dailyLog.fluids.length > 0 && (
+                        <Table>
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHead>Type</TableHead>
+                                    <TableHead className="text-right">Amount (ml)</TableHead>
+                                    <TableHead className="w-[50px]"></TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {dailyLog.fluids.map(item => (
+                                    <TableRow key={item.id}>
+                                        <TableCell className="font-medium">{item.name}</TableCell>
+                                        <TableCell className="text-right">{item.amount}</TableCell>
+                                        <TableCell className="flex justify-end gap-1">
+                                            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleRemoveFluid(item.id)}>
+                                                <Trash2 className="h-4 w-4 text-destructive" />
+                                            </Button>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                     )}
+                </CardContent>
+            </Card>
           </div>
 
           {/* Day Summary Section */}
@@ -270,6 +369,13 @@ export default function MyMealTrackerPage() {
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               {/* Left side: Totals and Progress Bars */}
               <div className="space-y-4">
+                 <div>
+                  <div className="flex justify-between font-medium mb-1">
+                    <span><Droplets className="inline-block mr-2 h-4 w-4 text-blue-500" />Fluid</span>
+                    <span>{Math.round(totals.fluid)} / {goals.fluid} ml</span>
+                  </div>
+                  <Progress value={(totals.fluid / goals.fluid) * 100} className="[&>div]:bg-blue-500" />
+                </div>
                 <div>
                   <div className="flex justify-between font-medium mb-1">
                     <span>Calories</span>
