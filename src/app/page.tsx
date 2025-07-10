@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from "next/link";
@@ -12,7 +11,7 @@ export default function WelcomePage() {
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="Welcome to KidneyWise Diet"
+        title="Welcome to Flip & Toss"
         description="Your smart meal companion for kidney health."
       />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -122,6 +121,7 @@ export default function Dashboard() {
       <Header
         title="Dashboard"
         description="Here's a summary of your meals and progress."
+        showImage={true}
       />
       <main className="flex-1 p-4 md:p-8 space-y-8">
         <section>
