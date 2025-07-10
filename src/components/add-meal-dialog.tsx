@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
-import { foodDatabase, type FoodItem, type FoodGroup } from '@/lib/food-data';
+import { foodDatabase, type FoodItem } from '@/lib/food-data';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -66,20 +66,23 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     if (!selectedFood) return;
 
     const servingSizeData = selectedFood.servingSizes.find(s => s.size === selectedServing);
-    const primaryServingSize = selectedFood.servingSizes[0];
+    const primaryServingSize = selectedFood.servingSizes[0] || { size: selectedFood.nutritionFacts.servingSize, calories: selectedFood.nutritionFacts.calories};
     const primaryNutrients = selectedFood.nutritionFacts;
 
     let baseCalories, baseProtein, baseFat, baseCarbs;
 
-    if(servingSizeData) {
+    // Use primary serving size as the base for ratio calculation
+    const baseNutrientCalories = primaryServingSize.calories;
+    
+    if(servingSizeData && baseNutrientCalories > 0) {
         // Calculate based on selected serving size
-        const ratio = servingSizeData.calories / primaryServingSize.calories;
+        const ratio = servingSizeData.calories / baseNutrientCalories;
         baseCalories = servingSizeData.calories;
         baseProtein = primaryNutrients.protein.value * ratio;
         baseFat = primaryNutrients.totalFat.value * ratio;
         baseCarbs = primaryNutrients.totalCarbohydrate.value * ratio;
     } else {
-        // Fallback to primary nutrients if something goes wrong
+        // Fallback to primary nutrients if something goes wrong or calories are 0
         baseCalories = primaryNutrients.calories;
         baseProtein = primaryNutrients.protein.value;
         baseFat = primaryNutrients.totalFat.value;
@@ -89,7 +92,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     const numQuantity = parseFloat(quantity) || 1;
 
     onAddMeal({
-      name: `${selectedFood.name} (${numQuantity} ${selectedServing})`,
+      name: `${selectedFood.name} (${numQuantity}x ${selectedServing})`,
       calories: baseCalories * numQuantity,
       protein: baseProtein * numQuantity,
       fat: baseFat * numQuantity,
@@ -128,7 +131,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
                       <div key={food.slug} className="flex items-center justify-between p-2 rounded-md border">
                           <div>
                               <p className="font-semibold">{food.name}</p>
-                              <p className="text-xs text-muted-foreground">{food.nutritionFacts.calories} kcal, {food.nutritionFacts.protein.value}g protein</p>
+                              <p className="text-xs text-muted-foreground">{food.nutritionFacts.calories} kcal, {food.nutritionFacts.protein.value.toFixed(1)}g protein</p>
                           </div>
                           <Button size="sm" onClick={() => handleSelectFood(food)}>
                               <Plus className="mr-2 h-4 w-4" /> Add
@@ -184,7 +187,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
                 <SelectContent>
                     {selectedFood.servingSizes.map(serving => (
                         <SelectItem key={serving.size} value={serving.size}>
-                            {serving.size} ({serving.calories} kcal)
+                            {serving.size} ({Math.round(serving.calories)} kcal)
                         </SelectItem>
                     ))}
                 </SelectContent>
@@ -206,5 +209,3 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     </Dialog>
   );
 }
-
-    
