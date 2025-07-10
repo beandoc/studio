@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -26,8 +26,10 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
+import { Download, Loader2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const FormSchema = z.object({
   healthRequirements: z
@@ -44,6 +46,7 @@ export default function DietPlanPage() {
   const [dietPlan, setDietPlan] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const dietPlanRef = useRef<HTMLDivElement>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -68,6 +71,27 @@ export default function DietPlanPage() {
       });
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleExportPdf = () => {
+    const input = dietPlanRef.current;
+    if (input) {
+      html2canvas(input, {
+        scrollX: 0,
+        scrollY: -window.scrollY,
+        windowWidth: document.documentElement.offsetWidth,
+        windowHeight: document.documentElement.offsetHeight,
+      }).then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF({
+          orientation: "p",
+          unit: "px",
+          format: [canvas.width, canvas.height],
+        });
+        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+        pdf.save("diet-plan.pdf");
+      });
     }
   };
 
@@ -156,10 +180,14 @@ export default function DietPlanPage() {
 
         {dietPlan && (
           <Card>
-            <CardHeader>
+            <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Your 7-Day Diet Plan</CardTitle>
+              <Button onClick={handleExportPdf} variant="outline" size="sm">
+                <Download className="mr-2 h-4 w-4" />
+                Export as PDF
+              </Button>
             </CardHeader>
-            <CardContent>
+            <CardContent ref={dietPlanRef}>
               <div
                 className="prose prose-sm dark:prose-invert max-w-none"
                 dangerouslySetInnerHTML={{ __html: dietPlan.replace(/\n/g, '<br />') }}
