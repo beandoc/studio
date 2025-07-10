@@ -299,7 +299,6 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
         }
 
         const numQuantity = parseFloat(quantity) || 0;
-        const servingRatio = baseNutrition.calories > 0 ? (baseServing.calories / baseNutrition.calories) : 1;
         
         const calculatedCalories = baseServing.calories * numQuantity;
         setCalories(Math.round(calculatedCalories));
