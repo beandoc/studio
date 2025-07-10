@@ -60,6 +60,7 @@ const formSchema = z.object({
 
   // Step 3
   dietType: z.string().optional(),
+  preferredCuisine: z.string().optional(),
   likes: z.string().optional(),
   dislikes: z.string().optional(),
   allergies: z.string().optional(),
@@ -80,6 +81,16 @@ const conditionsList = [
     { id: 'high_protein_loss', label: 'High Protein Loss' },
 ];
 
+const cuisineOptions = [
+    'Maharashtrian',
+    'Punjabi',
+    'North Indian',
+    'South Indian',
+    'Gujarati',
+    'Bengali',
+    'Jain',
+];
+
 export default function MyProfilePage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -94,6 +105,7 @@ export default function MyProfilePage() {
       stage: "",
       conditions: [],
       dietType: "vegetarian",
+      preferredCuisine: "Maharashtrian",
     },
   });
 
@@ -169,6 +181,7 @@ export default function MyProfilePage() {
       - Weight: ${data.weight || 'Not specified'} kg
       - Target Weight: ${data.targetWeight || 'Not specified'} kg
       - Diet Type: ${data.dietType || 'Not specified'}
+      - Preferred Cuisine: ${data.preferredCuisine || 'Not specified'}
       - Food Likes: ${data.likes || 'Not specified'}
       - Food Dislikes: ${data.dislikes || 'Not specified'}
       - Allergies: ${data.allergies || 'Not specified'}
@@ -353,7 +366,7 @@ export default function MyProfilePage() {
                  )}
                  {currentStep === 3 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
-                        <div className="space-y-2 md:col-span-2">
+                        <div className="space-y-2">
                             <Label>Diet Type</Label>
                             <Controller
                                 name="dietType"
@@ -364,6 +377,25 @@ export default function MyProfilePage() {
                                         <div className="flex items-center space-x-2"><RadioGroupItem value="non-vegetarian" id="non-veg"/><Label htmlFor="non-veg">Non-Vegetarian</Label></div>
                                         <div className="flex items-center space-x-2"><RadioGroupItem value="vegan" id="vegan"/><Label htmlFor="vegan">Vegan</Label></div>
                                     </RadioGroup>
+                                )}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="preferredCuisine">Preferred Cuisine</Label>
+                           <Controller
+                                name="preferredCuisine"
+                                control={form.control}
+                                render={({ field }) => (
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select cuisine" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {cuisineOptions.map(cuisine => (
+                                                <SelectItem key={cuisine} value={cuisine}>{cuisine}</SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 )}
                             />
                         </div>
