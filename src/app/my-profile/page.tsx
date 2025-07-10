@@ -175,7 +175,9 @@ export default function MyProfilePage() {
     `;
 
     try {
-      const result = await generateDietPlan({ healthRequirements, preferences });
+      // The diet plan generation no longer needs the meals list
+      // as it's assumed to be all meals.
+      const result = await generateDietPlan({ healthRequirements, preferences, meals: "breakfast, lunch, dinner, snacks" });
       localStorage.setItem("dietPlan", JSON.stringify(result));
       toast({
         title: "Profile Saved & Diet Plan Generated!",
@@ -412,5 +414,3 @@ export default function MyProfilePage() {
     </div>
   );
 }
-
-    

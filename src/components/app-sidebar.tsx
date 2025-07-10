@@ -11,6 +11,7 @@ import {
   Database,
   HeartPulse,
   Home,
+  CalendarDays,
 } from "lucide-react";
 import {
   Sidebar,
@@ -36,6 +37,11 @@ const menuItems = [
     href: "/diet-plan",
     label: "Diet Plan",
     icon: BookUser,
+  },
+  {
+    href: "/weekly-plan",
+    label: "Weekly Plan",
+    icon: CalendarDays,
   },
   {
     href: "/meal-logging",
@@ -94,5 +100,3 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
-
-    

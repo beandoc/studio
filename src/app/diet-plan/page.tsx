@@ -132,13 +132,16 @@ export default function DietPlanPage() {
       - Height: ${data.units === 'imperial' ? `${data.heightFt}ft ${data.heightIn}in` : `${data.heightCm}cm`}
       - Desired weekly variety: ${data.weeklyVariety}
       - Max recipe complexity: ${data.recipeComplexity}
-      - Daily meals: ${data.dailyMeals.join(', ')}
       - Diet type: ${data.dietType}
       - Budget: ${data.budget}
     `;
 
     try {
-      const result = await generateDietPlan({ healthRequirements, preferences });
+      const result = await generateDietPlan({ 
+        healthRequirements, 
+        preferences,
+        meals: data.dailyMeals.join(', ')
+      });
       setDietPlan(result);
       localStorage.setItem("dietPlan", JSON.stringify(result));
       setShowForm(false);
@@ -243,7 +246,7 @@ export default function DietPlanPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
                         <FormField control={form.control} name="activityLevel" render={({ field }) => (
-                            <FormItem><FormLabel>Activity level</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger></FormControl><SelectContent><SelectItem value="sedentary">Sedentary</SelectItem><SelectItem value="lightly_active">Lightly Active</SelectItem><SelectItem value="moderately_active">Moderately Active</SelectItem><SelectItem value="very_active">Very Active</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+                            <FormItem><FormLabel>Activity level</FormLabel><Select onValuechange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger></FormControl><SelectContent><SelectItem value="sedentary">Sedentary</SelectItem><SelectItem value="lightly_active">Lightly Active</SelectItem><SelectItem value="moderately_active">Moderately Active</SelectItem><SelectItem value="very_active">Very Active</SelectItem></SelectContent></Select><FormMessage /></FormItem>
                         )}/>
                         <div className="flex gap-2 items-center">
                             <FormField control={form.control} name="weightGoal" render={({ field }) => (
@@ -287,7 +290,7 @@ export default function DietPlanPage() {
                                                 checked={field.value?.includes(item)}
                                                 onCheckedChange={(checked) => {
                                                   return checked
-                                                    ? field.onChange([...field.value, item])
+                                                    ? field.onChange([...(field.value || []), item])
                                                     : field.onChange(
                                                         field.value?.filter(
                                                           (value) => value !== item
@@ -452,5 +455,3 @@ export default function DietPlanPage() {
     </div>
   );
 }
-
-    

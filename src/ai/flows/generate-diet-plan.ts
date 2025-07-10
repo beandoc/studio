@@ -19,6 +19,7 @@ const GenerateDietPlanInputSchema = z.object({
   preferences: z
     .string()
     .describe('Dietary preferences of the user, e.g., vegetarian, low-sodium, favorite foods, foods to avoid.'),
+  meals: z.string().describe("Comma-separated list of meals to generate, e.g., 'breakfast, lunch, dinner, snacks'"),
 });
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
@@ -58,7 +59,7 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert dietitian specializing in creating kidney-friendly diet plans.
 
   Based on the user's health requirements and preferences, generate a personalized 7-day diet plan.
-  The diet plan should include specific meals for breakfast, lunch, dinner, and snacks for each day of the week.
+  The diet plan should include specific meals for each day of the week for the following meal times: {{{meals}}}.
   For each meal, provide a name, a short description, and an estimated calorie count.
   Also include brief daily notes with preparation tips or hydration advice.
   Ensure the generated plan strictly adheres to the provided health requirements.

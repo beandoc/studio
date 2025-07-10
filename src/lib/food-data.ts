@@ -454,5 +454,3 @@ export const foodDatabase: FoodItem[] = [
         servingSizes: [{ size: '3 pieces', calories: 150 }],
     }
 ];
-
-    

@@ -11,7 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { PlusCircle, Trash2 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -185,5 +185,3 @@ function AddMealForm({ category, onAddMeal, onCancel }: AddMealFormProps) {
         </form>
     )
 }
-
-    

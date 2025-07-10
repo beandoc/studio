@@ -17,5 +17,3 @@ export default function Header({ title, description }: HeaderProps) {
         </header>
     )
 }
-
-    

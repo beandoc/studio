@@ -9,7 +9,6 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./ui/card"
 
 const chartData = [
   { day: "Mon", calories: 1850, sodium: 1450, potassium: 2100, protein: 65 },
@@ -42,31 +41,30 @@ const chartConfig = {
 
 export default function WeeklyProgressChart() {
   return (
-    <div style={{ width: '100%', height: 300 }}>
-        <ResponsiveContainer>
-            <BarChart data={chartData}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                    dataKey="day"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                    tickFormatter={(value) => value}
-                />
-                <YAxis />
-                <Tooltip
-                    cursor={false}
-                    content={<ChartTooltipContent indicator="dot" />}
-                />
-                <Legend content={<ChartLegendContent />} />
-                <Bar dataKey="calories" fill="var(--color-calories)" radius={4} />
-                <Bar dataKey="sodium" fill="var(--color-sodium)" radius={4} />
-                <Bar dataKey="potassium" fill="var(--color-potassium)" radius={4} />
-                <Bar dataKey="protein" fill="var(--color-protein)" radius={4} />
-            </BarChart>
-        </ResponsiveContainer>
+    <div className="h-[300px] w-full">
+        <ChartContainer config={chartConfig} className="w-full h-full">
+            <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+                    <CartesianGrid vertical={false} />
+                    <XAxis
+                        dataKey="day"
+                        tickLine={false}
+                        tickMargin={10}
+                        axisLine={false}
+                    />
+                    <YAxis tickLine={false} axisLine={false} />
+                    <Tooltip
+                        cursor={false}
+                        content={<ChartTooltipContent indicator="dot" />}
+                    />
+                    <Legend content={<ChartLegendContent />} />
+                    <Bar dataKey="calories" fill="var(--color-calories)" radius={4} />
+                    <Bar dataKey="sodium" fill="var(--color-sodium)" radius={4} />
+                    <Bar dataKey="potassium" fill="var(--color-potassium)" radius={4} />
+                    <Bar dataKey="protein" fill="var(--color-protein)" radius={4} />
+                </BarChart>
+            </ResponsiveContainer>
+        </ChartContainer>
     </div>
   )
 }
-
-    
