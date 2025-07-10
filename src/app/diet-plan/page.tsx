@@ -78,6 +78,7 @@ export default function DietPlanPage() {
   const router = useRouter();
 
   useEffect(() => {
+    // This effect runs only on the client
     try {
         const storedPlan = localStorage.getItem("dietPlan");
         if (storedPlan) {
@@ -195,7 +196,7 @@ export default function DietPlanPage() {
         description="Generate a 7-day kidney-friendly diet plan based on your needs."
       />
       <div className="p-4 md:p-8 grid gap-8">
-        {(showForm || !dietPlan) && (
+        {(showForm || !dietPlan) && !isLoading && (
             <Card>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>

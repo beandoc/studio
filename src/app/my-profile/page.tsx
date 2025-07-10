@@ -139,10 +139,8 @@ export default function MyProfilePage() {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
-      const isValid = await trigger();
-      if (isValid) {
-        onSubmit(form.getValues());
-      }
+      // This is the final step, trigger form submission logic.
+      await form.handleSubmit(onSubmit)();
     }
   };
 
@@ -179,12 +177,12 @@ export default function MyProfilePage() {
 
     try {
       const result = await generateDietPlan({ healthRequirements, preferences });
-      localStorage.setItem("dietPlan", result.dietPlan);
+      localStorage.setItem("dietPlan", JSON.stringify(result));
       toast({
         title: "Profile Saved & Diet Plan Generated!",
-        description: "Redirecting you to your dashboard...",
+        description: "Redirecting you to your new diet plan...",
       });
-      router.push('/dashboard');
+      router.push('/diet-plan');
     } catch (error) {
       console.error(error);
       toast({
@@ -242,7 +240,7 @@ export default function MyProfilePage() {
               </div>
             </CardHeader>
 
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form>
               <CardContent className="min-h-[350px]">
                 {currentStep === 1 && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
