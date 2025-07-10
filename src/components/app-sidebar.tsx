@@ -12,6 +12,7 @@ import {
   CalendarDays,
   Database,
   HeartPulse,
+  Home,
 } from "lucide-react";
 import {
   Sidebar,
@@ -25,6 +26,11 @@ import {
 const menuItems = [
   {
     href: "/",
+    label: "Home",
+    icon: Home,
+  },
+  {
+    href: "/dashboard",
     label: "Dashboard",
     icon: LayoutDashboard,
   },
