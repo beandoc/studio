@@ -28,6 +28,7 @@ import { Progress } from "@/components/ui/progress";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Header from "@/components/header";
+import Image from "next/image";
 
 const steps = [
   { id: 1, name: "Basic Info" },
@@ -86,7 +87,7 @@ export default function MyProfilePage() {
     },
   });
 
-  const { watch, setValue } = form;
+  const { watch, setValue, trigger } = form;
   const height = watch("height");
   const weight = watch("weight");
 
@@ -101,11 +102,11 @@ export default function MyProfilePage() {
   }, [height, weight, setValue]);
 
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < steps.length) {
-        setCurrentStep(currentStep + 1);
+      setCurrentStep(currentStep + 1);
     } else {
-        form.handleSubmit(onSubmit)();
+      await form.handleSubmit(onSubmit)();
     }
   };
 
@@ -138,8 +139,18 @@ export default function MyProfilePage() {
         <div className="w-full max-w-4xl">
           <Card className="w-full">
             <CardHeader>
-              <CardTitle>Let's Get Started</CardTitle>
-               <CardDescription>Follow the steps to set up your health profile.</CardDescription>
+              <div className="flex justify-center mb-4">
+                <Image
+                    src="https://placehold.co/150x150.png"
+                    alt="Flip and Toss Logo"
+                    data-ai-hint="food logo"
+                    width={100}
+                    height={100}
+                    className="rounded-full"
+                />
+              </div>
+              <CardTitle className="text-center">Let's Get Started</CardTitle>
+               <CardDescription className="text-center">Follow the steps to set up your health profile.</CardDescription>
               <div className="mt-4">
                 <div className="flex items-center justify-between mb-2">
                     {steps.map((step, index) => (
@@ -315,5 +326,3 @@ export default function MyProfilePage() {
     </div>
   );
 }
-
-  
