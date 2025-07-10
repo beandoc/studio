@@ -84,6 +84,7 @@ function MealLoggingPageContent() {
   const fatFromUrl = searchParams.get('fat');
   const carbsFromUrl = searchParams.get('carbs');
 
+  // This effect will run on the client after hydration
   useEffect(() => {
     if (foodNameFromUrl) {
       setDialogOpen(true);
@@ -98,7 +99,7 @@ function MealLoggingPageContent() {
     }));
     setDialogOpen(false);
     // Clear URL params after logging
-    router.replace('/meal-logging');
+    router.replace('/meal-logging', { scroll: false });
   };
 
   const handleRemoveMeal = (category: MealCategory, mealId: string) => {
@@ -204,7 +205,7 @@ function MealLoggingPageContent() {
             <Dialog open={dialogOpen} onOpenChange={(open) => {
               setDialogOpen(open);
               if (!open) {
-                router.replace('/meal-logging');
+                router.replace('/meal-logging', { scroll: false });
               }
             }}>
                 <DialogTrigger asChild>
@@ -224,7 +225,7 @@ function MealLoggingPageContent() {
                         onAddMeal={handleAddMeal}
                         onCancel={() => {
                           setDialogOpen(false);
-                          router.replace('/meal-logging');
+                          router.replace('/meal-logging', { scroll: false });
                         }}
                         initialFoodName={foodNameFromUrl}
                         initialNutrition={{
@@ -306,29 +307,19 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
     
     const isFromRecognition = useMemo(() => !!(initialFoodName && initialNutrition?.calories), [initialFoodName, initialNutrition]);
 
-    const findFoodByName = useCallback(async (foodName: string) => {
-      const results = await searchFood(foodName);
-      if (results.length > 0 && results[0].name.toLowerCase() === foodName.toLowerCase()) {
-        handleSelectFood(results[0]);
-      } else {
-        setName(foodName);
-      }
-    }, []);
-
     useEffect(() => {
+        // This effect runs only on the client
         if (initialFoodName) {
             if (isFromRecognition) {
+                // Pre-fill from food recognition
                 setName(initialFoodName);
                 setCalories(Number(initialNutrition?.calories || 0));
                 setProtein(Number(initialNutrition?.protein || 0));
                 setFat(Number(initialNutrition?.fat || 0));
-                // The recognize food API doesn't provide carbs, so we handle it gracefully
                 setCarbs(Number(initialNutrition?.carbs || 0));
-            } else {
-                findFoodByName(initialFoodName);
             }
         }
-    }, [initialFoodName, initialNutrition, isFromRecognition, findFoodByName]);
+    }, [initialFoodName, initialNutrition, isFromRecognition]);
     
     useEffect(() => {
         if (!selectedFood || isFromRecognition) return;
@@ -526,10 +517,8 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
 
 export default function MealLoggingPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="flex items-center justify-center h-full"><Loader2 className="h-8 w-8 animate-spin" /></div>}>
       <MealLoggingPageContent />
     </Suspense>
   );
 }
-
-    
