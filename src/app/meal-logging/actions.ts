@@ -14,3 +14,5 @@ export async function searchFood(query: string): Promise<FoodItem[]> {
 
   return results;
 }
+
+    

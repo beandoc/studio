@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback, useTransition, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Accordion,
@@ -28,11 +28,12 @@ import type { FoodItem } from "@/lib/food-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { Progress } from "@/components/ui/progress";
 import { searchFood } from "./actions";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/header";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
+import { Progress } from "@/components/ui/progress";
+
 
 type Meal = {
   id: string;
@@ -70,93 +71,11 @@ const COLORS = {
     protein: "hsl(var(--chart-3))",
 };
 
-function NutrientSummary({ meals }: { meals: Record<MealCategory, Meal[]> }) {
-    const totals = useMemo(() => {
-        return Object.values(meals).flat().reduce((acc, meal) => {
-            acc.calories += meal.calories;
-            acc.carbs += meal.carbs;
-            acc.fat += meal.fat;
-            acc.protein += meal.protein;
-            return acc;
-        }, { calories: 0, carbs: 0, fat: 0, protein: 0 });
-    }, [meals]);
-
-    const totalMacros = totals.carbs + totals.fat + totals.protein;
-    
-    const actualMacroDistribution = [
-        { name: 'Carbs', value: totalMacros > 0 ? (totals.carbs / totalMacros) * 100 : 0 },
-        { name: 'Fat', value: totalMacros > 0 ? (totals.fat / totalMacros) * 100 : 0 },
-        { name: 'Protein', value: totalMacros > 0 ? (totals.protein / totalMacros) * 100 : 0 },
-    ];
-    
-    const recommendedMacroDistribution = [
-        { name: 'Carbs', value: recommendedMacros.carbs },
-        { name: 'Fat', value: recommendedMacros.fat },
-        { name: 'Protein', value: recommendedMacros.protein },
-    ];
-    
-    const calorieProgress = (totals.calories / calorieGoal) * 100;
-
-    return (
-        <Card className="mb-8">
-            <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                <div className="flex flex-col items-center gap-4 text-center md:border-r md:pr-6">
-                    <div className="w-full">
-                      <p className="text-2xl font-bold">{Math.round(totals.calories)} <span className="text-sm text-muted-foreground">/ {calorieGoal} kcal</span></p>
-                       <Progress value={calorieProgress} className="h-2 mt-2" />
-                    </div>
-                </div>
-
-                <div className="md:col-span-2">
-                    <div className="grid grid-cols-3 text-center mb-4 border-b pb-4">
-                        <div>
-                            <p className="text-sm text-muted-foreground">Carbs</p>
-                            <p className="font-bold text-lg" style={{color: COLORS.carbs}}>{totals.carbs.toFixed(0)}g</p>
-                        </div>
-                        <div>
-                            <p className="text-sm text-muted-foreground">Fat</p>
-                            <p className="font-bold text-lg" style={{color: COLORS.fat}}>{totals.fat.toFixed(0)}g</p>
-                        </div>
-                        <div>
-                            <p className="text-sm text-muted-foreground">Protein</p>
-                            <p className="font-bold text-lg" style={{color: COLORS.protein}}>{totals.protein.toFixed(0)}g</p>
-                        </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4 h-32">
-                         <div className="text-center">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie data={recommendedMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={20} outerRadius={40} paddingAngle={2}>
-                                        <Cell fill={COLORS.carbs} />
-                                        <Cell fill={COLORS.fat} />
-                                        <Cell fill={COLORS.protein} />
-                                    </Pie>
-                                </PieChart>
-                            </ResponsiveContainer>
-                            <p className="text-xs font-medium text-muted-foreground -mt-2">Recommended</p>
-                        </div>
-                        <div className="text-center">
-                             <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie data={actualMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={20} outerRadius={40} paddingAngle={2}>
-                                        <Cell fill={COLORS.carbs} />
-                                        <Cell fill={COLORS.fat} />
-                                        <Cell fill={COLORS.protein} />
-                                    </Pie>
-                                </PieChart>
-                            </ResponsiveContainer>
-                             <p className="text-xs font-medium text-muted-foreground -mt-2">Actual</p>
-                        </div>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-    )
-}
 
 function MealLoggingPageContent() {
   const [meals, setMeals] = useState(initialMeals);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
   const searchParams = useSearchParams();
   
   const foodNameFromUrl = searchParams.get('foodName');
@@ -170,7 +89,7 @@ function MealLoggingPageContent() {
       setDialogOpen(true);
     }
   }, [foodNameFromUrl]);
-
+  
   const handleAddMeal = (category: MealCategory, newMeal: Omit<Meal, 'id'>) => {
     const mealWithId = { ...newMeal, id: `${category.toLowerCase().replace(' ', '-')}${Date.now()}` };
     setMeals(prev => ({
@@ -178,6 +97,8 @@ function MealLoggingPageContent() {
       [category]: [...prev[category], mealWithId],
     }));
     setDialogOpen(false);
+    // Clear URL params after logging
+    router.replace('/meal-logging');
   };
 
   const handleRemoveMeal = (category: MealCategory, mealId: string) => {
@@ -186,6 +107,89 @@ function MealLoggingPageContent() {
         [category]: prev[category].filter(m => m.id !== mealId),
     }));
   };
+  
+    const NutrientSummary = useMemo(() => {
+        const totals = Object.values(meals).flat().reduce((acc, meal) => {
+            acc.calories += meal.calories;
+            acc.carbs += meal.carbs;
+            acc.fat += meal.fat;
+            acc.protein += meal.protein;
+            return acc;
+        }, { calories: 0, carbs: 0, fat: 0, protein: 0 });
+
+        const totalMacros = totals.carbs + totals.fat + totals.protein;
+        
+        const actualMacroDistribution = [
+            { name: 'Carbs', value: totalMacros > 0 ? (totals.carbs / totalMacros) * 100 : 0 },
+            { name: 'Fat', value: totalMacros > 0 ? (totals.fat / totalMacros) * 100 : 0 },
+            { name: 'Protein', value: totalMacros > 0 ? (totals.protein / totalMacros) * 100 : 0 },
+        ];
+        
+        const recommendedMacroDistribution = [
+            { name: 'Carbs', value: recommendedMacros.carbs },
+            { name: 'Fat', value: recommendedMacros.fat },
+            { name: 'Protein', value: recommendedMacros.protein },
+        ];
+        
+        const calorieProgress = (totals.calories / calorieGoal) * 100;
+
+        return (
+            <Card className="mb-8">
+                <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                    <div className="flex flex-col items-center gap-4 text-center md:border-r md:pr-6">
+                        <div className="w-full">
+                          <p className="text-2xl font-bold">{Math.round(totals.calories)} <span className="text-sm text-muted-foreground">/ {calorieGoal} kcal</span></p>
+                           <Progress value={calorieProgress} className="h-2 mt-2" />
+                        </div>
+                    </div>
+
+                    <div className="md:col-span-2">
+                        <div className="grid grid-cols-3 text-center mb-4 border-b pb-4">
+                            <div>
+                                <p className="text-sm text-muted-foreground">Carbs</p>
+                                <p className="font-bold text-lg" style={{color: COLORS.carbs}}>{totals.carbs.toFixed(0)}g</p>
+                            </div>
+                            <div>
+                                <p className="text-sm text-muted-foreground">Fat</p>
+                                <p className="font-bold text-lg" style={{color: COLORS.fat}}>{totals.fat.toFixed(0)}g</p>
+                            </div>
+                            <div>
+                                <p className="text-sm text-muted-foreground">Protein</p>
+                                <p className="font-bold text-lg" style={{color: COLORS.protein}}>{totals.protein.toFixed(0)}g</p>
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-4 h-32">
+                             <div className="text-center">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie data={recommendedMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={20} outerRadius={40} paddingAngle={2}>
+                                            <Cell fill={COLORS.carbs} />
+                                            <Cell fill={COLORS.fat} />
+                                            <Cell fill={COLORS.protein} />
+                                        </Pie>
+                                    </PieChart>
+                                </ResponsiveContainer>
+                                <p className="text-xs font-medium text-muted-foreground -mt-2">Recommended</p>
+                            </div>
+                            <div className="text-center">
+                                 <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie data={actualMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={20} outerRadius={40} paddingAngle={2}>
+                                            <Cell fill={COLORS.carbs} />
+                                            <Cell fill={COLORS.fat} />
+                                            <Cell fill={COLORS.protein} />
+                                        </Pie>
+                                    </PieChart>
+                                </ResponsiveContainer>
+                                 <p className="text-xs font-medium text-muted-foreground -mt-2">Actual</p>
+                            </div>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    }, [meals]);
+
 
   return (
     <div className="flex flex-col w-full">
@@ -194,10 +198,15 @@ function MealLoggingPageContent() {
         description="Log your meals to track your nutrient intake."
       />
       <main className="flex-1 p-4 md:p-8">
-        <NutrientSummary meals={meals} />
+        {NutrientSummary}
 
         <div className="mb-6">
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <Dialog open={dialogOpen} onOpenChange={(open) => {
+              setDialogOpen(open);
+              if (!open) {
+                router.replace('/meal-logging');
+              }
+            }}>
                 <DialogTrigger asChild>
                     <Button size="lg">
                         <PlusCircle className="mr-2 h-5 w-5" />
@@ -213,7 +222,10 @@ function MealLoggingPageContent() {
                     </DialogHeader>
                     <AddMealForm
                         onAddMeal={handleAddMeal}
-                        onCancel={() => setDialogOpen(false)}
+                        onCancel={() => {
+                          setDialogOpen(false);
+                          router.replace('/meal-logging');
+                        }}
                         initialFoodName={foodNameFromUrl}
                         initialNutrition={{
                           calories: caloriesFromUrl,
@@ -292,7 +304,6 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
     const [isSearching, startSearchTransition] = useTransition();
     const { toast } = useToast();
     
-    // This flag determines if the form was pre-filled by the recognize food page
     const isFromRecognition = useMemo(() => !!(initialFoodName && initialNutrition?.calories), [initialFoodName, initialNutrition]);
 
     const findFoodByName = useCallback(async (foodName: string) => {
@@ -306,14 +317,14 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
 
     useEffect(() => {
         if (initialFoodName) {
-            // If we have full nutrition details, it's from the recognition page
             if (isFromRecognition) {
                 setName(initialFoodName);
                 setCalories(Number(initialNutrition?.calories || 0));
                 setProtein(Number(initialNutrition?.protein || 0));
                 setFat(Number(initialNutrition?.fat || 0));
+                // The recognize food API doesn't provide carbs, so we handle it gracefully
                 setCarbs(Number(initialNutrition?.carbs || 0));
-            } else { // Otherwise, it's just a name, so search for it
+            } else {
                 findFoodByName(initialFoodName);
             }
         }
@@ -401,21 +412,7 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
             fat,
             protein,
         });
-        resetForm();
     };
-
-    const resetForm = () => {
-        setName('');
-        setPortion('1 serving');
-        setQuantity('1');
-        setCalories(0);
-        setCarbs(0);
-        setFat(0);
-        setProtein(0);
-        setSelectedCategory(null);
-        setSelectedFood(null);
-        setSelectedServingSize(null);
-    }
 
     const isFoodSelectedFromDB = !!selectedFood && !isFromRecognition;
     const availableServingSizes = useMemo(() => {
@@ -527,11 +524,12 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
     )
 }
 
-// The main export uses Suspense to safely read search parameters on the client.
 export default function MealLoggingPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<div>Loading...</div>}>
       <MealLoggingPageContent />
     </Suspense>
   );
 }
+
+    
