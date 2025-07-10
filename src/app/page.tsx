@@ -12,7 +12,7 @@ export default function WelcomePage() {
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="Welcome to KidneyWise"
+        title="Welcome Chuku Beta"
         description="Your personal kidney-friendly diet companion."
       />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">

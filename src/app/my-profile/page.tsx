@@ -309,6 +309,7 @@ export default function MyProfilePage() {
                                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                                         <SelectTrigger><SelectValue placeholder="Select stage" /></SelectTrigger>
                                         <SelectContent>
+                                            <SelectItem value="none">None</SelectItem>
                                             <SelectItem value="ckd">Chronic kidney disease</SelectItem>
                                             <SelectItem value="hemodialysis">Hemodialysis</SelectItem>
                                             <SelectItem value="peritoneal_dialysis">Peritoneal dialysis</SelectItem>
@@ -346,7 +347,7 @@ export default function MyProfilePage() {
                             </div>
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                            <Label>Quantitative Nutrient Values (Optional)</Label>
+                            <Label>Recommended nutrient values</Label>
                             <div className="grid grid-cols-3 gap-2">
                                 <div className="space-y-1">
                                     <Label htmlFor="sodiumGoal" className="text-xs text-muted-foreground">Low Sodium (mg)</Label>
