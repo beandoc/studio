@@ -1,64 +1,28 @@
 
 "use client";
 
-import { usePathname } from "next/navigation";
-import Link from "next/link";
 import {
-  BookUser,
-  ClipboardList,
-  LayoutDashboard,
-  User,
-  Database,
   HeartPulse,
-  Home,
-  CalendarDays,
 } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import dynamic from 'next/dynamic';
+import { Skeleton } from "./ui/skeleton";
 
-const menuItems = [
-  {
-    href: "/",
-    label: "Home",
-    icon: Home,
-  },
-  {
-    href: "/dashboard",
-    label: "Dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    href: "/my-profile",
-    label: "My Profile",
-    icon: User,
-  },
-  {
-    href: "/diet-plan",
-    label: "Diet Plan",
-    icon: BookUser,
-  },
-   {
-    href: "/weekly-plan",
-    label: "Weekly Plan",
-    icon: CalendarDays,
-  },
-  {
-    href: "/meal-logging",
-    label: "Meal Logging",
-    icon: ClipboardList,
-  },
-  {
-    href: "/food-database",
-    label: "Food Database",
-    icon: Database,
-  },
-];
+const SidebarNav = dynamic(() => import('./sidebar-nav'), {
+  ssr: false,
+  loading: () => (
+    <div className="flex flex-col gap-1 p-2">
+      {[...Array(7)].map((_, i) => (
+        <Skeleton key={i} className="h-10 w-full" />
+      ))}
+    </div>
+  )
+});
+
 
 const Logo = () => (
     <div className="flex items-center justify-center p-2 rounded-full bg-sidebar-primary">
@@ -67,8 +31,6 @@ const Logo = () => (
 );
 
 export default function AppSidebar() {
-  const pathname = usePathname();
-
   return (
     <Sidebar className="border-r" collapsible="icon">
       <SidebarHeader>
@@ -80,22 +42,7 @@ export default function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
-          {menuItems.map((item) => (
-            <SidebarMenuItem key={item.label}>
-              <Link href={item.href}>
-                <SidebarMenuButton
-                  isActive={pathname === item.href}
-                  tooltip={item.label}
-                  className="justify-start"
-                >
-                  <item.icon className="h-5 w-5" />
-                  <span>{item.label}</span>
-                </SidebarMenuButton>
-              </Link>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
+        <SidebarNav />
       </SidebarContent>
     </Sidebar>
   );
