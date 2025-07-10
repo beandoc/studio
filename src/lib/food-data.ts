@@ -92,6 +92,54 @@ export const foodDatabase: FoodItem[] = [
         }
     },
     {
+        slug: 'walnuts',
+        name: 'Walnuts',
+        cuisine: 'Generic',
+        mealCategory: 'Snack',
+        nutritionFacts: {
+            servingSize: '28g (about 1 oz)',
+            calories: 183,
+            totalFat: { value: 18.2, percent: 23 },
+            saturatedFat: { value: 1.7, percent: 9 },
+            transFat: { value: 0 },
+            polyunsaturatedFat: { value: 13.2 },
+            monounsaturatedFat: { value: 2.5 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 1, percent: 0 },
+            totalCarbohydrate: { value: 3.8, percent: 1 },
+            dietaryFiber: { value: 1.9, percent: 7 },
+            sugars: { value: 0.7 },
+            protein: { value: 4.3 },
+            vitaminD: { value: 0, percent: 0 },
+            calcium: { value: 27, percent: 2 },
+            iron: { value: 0.8, percent: 4 },
+            potassium: { value: 123, percent: 3 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 0.4, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 183,
+            fat: '18.2g',
+            carbs: '3.8g',
+            protein: '4.3g',
+            summaryText: 'There are 183 calories in 28g (about 1 oz) of Walnuts.',
+            breakdown: '84% fat, 7% carbs, 9% protein.',
+        },
+        servingSizes: [
+            { size: '1 walnut half', calories: 26 },
+            { size: '28g (1 oz, ~7 kernels)', calories: 183 },
+            { size: '100g', calories: 654 },
+            { size: '1 cup, shelled (100g)', calories: 654 },
+        ],
+        relatedTypes: {
+            walnuts: [
+                'Black Walnuts',
+                'English Walnuts',
+                'Candied Walnuts',
+            ]
+        }
+    },
+    {
         slug: 'baked-beans',
         name: 'Baked Beans',
         cuisine: 'Generic',
