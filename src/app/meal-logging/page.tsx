@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +26,9 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
+
 
 type Meal = {
   id: string;
@@ -149,13 +152,37 @@ type AddMealFormProps = {
 function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
     const [name, setName] = useState('');
     const [calories, setCalories] = useState('');
-    const [portion, setPortion] = useState('');
+    const [portion, setPortion] = useState('1 serving');
+    const [quantity, setQuantity] = useState('1');
+
     const [selectedCategory, setSelectedCategory] = useState<MealCategory | null>(null);
+    const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
+    const [selectedServingSize, setSelectedServingSize] = useState<string | null>(null);
+
     const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
     
+    useEffect(() => {
+        if (!selectedFood) return;
+
+        const baseServingSize = selectedServingSize 
+            ? selectedFood.servingSizes.find(s => s.size === selectedServingSize)
+            : { calories: selectedFood.nutritionFacts.calories, size: selectedFood.nutritionFacts.servingSize };
+
+        if (baseServingSize) {
+            const numQuantity = parseFloat(quantity) || 0;
+            const calculatedCalories = Math.round(baseServingSize.calories * numQuantity);
+            setCalories(String(calculatedCalories));
+            setPortion(`${numQuantity} x ${baseServingSize.size}`);
+        }
+
+    }, [quantity, selectedServingSize, selectedFood]);
+
+
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
         setName(query);
+        setSelectedFood(null); // Clear selected food if user types again
+        
         if (query.length > 1) {
             const results = foodDatabase.filter(item => 
                 item.name.toLowerCase().includes(query.toLowerCase())
@@ -170,8 +197,16 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
         setName(food.name);
         setCalories(String(food.nutritionFacts.calories));
         setPortion(food.nutritionFacts.servingSize);
+        setQuantity('1');
+        setSelectedFood(food);
+        // Use main serving size as default for the select
+        setSelectedServingSize(food.nutritionFacts.servingSize);
         setSearchResults([]);
     };
+
+    const handleServingSizeChange = (value: string) => {
+        setSelectedServingSize(value);
+    }
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -182,12 +217,20 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
             calories: parseInt(calories),
             portion,
         });
+        resetForm();
+    };
 
+    const resetForm = () => {
         setName('');
         setCalories('');
-        setPortion('');
+        setPortion('1 serving');
+        setQuantity('1');
         setSelectedCategory(null);
-    };
+        setSelectedFood(null);
+        setSelectedServingSize(null);
+    }
+
+    const isFoodSelected = !!selectedFood;
 
     return (
         <form onSubmit={handleSubmit}>
@@ -230,15 +273,38 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
                         </Card>
                     )}
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                
+                <div className={cn("grid gap-4", isFoodSelected ? 'grid-cols-2' : 'grid-cols-1')}>
                     <div className="space-y-2">
-                        <Label htmlFor="calories">Calories</Label>
-                        <Input id="calories" type="number" value={calories} onChange={(e) => setCalories(e.target.value)} placeholder="e.g., 250" required />
+                         <Label htmlFor="portion">Portion</Label>
+                         {isFoodSelected && selectedFood.servingSizes.length > 0 ? (
+                            <Select onValueChange={handleServingSizeChange} value={selectedServingSize || ''}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select portion size" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {selectedFood.servingSizes.map((serving) => (
+                                        <SelectItem key={serving.size} value={serving.size}>
+                                            {serving.size}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                         ) : (
+                            <Input id="portion" value={portion} onChange={(e) => setPortion(e.target.value)} placeholder="e.g., 1 cup" required disabled={isFoodSelected} />
+                         )}
                     </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="portion">Portion</Label>
-                        <Input id="portion" value={portion} onChange={(e) => setPortion(e.target.value)} placeholder="e.g., 2 eggs" required />
-                    </div>
+                    {isFoodSelected && (
+                        <div className="space-y-2">
+                            <Label htmlFor="quantity">Quantity</Label>
+                            <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="e.g., 1.5" required min="0.1" step="0.1" />
+                        </div>
+                    )}
+                </div>
+
+                <div className="space-y-2">
+                    <Label htmlFor="calories">Calories (kcal)</Label>
+                    <Input id="calories" type="number" value={calories} onChange={(e) => setCalories(e.target.value)} placeholder="e.g., 250" required disabled={isFoodSelected} />
                 </div>
             </div>
             <DialogFooter>
@@ -248,3 +314,5 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
         </form>
     )
 }
+
+    
