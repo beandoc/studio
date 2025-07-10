@@ -26,8 +26,8 @@ import { Progress } from "@/components/ui/progress";
 
 
 // Types
-type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Snacks";
-type LoggedMeal = {
+export type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Snacks";
+export type LoggedMeal = {
   id: string;
   name: string;
   calories: number;
@@ -36,8 +36,8 @@ type LoggedMeal = {
   carbs: number;
   category: MealCategory;
 };
-type DailyLog = Record<MealCategory, LoggedMeal[]>;
-type Goals = {
+export type DailyLog = Record<MealCategory, LoggedMeal[]>;
+export type Goals = {
   calories: number;
   protein: number;
   fat: number;
@@ -188,10 +188,10 @@ export default function MyMealTrackerPage() {
                                           {dailyLog[category].map(item => (
                                               <TableRow key={item.id}>
                                                   <TableCell className="font-medium">{item.name}</TableCell>
-                                                  <TableCell className="text-right">{item.calories}</TableCell>
-                                                  <TableCell className="text-right">{item.protein}g</TableCell>
-                                                  <TableCell className="text-right">{item.fat}g</TableCell>
-                                                  <TableCell className="text-right">{item.carbs}g</TableCell>
+                                                  <TableCell className="text-right">{Math.round(item.calories)}</TableCell>
+                                                  <TableCell className="text-right">{item.protein.toFixed(1)}g</TableCell>
+                                                  <TableCell className="text-right">{item.fat.toFixed(1)}g</TableCell>
+                                                  <TableCell className="text-right">{item.carbs.toFixed(1)}g</TableCell>
                                                   <TableCell>
                                                       <Button variant="ghost" size="icon" onClick={() => handleRemoveItem(category, item.id)}>
                                                           <Trash2 className="h-4 w-4 text-destructive" />
@@ -223,28 +223,28 @@ export default function MyMealTrackerPage() {
                 <div>
                   <div className="flex justify-between font-medium mb-1">
                     <span>Calories</span>
-                    <span>{totals.calories} / {goals.calories} kcal</span>
+                    <span>{Math.round(totals.calories)} / {goals.calories} kcal</span>
                   </div>
                   <Progress value={(totals.calories / goals.calories) * 100} />
                 </div>
                 <div>
                   <div className="flex justify-between font-medium mb-1">
                     <span>Protein</span>
-                    <span>{totals.protein}g / {goals.protein}g</span>
+                    <span>{totals.protein.toFixed(1)}g / {goals.protein}g</span>
                   </div>
                   <Progress value={(totals.protein / goals.protein) * 100} className="[&>div]:bg-red-500" />
                 </div>
                 <div>
                   <div className="flex justify-between font-medium mb-1">
                     <span>Fat</span>
-                    <span>{totals.fat}g / {goals.fat}g</span>
+                    <span>{totals.fat.toFixed(1)}g / {goals.fat}g</span>
                   </div>
                   <Progress value={(totals.fat / goals.fat) * 100} className="[&>div]:bg-amber-500"/>
                 </div>
                 <div>
                   <div className="flex justify-between font-medium mb-1">
                     <span>Carbs</span>
-                    <span>{totals.carbs}g / {goals.carbs}g</span>
+                    <span>{totals.carbs.toFixed(1)}g / {goals.carbs}g</span>
                   </div>
                   <Progress value={(totals.carbs / goals.carbs) * 100} className="[&>div]:bg-green-500"/>
                 </div>
@@ -290,10 +290,12 @@ export default function MyMealTrackerPage() {
             </CardContent>
             <CardFooter className="text-sm text-muted-foreground">
                 * Based on your recommended daily intake. <Button variant="link" className="p-0 h-auto ml-1">Set your Recommended Daily Intake</Button>
-            </CardFooter>
+            </Footer>
           </Card>
         </main>
       </div>
     </>
   );
 }
+
+    

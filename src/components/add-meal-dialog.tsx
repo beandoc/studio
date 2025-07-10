@@ -2,12 +2,15 @@
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
-import { foodDatabase, type FoodItem } from '@/lib/food-data';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { foodDatabase, type FoodItem, type FoodGroup } from '@/lib/food-data';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Plus } from 'lucide-react';
+import { Plus, ArrowLeft } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Label } from '@/components/ui/label';
+import type { DailyLog, MealCategory, LoggedMeal } from '@/app/my-meal-tracker/page';
 
 type AddMealDialogProps = {
   isOpen: boolean;
@@ -17,28 +20,19 @@ type AddMealDialogProps = {
   dailyLog: DailyLog;
 };
 
-type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Snacks";
-type LoggedMeal = {
-  id: string;
-  name: string;
-  calories: number;
-  protein: number;
-  fat: number;
-  carbs: number;
-  category: MealCategory;
-};
-type DailyLog = Record<MealCategory, LoggedMeal[]>;
-
-
 export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, dailyLog }: AddMealDialogProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
+  const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
+  const [quantity, setQuantity] = useState("1");
+  const [selectedServing, setSelectedServing] = useState<string>("");
 
   const frequentItems = useMemo(() => {
     const allItemsInCategory = dailyLog[category];
     const itemCounts: Record<string, number> = {};
     allItemsInCategory.forEach(item => {
-      itemCounts[item.name] = (itemCounts[item.name] || 0) + 1;
+      const baseName = item.name.replace(/ \(.*/, ''); // remove quantity specifier
+      itemCounts[baseName] = (itemCounts[baseName] || 0) + 1;
     });
 
     const sortedItems = Object.entries(itemCounts)
@@ -61,58 +55,156 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     }
   }, [searchTerm]);
   
-  const handleAdd = (food: FoodItem) => {
+  const handleSelectFood = (food: FoodItem) => {
+    setSelectedFood(food);
+    // Set default serving size to the primary one
+    setSelectedServing(food.nutritionFacts.servingSize);
+    setQuantity("1");
+  };
+
+  const handleAddMeal = () => {
+    if (!selectedFood) return;
+
+    const servingSizeData = selectedFood.servingSizes.find(s => s.size === selectedServing);
+    const primaryServingSize = selectedFood.servingSizes[0];
+    const primaryNutrients = selectedFood.nutritionFacts;
+
+    let baseCalories, baseProtein, baseFat, baseCarbs;
+
+    if(servingSizeData) {
+        // Calculate based on selected serving size
+        const ratio = servingSizeData.calories / primaryServingSize.calories;
+        baseCalories = servingSizeData.calories;
+        baseProtein = primaryNutrients.protein.value * ratio;
+        baseFat = primaryNutrients.totalFat.value * ratio;
+        baseCarbs = primaryNutrients.totalCarbohydrate.value * ratio;
+    } else {
+        // Fallback to primary nutrients if something goes wrong
+        baseCalories = primaryNutrients.calories;
+        baseProtein = primaryNutrients.protein.value;
+        baseFat = primaryNutrients.totalFat.value;
+        baseCarbs = primaryNutrients.totalCarbohydrate.value;
+    }
+
+    const numQuantity = parseFloat(quantity) || 1;
+
     onAddMeal({
-      name: food.name,
-      calories: food.nutritionFacts.calories,
-      protein: food.nutritionFacts.protein.value,
-      fat: food.nutritionFacts.totalFat.value,
-      carbs: food.nutritionFacts.totalCarbohydrate.value,
+      name: `${selectedFood.name} (${numQuantity} ${selectedServing})`,
+      calories: baseCalories * numQuantity,
+      protein: baseProtein * numQuantity,
+      fat: baseFat * numQuantity,
+      carbs: baseCarbs * numQuantity,
       category: category,
     });
-    onClose();
+    handleClose();
   };
 
   const itemsToShow = searchTerm.length > 1 ? searchResults : frequentItems;
 
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add to {category}</DialogTitle>
-          <DialogDescription>
-            Search for a food item or select from your frequent items.
-          </DialogDescription>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <Input
-            placeholder="Search for a food..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <ScrollArea className="h-72">
-            <div className="pr-4 space-y-2">
-                {itemsToShow.length > 0 ? (
-                     itemsToShow.map(food => (
-                        <div key={food.slug} className="flex items-center justify-between p-2 rounded-md border">
-                            <div>
-                                <p className="font-semibold">{food.name}</p>
-                                <p className="text-xs text-muted-foreground">{food.nutritionFacts.calories} kcal, {food.nutritionFacts.protein.value}g protein</p>
-                            </div>
-                            <Button size="sm" onClick={() => handleAdd(food)}>
-                                <Plus className="mr-2 h-4 w-4" /> Add
-                            </Button>
-                        </div>
-                    ))
-                ) : (
-                    <p className="text-center text-muted-foreground pt-8">
-                        {searchTerm ? 'No results found.' : 'No frequent items yet for this category.'}
-                    </p>
-                )}
+  const handleClose = () => {
+    setSelectedFood(null);
+    setSearchTerm('');
+    onClose();
+  }
+
+  const renderSearchStep = () => (
+    <>
+      <DialogHeader>
+        <DialogTitle>Add to {category}</DialogTitle>
+        <DialogDescription>
+          Search for a food item or select from your frequent items.
+        </DialogDescription>
+      </DialogHeader>
+      <div className="grid gap-4 py-4">
+        <Input
+          placeholder="Search for a food..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <ScrollArea className="h-72">
+          <div className="pr-4 space-y-2">
+              {itemsToShow.length > 0 ? (
+                   itemsToShow.map(food => (
+                      <div key={food.slug} className="flex items-center justify-between p-2 rounded-md border">
+                          <div>
+                              <p className="font-semibold">{food.name}</p>
+                              <p className="text-xs text-muted-foreground">{food.nutritionFacts.calories} kcal, {food.nutritionFacts.protein.value}g protein</p>
+                          </div>
+                          <Button size="sm" onClick={() => handleSelectFood(food)}>
+                              <Plus className="mr-2 h-4 w-4" /> Add
+                          </Button>
+                      </div>
+                  ))
+              ) : (
+                  <p className="text-center text-muted-foreground pt-8">
+                      {searchTerm ? 'No results found.' : 'No frequent items yet for this category.'}
+                  </p>
+              )}
+          </div>
+        </ScrollArea>
+      </div>
+    </>
+  );
+  
+  const renderQuantityStep = () => {
+    if (!selectedFood) return null;
+    return (
+    <>
+      <DialogHeader>
+        <div className='flex items-center gap-2'>
+            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setSelectedFood(null)}>
+                <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+                <DialogTitle>{selectedFood.name}</DialogTitle>
+                <DialogDescription>
+                Specify the quantity and serving size.
+                </DialogDescription>
             </div>
-          </ScrollArea>
         </div>
+      </DialogHeader>
+      <div className="grid grid-cols-2 gap-4 py-4">
+        <div className="space-y-2">
+            <Label htmlFor="quantity">Quantity</Label>
+            <Input 
+                id="quantity"
+                type="number"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                min="0.1"
+                step="0.1"
+            />
+        </div>
+        <div className="space-y-2">
+            <Label htmlFor="serving">Serving</Label>
+            <Select value={selectedServing} onValueChange={setSelectedServing}>
+                <SelectTrigger id="serving">
+                    <SelectValue placeholder="Select a serving" />
+                </SelectTrigger>
+                <SelectContent>
+                    {selectedFood.servingSizes.map(serving => (
+                        <SelectItem key={serving.size} value={serving.size}>
+                            {serving.size} ({serving.calories} kcal)
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
+        </div>
+      </div>
+      <DialogFooter>
+        <Button onClick={handleAddMeal}>Add Meal to Log</Button>
+      </DialogFooter>
+    </>
+    )
+  }
+
+  return (
+    <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        {selectedFood ? renderQuantityStep() : renderSearchStep()}
       </DialogContent>
     </Dialog>
   );
 }
+
+    
