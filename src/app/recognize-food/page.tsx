@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -9,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { recognizeFoodImage, type RecognizeFoodImageOutput } from "@/ai/flows/recognize-food-image";
-import { Camera, Loader2, Sparkles, Send, Utensils, CheckCircle2 } from "lucide-react";
+import { Camera, Loader2, Sparkles, Utensils, CheckCircle2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 
@@ -91,20 +90,6 @@ export default function RecognizeFoodPage() {
       });
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleLogFood = () => {
-    if (analysisResult) {
-      const { mealName, totalCalories, totalProtein, totalFat } = analysisResult;
-      const queryParams = new URLSearchParams({
-        foodName: mealName,
-        calories: Math.round(totalCalories).toString(),
-        protein: totalProtein.toFixed(1),
-        fat: totalFat.toFixed(1),
-        carbs: '0', // Carbs are not part of the new schema, so we default to 0
-      });
-      router.push(`/meal-logging?${queryParams.toString()}`);
     }
   };
 
@@ -215,11 +200,6 @@ export default function RecognizeFoodPage() {
                              ))}
                          </div>
                     </div>
-                    
-                    <Button onClick={handleLogFood} className="w-full">
-                      <Send className="mr-2 h-4 w-4"/>
-                      Log this Meal
-                    </Button>
                 </CardContent>
               </Card>
             )}

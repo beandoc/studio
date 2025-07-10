@@ -1,4 +1,3 @@
-
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -44,11 +43,6 @@ const menuItems = [
     href: "/weekly-plan",
     label: "Weekly Plan",
     icon: CalendarDays,
-  },
-  {
-    href: "/meal-logging",
-    label: "Meal Logging",
-    icon: ClipboardList,
   },
   {
     href: "/recognize-food",
