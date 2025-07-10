@@ -76,10 +76,10 @@ const dailyMealOptions = ["breakfast", "lunch", "dinner", "snacks"];
 
 export default function DietPlanPage() {
   const [dietPlan, setDietPlan] = useState<GenerateDietPlanOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start with loading true
+  const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
   const dietPlanRef = useRef<HTMLDivElement>(null);
-  const [isFormVisible, setIsFormVisible] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -88,12 +88,14 @@ export default function DietPlanPage() {
         if (storedPlan) {
             setDietPlan(JSON.parse(storedPlan));
         } else {
-            setIsFormVisible(true);
+            setShowForm(true); // If no plan, show form
         }
     } catch (e) {
         console.error("Failed to parse diet plan from localStorage", e);
-        setIsFormVisible(true);
+        setShowForm(true); // Show form on error
         localStorage.removeItem("dietPlan");
+    } finally {
+        setIsLoading(false); // Stop loading after check
     }
   }, []);
 
@@ -145,7 +147,7 @@ export default function DietPlanPage() {
       });
       setDietPlan(result);
       localStorage.setItem("dietPlan", JSON.stringify(result));
-      setIsFormVisible(false);
+      setShowForm(false);
     } catch (error) {
       console.error(error);
       toast({
@@ -380,7 +382,7 @@ export default function DietPlanPage() {
               </CardDescription>
           </div>
         <div className="flex gap-2">
-          <Button onClick={() => setIsFormVisible(true)} variant="secondary">Regenerate</Button>
+          <Button onClick={() => setShowForm(true)} variant="secondary">Regenerate</Button>
           <Button onClick={handleExportPdf} variant="outline" size="sm">
               <Download className="mr-2 h-4 w-4" />
               Export as PDF
@@ -439,9 +441,10 @@ export default function DietPlanPage() {
     <Card>
       <CardHeader>
         <Skeleton className="h-8 w-1/2" />
+        <Skeleton className="h-4 w-3/4" />
       </CardHeader>
       <CardContent className="space-y-4">
-        {[...Array(5)].map((_, i) => <Skeleton key={i} className="h-6 w-full" />)}
+        {[...Array(5)].map((_, i) => <Skeleton key={i} className="h-20 w-full" />)}
       </CardContent>
     </Card>
   );
@@ -455,7 +458,7 @@ export default function DietPlanPage() {
       <div className="p-4 md:p-8 grid gap-8">
         {isLoading
           ? renderLoading()
-          : isFormVisible || !dietPlan
+          : (showForm || !dietPlan)
           ? renderForm()
           : renderPlan()}
       </div>
