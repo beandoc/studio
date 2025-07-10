@@ -43,7 +43,7 @@ const menuItems = [
     label: "Diet Plan",
     icon: BookUser,
   },
-  {
+   {
     href: "/weekly-plan",
     label: "Weekly Plan",
     icon: CalendarDays,
