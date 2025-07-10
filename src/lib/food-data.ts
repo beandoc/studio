@@ -321,6 +321,58 @@ export const foodDatabase: FoodItem[] = [
         }
     },
     {
+        slug: 'red-kidney-beans',
+        name: 'Red Kidney Beans',
+        cuisine: 'Generic',
+        mealCategory: 'Lunch',
+        foodGroup: 'Beans & Legumes',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 225,
+            totalFat: { value: 0.88, percent: 1 },
+            saturatedFat: { value: 0.127, percent: 1 },
+            polyunsaturatedFat: { value: 0.487 },
+            monounsaturatedFat: { value: 0.069 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 4, percent: 0 },
+            totalCarbohydrate: { value: 40.36, percent: 15 },
+            dietaryFiber: { value: 13.1, percent: 47 },
+            sugars: { value: 0.57 },
+            protein: { value: 15.35 },
+            calcium: { value: 50, percent: 4 },
+            iron: { value: 5.2, percent: 29 },
+            potassium: { value: 713, percent: 15 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 2.1, percent: 2 },
+        },
+        nutritionSummary: {
+            calories: 225,
+            fat: '0.88g',
+            carbs: '40.36g',
+            protein: '15.35g',
+            summaryText: 'There are 225 calories in 1 cup of Red Kidney Beans (Without Salt, Cooked, Boiled).',
+            breakdown: '3% fat, 70% carbs, 27% protein.',
+        },
+        servingSizes: [
+            { size: '1 tbsp', calories: 14 },
+            { size: '1 oz', calories: 36 },
+            { size: '100 g', calories: 127 },
+            { size: '1 cup', calories: 225 },
+        ],
+        relatedTypes: {
+            kidneyBeans: [
+                'Kidney Beans (Canned)',
+                'Red Kidney Beans (with Salt, Cooked, Boiled)',
+                'Cooked Dry Red Kidney Beans',
+            ],
+            beans: [
+                'Black Beans (Canned)',
+                'Green String Beans',
+                'Green Snap Beans',
+            ],
+        }
+    },
+    {
         slug: 'poha',
         name: 'Poha',
         cuisine: 'Maharashtrian',
