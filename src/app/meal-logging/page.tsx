@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useMemo } from "react";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,7 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { PlusCircle, Trash2 } from "lucide-react";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -29,33 +29,129 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
-
+import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { Progress } from "@/components/ui/progress";
 
 type Meal = {
   id: string;
   name: string;
-  calories: number;
   portion: string;
+  calories: number;
+  carbs: number;
+  fat: number;
+  protein: number;
 };
 
 type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Morning Snack" | "Afternoon Snack" | "Evening Snack";
 
 const initialMeals: Record<MealCategory, Meal[]> = {
   Breakfast: [
-    { id: "b1", name: "Oatmeal with berries", calories: 350, portion: "1 cup" },
+    { id: "b1", name: "Oatmeal with berries", calories: 350, portion: "1 cup", carbs: 66, fat: 7, protein: 17 },
   ],
   Lunch: [
-    { id: "l1", name: "Grilled Chicken Salad", calories: 450, portion: "1 large bowl" },
+    { id: "l1", name: "Grilled Chicken Salad", calories: 450, portion: "1 large bowl", carbs: 10, fat: 20, protein: 40 },
   ],
   Dinner: [],
   "Morning Snack": [],
   "Afternoon Snack": [
-     { id: "s1", name: "Apple slices", calories: 95, portion: "1 medium apple" },
+     { id: "s1", name: "Apple slices", calories: 95, portion: "1 medium apple", carbs: 25, fat: 0.3, protein: 0.5 },
   ],
   "Evening Snack": [],
 };
 
 const mealCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Morning Snack", "Afternoon Snack", "Evening Snack"];
+const recommendedMacros = { carbs: 55, fat: 25, protein: 20 };
+const calorieGoal = 2000;
+const COLORS = {
+    carbs: "#3b82f6", // blue
+    fat: "#f97316", // orange
+    protein: "#facc15", // yellow
+};
+
+function NutrientSummary({ meals }: { meals: Record<MealCategory, Meal[]> }) {
+    const totals = useMemo(() => {
+        return Object.values(meals).flat().reduce((acc, meal) => {
+            acc.calories += meal.calories;
+            acc.carbs += meal.carbs;
+            acc.fat += meal.fat;
+            acc.protein += meal.protein;
+            return acc;
+        }, { calories: 0, carbs: 0, fat: 0, protein: 0 });
+    }, [meals]);
+
+    const totalMacros = totals.carbs + totals.fat + totals.protein;
+    
+    const actualMacroDistribution = [
+        { name: 'Carbs', value: totalMacros > 0 ? (totals.carbs / totalMacros) * 100 : 0 },
+        { name: 'Fat', value: totalMacros > 0 ? (totals.fat / totalMacros) * 100 : 0 },
+        { name: 'Protein', value: totalMacros > 0 ? (totals.protein / totalMacros) * 100 : 0 },
+    ];
+    
+    const recommendedMacroDistribution = [
+        { name: 'Carbs', value: recommendedMacros.carbs },
+        { name: 'Fat', value: recommendedMacros.fat },
+        { name: 'Protein', value: recommendedMacros.protein },
+    ];
+    
+    const calorieProgress = (totals.calories / calorieGoal) * 100;
+
+    return (
+        <Card className="mb-8">
+            <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+                <div className="flex justify-around md:col-span-1 md:h-48 md:flex-col items-center">
+                    <Progress value={calorieProgress} orientation="vertical" className="w-8 h-32 md:w-10 md:h-40" />
+                    <div className="text-center">
+                        <p className="text-2xl font-bold">{Math.round(totals.calories)}</p>
+                        <p className="text-sm text-muted-foreground">/ {calorieGoal} kcal</p>
+                    </div>
+                </div>
+
+                <div className="md:col-span-2">
+                    <div className="grid grid-cols-3 text-center mb-4 border-b pb-4">
+                        <div>
+                            <p className="text-sm text-muted-foreground">Carb</p>
+                            <p className="font-bold text-lg text-blue-500">{totals.carbs.toFixed(1)}g</p>
+                        </div>
+                        <div>
+                            <p className="text-sm text-muted-foreground">Fat</p>
+                            <p className="font-bold text-lg text-orange-500">{totals.fat.toFixed(1)}g</p>
+                        </div>
+                        <div>
+                            <p className="text-sm text-muted-foreground">Protein</p>
+                            <p className="font-bold text-lg text-yellow-500">{totals.protein.toFixed(1)}g</p>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 h-40">
+                         <div className="text-center">
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie data={recommendedMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} >
+                                        <Cell fill={COLORS.carbs} />
+                                        <Cell fill={COLORS.fat} />
+                                        <Cell fill={COLORS.protein} />
+                                    </Pie>
+                                </PieChart>
+                            </ResponsiveContainer>
+                            <p className="text-sm font-medium">Recommended</p>
+                        </div>
+                        <div className="text-center">
+                             <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie data={actualMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50}>
+                                        <Cell fill={COLORS.carbs} />
+                                        <Cell fill={COLORS.fat} />
+                                        <Cell fill={COLORS.protein} />
+                                    </Pie>
+                                </PieChart>
+                            </ResponsiveContainer>
+                             <p className="text-sm font-medium">Actual</p>
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    )
+}
 
 function MealLoggingPageContent() {
   const [meals, setMeals] = useState(initialMeals);
@@ -92,6 +188,8 @@ function MealLoggingPageContent() {
         description="Log your meals to track your nutrient intake."
       />
       <main className="flex-1 p-4 md:p-8">
+        <NutrientSummary meals={meals} />
+
         <div className="mb-6">
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger asChild>
@@ -162,14 +260,16 @@ type AddMealFormProps = {
 
 function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps) {
     const [name, setName] = useState('');
-    const [calories, setCalories] = useState('');
     const [portion, setPortion] = useState('1 serving');
     const [quantity, setQuantity] = useState('1');
+    const [calories, setCalories] = useState(0);
+    const [carbs, setCarbs] = useState(0);
+    const [fat, setFat] = useState(0);
+    const [protein, setProtein] = useState(0);
 
     const [selectedCategory, setSelectedCategory] = useState<MealCategory | null>(null);
     const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
     const [selectedServingSize, setSelectedServingSize] = useState<string | null>(null);
-
     const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
     
     useEffect(() => {
@@ -181,16 +281,30 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
     useEffect(() => {
         if (!selectedFood) return;
 
-        const baseServingSize = selectedServingSize 
-            ? selectedFood.servingSizes.find(s => s.size === selectedServingSize)
-            : { calories: selectedFood.nutritionFacts.calories, size: selectedFood.nutritionFacts.servingSize };
+        let baseServing: { size: string, calories: number } | undefined;
+        let baseNutrition = selectedFood.nutritionFacts;
 
-        if (baseServingSize) {
-            const numQuantity = parseFloat(quantity) || 0;
-            const calculatedCalories = Math.round(baseServingSize.calories * numQuantity);
-            setCalories(String(calculatedCalories));
-            setPortion(`${numQuantity} x ${baseServingSize.size}`);
+        if (selectedServingSize) {
+            baseServing = selectedFood.servingSizes?.find(s => s.size === selectedServingSize);
         }
+        
+        if (!baseServing) {
+            baseServing = { size: baseNutrition.servingSize, calories: baseNutrition.calories };
+        }
+
+        const numQuantity = parseFloat(quantity) || 0;
+        const servingRatio = baseServing.calories > 0 ? (baseNutrition.calories / baseServing.calories) : 1;
+        
+        const calculatedCalories = baseServing.calories * numQuantity;
+        setCalories(Math.round(calculatedCalories));
+        setPortion(`${numQuantity} x ${baseServing.size}`);
+        
+        // Calculate other nutrients based on ratio
+        const ratio = (calculatedCalories / baseNutrition.calories);
+
+        setCarbs(baseNutrition.totalCarbohydrate.value * ratio);
+        setFat(baseNutrition.totalFat.value * ratio);
+        setProtein(baseNutrition.protein.value * ratio);
 
     }, [quantity, selectedServingSize, selectedFood]);
 
@@ -212,12 +326,10 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
     
     const handleSelectFood = (food: FoodItem) => {
         setName(food.name);
-        setCalories(String(food.nutritionFacts.calories));
-        setPortion(food.nutritionFacts.servingSize);
         setQuantity('1');
         setSelectedFood(food);
-        // Use main serving size as default for the select
-        setSelectedServingSize(food.nutritionFacts.servingSize);
+        const defaultServing = food.nutritionFacts.servingSize;
+        setSelectedServingSize(defaultServing);
         setSearchResults([]);
     };
 
@@ -231,17 +343,23 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
         
         onAddMeal(selectedCategory, {
             name,
-            calories: parseInt(calories),
             portion,
+            calories,
+            carbs,
+            fat,
+            protein,
         });
         resetForm();
     };
 
     const resetForm = () => {
         setName('');
-        setCalories('');
         setPortion('1 serving');
         setQuantity('1');
+        setCalories(0);
+        setCarbs(0);
+        setFat(0);
+        setProtein(0);
         setSelectedCategory(null);
         setSelectedFood(null);
         setSelectedServingSize(null);
@@ -294,12 +412,13 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
                 <div className={cn("grid gap-4", isFoodSelected ? 'grid-cols-2' : 'grid-cols-1')}>
                     <div className="space-y-2">
                          <Label htmlFor="portion">Portion</Label>
-                         {isFoodSelected && selectedFood.servingSizes.length > 0 ? (
+                         {isFoodSelected && selectedFood.servingSizes?.length > 0 ? (
                             <Select onValueChange={handleServingSizeChange} value={selectedServingSize || ''}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select portion size" />
                                 </SelectTrigger>
                                 <SelectContent>
+                                    <SelectItem value={selectedFood.nutritionFacts.servingSize}>{selectedFood.nutritionFacts.servingSize}</SelectItem>
                                     {selectedFood.servingSizes.map((serving) => (
                                         <SelectItem key={serving.size} value={serving.size}>
                                             {serving.size}
@@ -319,9 +438,23 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
                     )}
                 </div>
 
-                <div className="space-y-2">
-                    <Label htmlFor="calories">Calories (kcal)</Label>
-                    <Input id="calories" type="number" value={calories} onChange={(e) => setCalories(e.target.value)} placeholder="e.g., 250" required disabled={isFoodSelected} />
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="calories">Calories (kcal)</Label>
+                        <Input id="calories" type="number" value={Math.round(calories)} onChange={(e) => setCalories(Number(e.target.value))} placeholder="e.g., 250" required disabled={isFoodSelected} />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="protein">Protein (g)</Label>
+                        <Input id="protein" type="number" value={protein.toFixed(1)} onChange={(e) => setProtein(Number(e.target.value))} placeholder="e.g., 20" required disabled={isFoodSelected} />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="fat">Fat (g)</Label>
+                        <Input id="fat" type="number" value={fat.toFixed(1)} onChange={(e) => setFat(Number(e.target.value))} placeholder="e.g., 10" required disabled={isFoodSelected} />
+                    </div>
+                     <div className="space-y-2">
+                        <Label htmlFor="carbs">Carbs (g)</Label>
+                        <Input id="carbs" type="number" value={carbs.toFixed(1)} onChange={(e) => setCarbs(Number(e.target.value))} placeholder="e.g., 30" required disabled={isFoodSelected} />
+                    </div>
                 </div>
             </div>
             <DialogFooter>
