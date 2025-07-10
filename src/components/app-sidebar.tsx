@@ -21,6 +21,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
@@ -50,11 +51,6 @@ const menuItems = [
     icon: ClipboardList,
   },
   {
-    href: "/meal-alternatives",
-    label: "Meal Alternatives",
-    icon: Replace,
-  },
-  {
     href: "/food-database",
     label: "Food Database",
     icon: Database,
@@ -78,12 +74,14 @@ export default function AppSidebar() {
   return (
     <Sidebar className="border-r" collapsible="icon">
       <SidebarHeader>
-        <div className="flex flex-col items-center gap-2 p-4 text-center">
-            <Logo />
-            <div className="group-data-[collapsible=icon]:hidden">
-                <span className="text-lg font-semibold text-sidebar-foreground">KidneyWise</span>
-                <p className="text-xs text-sidebar-foreground/80">Your Health Companion</p>
+        <div className="flex w-full items-center justify-between p-2">
+            <div className="flex items-center gap-2">
+                <Logo />
+                <div className="group-data-[collapsible=icon]:hidden">
+                    <span className="text-lg font-semibold text-sidebar-foreground">KidneyWise</span>
+                </div>
             </div>
+            <SidebarTrigger className="hidden lg:flex" />
         </div>
       </SidebarHeader>
       <SidebarContent>
