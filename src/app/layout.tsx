@@ -27,10 +27,10 @@ export default function RootLayout({
       </head>
       <body className={cn("font-body antialiased min-h-screen")}>
         <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-                {children}
-            </SidebarInset>
+          <AppSidebar />
+          <SidebarInset>
+            {children}
+          </SidebarInset>
         </SidebarProvider>
         <Toaster />
       </body>
