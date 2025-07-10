@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useState } from "react";
 import Header from "@/components/header";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { 
@@ -21,10 +22,16 @@ import {
     Soup, 
     IceCream, 
     Carrot, 
-    CircleHelp
+    CircleHelp,
+    Filter,
+    X
 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Label } from "@/components/ui/label";
 
 const foodCategories = [
   { slug: "baked-beans", icon: Bean, title: "Beans & Legumes", description: "All types of beans and legumes like baked beans, green beans, refried beans and lentils." },
@@ -47,7 +54,12 @@ const foodCategories = [
   { slug: "other", icon: CircleHelp, title: "Other", description: "Popular foods like dumplings, croutons, chow mein, french toast, quiche, spring rolls and grits." }
 ];
 
+const dietOptions = ["Lacto Vegetarian", "Ovo Vegetarian", "Pescatarian", "Vegan", "Vegetarian", "Mediterranean", "Dairy Free", "Gluten Free"];
+const avoidanceOptions = ["Red Meat", "Shellfish", "Nuts", "Soy", "Eggs", "Dairy"];
+
+
 export default function FoodDatabasePage() {
+    const [open, setOpen] = useState(false);
   return (
     <div className="flex flex-col w-full">
       <Header
@@ -55,9 +67,51 @@ export default function FoodDatabasePage() {
         description="Browse common foods and products from your favorite brands and restaurants."
       />
       <main className="flex-1 p-4 md:p-8">
+        <div className="mb-6">
+            <Popover open={open} onOpenChange={setOpen}>
+                <PopoverTrigger asChild>
+                    <Button variant="outline">
+                        <Filter className="mr-2 h-4 w-4" />
+                        Filters
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80" align="start">
+                    <Tabs defaultValue="diet" className="w-full">
+                        <TabsList className="grid w-full grid-cols-2">
+                            <TabsTrigger value="diet">Diet</TabsTrigger>
+                            <TabsTrigger value="avoidances">Avoidances</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="diet">
+                            <div className="space-y-4 py-4">
+                                {dietOptions.map(option => (
+                                    <div key={option} className="flex items-center space-x-2">
+                                        <Checkbox id={option.toLowerCase().replace(' ', '-')}/>
+                                        <Label htmlFor={option.toLowerCase().replace(' ', '-')}>{option}</Label>
+                                    </div>
+                                ))}
+                            </div>
+                        </TabsContent>
+                         <TabsContent value="avoidances">
+                             <div className="space-y-4 py-4">
+                                {avoidanceOptions.map(option => (
+                                    <div key={option} className="flex items-center space-x-2">
+                                        <Checkbox id={option.toLowerCase().replace(' ', '-')}/>
+                                        <Label htmlFor={option.toLowerCase().replace(' ', '-')}>{option}</Label>
+                                    </div>
+                                ))}
+                            </div>
+                        </TabsContent>
+                    </Tabs>
+                    <div className="flex justify-between border-t pt-4">
+                        <Button variant="ghost">Clear All</Button>
+                        <Button onClick={() => setOpen(false)}>Apply</Button>
+                    </div>
+                </PopoverContent>
+            </Popover>
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {foodCategories.map((category) => (
-            <Card key={category.title} className="flex flex-col">
+            <Card key={category.title} className="flex flex-col hover:shadow-lg transition-shadow">
               <CardHeader className="flex-row items-center gap-4 space-y-0">
                 <category.icon className="w-8 h-8 text-primary" />
                 <CardTitle>{category.title}</CardTitle>
