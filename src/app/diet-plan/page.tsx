@@ -41,6 +41,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useRouter } from "next/navigation";
+import { foodDatabase } from "@/lib/food-data";
 
 
 const FormSchema = z.object({
@@ -176,10 +177,18 @@ export default function DietPlanPage() {
   
   const handleFlipMeal = (day: string, mealType: string) => {
     const meal = (dietPlan as any)?.[day]?.[mealType];
-    if (meal) {
-        // For now, let's just log it. We will navigate to the alternatives page in the next step.
-        console.log(`Flipping ${mealType} for ${day}: ${meal.name}`);
-        router.push(`/meal-alternatives?meal=${encodeURIComponent(meal.name)}`);
+    if (meal && meal.name) {
+        // Find the slug of the meal to be flipped
+        const mealToFlip = foodDatabase.find(food => food.name === meal.name);
+        if (mealToFlip) {
+            router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}`);
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Meal not found",
+                description: "Could not find this meal in the database to get alternatives."
+            })
+        }
     }
   }
 
