@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +28,7 @@ import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useSearchParams } from "next/navigation";
 
 
 type Meal = {
@@ -56,9 +57,17 @@ const initialMeals: Record<MealCategory, Meal[]> = {
 
 const mealCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Morning Snack", "Afternoon Snack", "Evening Snack"];
 
-export default function MealLoggingPage() {
+function MealLoggingPageContent() {
   const [meals, setMeals] = useState(initialMeals);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const searchParams = useSearchParams();
+  const foodNameFromUrl = searchParams.get('foodName');
+
+  useEffect(() => {
+    if (foodNameFromUrl) {
+      setDialogOpen(true);
+    }
+  }, [foodNameFromUrl]);
 
   const handleAddMeal = (category: MealCategory, newMeal: Omit<Meal, 'id'>) => {
     const mealWithId = { ...newMeal, id: `${category.toLowerCase().replace(' ', '-')}${Date.now()}` };
@@ -101,6 +110,7 @@ export default function MealLoggingPage() {
                     <AddMealForm
                         onAddMeal={handleAddMeal}
                         onCancel={() => setDialogOpen(false)}
+                        initialFoodName={foodNameFromUrl}
                     />
                 </DialogContent>
             </Dialog>
@@ -147,9 +157,10 @@ export default function MealLoggingPage() {
 type AddMealFormProps = {
     onAddMeal: (category: MealCategory, meal: Omit<Meal, 'id'>) => void;
     onCancel: () => void;
+    initialFoodName?: string | null;
 }
 
-function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
+function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps) {
     const [name, setName] = useState('');
     const [calories, setCalories] = useState('');
     const [portion, setPortion] = useState('1 serving');
@@ -160,6 +171,12 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
     const [selectedServingSize, setSelectedServingSize] = useState<string | null>(null);
 
     const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
+    
+    useEffect(() => {
+        if (initialFoodName) {
+          handleSearch({ target: { value: initialFoodName } } as React.ChangeEvent<HTMLInputElement>);
+        }
+    }, [initialFoodName]);
     
     useEffect(() => {
         if (!selectedFood) return;
@@ -313,4 +330,12 @@ function AddMealForm({ onAddMeal, onCancel }: AddMealFormProps) {
             </DialogFooter>
         </form>
     )
+}
+
+export default function MealLoggingPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MealLoggingPageContent />
+    </Suspense>
+  )
 }

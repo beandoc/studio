@@ -11,6 +11,7 @@ import {
   Database,
   Home,
   CalendarDays,
+  Camera,
 } from "lucide-react";
 import {
   SidebarMenu,
@@ -48,6 +49,11 @@ const menuItems = [
     href: "/meal-logging",
     label: "Meal Logging",
     icon: ClipboardList,
+  },
+  {
+    href: "/recognize-food",
+    label: "Recognize Food",
+    icon: Camera,
   },
   {
     href: "/food-database",
