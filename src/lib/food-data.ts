@@ -217,6 +217,56 @@ export const foodDatabase: FoodItem[] = [
         }
     },
     {
+        slug: 'black-beans',
+        name: 'Black Beans',
+        cuisine: 'Generic',
+        mealCategory: 'Lunch',
+        foodGroup: 'Beans & Legumes',
+        nutritionFacts: {
+            servingSize: '100 g',
+            calories: 132,
+            totalFat: { value: 0.54, percent: 1 },
+            saturatedFat: { value: 0.139, percent: 1 },
+            polyunsaturatedFat: { value: 0.231 },
+            monounsaturatedFat: { value: 0.047 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 237, percent: 10 },
+            totalCarbohydrate: { value: 23.71, percent: 9 },
+            dietaryFiber: { value: 8.7, percent: 31 },
+            protein: { value: 8.86 },
+            calcium: { value: 27, percent: 2 },
+            iron: { value: 2.1, percent: 12 },
+            potassium: { value: 355, percent: 8 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 0, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 132,
+            fat: '0.54g',
+            carbs: '23.71g',
+            protein: '8.86g',
+            summaryText: 'There are 132 calories in 100 grams of Black Beans (Mature Seeds, with Salt, Cooked, Boiled).',
+            breakdown: '4% fat, 70% carbs, 26% protein.',
+        },
+        servingSizes: [
+            { size: '1 oz', calories: 37 },
+            { size: '100 g', calories: 132 },
+            { size: '1 cup', calories: 227 },
+        ],
+        relatedTypes: {
+            blackBeans: [
+                'Black Beans (Canned)',
+                'Black Beans (Mature Seeds, Without Salt, Cooked, Boiled)',
+                'Cuban Style Black Beans (Habichuelas Negras Guisadas A La Cubana)',
+            ],
+            beans: [
+                'Green Snap Beans',
+                'Green String Beans',
+                'Red Kidney Beans (Canned)',
+            ],
+        }
+    },
+    {
         slug: 'baked-beans',
         name: 'Baked Beans',
         cuisine: 'Generic',
