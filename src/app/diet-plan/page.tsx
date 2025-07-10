@@ -176,7 +176,6 @@ export default function DietPlanPage() {
     if (input) {
       const fileName = `${userName.replace(/\s+/g, '-')}-diet-plan.pdf`;
       html2canvas(input, { 
-        scale: 2,
         useCORS: true,
       }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");

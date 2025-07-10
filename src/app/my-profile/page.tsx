@@ -518,7 +518,7 @@ export default function MyProfilePage() {
                   </div>
                   <Button type="button" onClick={handleNext} disabled={isLoading}>
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {currentStep === steps.length ? "Finish & Save Profile" : "Next Step"}
+                    {currentStep === steps.length ? "Generate Diet Plan" : "Next Step"}
                   </Button>
                 </CardFooter>
               </form>
