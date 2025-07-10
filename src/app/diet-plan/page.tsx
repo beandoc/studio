@@ -418,7 +418,7 @@ export default function DietPlanPage() {
                             {(dayPlan.meals || []).map((meal: Meal) => {
                               if (meal && meal.details && meal.details.name) {
                                 return (
-                                  <div key={meal.type}>
+                                  <div key={`${meal.type}-${meal.details.name}`}>
                                     <h4 className="font-semibold capitalize text-lg mb-2">{meal.type}</h4>
                                     <Card className="flex justify-between items-center p-4">
                                       <div>
