@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -19,28 +20,25 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Loader2, Zap } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { foodDatabase } from "@/lib/food-data";
 
 const FormSchema = z.object({
-  mealDescription: z
-    .string()
-    .min(5, { message: "Please describe the meal in more detail." }),
-  dietaryRestrictions: z
-    .string()
-    .min(5, { message: "Please describe your dietary restrictions." }),
-  calorieTarget: z.coerce
-    .number()
-    .min(100, { message: "Calorie target must be at least 100." })
-    .max(2000, { message: "Calorie target must be at most 2000." }),
+  mealSlug: z.string().min(1, { message: "Please select a meal." }),
 });
 
 type FormValues = z.infer<typeof FormSchema>;
@@ -53,9 +51,7 @@ export default function MealAlternativesPage() {
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      mealDescription: "",
-      dietaryRestrictions: "Low sodium, low phosphorus, low potassium",
-      calorieTarget: 400,
+      mealSlug: "",
     },
   });
 
@@ -64,6 +60,13 @@ export default function MealAlternativesPage() {
     setAlternatives(null);
     try {
       const result = await suggestMealAlternatives(data);
+      if (result.alternatives.length === 0) {
+        toast({
+          variant: "default",
+          title: "No Alternatives Found",
+          description: "We couldn't find any similar meals in our database. Try another selection.",
+        });
+      }
       setAlternatives(result.alternatives);
     } catch (error) {
       console.error(error);
@@ -81,7 +84,7 @@ export default function MealAlternativesPage() {
     <div className="flex flex-col w-full">
       <Header
         title="Meal Alternatives"
-        description="Find kidney-friendly alternatives for your meals."
+        description="Find nutritionally similar alternatives from our food database."
       />
       <div className="p-4 md:p-8 grid gap-8">
         <Card>
@@ -90,45 +93,30 @@ export default function MealAlternativesPage() {
               <CardHeader>
                 <CardTitle>Find an Alternative</CardTitle>
                 <CardDescription>
-                  Describe a meal you want to replace, and we'll suggest healthier options.
+                  Select a meal, and we'll suggest two similar options based on cuisine and nutritional profile.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent>
                 <FormField
                   control={form.control}
-                  name="mealDescription"
+                  name="mealSlug"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Original Meal</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., Cheeseburger and fries" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="dietaryRestrictions"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Dietary Restrictions</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., Low sodium, low phosphorus" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="calorieTarget"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Calorie Target</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="e.g., 400" {...field} />
-                      </FormControl>
+                      <FormLabel>Select a Meal to Replace</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a meal from the list" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {foodDatabase.map((food) => (
+                            <SelectItem key={food.slug} value={food.slug}>
+                              {food.name} ({food.cuisine})
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -145,8 +133,8 @@ export default function MealAlternativesPage() {
         </Card>
 
         {isLoading && (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {[...Array(3)].map((_, i) => (
+          <div className="grid gap-4 md:grid-cols-2">
+            {[...Array(2)].map((_, i) => (
               <Card key={i}>
                 <CardHeader>
                   <Skeleton className="h-6 w-3/4" />
@@ -164,10 +152,10 @@ export default function MealAlternativesPage() {
           </div>
         )}
 
-        {alternatives && (
+        {alternatives && alternatives.length > 0 && (
           <div>
             <h2 className="text-2xl font-bold tracking-tight font-headline mb-4">Suggested Alternatives</h2>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2">
               {alternatives.map((alt) => (
                 <Card key={alt.name}>
                   <CardHeader>
