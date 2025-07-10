@@ -1,4 +1,3 @@
-
 "use client";
 
 import { usePathname } from "next/navigation";
@@ -12,59 +11,60 @@ import {
   Home,
   CalendarDays,
   Camera,
-  Droplets,
 } from "lucide-react";
 import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
-
-const menuItems = [
-  {
-    href: "/",
-    label: "Home",
-    icon: Home,
-  },
-  {
-    href: "/dashboard",
-    label: "Dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    href: "/my-profile",
-    label: "My Profile",
-    icon: User,
-  },
-  {
-    href: "/diet-plan",
-    label: "Diet Plan",
-    icon: BookUser,
-  },
-   {
-    href: "/weekly-plan",
-    label: "Weekly Plan",
-    icon: CalendarDays,
-  },
-  {
-    href: "/my-meal-tracker",
-    label: "My Meal Tracker",
-    icon: ClipboardList,
-  },
-  {
-    href: "/recognize-food",
-    label: "FoodLens (AI enabled scanning)",
-    icon: Camera,
-  },
-  {
-    href: "/food-database",
-    label: "Food Database",
-    icon: Database,
-  },
-];
+import { useTranslations } from 'next-intl';
 
 export default function SidebarNav() {
   const pathname = usePathname();
+  const t = useTranslations('Sidebar');
+
+  const menuItems = [
+    {
+      href: "/",
+      label: t('home'),
+      icon: Home,
+    },
+    {
+      href: "/dashboard",
+      label: t('dashboard'),
+      icon: LayoutDashboard,
+    },
+    {
+      href: "/my-profile",
+      label: t('myProfile'),
+      icon: User,
+    },
+    {
+      href: "/diet-plan",
+      label: t('dietPlan'),
+      icon: BookUser,
+    },
+    {
+      href: "/weekly-plan",
+      label: t('weeklyPlan'),
+      icon: CalendarDays,
+    },
+    {
+      href: "/my-meal-tracker",
+      label: t('myMealTracker'),
+      icon: ClipboardList,
+    },
+    {
+      href: "/recognize-food",
+      label: t('foodLens'),
+      icon: Camera,
+    },
+    {
+      href: "/food-database",
+      label: t('foodDatabase'),
+      icon: Database,
+    },
+  ];
 
   return (
     <SidebarMenu>
@@ -72,7 +72,7 @@ export default function SidebarNav() {
         <SidebarMenuItem key={item.label}>
           <Link href={item.href}>
             <SidebarMenuButton
-              isActive={pathname === item.href}
+              isActive={pathname === item.href || pathname.startsWith(`${item.href}/`)}
               tooltip={item.label}
               className="justify-start"
             >

@@ -1,6 +1,6 @@
-
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import Image from "next/image";
+import LanguageSwitcher from "./language-switcher";
 
 type HeaderProps = {
     title: string;
@@ -22,10 +22,11 @@ export default function Header({ title, description, showImage = false }: Header
               />
             </div>
           )}
-          <div className="flex flex-col">
+          <div className="flex-grow flex flex-col">
             <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
             {description && <p className="text-muted-foreground">{description}</p>}
           </div>
+          <LanguageSwitcher />
         </header>
     )
 }
