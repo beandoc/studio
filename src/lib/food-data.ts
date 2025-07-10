@@ -242,6 +242,60 @@ export const foodDatabase: FoodItem[] = [
         ],
     },
     {
+        slug: 'boiled-egg',
+        name: 'Boiled Egg',
+        cuisine: 'Generic',
+        mealCategory: 'Breakfast',
+        foodGroup: 'Eggs',
+        nutritionFacts: {
+            servingSize: '1 large',
+            calories: 77,
+            totalFat: { value: 5.28, percent: 7 },
+            saturatedFat: { value: 1.627, percent: 8 },
+            polyunsaturatedFat: { value: 0.704 },
+            monounsaturatedFat: { value: 2.03 },
+            cholesterol: { value: 211, percent: 70 },
+            sodium: { value: 139, percent: 6 },
+            totalCarbohydrate: { value: 0.56, percent: 0 },
+            dietaryFiber: { value: 0, percent: 0 },
+            sugars: { value: 0.56 },
+            protein: { value: 6.26 },
+            calcium: { value: 25, percent: 2 },
+            iron: { value: 0.6, percent: 3 },
+            potassium: { value: 63, percent: 1 },
+            vitaminA: { value: 84, percent: 9 },
+            vitaminC: { value: 0, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 77,
+            fat: '5.28g',
+            carbs: '0.56g',
+            protein: '6.26g',
+            summaryText: 'There are 77 calories in 1 large Boiled Egg.',
+            breakdown: '64% fat, 3% carbs, 33% protein.',
+        },
+        servingSizes: [
+            { size: '1 small', calories: 57 },
+            { size: '1 medium', calories: 68 },
+            { size: '1 large', calories: 77 },
+            { size: '1 extra large', calories: 89 },
+            { size: '100 g', calories: 154 },
+        ],
+        relatedTypes: {
+            hardBoiledEggs: [
+                'Hard-Boiled Egg',
+                'Soft Boiled Egg',
+            ],
+             eggs: [
+                'Egg White',
+                'Egg',
+                'Fried Egg',
+                'Scrambled Egg (Whole, Cooked)',
+                'Poached Egg',
+            ]
+        }
+    },
+    {
         slug: 'milk',
         name: 'Milk',
         cuisine: 'Generic',
@@ -1283,11 +1337,14 @@ export const foodDatabase: FoodItem[] = [
             breakdown: '38% fat, 44% carbs, 18% protein.',
         },
         servingSizes: [
+            { size: '1 oz', calories: 78 },
             { size: '1 piece (1/8 12" dia)', calories: 237 },
             { size: '100 g', calories: 276 },
+            { size: '1 miniature (5" dia)', calories: 331 },
             { size: '1 small (8" dia)', calories: 847 },
             { size: '1 large (15" dia)', calories: 2975 },
-        ],
+            { size: '1 pizza (16" dia)', calories: 3384 },
+        ]
     },
     {
         slug: 'cheese-pizza-with-vegetables',
@@ -1323,13 +1380,21 @@ export const foodDatabase: FoodItem[] = [
             breakdown: '33% fat, 51% carbs, 15% protein.',
         },
         servingSizes: [
-            { size: '1 piece (1/8 12" dia)', calories: 242 },
+            { size: '1 oz', calories: 65 },
             { size: '100 g', calories: 230 },
+            { size: '1 piece (1/8 12" dia)', calories: 242 },
+            { size: '1 miniature (5" dia)', calories: 334 },
             { size: '1 small (8" dia)', calories: 856 },
+            { size: '1 pizza (9" dia)', calories: 1083 },
+            { size: '1 pizza (10" dia)', calories: 1336 },
+            { size: '1 pizza (12" dia)', calories: 1925 },
             { size: '1 large (15" dia)', calories: 3008 },
+            { size: '1 pizza (16" dia)', calories: 3422 },
         ],
     }
 ];
+
+
 
 
 
