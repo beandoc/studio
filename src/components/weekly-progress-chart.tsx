@@ -50,11 +50,15 @@ export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) 
             if (storedLog) {
                 try {
                     const parsedLog: DailyLog = JSON.parse(storedLog);
-                    Object.values(parsedLog).flat().forEach(item => {
-                        totals.calories += item.calories;
-                        totals.protein += item.protein;
-                        totals.fat += item.fat;
-                    });
+                    const allMeals = Object.values(parsedLog.meals).flat();
+                    
+                    if (Array.isArray(allMeals)) {
+                        allMeals.forEach(item => {
+                            totals.calories += item.calories || 0;
+                            totals.protein += item.protein || 0;
+                            totals.fat += item.fat || 0;
+                        });
+                    }
                 } catch (e) {
                     console.error("Failed to parse log for chart", e);
                 }
