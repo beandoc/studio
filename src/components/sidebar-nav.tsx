@@ -45,6 +45,11 @@ const menuItems = [
     icon: CalendarDays,
   },
   {
+    href: "/my-meal-tracker",
+    label: "My Meal Tracker",
+    icon: ClipboardList,
+  },
+  {
     href: "/recognize-food",
     label: "Recognize Food",
     icon: Camera,
