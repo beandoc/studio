@@ -33,6 +33,8 @@ import { Loader2, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { generateDietPlan } from "@/ai/flows/generate-diet-plan";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 
 const steps = [
@@ -41,6 +43,16 @@ const steps = [
   { id: 3, name: "Food Preferences" },
   { id: 4, name: "Goals" },
 ];
+
+const healthConditionOptions = [
+    { id: "diabetes", label: "Diabetes" },
+    { id: "high_bp", label: "High BP" },
+    { id: "obesity", label: "Obesity" },
+    { id: "high_protein_loss", label: "High protein loss" },
+    { id: "heart_problem", label: "Heart problem" },
+    { id: "others", label: "Others" },
+];
+
 
 const formSchema = z.object({
   // Step 1
@@ -53,6 +65,7 @@ const formSchema = z.object({
 
   // Step 2
   kidneyCondition: z.string().optional(),
+  otherHealthConditions: z.array(z.string()).optional(),
   fluidGoal: z.coerce.number().optional(),
   sodiumGoal: z.coerce.number().optional(),
   potassiumGoal: z.coerce.number().optional(),
@@ -96,6 +109,7 @@ export default function MyProfilePage() {
       fullName: "",
       gender: "",
       kidneyCondition: "none",
+      otherHealthConditions: [],
       dietType: "vegetarian",
       preferredCuisine: "Maharashtrian",
       fluidGoal: 1000,
@@ -162,6 +176,7 @@ export default function MyProfilePage() {
 
     const healthRequirements = `
       - Kidney Condition: ${data.kidneyCondition?.replace(/_/g, ' ') || 'Not specified'}
+      - Other Health Conditions: ${data.otherHealthConditions?.join(', ').replace(/_/g, ' ') || 'None'}
       - Daily Fluid Goal: ${data.fluidGoal || 'Not specified'} ml
       - Daily Sodium Goal: ${data.sodiumGoal || 'Not specified'} mg
       - Daily Potassium Goal: ${data.potassiumGoal || 'Not specified'} mg
@@ -222,212 +237,260 @@ export default function MyProfilePage() {
        <Header title="My Profile" description="Complete your profile for a personalized experience." />
        <div className="flex-grow p-4 md:p-8 flex items-center justify-center">
         <div className="w-full max-w-4xl">
-          <Card className="w-full">
-            <CardHeader>
-              <div className="flex justify-center mb-4">
-                <Image
-                    src="/welcome-image.png"
-                    alt="KidneyWise Diet Logo"
-                    width={100}
-                    height={100}
-                    className="rounded-full"
-                />
-              </div>
-              <CardTitle className="text-center">Let's Get Started</CardTitle>
-               <CardDescription className="text-center">Follow the steps to set up your health profile.</CardDescription>
-              <div className="mt-4">
-                <div className="flex items-center justify-between mb-2">
-                    {steps.map((step, index) => (
-                        <div key={step.id} className={`flex-1 text-center ${index < currentStep ? 'text-primary' : 'text-muted-foreground'}`}>
-                           <div className={`mx-auto h-8 w-8 rounded-full border-2 flex items-center justify-center mb-1 ${index < currentStep ? 'bg-primary text-primary-foreground border-primary' : 'bg-muted border-border'}`}>
-                                {renderStepIcon(index, step)}
-                           </div>
-                           <p className="text-xs font-medium">{step.name}</p>
-                        </div>
-                    ))}
+          <Form {...form}>
+            <Card className="w-full">
+              <CardHeader>
+                <div className="flex justify-center mb-4">
+                  <Image
+                      src="/welcome-image.png"
+                      alt="KidneyWise Diet Logo"
+                      width={100}
+                      height={100}
+                      className="rounded-full"
+                  />
                 </div>
-                <Progress value={(currentStep / steps.length) * 100} className="w-full h-2" />
-              </div>
-            </CardHeader>
-
-            <form>
-              <CardContent className="min-h-[350px]">
-                {currentStep === 1 && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
-                    <div className="space-y-2">
-                      <Label htmlFor="fullName">Full Name</Label>
-                      <Input id="fullName" {...form.register("fullName")} placeholder="Enter your name" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="age">Age</Label>
-                      <Input id="age" type="number" {...form.register("age")} placeholder="Years" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="gender">Gender</Label>
-                       <Controller
-                            control={form.control}
-                            name="gender"
-                            render={({ field }) => (
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select gender" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="male">Male</SelectItem>
-                                        <SelectItem value="female">Female</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            )}
-                        />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="height">Height (cm)</Label>
-                      <Input id="height" type="number" {...form.register("height")} placeholder="Height in cm" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="weight">Weight (kg)</Label>
-                      <Input id="weight" type="number" {...form.register("weight")} placeholder="Weight in kg" />
-                    </div>
-                     <div className="space-y-2">
-                      <Label htmlFor="bmi">BMI (Calculated)</Label>
-                      <Input id="bmi" {...form.register("bmi")} placeholder="BMI will be calculated" readOnly className="bg-muted"/>
-                    </div>
+                <CardTitle className="text-center">Let's Get Started</CardTitle>
+                <CardDescription className="text-center">Follow the steps to set up your health profile.</CardDescription>
+                <div className="mt-4">
+                  <div className="flex items-center justify-between mb-2">
+                      {steps.map((step, index) => (
+                          <div key={step.id} className={`flex-1 text-center ${index < currentStep ? 'text-primary' : 'text-muted-foreground'}`}>
+                            <div className={`mx-auto h-8 w-8 rounded-full border-2 flex items-center justify-center mb-1 ${index < currentStep ? 'bg-primary text-primary-foreground border-primary' : 'bg-muted border-border'}`}>
+                                  {renderStepIcon(index, step)}
+                            </div>
+                            <p className="text-xs font-medium">{step.name}</p>
+                          </div>
+                      ))}
                   </div>
-                )}
-                 {currentStep === 2 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
-                        <div className="space-y-2 md:col-span-2">
-                            <Label>Kidney Condition</Label>
-                             <Controller
-                                control={form.control}
-                                name="kidneyCondition"
-                                render={({ field }) => (
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <SelectTrigger><SelectValue placeholder="Select stage" /></SelectTrigger>
-                                        <SelectContent>
-                                            <SelectItem value="none">None</SelectItem>
-                                            <SelectItem value="chronic_kidney_disease">Chronic Kidney Disease</SelectItem>
-                                            <SelectItem value="hemodialysis">Hemodialysis</SelectItem>
-                                            <SelectItem value="peritoneal_dialysis">Peritoneal Dialysis</SelectItem>
-                                            <SelectItem value="post_kidney_transplant">Post Kidney Transplant</SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                )}
-                            />
-                        </div>
-
-                         {showFluidFields && (
-                            <div className="md:col-span-2 space-y-4">
-                                <div className="space-y-2">
-                                    <Label htmlFor="fluidGoal">Recommended Fluid Intake (ml/day)</Label>
-                                    <Input id="fluidGoal" type="number" {...form.register("fluidGoal")} placeholder="e.g. 1000" />
-                                </div>
-                                <Alert>
-                                    <Info className="h-4 w-4" />
-                                    <AlertTitle>Fluid Intake Tip</AlertTitle>
-                                    <AlertDescription>
-                                        Fluid intake depends on your urine output and dialysis ultrafiltration. If unsure, restrict to 800 - 1000 ml/day and consult your nephrologist.
-                                    </AlertDescription>
-                                </Alert>
-                            </div>
-                         )}
-
-                        <div className="space-y-2 md:col-span-2">
-                            <Label>Recommended nutrient values (optional)</Label>
-                            <div className="grid grid-cols-3 gap-2">
-                                <div className="space-y-1">
-                                    <Label htmlFor="sodiumGoal" className="text-xs text-muted-foreground">Sodium (mg)</Label>
-                                    <Input id="sodiumGoal" type="number" {...form.register("sodiumGoal")} placeholder="e.g. 2000" />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label htmlFor="potassiumGoal" className="text-xs text-muted-foreground">Potassium (mg)</Label>
-                                    <Input id="potassiumGoal" type="number" {...form.register("potassiumGoal")} placeholder="e.g. 2500" />
-                                </div>
-                                <div className="space-y-1">
-                                    <Label htmlFor="phosphorusGoal" className="text-xs text-muted-foreground">Phosphorus (mg)</Label>
-                                    <Input id="phosphorusGoal" type="number" {...form.register("phosphorusGoal")} placeholder="e.g. 1000" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                 )}
-                 {currentStep === 3 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
-                        <div className="space-y-2">
-                            <Label>Diet Type</Label>
-                            <Controller
-                                name="dietType"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex space-x-4">
-                                        <div className="flex items-center space-x-2"><RadioGroupItem value="vegetarian" id="veg"/><Label htmlFor="veg">Vegetarian</Label></div>
-                                        <div className="flex items-center space-x-2"><RadioGroupItem value="non-vegetarian" id="non-veg"/><Label htmlFor="non-veg">Non-Vegetarian</Label></div>
-                                        <div className="flex items-center space-x-2"><RadioGroupItem value="vegan" id="vegan"/><Label htmlFor="vegan">Vegan</Label></div>
-                                    </RadioGroup>
-                                )}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="preferredCuisine">Preferred Cuisine</Label>
-                           <Controller
-                                name="preferredCuisine"
-                                control={form.control}
-                                render={({ field }) => (
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select cuisine" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {cuisineOptions.map(cuisine => (
-                                                <SelectItem key={cuisine} value={cuisine}>{cuisine}</SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                )}
-                            />
-                        </div>
-                        <div className="space-y-2">
-                           <Label htmlFor="likes">Food Likes</Label>
-                           <Textarea id="likes" {...form.register("likes")} placeholder="e.g., leafy greens, chicken, berries..." />
-                        </div>
-                        <div className="space-y-2">
-                           <Label htmlFor="dislikes">Food Dislikes</Label>
-                           <Textarea id="dislikes" {...form.register("dislikes")} placeholder="e.g., spicy food, mushrooms..." />
-                        </div>
-                        <div className="space-y-2 md:col-span-2">
-                           <Label htmlFor="allergies">Allergies</Label>
-                           <Textarea id="allergies" {...form.register("allergies")} placeholder="e.g., nuts, shellfish, gluten..." />
-                        </div>
-                    </div>
-                 )}
-                 {currentStep === 4 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
-                         <div className="space-y-2">
-                           <Label htmlFor="targetWeight">Target Weight (kg)</Label>
-                           <Input id="targetWeight" type="number" {...form.register("targetWeight")} placeholder="e.g., 70" />
-                         </div>
-                         <div className="space-y-2">
-                           <Label htmlFor="calorieGoal">Daily Calorie Goal (kcal)</Label>
-                           <Input id="calorieGoal" type="number" {...form.register("calorieGoal")} placeholder="e.g., 2000" />
-                         </div>
-                         <div className="space-y-2 md:col-span-2">
-                           <Label htmlFor="proteinGoal">Daily Protein Goal (g)</Label>
-                           <Input id="proteinGoal" type="number" {...form.register("proteinGoal")} placeholder="Protein goal based on weight/condition" />
-                         </div>
-                    </div>
-                 )}
-              </CardContent>
-              <CardFooter className="flex justify-between border-t pt-6">
-                <div>
-                    {currentStep > 1 && <Button type="button" variant="outline" onClick={handleBack}>Back</Button>}
+                  <Progress value={(currentStep / steps.length) * 100} className="w-full h-2" />
                 </div>
-                <Button type="button" onClick={handleNext} disabled={isLoading}>
-                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {currentStep === steps.length ? "Finish & Save Profile" : "Next Step"}
-                </Button>
-              </CardFooter>
-            </form>
-          </Card>
+              </CardHeader>
+
+              <form>
+                <CardContent className="min-h-[350px]">
+                  {currentStep === 1 && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
+                      <div className="space-y-2">
+                        <Label htmlFor="fullName">Full Name</Label>
+                        <Input id="fullName" {...form.register("fullName")} placeholder="Enter your name" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="age">Age</Label>
+                        <Input id="age" type="number" {...form.register("age")} placeholder="Years" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="gender">Gender</Label>
+                        <Controller
+                              control={form.control}
+                              name="gender"
+                              render={({ field }) => (
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <SelectTrigger>
+                                          <SelectValue placeholder="Select gender" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                          <SelectItem value="male">Male</SelectItem>
+                                          <SelectItem value="female">Female</SelectItem>
+                                      </SelectContent>
+                                  </Select>
+                              )}
+                          />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="height">Height (cm)</Label>
+                        <Input id="height" type="number" {...form.register("height")} placeholder="Height in cm" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="weight">Weight (kg)</Label>
+                        <Input id="weight" type="number" {...form.register("weight")} placeholder="Weight in kg" />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="bmi">BMI (Calculated)</Label>
+                        <Input id="bmi" {...form.register("bmi")} placeholder="BMI will be calculated" readOnly className="bg-muted"/>
+                      </div>
+                    </div>
+                  )}
+                  {currentStep === 2 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
+                          <div className="space-y-2">
+                              <Label>Kidney Condition</Label>
+                              <Controller
+                                  control={form.control}
+                                  name="kidneyCondition"
+                                  render={({ field }) => (
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                          <SelectTrigger><SelectValue placeholder="Select stage" /></SelectTrigger>
+                                          <SelectContent>
+                                              <SelectItem value="none">None</SelectItem>
+                                              <SelectItem value="chronic_kidney_disease">Chronic Kidney Disease</SelectItem>
+                                              <SelectItem value="hemodialysis">Hemodialysis</SelectItem>
+                                              <SelectItem value="peritoneal_dialysis">Peritoneal Dialysis</SelectItem>
+                                              <SelectItem value="post_kidney_transplant">Post Kidney Transplant</SelectItem>
+                                          </SelectContent>
+                                      </Select>
+                                  )}
+                              />
+                          </div>
+
+                          <div className="space-y-2">
+                            <FormField
+                              control={form.control}
+                              name="otherHealthConditions"
+                              render={() => (
+                                <FormItem>
+                                  <Label>Other Health Conditions</Label>
+                                  <div className="grid grid-cols-2 gap-2 pt-2">
+                                  {healthConditionOptions.map((item) => (
+                                    <FormField
+                                      key={item.id}
+                                      control={form.control}
+                                      name="otherHealthConditions"
+                                      render={({ field }) => {
+                                        return (
+                                          <FormItem key={item.id} className="flex flex-row items-start space-x-3 space-y-0">
+                                            <FormControl>
+                                              <Checkbox
+                                                checked={field.value?.includes(item.id)}
+                                                onCheckedChange={(checked) => {
+                                                  return checked
+                                                    ? field.onChange([...(field.value || []), item.id])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                          (value) => value !== item.id
+                                                        )
+                                                      )
+                                                }}
+                                              />
+                                            </FormControl>
+                                            <Label className="font-normal">
+                                              {item.label}
+                                            </Label>
+                                          </FormItem>
+                                        )
+                                      }}
+                                    />
+                                  ))}
+                                  </div>
+                                  <FormMessage />
+                                </FormItem>
+                              )}
+                            />
+                          </div>
+                          
+
+                          {showFluidFields && (
+                              <div className="md:col-span-2 space-y-4">
+                                  <div className="space-y-2">
+                                      <Label htmlFor="fluidGoal">Recommended Fluid Intake (ml/day)</Label>
+                                      <Input id="fluidGoal" type="number" {...form.register("fluidGoal")} placeholder="e.g. 1000" />
+                                  </div>
+                                  <Alert>
+                                      <Info className="h-4 w-4" />
+                                      <AlertTitle>Fluid Intake Tip</AlertTitle>
+                                      <AlertDescription>
+                                          Fluid intake depends on your urine output and dialysis ultrafiltration. If unsure, restrict to 800 - 1000 ml/day and consult your nephrologist.
+                                      </AlertDescription>
+                                  </Alert>
+                              </div>
+                          )}
+
+                          <div className="space-y-2 md:col-span-2">
+                              <Label>Recommended nutrient values (optional)</Label>
+                              <div className="grid grid-cols-3 gap-2">
+                                  <div className="space-y-1">
+                                      <Label htmlFor="sodiumGoal" className="text-xs text-muted-foreground">Sodium (mg)</Label>
+                                      <Input id="sodiumGoal" type="number" {...form.register("sodiumGoal")} placeholder="e.g. 2000" />
+                                  </div>
+                                  <div className="space-y-1">
+                                      <Label htmlFor="potassiumGoal" className="text-xs text-muted-foreground">Potassium (mg)</Label>
+                                      <Input id="potassiumGoal" type="number" {...form.register("potassiumGoal")} placeholder="e.g. 2500" />
+                                  </div>
+                                  <div className="space-y-1">
+                                      <Label htmlFor="phosphorusGoal" className="text-xs text-muted-foreground">Phosphorus (mg)</Label>
+                                      <Input id="phosphorusGoal" type="number" {...form.register("phosphorusGoal")} placeholder="e.g. 1000" />
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  )}
+                  {currentStep === 3 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
+                          <div className="space-y-2">
+                              <Label>Diet Type</Label>
+                              <Controller
+                                  name="dietType"
+                                  control={form.control}
+                                  render={({ field }) => (
+                                      <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex space-x-4">
+                                          <div className="flex items-center space-x-2"><RadioGroupItem value="vegetarian" id="veg"/><Label htmlFor="veg">Vegetarian</Label></div>
+                                          <div className="flex items-center space-x-2"><RadioGroupItem value="non-vegetarian" id="non-veg"/><Label htmlFor="non-veg">Non-Vegetarian</Label></div>
+                                          <div className="flex items-center space-x-2"><RadioGroupItem value="vegan" id="vegan"/><Label htmlFor="vegan">Vegan</Label></div>
+                                      </RadioGroup>
+                                  )}
+                              />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="preferredCuisine">Preferred Cuisine</Label>
+                            <Controller
+                                  name="preferredCuisine"
+                                  control={form.control}
+                                  render={({ field }) => (
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                          <SelectTrigger>
+                                              <SelectValue placeholder="Select cuisine" />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                              {cuisineOptions.map(cuisine => (
+                                                  <SelectItem key={cuisine} value={cuisine}>{cuisine}</SelectItem>
+                                              ))}
+                                          </SelectContent>
+                                      </Select>
+                                  )}
+                              />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="likes">Food Likes</Label>
+                            <Textarea id="likes" {...form.register("likes")} placeholder="e.g., leafy greens, chicken, berries..." />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="dislikes">Food Dislikes</Label>
+                            <Textarea id="dislikes" {...form.register("dislikes")} placeholder="e.g., spicy food, mushrooms..." />
+                          </div>
+                          <div className="space-y-2 md:col-span-2">
+                            <Label htmlFor="allergies">Allergies</Label>
+                            <Textarea id="allergies" {...form.register("allergies")} placeholder="e.g., nuts, shellfish, gluten..." />
+                          </div>
+                      </div>
+                  )}
+                  {currentStep === 4 && (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
+                          <div className="space-y-2">
+                            <Label htmlFor="targetWeight">Target Weight (kg)</Label>
+                            <Input id="targetWeight" type="number" {...form.register("targetWeight")} placeholder="e.g., 70" />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="calorieGoal">Daily Calorie Goal (kcal)</Label>
+                            <Input id="calorieGoal" type="number" {...form.register("calorieGoal")} placeholder="e.g., 2000" />
+                          </div>
+                          <div className="space-y-2 md:col-span-2">
+                            <Label htmlFor="proteinGoal">Daily Protein Goal (g)</Label>
+                            <Input id="proteinGoal" type="number" {...form.register("proteinGoal")} placeholder="Protein goal based on weight/condition" />
+                          </div>
+                      </div>
+                  )}
+                </CardContent>
+                <CardFooter className="flex justify-between border-t pt-6">
+                  <div>
+                      {currentStep > 1 && <Button type="button" variant="outline" onClick={handleBack}>Back</Button>}
+                  </div>
+                  <Button type="button" onClick={handleNext} disabled={isLoading}>
+                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {currentStep === steps.length ? "Finish & Save Profile" : "Next Step"}
+                  </Button>
+                </CardFooter>
+              </form>
+            </Card>
+          </Form>
         </div>
       </div>
     </div>
