@@ -50,7 +50,6 @@ const formSchema = z.object({
   stage: z.string().optional(),
   conditions: z.array(z.string()).optional(),
   otherCondition: z.string().optional(),
-  restrictions: z.string().optional(),
   sodiumGoal: z.coerce.number().optional(),
   potassiumGoal: z.coerce.number().optional(),
   phosphorusGoal: z.coerce.number().optional(),
@@ -87,12 +86,11 @@ export default function MyProfilePage() {
       gender: "",
       stage: "",
       conditions: [],
-      restrictions: "Low sodium, Low potassium, Low phosphorus",
       dietType: "vegetarian",
     },
   });
 
-  const { watch, setValue } = form;
+  const { watch, setValue, trigger } = form;
   const height = watch("height");
   const weight = watch("weight");
   const stage = watch("stage");
@@ -131,10 +129,15 @@ export default function MyProfilePage() {
 
 
   const handleNext = async () => {
+    // For testing, we don't require validation to move between steps
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
-      await form.handleSubmit(onSubmit)();
+      // On the final step, trigger validation before submitting
+      const isValid = await trigger();
+      if (isValid) {
+        onSubmit(form.getValues());
+      }
     }
   };
 
@@ -171,7 +174,7 @@ export default function MyProfilePage() {
                 <Image
                     src="https://placehold.co/100x100.png"
                     alt="KidneyWise Logo"
-                    data-ai-hint="health logo"
+                    data-ai-hint="company logo"
                     width={100}
                     height={100}
                     className="rounded-full"
@@ -286,25 +289,21 @@ export default function MyProfilePage() {
                             </div>
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                            <Label>Nutrient Goals (Optional)</Label>
+                            <Label>Quantitative Nutrient Values (Optional)</Label>
                             <div className="grid grid-cols-3 gap-2">
                                 <div className="space-y-1">
-                                    <Label htmlFor="sodiumGoal" className="text-xs text-muted-foreground">Sodium (mg)</Label>
+                                    <Label htmlFor="sodiumGoal" className="text-xs text-muted-foreground">Low Sodium (mg)</Label>
                                     <Input id="sodiumGoal" type="number" {...form.register("sodiumGoal")} placeholder="e.g. 2000" />
                                 </div>
                                 <div className="space-y-1">
-                                    <Label htmlFor="potassiumGoal" className="text-xs text-muted-foreground">Potassium (mg)</Label>
+                                    <Label htmlFor="potassiumGoal" className="text-xs text-muted-foreground">Low Potassium (mg)</Label>
                                     <Input id="potassiumGoal" type="number" {...form.register("potassiumGoal")} placeholder="e.g. 2500" />
                                 </div>
                                 <div className="space-y-1">
-                                    <Label htmlFor="phosphorusGoal" className="text-xs text-muted-foreground">Phosphorus (mg)</Label>
+                                    <Label htmlFor="phosphorusGoal" className="text-xs text-muted-foreground">Low Phosphorus (mg)</Label>
                                     <Input id="phosphorusGoal" type="number" {...form.register("phosphorusGoal")} placeholder="e.g. 1000" />
                                 </div>
                             </div>
-                        </div>
-                         <div className="space-y-2 md:col-span-2">
-                           <Label htmlFor="restrictions">Other Dietary Restrictions</Label>
-                           <Textarea id="restrictions" {...form.register("restrictions")} placeholder="e.g., fluid restrictions..." />
                         </div>
                     </div>
                  )}
@@ -370,3 +369,5 @@ export default function MyProfilePage() {
     </div>
   );
 }
+
+    
