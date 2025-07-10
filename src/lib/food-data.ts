@@ -1,9 +1,30 @@
 
+export type FoodGroup = 
+    | 'Beans & Legumes'
+    | 'Beverages'
+    | 'Breads & Cereals'
+    | 'Cheese, Milk & Dairy'
+    | 'Eggs'
+    | 'Fast Food'
+    | 'Fish & Seafood'
+    | 'Fruit'
+    | 'Meat'
+    | 'Nuts & Seeds'
+    | 'Pasta, Rice & Noodles'
+    | 'Salads'
+    | 'Sauces, Spices & Spreads'
+    | 'Snacks'
+    | 'Soups'
+    | 'Sweets, Candy & Desserts'
+    | 'Vegetables'
+    | 'Other';
+
 export type FoodItem = {
     slug: string;
     name: string;
     cuisine: 'Maharashtrian' | 'Gujarati' | 'North Indian' | 'Generic' | 'South Indian';
     mealCategory: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack';
+    foodGroup: FoodGroup;
     nutritionFacts: {
         servingSize: string;
         calories: number;
@@ -48,6 +69,7 @@ export const foodDatabase: FoodItem[] = [
         name: 'Peanuts',
         cuisine: 'Generic',
         mealCategory: 'Snack',
+        foodGroup: 'Nuts & Seeds',
         nutritionFacts: {
             servingSize: '28g (about 1 oz)',
             calories: 161,
@@ -101,6 +123,7 @@ export const foodDatabase: FoodItem[] = [
         name: 'Almonds',
         cuisine: 'Generic',
         mealCategory: 'Snack',
+        foodGroup: 'Nuts & Seeds',
         nutritionFacts: {
             servingSize: '28g (about 1 oz)',
             calories: 164,
@@ -149,6 +172,7 @@ export const foodDatabase: FoodItem[] = [
         name: 'Walnuts',
         cuisine: 'Generic',
         mealCategory: 'Snack',
+        foodGroup: 'Nuts & Seeds',
         nutritionFacts: {
             servingSize: '28g (about 1 oz)',
             calories: 185,
@@ -197,6 +221,7 @@ export const foodDatabase: FoodItem[] = [
         name: 'Baked Beans',
         cuisine: 'Generic',
         mealCategory: 'Lunch',
+        foodGroup: 'Beans & Legumes',
         nutritionFacts: {
             servingSize: '1 cup',
             calories: 382,
@@ -250,6 +275,7 @@ export const foodDatabase: FoodItem[] = [
         name: 'Poha',
         cuisine: 'Maharashtrian',
         mealCategory: 'Breakfast',
+        foodGroup: 'Breads & Cereals',
         nutritionFacts: {
             servingSize: '1 cup',
             calories: 250,
@@ -278,6 +304,7 @@ export const foodDatabase: FoodItem[] = [
         name: 'Upma',
         cuisine: 'South Indian',
         mealCategory: 'Breakfast',
+        foodGroup: 'Breads & Cereals',
         nutritionFacts: {
             servingSize: '1 cup',
             calories: 230,
@@ -309,6 +336,7 @@ export const foodDatabase: FoodItem[] = [
         name: 'Scrambled Eggs',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
+        foodGroup: 'Eggs',
         nutritionFacts: {
             servingSize: '1 large egg',
             calories: 100,
