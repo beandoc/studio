@@ -29,7 +29,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import { useSearchParams } from "next/navigation";
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { Progress } from "@/components/ui/progress";
 
 type Meal = {
@@ -63,9 +63,9 @@ const mealCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Morning
 const recommendedMacros = { carbs: 55, fat: 25, protein: 20 };
 const calorieGoal = 2000;
 const COLORS = {
-    carbs: "#3b82f6", // blue
-    fat: "#f97316", // orange
-    protein: "#facc15", // yellow
+    carbs: "hsl(var(--chart-1))",
+    fat: "hsl(var(--chart-2))",
+    protein: "hsl(var(--chart-3))",
 };
 
 function NutrientSummary({ meals }: { meals: Record<MealCategory, Meal[]> }) {
@@ -98,53 +98,52 @@ function NutrientSummary({ meals }: { meals: Record<MealCategory, Meal[]> }) {
     return (
         <Card className="mb-8">
             <CardContent className="p-6 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
-                <div className="flex justify-around md:col-span-1 md:h-48 md:flex-col items-center">
-                    <Progress value={calorieProgress} orientation="vertical" className="w-8 h-32 md:w-10 md:h-40" />
-                    <div className="text-center">
-                        <p className="text-2xl font-bold">{Math.round(totals.calories)}</p>
-                        <p className="text-sm text-muted-foreground">/ {calorieGoal} kcal</p>
+                <div className="flex flex-col items-center gap-4 text-center md:border-r md:pr-6">
+                    <div className="w-full">
+                      <p className="text-2xl font-bold">{Math.round(totals.calories)} <span className="text-sm text-muted-foreground">/ {calorieGoal} kcal</span></p>
+                       <Progress value={calorieProgress} className="h-2 mt-2" />
                     </div>
                 </div>
 
                 <div className="md:col-span-2">
                     <div className="grid grid-cols-3 text-center mb-4 border-b pb-4">
                         <div>
-                            <p className="text-sm text-muted-foreground">Carb</p>
-                            <p className="font-bold text-lg text-blue-500">{totals.carbs.toFixed(1)}g</p>
+                            <p className="text-sm text-muted-foreground">Carbs</p>
+                            <p className="font-bold text-lg" style={{color: COLORS.carbs}}>{totals.carbs.toFixed(0)}g</p>
                         </div>
                         <div>
                             <p className="text-sm text-muted-foreground">Fat</p>
-                            <p className="font-bold text-lg text-orange-500">{totals.fat.toFixed(1)}g</p>
+                            <p className="font-bold text-lg" style={{color: COLORS.fat}}>{totals.fat.toFixed(0)}g</p>
                         </div>
                         <div>
                             <p className="text-sm text-muted-foreground">Protein</p>
-                            <p className="font-bold text-lg text-yellow-500">{totals.protein.toFixed(1)}g</p>
+                            <p className="font-bold text-lg" style={{color: COLORS.protein}}>{totals.protein.toFixed(0)}g</p>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4 h-40">
+                    <div className="grid grid-cols-2 gap-4 h-32">
                          <div className="text-center">
                             <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={recommendedMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} >
+                                    <Pie data={recommendedMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={20} outerRadius={40} paddingAngle={2}>
                                         <Cell fill={COLORS.carbs} />
                                         <Cell fill={COLORS.fat} />
                                         <Cell fill={COLORS.protein} />
                                     </Pie>
                                 </PieChart>
                             </ResponsiveContainer>
-                            <p className="text-sm font-medium">Recommended</p>
+                            <p className="text-xs font-medium text-muted-foreground -mt-2">Recommended</p>
                         </div>
                         <div className="text-center">
                              <ResponsiveContainer width="100%" height="100%">
                                 <PieChart>
-                                    <Pie data={actualMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50}>
+                                    <Pie data={actualMacroDistribution} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={20} outerRadius={40} paddingAngle={2}>
                                         <Cell fill={COLORS.carbs} />
                                         <Cell fill={COLORS.fat} />
                                         <Cell fill={COLORS.protein} />
                                     </Pie>
                                 </PieChart>
                             </ResponsiveContainer>
-                             <p className="text-sm font-medium">Actual</p>
+                             <p className="text-xs font-medium text-muted-foreground -mt-2">Actual</p>
                         </div>
                     </div>
                 </div>
@@ -274,7 +273,12 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
     
     useEffect(() => {
         if (initialFoodName) {
-          handleSearch({ target: { value: initialFoodName } } as React.ChangeEvent<HTMLInputElement>);
+          const foundFood = foodDatabase.find(item => item.name.toLowerCase() === initialFoodName.toLowerCase());
+          if (foundFood) {
+              handleSelectFood(foundFood);
+          } else {
+              setName(initialFoodName);
+          }
         }
     }, [initialFoodName]);
     
@@ -293,18 +297,19 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
         }
 
         const numQuantity = parseFloat(quantity) || 0;
-        const servingRatio = baseServing.calories > 0 ? (baseNutrition.calories / baseServing.calories) : 1;
+        const servingRatio = baseNutrition.calories > 0 ? (baseServing.calories / baseNutrition.calories) : 1;
         
         const calculatedCalories = baseServing.calories * numQuantity;
         setCalories(Math.round(calculatedCalories));
         setPortion(`${numQuantity} x ${baseServing.size}`);
         
-        // Calculate other nutrients based on ratio
         const ratio = (calculatedCalories / baseNutrition.calories);
-
-        setCarbs(baseNutrition.totalCarbohydrate.value * ratio);
-        setFat(baseNutrition.totalFat.value * ratio);
-        setProtein(baseNutrition.protein.value * ratio);
+        
+        if (isFinite(ratio)) {
+            setCarbs(baseNutrition.totalCarbohydrate.value * ratio);
+            setFat(baseNutrition.totalFat.value * ratio);
+            setProtein(baseNutrition.protein.value * ratio);
+        }
 
     }, [quantity, selectedServingSize, selectedFood]);
 
@@ -312,7 +317,7 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
         setName(query);
-        setSelectedFood(null); // Clear selected food if user types again
+        setSelectedFood(null); 
         
         if (query.length > 1) {
             const results = foodDatabase.filter(item => 
@@ -366,6 +371,14 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
     }
 
     const isFoodSelected = !!selectedFood;
+    const availableServingSizes = useMemo(() => {
+      if (!selectedFood) return [];
+      const sizes = new Set<string>();
+      sizes.add(selectedFood.nutritionFacts.servingSize);
+      selectedFood.servingSizes?.forEach(s => sizes.add(s.size));
+      return Array.from(sizes);
+    }, [selectedFood]);
+
 
     return (
         <form onSubmit={handleSubmit}>
@@ -412,16 +425,15 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
                 <div className={cn("grid gap-4", isFoodSelected ? 'grid-cols-2' : 'grid-cols-1')}>
                     <div className="space-y-2">
                          <Label htmlFor="portion">Portion</Label>
-                         {isFoodSelected && selectedFood.servingSizes?.length > 0 ? (
+                         {isFoodSelected && availableServingSizes.length > 0 ? (
                             <Select onValueChange={handleServingSizeChange} value={selectedServingSize || ''}>
                                 <SelectTrigger>
                                     <SelectValue placeholder="Select portion size" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value={selectedFood.nutritionFacts.servingSize}>{selectedFood.nutritionFacts.servingSize}</SelectItem>
-                                    {selectedFood.servingSizes.map((serving) => (
-                                        <SelectItem key={serving.size} value={serving.size}>
-                                            {serving.size}
+                                    {availableServingSizes.map((serving) => (
+                                        <SelectItem key={serving} value={serving}>
+                                            {serving}
                                         </SelectItem>
                                     ))}
                                 </SelectContent>
@@ -445,15 +457,15 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName }: AddMealFormProps)
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="protein">Protein (g)</Label>
-                        <Input id="protein" type="number" value={protein.toFixed(1)} onChange={(e) => setProtein(Number(e.target.value))} placeholder="e.g., 20" required disabled={isFoodSelected} />
+                        <Input id="protein" type="number" value={protein.toFixed(1)} onChange={(e) => setProtein(Number(e.target.value))} placeholder="e.g., 20" step="0.1" required disabled={isFoodSelected} />
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="fat">Fat (g)</Label>
-                        <Input id="fat" type="number" value={fat.toFixed(1)} onChange={(e) => setFat(Number(e.target.value))} placeholder="e.g., 10" required disabled={isFoodSelected} />
+                        <Input id="fat" type="number" value={fat.toFixed(1)} onChange={(e) => setFat(Number(e.target.value))} placeholder="e.g., 10" step="0.1" required disabled={isFoodSelected} />
                     </div>
                      <div className="space-y-2">
                         <Label htmlFor="carbs">Carbs (g)</Label>
-                        <Input id="carbs" type="number" value={carbs.toFixed(1)} onChange={(e) => setCarbs(Number(e.target.value))} placeholder="e.g., 30" required disabled={isFoodSelected} />
+                        <Input id="carbs" type="number" value={carbs.toFixed(1)} onChange={(e) => setCarbs(Number(e.target.value))} placeholder="e.g., 30" step="0.1" required disabled={isFoodSelected} />
                     </div>
                 </div>
             </div>
@@ -472,3 +484,5 @@ export default function MealLoggingPage() {
     </Suspense>
   )
 }
+
+    
