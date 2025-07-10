@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 
 type NutrientRowProps = {
     label: string;
@@ -44,6 +46,15 @@ export default function FoodDetailPage({ params }: { params: { slug: string } })
       />
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
+            <div className="mb-4">
+                <Button asChild variant="outline">
+                    <Link href="/food-database">
+                        <ArrowLeft className="mr-2 h-4 w-4" />
+                        Back to Database
+                    </Link>
+                </Button>
+            </div>
+
             <h1 className="text-3xl font-bold text-primary border-b-4 border-primary pb-2 mb-8 inline-block">
                 {food.name}
             </h1>
@@ -122,36 +133,13 @@ export default function FoodDetailPage({ params }: { params: { slug: string } })
                         <CardContent>
                             <ul className="space-y-2">
                                 {food.servingSizes.map((serving, index) => (
-                                    <li key={index} className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50 cursor-pointer">
+                                    <li key={index} className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50">
                                         <div>
                                             <span className="text-primary mr-2">&#9679;</span>
                                             <span>{serving.size}</span>
                                         </div>
                                         <span className="font-bold">{serving.calories}</span>
                                     </li>
-                                ))}
-                            </ul>
-                        </CardContent>
-                    </Card>}
-
-                    {food.relatedTypes?.bakedBeans && food.relatedTypes.bakedBeans.length > 0 && <Card>
-                        <CardHeader><CardTitle>Related Types of Baked Beans</CardTitle></CardHeader>
-                        <CardContent>
-                            <ul className="space-y-2">
-                                {food.relatedTypes.bakedBeans.map((item, index) => (
-                                    <li key={index}><Link href="#" className="text-primary hover:underline">{item}</Link></li>
-                                ))}
-                            </ul>
-                            <Link href="#" className="text-sm text-primary hover:underline mt-4 inline-block">view more baked beans nutritional info</Link>
-                        </CardContent>
-                    </Card>}
-
-                    {food.relatedTypes?.beans && food.relatedTypes.beans.length > 0 && <Card>
-                        <CardHeader><CardTitle>Related Types of Beans</CardTitle></CardHeader>
-                        <CardContent>
-                            <ul className="space-y-2">
-                                {food.relatedTypes.beans.map((item, index) => (
-                                    <li key={index}><Link href="#" className="text-primary hover:underline">{item}</Link></li>
                                 ))}
                             </ul>
                         </CardContent>

@@ -3,130 +3,114 @@
 
 import { useState } from "react";
 import Header from "@/components/header";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { 
-    Bean, 
-    Beer, 
-    Sandwich, 
-    Milk, 
-    Egg, 
-    Pizza, 
-    Fish, 
-    Apple, 
-    Beef, 
-    Shell, 
-    Wheat, 
-    Salad, 
-    UtensilsCrossed, 
-    Cookie, 
-    Soup, 
-    IceCream, 
-    Carrot, 
-    CircleHelp,
-    Filter,
-} from "lucide-react";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Label } from "@/components/ui/label";
+import { foodDatabase } from "@/lib/food-data";
+import { ArrowRight, Search } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-const foodCategories = [
-  { slug: "baked-beans", icon: Bean, title: "Beans & Legumes", description: "All types of beans and legumes like baked beans, green beans, refried beans and lentils." },
-  { slug: "beverages", icon: Beer, title: "Beverages", description: "Hot and cold drinks like juices, soda, smoothies, coffee, beer, wine and cocktails." },
-  { slug: "breads-cereals", icon: Sandwich, title: "Breads & Cereals", description: "Different types of breads and cereals like bagels, tortillas, rye, wheat bread and oatmeal." },
-  { slug: "dairy", icon: Milk, title: "Cheese, Milk & Dairy", description: "Cheese varieties and dairy products like cheddar, mozzarella, provolone, skim milk and yogurt." },
-  { slug: "eggs", icon: Egg, title: "Eggs", description: "Variety of plain and cooked eggs like, egg whites, hard-boiled, scrambled, fried and poached." },
-  { slug: "fast-food", icon: Pizza, title: "Fast Food", description: "Foods from all your favorite chains like burgers, fries, burritos, tacos, hot dogs and pizza." },
-  { slug: "fish-seafood", icon: Fish, title: "Fish & Seafood", description: "A range of seafood and fish like shrimp, lobster, scallops, tuna, salmon, mahi mahi and tilapia." },
-  { slug: "fruit", icon: Apple, title: "Fruit", description: "Popular fruits like apples, bananas, strawberries, oranges, grapes, peaches, pears and grapefruit." },
-  { slug: "meat", icon: Beef, title: "Meat", description: "Full range of meats and cuts like bacon, ribs, chicken breast, pork chops, corned beef and roast turkey." },
-  { slug: "nuts-seeds", icon: Shell, title: "Nuts & Seeds", description: "Popular nuts and seeds like almonds, peanuts, pecans, pistachios, walnuts and sunflower seeds." },
-  { slug: "pasta-rice", icon: Wheat, title: "Pasta, Rice & Noodles", description: "All types of pasta and rice like spaghetti, macaroni, ravioli, lasagna, white rice and fried rice." },
-  { slug: "salads", icon: Salad, title: "Salads", description: "All your favorite salads like coleslaw, potato salad caesar salad, egg salad and chicken salad." },
-  { slug: "sauces-spices", icon: UtensilsCrossed, title: "Sauces, Spices & Spreads", description: "All types of sauces and spices like ketchup, applesauce, pasta sauce, salsa, olive oil, mayo, salad dressing, hummus and maple syrup." },
-  { slug: "snacks", icon: Cookie, title: "Snacks", description: "Sweet and salty snacks like potato chips, tortilla chips, jerky, popcorn, pretzels, crackers, granola bars, trail mix and rice cakes." },
-  { slug: "soups", icon: Soup, title: "Soups", description: "All types of soups like chili, gumbo, bisques, chowders, stews and broths." },
-  { slug: "sweets", icon: IceCream, title: "Sweets, Candy & Desserts", description: "Sweet treats like candy, chocolate, cake, donuts, ice cream, pastries, muffins, pancakes and brownies." },
-  { slug: "vegetables", icon: Carrot, title: "Vegetables", description: "All vegetables like mushrooms, carrots, potatoes, tomatoes, broccoli, lettuce, peas and onions." },
-  { slug: "other", icon: CircleHelp, title: "Other", description: "Popular foods like dumplings, croutons, chow mein, french toast, quiche, spring rolls and grits." }
-];
 
-const dietOptions = ["Lacto Vegetarian", "Ovo Vegetarian", "Pescatarian", "Vegan", "Vegetarian", "Mediterranean", "Dairy Free", "Gluten Free"];
-const avoidanceOptions = ["Red Meat", "Shellfish", "Nuts", "Soy", "Eggs", "Dairy"];
-
+const cuisineOptions = ['All', 'Maharashtrian', 'Gujarati', 'North Indian', 'South Indian', 'Generic'];
+const mealCategoryOptions = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack'];
 
 export default function FoodDatabasePage() {
-    const [open, setOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [cuisineFilter, setCuisineFilter] = useState("All");
+    const [mealCategoryFilter, setMealCategoryFilter] = useState("All");
+
+    const filteredFoods = foodDatabase.filter(food => {
+        const matchesSearch = food.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesCuisine = cuisineFilter === "All" || food.cuisine === cuisineFilter;
+        const matchesMealCategory = mealCategoryFilter === "All" || food.mealCategory === mealCategoryFilter;
+        return matchesSearch && matchesCuisine && matchesMealCategory;
+    });
+
   return (
     <div className="flex flex-col w-full">
       <Header
         title="Food Database"
-        description="Browse common foods and products from your favorite brands and restaurants."
+        description="Browse our growing list of kidney-friendly foods and their nutritional information."
       />
       <main className="flex-1 p-4 md:p-8">
-        <div className="mb-6">
-            <Popover open={open} onOpenChange={setOpen}>
-                <PopoverTrigger asChild>
-                    <Button variant="outline">
-                        <Filter className="mr-2 h-4 w-4" />
-                        Filters
-                    </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80" align="start">
-                    <Tabs defaultValue="diet" className="w-full">
-                        <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="diet">Diet</TabsTrigger>
-                            <TabsTrigger value="avoidances">Avoidances</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="diet">
-                            <div className="space-y-4 py-4">
-                                {dietOptions.map(option => (
-                                    <div key={option} className="flex items-center space-x-2">
-                                        <Checkbox id={option.toLowerCase().replace(' ', '-')}/>
-                                        <Label htmlFor={option.toLowerCase().replace(' ', '-')}>{option}</Label>
-                                    </div>
-                                ))}
-                            </div>
-                        </TabsContent>
-                         <TabsContent value="avoidances">
-                             <div className="space-y-4 py-4">
-                                {avoidanceOptions.map(option => (
-                                    <div key={option} className="flex items-center space-x-2">
-                                        <Checkbox id={option.toLowerCase().replace(' ', '-')}/>
-                                        <Label htmlFor={option.toLowerCase().replace(' ', '-')}>{option}</Label>
-                                    </div>
-                                ))}
-                            </div>
-                        </TabsContent>
-                    </Tabs>
-                    <div className="flex justify-between border-t pt-4">
-                        <Button variant="ghost">Clear All</Button>
-                        <Button onClick={() => setOpen(false)}>Apply</Button>
+        <Card className="mb-8">
+            <CardContent className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="relative md:col-span-1">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input 
+                            placeholder="Search for a food..."
+                            className="pl-10"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
                     </div>
-                </PopoverContent>
-            </Popover>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {foodCategories.map((category) => (
-            <Card key={category.title} className="flex flex-col hover:shadow-lg transition-shadow">
-              <CardHeader className="flex-row items-center gap-4 space-y-0">
-                <category.icon className="w-8 h-8 text-primary" />
-                <CardTitle>{category.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-sm text-muted-foreground">{category.description}</p>
-              </CardContent>
-              <CardFooter>
-                 <Button asChild variant="outline" size="sm" className="w-full">
-                    <Link href={`/food-database/${category.slug}`}>{`More ${category.title}`}</Link>
-                 </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+                    <div className="md:col-span-1">
+                         <Select value={cuisineFilter} onValueChange={setCuisineFilter}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Filter by Cuisine" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {cuisineOptions.map(option => (
+                                    <SelectItem key={option} value={option}>{option}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                     <div className="md:col-span-1">
+                         <Select value={mealCategoryFilter} onValueChange={setMealCategoryFilter}>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Filter by Meal Type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {mealCategoryOptions.map(option => (
+                                    <SelectItem key={option} value={option}>{option}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+
+        {filteredFoods.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filteredFoods.map((food) => (
+                <Card key={food.slug} className="flex flex-col hover:shadow-lg transition-shadow">
+                <CardContent className="p-6 flex-grow">
+                    <h3 className="font-bold text-lg text-primary">{food.name}</h3>
+                    <div className="text-sm text-muted-foreground mt-2 space-x-2">
+                        <span className="bg-muted px-2 py-1 rounded-full">{food.cuisine}</span>
+                        <span className="bg-muted px-2 py-1 rounded-full">{food.mealCategory}</span>
+                    </div>
+                     <p className="text-sm mt-4">
+                        {food.nutritionSummary.summaryText}
+                    </p>
+                </CardContent>
+                <CardFooter>
+                    <Button asChild variant="outline" size="sm" className="w-full">
+                        <Link href={`/food-database/${food.slug}`}>
+                            View Details <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                    </Button>
+                </CardFooter>
+                </Card>
+            ))}
+            </div>
+        ) : (
+            <div className="text-center py-16 text-muted-foreground">
+                <p>No food items match your filters.</p>
+            </div>
+        )}
       </main>
     </div>
   );
 }
+
