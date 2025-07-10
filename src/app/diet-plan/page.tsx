@@ -43,6 +43,7 @@ import {
 import { useRouter } from "next/navigation";
 import { foodDatabase } from "@/lib/food-data";
 import { Checkbox } from "@/components/ui/checkbox";
+import Image from "next/image";
 
 
 const FormSchema = z.object({
@@ -79,8 +80,10 @@ export default function DietPlanPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
-  const dietPlanRef = useRef<HTMLDivElement>(null);
+  const pdfRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const [userName, setUserName] = useState<string>("User");
+
 
   useEffect(() => {
     try {
@@ -90,8 +93,16 @@ export default function DietPlanPage() {
         } else {
             setShowForm(true); // If no plan, show form
         }
+
+        const userProfile = localStorage.getItem("userProfile");
+        if (userProfile) {
+            const profile = JSON.parse(userProfile);
+            if (profile.fullName) {
+                setUserName(profile.fullName);
+            }
+        }
     } catch (e) {
-        console.error("Failed to parse diet plan from localStorage", e);
+        console.error("Failed to parse data from localStorage", e);
         setShowForm(true); // Show form on error
         localStorage.removeItem("dietPlan");
     } finally {
@@ -161,19 +172,23 @@ export default function DietPlanPage() {
   };
 
   const handleExportPdf = () => {
-    const input = dietPlanRef.current;
+    const input = pdfRef.current;
     if (input) {
-      html2canvas(input, { scale: 2 }).then((canvas) => {
+      const fileName = `${userName.replace(/\s+/g, '-')}-diet-plan.pdf`;
+      html2canvas(input, { 
+        scale: 2,
+        useCORS: true,
+      }).then((canvas) => {
         const imgData = canvas.toDataURL("image/png");
         const pdf = new jsPDF({ orientation: "p", unit: "px", format: "a4" });
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const canvasWidth = canvas.width;
         const canvasHeight = canvas.height;
         const ratio = canvasWidth / pdfWidth;
-        const height = canvasHeight / ratio;
+        const pdfHeight = canvasHeight / ratio;
         
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, height);
-        pdf.save("diet-plan.pdf");
+        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        pdf.save(fileName);
       });
     }
   };
@@ -390,7 +405,8 @@ export default function DietPlanPage() {
         </div>
       </CardHeader>
       <CardContent>
-        <div ref={dietPlanRef} className="p-4 border rounded-md">
+        {/* Visible Accordion */}
+        <div className="p-4 border rounded-md">
           <Accordion type="multiple" defaultValue={["monday"]} className="w-full">
             {(dietPlan!.plan || []).map((dayPlan: DayPlan) => {
               if (!dayPlan || !dayPlan.day) return null;
@@ -433,6 +449,53 @@ export default function DietPlanPage() {
             })}
           </Accordion>
         </div>
+
+        {/* Hidden Div for PDF Export */}
+        <div className="absolute -left-full -top-full" style={{ left: '-9999px', top: '-9999px'}}>
+          <div ref={pdfRef} style={{ width: '800px', padding: '40px', backgroundColor: 'white', color: 'black' }}>
+             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', borderBottom: '2px solid #eee', paddingBottom: '1rem' }}>
+                <Image src="/welcome-image.png" alt="Logo" width={60} height={60} />
+                <div style={{ marginLeft: '1rem'}}>
+                    <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>Your Weekly Diet Plan</h1>
+                    <p style={{ fontSize: '1rem', color: '#555' }}>Hello {userName}, here is your diet plan for the week.</p>
+                </div>
+             </div>
+             <div>
+                {(dietPlan!.plan || []).map((dayPlan: DayPlan) => {
+                  if (!dayPlan || !dayPlan.day) return null;
+                  return (
+                    <div key={dayPlan.day} style={{ marginBottom: '2rem', pageBreakInside: 'avoid' }}>
+                      <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', textTransform: 'capitalize', borderBottom: '1px solid #ccc', paddingBottom: '0.5rem', marginBottom: '1rem' }}>{dayPlan.day}</h2>
+                      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                        <tbody>
+                          {(dayPlan.meals || []).map((meal: Meal) => {
+                              if (!meal || !meal.details || !meal.details.name) return null;
+                              return (
+                                <tr key={meal.type} style={{ borderBottom: '1px solid #eee'}}>
+                                  <td style={{ width: '120px', padding: '0.75rem', fontWeight: 'bold', textTransform: 'capitalize' }}>{meal.type}</td>
+                                  <td style={{ padding: '0.75rem' }}>
+                                    <p style={{ fontWeight: 'bold', color: '#0070f3' }}>{meal.details.name}</p>
+                                    <p style={{ fontSize: '0.9rem', color: '#333' }}>{meal.details.description}</p>
+                                    <p style={{ fontSize: '0.8rem', color: '#777' }}>{meal.details.calories} kcal</p>
+                                  </td>
+                                </tr>
+                              )
+                          })}
+                        </tbody>
+                      </table>
+                      {dayPlan.notes && (
+                        <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#fffbe6', border: '1px solid #ffe58f', borderRadius: '4px' }}>
+                          <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Notes for {dayPlan.day}:</h4>
+                          <p style={{ fontStyle: 'italic', color: '#555'}}>{dayPlan.notes}</p>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+             </div>
+          </div>
+        </div>
+
       </CardContent>
     </Card>
   );
