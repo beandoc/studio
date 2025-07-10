@@ -76,7 +76,7 @@ const dailyMealOptions = ["breakfast", "lunch", "dinner", "snacks"];
 
 export default function DietPlanPage() {
   const [dietPlan, setDietPlan] = useState<GenerateDietPlanOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(true); // Start with loading true
+  const [isLoading, setIsLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
   const dietPlanRef = useRef<HTMLDivElement>(null);
@@ -113,7 +113,7 @@ export default function DietPlanPage() {
       dailyMeals: ["breakfast", "lunch", "dinner", "snacks"],
       dietType: "anything",
       budget: "$",
-      healthRequirements: "Standard kidney-friendly diet. Low sodium, low potassium, low phosphorus.",
+      healthRequirements: "Standard healthy diet. Low sodium, low sugar.",
       preferences: "No specific allergies or strong dislikes.",
     },
   });
@@ -453,7 +453,7 @@ export default function DietPlanPage() {
     <div className="flex flex-col w-full">
       <Header
         title="Personalized Diet Plan"
-        description="Generate a 7-day kidney-friendly diet plan based on your needs."
+        description="Generate a 7-day diet plan based on your needs."
       />
       <div className="p-4 md:p-8 grid gap-8">
         {isLoading
@@ -465,5 +465,3 @@ export default function DietPlanPage() {
     </div>
   );
 }
-
-    

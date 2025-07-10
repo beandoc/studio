@@ -61,7 +61,7 @@ export default function FoodDatabasePage() {
     <div className="flex flex-col w-full">
       <Header
         title="Food Database"
-        description="Browse our growing list of kidney-friendly foods and their nutritional information."
+        description="Browse our growing list of foods and their nutritional information."
       />
       <main className="flex-1 p-4 md:p-8">
         <Card className="mb-8">

@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview Generates a personalized 7-day kidney-friendly diet plan based on user's health requirements and preferences.
+ * @fileOverview Generates a personalized 7-day diet plan based on user's health requirements and preferences.
  *
  * - generateDietPlan - A function that generates the diet plan.
  * - GenerateDietPlanInput - The input type for the generateDietPlan function.
@@ -51,7 +51,7 @@ const prompt = ai.definePrompt({
   name: 'generateDietPlanPrompt',
   input: {schema: GenerateDietPlanInputSchema},
   output: {schema: GenerateDietPlanOutputSchema},
-  prompt: `You are an expert dietitian specializing in creating kidney-friendly diet plans.
+  prompt: `You are an expert dietitian specializing in creating personalized diet plans.
 
   Based on the user's health requirements and preferences, generate a personalized 7-day diet plan as a list of daily plans.
   For each day, provide the day name, a list of meals, and optional daily notes.

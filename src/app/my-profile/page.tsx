@@ -36,7 +36,7 @@ import { generateDietPlan } from "@/ai/flows/generate-diet-plan";
 
 const steps = [
   { id: 1, name: "Basic Info" },
-  { id: 2, name: "Kidney Details" },
+  { id: 2, name: "Health Details" },
   { id: 3, name: "Food Preferences" },
   { id: 4, name: "Goals" },
 ];
@@ -230,7 +230,7 @@ export default function MyProfilePage() {
               <div className="flex justify-center mb-4">
                 <Image
                     src="https://placehold.co/100x100.png"
-                    alt="KidneyWise Logo"
+                    alt="Flip and Toss Logo"
                     data-ai-hint="company logo"
                     width={100}
                     height={100}
@@ -301,7 +301,7 @@ export default function MyProfilePage() {
                  {currentStep === 2 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
                         <div className="space-y-2">
-                            <Label>Stage of Kidney Disease</Label>
+                            <Label>Stage of Health Condition</Label>
                              <Controller
                                 control={form.control}
                                 name="stage"
@@ -310,10 +310,10 @@ export default function MyProfilePage() {
                                         <SelectTrigger><SelectValue placeholder="Select stage" /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="none">None</SelectItem>
-                                            <SelectItem value="ckd">Chronic kidney disease</SelectItem>
-                                            <SelectItem value="hemodialysis">Hemodialysis</SelectItem>
-                                            <SelectItem value="peritoneal_dialysis">Peritoneal dialysis</SelectItem>
-                                            <SelectItem value="post_transplant">Post transplant</SelectItem>
+                                            <SelectItem value="ckd">Chronic condition</SelectItem>
+                                            <SelectItem value="hemodialysis">High Severity</SelectItem>
+                                            <SelectItem value="peritoneal_dialysis">Medium Severity</SelectItem>
+                                            <SelectItem value="post_transplant">Post Treatment</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 )}

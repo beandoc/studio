@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview Provides kidney-friendly meal alternatives based on a food database.
+ * @fileOverview Provides meal alternatives based on a food database.
  * The logic finds meals of the same cuisine and category with protein and carbs within a 20% range.
  *
  * - suggestMealAlternatives - A function that suggests meal alternatives based on user input.
@@ -26,10 +26,10 @@ const SuggestMealAlternativesOutputSchema = z.object({
       description: z.string().describe('A detailed description of the meal.'),
       nutrientInformation: z
         .string()
-        .describe('Key nutrient information relevant to kidney health (e.g., sodium, phosphorus, potassium content).'),
+        .describe('Key nutrient information (e.g., sodium, phosphorus, potassium content).'),
       calories: z.number().describe('The calorie count of the meal alternative.'),
     })
-  ).describe('An array of two kidney-friendly meal alternatives.'),
+  ).describe('An array of two meal alternatives.'),
 });
 export type SuggestMealAlternativesOutput = z.infer<typeof SuggestMealAlternativesOutputSchema>;
 

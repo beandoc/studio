@@ -12,8 +12,8 @@ export default function WelcomePage() {
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="Welcome Chuku Beta"
-        description="Your personal kidney-friendly diet companion."
+        title="Welcome to Flip and Toss"
+        description="Your smart meal companion."
       />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -31,7 +31,7 @@ export default function WelcomePage() {
                     <CardHeader>
                         <CardTitle className="text-4xl font-bold text-primary">Take Control of Your Health</CardTitle>
                         <CardDescription className="text-lg text-muted-foreground mt-2">
-                            KidneyWise helps you manage your diet with personalized meal plans, tracking, and kidney-friendly food suggestions. Let's get started by setting up your profile.
+                            Flip and Toss helps you manage your diet with personalized meal plans, tracking, and smart food suggestions. Let's get started by setting up your profile.
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
