@@ -7,8 +7,8 @@ import AppSidebar from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "KidneyWise Diet",
-  description: "A specialized health app for kidney patients, designed as a diet planner with calorie counting.",
+  title: "Kidney Diet Planner",
+  description: "Your kidney-friendly meal companion",
 };
 
 export default function RootLayout({
