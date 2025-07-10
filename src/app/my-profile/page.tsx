@@ -139,7 +139,6 @@ export default function MyProfilePage() {
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
-      // This is the final step, trigger form submission logic.
       await form.handleSubmit(onSubmit)();
     }
   };

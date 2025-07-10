@@ -68,6 +68,7 @@ type FormValues = z.infer<typeof FormSchema>;
 type Meal = { name: string; calories: number; description: string; };
 type DayPlan = { breakfast?: Meal; lunch?: Meal; dinner?: Meal; snacks?: Meal; notes?: string; };
 const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+const mealTypes: (keyof Omit<DayPlan, 'notes'>)[] = ["breakfast", "lunch", "dinner", "snacks"];
 
 export default function DietPlanPage() {
   const [dietPlan, setDietPlan] = useState<GenerateDietPlanOutput | null>(null);
@@ -78,7 +79,6 @@ export default function DietPlanPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // This effect runs only on the client
     try {
         const storedPlan = localStorage.getItem("dietPlan");
         if (storedPlan) {
@@ -87,7 +87,6 @@ export default function DietPlanPage() {
             setShowForm(true);
         }
     } catch (e) {
-        // If parsing fails, default to showing the form
         setShowForm(true);
         localStorage.removeItem("dietPlan");
     }
@@ -172,16 +171,14 @@ export default function DietPlanPage() {
   const handleFlipMeal = (day: string, mealType: string) => {
     const meal = (dietPlan as any)?.[day]?.[mealType];
     if (meal && meal.name) {
-        // Find the meal slug from our database based on the meal name
         const mealToFlip = foodDatabase.find(food => food.name === meal.name);
         if (mealToFlip) {
             router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}&day=${day}&mealType=${mealType}`);
         } else {
-            // This toast is important for debugging if a generated meal isn't in our DB
             toast({
                 variant: "destructive",
                 title: "Meal not found",
-                description: "Could not find this meal in the database to get alternatives."
+                description: `Could not find "${meal.name}" in the database to get alternatives.`
             })
         }
     }
@@ -384,15 +381,18 @@ export default function DietPlanPage() {
             <CardContent>
               <div ref={dietPlanRef} className="p-4 border rounded-md">
                 <Accordion type="multiple" defaultValue={["monday"]} className="w-full">
-                  {daysOfWeek.map(day => (
-                    (dietPlan as any)[day] && (
+                  {daysOfWeek.map(day => {
+                    const dayPlan = (dietPlan as any)[day] as DayPlan | undefined;
+                    if (!dayPlan) return null;
+
+                    return (
                       <AccordionItem value={day} key={day}>
                         <AccordionTrigger className="text-xl font-bold capitalize">{day}</AccordionTrigger>
                         <AccordionContent>
                           <div className="space-y-6">
-                            {(Object.keys((dietPlan as any)[day]) as Array<keyof DayPlan>).map(mealType => {
-                              const meal = (dietPlan as any)[day][mealType];
-                              if (typeof meal === 'object' && meal !== null && meal.name) {
+                            {mealTypes.map(mealType => {
+                              const meal = dayPlan[mealType];
+                              if (meal && meal.name) {
                                 return (
                                   <div key={mealType}>
                                     <h4 className="font-semibold capitalize text-lg mb-2">{mealType}</h4>
@@ -407,23 +407,21 @@ export default function DietPlanPage() {
                                       </Button>
                                     </Card>
                                   </div>
-                                )
-                              }
-                              if (mealType === 'notes' && typeof meal === 'string') {
-                                return (
-                                     <div key={mealType}>
-                                        <h4 className="font-semibold capitalize text-lg mb-2">Notes</h4>
-                                        <p className="text-sm text-muted-foreground italic p-4 bg-amber-50 rounded-md border border-amber-200">{meal}</p>
-                                     </div>
-                                )
+                                );
                               }
                               return null;
                             })}
+                            {dayPlan.notes && (
+                                <div key="notes">
+                                <h4 className="font-semibold capitalize text-lg mb-2">Notes</h4>
+                                <p className="text-sm text-muted-foreground italic p-4 bg-amber-50 rounded-md border border-amber-200">{dayPlan.notes}</p>
+                                </div>
+                            )}
                           </div>
                         </AccordionContent>
                       </AccordionItem>
-                    )
-                  ))}
+                    );
+                  })}
                 </Accordion>
               </div>
             </CardContent>

@@ -2,7 +2,7 @@
 export type FoodItem = {
     slug: string;
     name: string;
-    cuisine: 'Maharashtrian' | 'Gujarati' | 'North Indian' | 'Generic';
+    cuisine: 'Maharashtrian' | 'Gujarati' | 'North Indian' | 'Generic' | 'South Indian';
     mealCategory: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack';
     nutritionFacts: {
         servingSize: string;
@@ -15,8 +15,8 @@ export type FoodItem = {
         cholesterol: { value: number; percent?: number };
         sodium: { value: number; percent?: number };
         totalCarbohydrate: { value: number; percent?: number };
-        dietaryFiber: { value: number; percent?: number };
-        sugars: { value: number };
+        dietaryFiber?: { value: number; percent?: number };
+        sugars?: { value: number };
         protein: { value: number };
         vitaminD?: { value: number; percent: number };
         calcium?: { value: number; percent: number };
@@ -128,7 +128,7 @@ export const foodDatabase: FoodItem[] = [
     {
         slug: 'upma',
         name: 'Upma',
-        cuisine: 'Maharashtrian',
+        cuisine: 'South Indian',
         mealCategory: 'Breakfast',
         nutritionFacts: {
             servingSize: '1 cup',
@@ -240,7 +240,7 @@ export const foodDatabase: FoodItem[] = [
     {
         slug: 'vegetable-upma',
         name: 'Vegetable Upma',
-        cuisine: 'Generic',
+        cuisine: 'South Indian',
         mealCategory: 'Breakfast',
         nutritionFacts: {
             servingSize: '1 cup',
@@ -348,5 +348,109 @@ export const foodDatabase: FoodItem[] = [
             breakdown: '30% fat, 60% carbs, 10% protein.',
         },
         servingSizes: [{ size: '1 cup', calories: 120 }],
+    },
+    {
+        slug: 'idli-sambar',
+        name: 'Idli with Sambar',
+        cuisine: 'South Indian',
+        mealCategory: 'Breakfast',
+        nutritionFacts: {
+            servingSize: '2 idlis, 1 cup sambar',
+            calories: 280,
+            totalFat: { value: 6 },
+            saturatedFat: { value: 1 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 550, percent: 24 },
+            totalCarbohydrate: { value: 45, percent: 16 },
+            protein: { value: 10 },
+            potassium: { value: 300, percent: 6 },
+        },
+        nutritionSummary: {
+            calories: 280,
+            fat: '6g',
+            carbs: '45g',
+            protein: '10g',
+            summaryText: 'Steamed rice cakes with a lentil-based vegetable stew.',
+            breakdown: '19% fat, 64% carbs, 17% protein.',
+        },
+        servingSizes: [{ size: '1 serving', calories: 280 }],
+    },
+    {
+        slug: 'palak-paneer-roti',
+        name: 'Palak Paneer with Roti',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        nutritionFacts: {
+            servingSize: '1 bowl curry, 2 rotis',
+            calories: 420,
+            totalFat: { value: 20 },
+            saturatedFat: { value: 10 },
+            cholesterol: { value: 40, percent: 13 },
+            sodium: { value: 500, percent: 22 },
+            totalCarbohydrate: { value: 40, percent: 15 },
+            protein: { value: 20 },
+            potassium: { value: 450, percent: 10 },
+        },
+        nutritionSummary: {
+            calories: 420,
+            fat: '20g',
+            carbs: '40g',
+            protein: '20g',
+            summaryText: 'Spinach and cottage cheese curry with flatbread.',
+            breakdown: '43% fat, 38% carbs, 19% protein.',
+        },
+        servingSizes: [{ size: '1 serving', calories: 420 }],
+    },
+    {
+        slug: 'lemon-rice',
+        name: 'Lemon Rice',
+        cuisine: 'South Indian',
+        mealCategory: 'Lunch',
+        nutritionFacts: {
+            servingSize: '1.5 cups',
+            calories: 350,
+            totalFat: { value: 10 },
+            saturatedFat: { value: 1.5 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 400, percent: 17 },
+            totalCarbohydrate: { value: 60, percent: 22 },
+            protein: { value: 6 },
+            potassium: { value: 100, percent: 2 },
+        },
+        nutritionSummary: {
+            calories: 350,
+            fat: '10g',
+            carbs: '60g',
+            protein: '6g',
+            summaryText: 'A tangy and flavorful rice dish tempered with spices.',
+            breakdown: '26% fat, 68% carbs, 6% protein.',
+        },
+        servingSizes: [{ size: '1.5 cups', calories: 350 }],
+    },
+    {
+        slug: 'dhokla',
+        name: 'Dhokla',
+        cuisine: 'Gujarati',
+        mealCategory: 'Snack',
+        nutritionFacts: {
+            servingSize: '3 pieces',
+            calories: 150,
+            totalFat: { value: 5 },
+            saturatedFat: { value: 1 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 350, percent: 15 },
+            totalCarbohydrate: { value: 20, percent: 7 },
+            protein: { value: 6 },
+            potassium: { value: 120, percent: 3 },
+        },
+        nutritionSummary: {
+            calories: 150,
+            fat: '5g',
+            carbs: '20g',
+            protein: '6g',
+            summaryText: 'A steamed and savory cake made from fermented batter.',
+            breakdown: '30% fat, 53% carbs, 17% protein.',
+        },
+        servingSizes: [{ size: '3 pieces', calories: 150 }],
     }
 ];

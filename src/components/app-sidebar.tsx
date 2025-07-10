@@ -7,7 +7,6 @@ import {
   BookUser,
   ClipboardList,
   LayoutDashboard,
-  Replace,
   User,
   CalendarDays,
   Database,
