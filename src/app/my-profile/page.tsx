@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,6 +30,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import Header from "@/components/header";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { generateDietPlan } from "@/ai/flows/generate-diet-plan";
 
 const steps = [
   { id: 1, name: "Basic Info" },
@@ -78,6 +82,9 @@ const conditionsList = [
 
 export default function MyProfilePage() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -129,11 +136,9 @@ export default function MyProfilePage() {
 
 
   const handleNext = async () => {
-    // For testing, we don't require validation to move between steps
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
-      // On the final step, trigger validation before submitting
       const isValid = await trigger();
       if (isValid) {
         onSubmit(form.getValues());
@@ -147,9 +152,49 @@ export default function MyProfilePage() {
     }
   };
 
-  const onSubmit = (data: FormValues) => {
-    console.log("Form submitted", data);
-    alert("Profile saved successfully!");
+  const onSubmit = async (data: FormValues) => {
+    setIsLoading(true);
+    
+    const healthRequirements = `
+      - Stage of Kidney Disease: ${data.stage || 'Not specified'}
+      - Other Health Conditions: ${data.conditions?.join(', ') || 'None'}, ${data.otherCondition || ''}
+      - Daily Sodium Goal: ${data.sodiumGoal || 'Not specified'} mg
+      - Daily Potassium Goal: ${data.potassiumGoal || 'Not specified'} mg
+      - Daily Phosphorus Goal: ${data.phosphorusGoal || 'Not specified'} mg
+      - Daily Calorie Goal: ${data.calorieGoal || 'Not specified'} kcal
+      - Daily Protein Goal: ${data.proteinGoal || 'Not specified'} g
+    `;
+
+    const preferences = `
+      - Age: ${data.age || 'Not specified'}
+      - Gender: ${data.gender || 'Not specified'}
+      - Height: ${data.height || 'Not specified'} cm
+      - Weight: ${data.weight || 'Not specified'} kg
+      - Target Weight: ${data.targetWeight || 'Not specified'} kg
+      - Diet Type: ${data.dietType || 'Not specified'}
+      - Food Likes: ${data.likes || 'Not specified'}
+      - Food Dislikes: ${data.dislikes || 'Not specified'}
+      - Allergies: ${data.allergies || 'Not specified'}
+    `;
+
+    try {
+      const result = await generateDietPlan({ healthRequirements, preferences });
+      localStorage.setItem("dietPlan", result.dietPlan);
+      toast({
+        title: "Profile Saved & Diet Plan Generated!",
+        description: "Redirecting you to your dashboard...",
+      });
+      router.push('/dashboard');
+    } catch (error) {
+      console.error(error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to generate diet plan. Please try again.",
+      });
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   const renderStepIcon = (index: number, step: {id: number}) => {
@@ -358,7 +403,8 @@ export default function MyProfilePage() {
                 <div>
                     {currentStep > 1 && <Button type="button" variant="outline" onClick={handleBack}>Back</Button>}
                 </div>
-                <Button type="button" onClick={handleNext}>
+                <Button type="button" onClick={handleNext} disabled={isLoading}>
+                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   {currentStep === steps.length ? "Finish & Save Profile" : "Next Step"}
                 </Button>
               </CardFooter>
@@ -369,5 +415,3 @@ export default function MyProfilePage() {
     </div>
   );
 }
-
-    

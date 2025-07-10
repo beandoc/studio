@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useForm, type SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -61,6 +61,16 @@ export default function DietPlanPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const dietPlanRef = useRef<HTMLDivElement>(null);
+  const [showForm, setShowForm] = useState(false);
+
+  useEffect(() => {
+    const storedPlan = localStorage.getItem("dietPlan");
+    if (storedPlan) {
+      setDietPlan(storedPlan);
+    } else {
+        setShowForm(true);
+    }
+  }, []);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -107,6 +117,8 @@ export default function DietPlanPage() {
     try {
       const result = await generateDietPlan({ healthRequirements, preferences });
       setDietPlan(result.dietPlan);
+      localStorage.setItem("dietPlan", result.dietPlan);
+      setShowForm(false);
     } catch (error) {
       console.error(error);
       toast({
@@ -149,160 +161,162 @@ export default function DietPlanPage() {
         description="Generate a 7-day kidney-friendly diet plan based on your needs."
       />
       <div className="p-4 md:p-8 grid gap-8">
-        <Card>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <CardHeader>
-                <CardTitle>Your Details</CardTitle>
-                <CardDescription>
-                  Provide your details to generate a personalized diet plan.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <FormField control={form.control} name="gender" render={({ field }) => (
-                        <FormItem><FormLabel>Gender</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select gender" /></SelectTrigger></FormControl><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                     <FormField control={form.control} name="age" render={({ field }) => (
-                        <FormItem><FormLabel>Age</FormLabel><FormControl><Input type="number" placeholder="30" {...field} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                     <FormField control={form.control} name="units" render={({ field }) => (
-                        <FormItem><FormLabel>Units</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select units" /></SelectTrigger></FormControl><SelectContent><SelectItem value="imperial">Imperial</SelectItem><SelectItem value="metric">Metric</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <FormLabel>Height</FormLabel>
-                        {units === 'imperial' ? (
-                             <div className="flex gap-2">
-                                <FormField control={form.control} name="heightFt" render={({ field }) => (
-                                    <FormItem className="flex-1"><FormControl><Input type="number" placeholder="5" {...field} endAdornment="ft" /></FormControl><FormMessage /></FormItem>
-                                )}/>
-                                 <FormField control={form.control} name="heightIn" render={({ field }) => (
-                                    <FormItem className="flex-1"><FormControl><Input type="number" placeholder="8" {...field} endAdornment="in" /></FormControl><FormMessage /></FormItem>
-                                )}/>
-                             </div>
-                        ) : (
-                            <FormField control={form.control} name="heightCm" render={({ field }) => (
-                                <FormItem><FormControl><Input type="number" placeholder="173" {...field} endAdornment="cm" /></FormControl><FormMessage /></FormItem>
-                            )}/>
-                        )}
-                    </div>
-                    <FormField control={form.control} name="weight" render={({ field }) => (
-                        <FormItem><FormLabel>Weight</FormLabel><FormControl><Input type="number" placeholder="185" {...field} endAdornment={units === 'imperial' ? 'lbs' : 'kg'} /></FormControl><FormMessage /></FormItem>
-                    )}/>
-                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
-                    <FormField control={form.control} name="activityLevel" render={({ field }) => (
-                        <FormItem><FormLabel>Activity level</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger></FormControl><SelectContent><SelectItem value="sedentary">Sedentary</SelectItem><SelectItem value="lightly_active">Lightly Active</SelectItem><SelectItem value="moderately_active">Moderately Active</SelectItem><SelectItem value="very_active">Very Active</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                    <div className="flex gap-2 items-center">
-                        <FormField control={form.control} name="weightGoal" render={({ field }) => (
-                            <FormItem className="flex-1"><FormLabel>Weight goal</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select goal" /></SelectTrigger></FormControl><SelectContent><SelectItem value="lose_fat">Lose fat</SelectItem><SelectItem value="maintain">Maintain</SelectItem><SelectItem value="gain_muscle">Gain muscle</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+        {(showForm || !dietPlan) && (
+            <Card>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                <CardHeader>
+                    <CardTitle>Your Details</CardTitle>
+                    <CardDescription>
+                    Provide your details to generate a personalized diet plan.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <FormField control={form.control} name="gender" render={({ field }) => (
+                            <FormItem><FormLabel>Gender</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select gender" /></SelectTrigger></FormControl><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem></SelectContent></Select><FormMessage /></FormItem>
                         )}/>
-                        <TooltipProvider>
-                            <Tooltip><TooltipTrigger asChild><Button type="button" variant="ghost" size="icon" className="mb-1"><Info className="h-4 w-4 text-muted-foreground"/></Button></TooltipTrigger><TooltipContent><p>Select your primary weight goal.</p></TooltipContent></Tooltip>
-                        </TooltipProvider>
+                        <FormField control={form.control} name="age" render={({ field }) => (
+                            <FormItem><FormLabel>Age</FormLabel><FormControl><Input type="number" placeholder="30" {...field} /></FormControl><FormMessage /></FormItem>
+                        )}/>
+                        <FormField control={form.control} name="units" render={({ field }) => (
+                            <FormItem><FormLabel>Units</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select units" /></SelectTrigger></FormControl><SelectContent><SelectItem value="imperial">Imperial</SelectItem><SelectItem value="metric">Metric</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+                        )}/>
                     </div>
-                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                     <FormField control={form.control} name="weeklyVariety" render={({ field }) => (
-                        <FormItem><FormLabel>Weekly variety</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select variety" /></SelectTrigger></FormControl><SelectContent>{[...Array(5)].map((_, i) => <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                     <FormField control={form.control} name="recipeComplexity" render={({ field }) => (
-                        <FormItem><FormLabel>Max recipe complexity</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select complexity" /></SelectTrigger></FormControl><SelectContent>{[...Array(5)].map((_, i) => <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                 </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                            <FormLabel>Height</FormLabel>
+                            {units === 'imperial' ? (
+                                <div className="flex gap-2">
+                                    <FormField control={form.control} name="heightFt" render={({ field }) => (
+                                        <FormItem className="flex-1"><FormControl><Input type="number" placeholder="5" {...field} endAdornment="ft" /></FormControl><FormMessage /></FormItem>
+                                    )}/>
+                                    <FormField control={form.control} name="heightIn" render={({ field }) => (
+                                        <FormItem className="flex-1"><FormControl><Input type="number" placeholder="8" {...field} endAdornment="in" /></FormControl><FormMessage /></FormItem>
+                                    )}/>
+                                </div>
+                            ) : (
+                                <FormField control={form.control} name="heightCm" render={({ field }) => (
+                                    <FormItem><FormControl><Input type="number" placeholder="173" {...field} endAdornment="cm" /></FormControl><FormMessage /></FormItem>
+                                )}/>
+                            )}
+                        </div>
+                        <FormField control={form.control} name="weight" render={({ field }) => (
+                            <FormItem><FormLabel>Weight</FormLabel><FormControl><Input type="number" placeholder="185" {...field} endAdornment={units === 'imperial' ? 'lbs' : 'kg'} /></FormControl><FormMessage /></FormItem>
+                        )}/>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
+                        <FormField control={form.control} name="activityLevel" render={({ field }) => (
+                            <FormItem><FormLabel>Activity level</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger></FormControl><SelectContent><SelectItem value="sedentary">Sedentary</SelectItem><SelectItem value="lightly_active">Lightly Active</SelectItem><SelectItem value="moderately_active">Moderately Active</SelectItem><SelectItem value="very_active">Very Active</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+                        )}/>
+                        <div className="flex gap-2 items-center">
+                            <FormField control={form.control} name="weightGoal" render={({ field }) => (
+                                <FormItem className="flex-1"><FormLabel>Weight goal</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select goal" /></SelectTrigger></FormControl><SelectContent><SelectItem value="lose_fat">Lose fat</SelectItem><SelectItem value="maintain">Maintain</SelectItem><SelectItem value="gain_muscle">Gain muscle</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+                            )}/>
+                            <TooltipProvider>
+                                <Tooltip><TooltipTrigger asChild><Button type="button" variant="ghost" size="icon" className="mb-1"><Info className="h-4 w-4 text-muted-foreground"/></Button></TooltipTrigger><TooltipContent><p>Select your primary weight goal.</p></TooltipContent></Tooltip>
+                            </TooltipProvider>
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <FormField control={form.control} name="weeklyVariety" render={({ field }) => (
+                            <FormItem><FormLabel>Weekly variety</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select variety" /></SelectTrigger></FormControl><SelectContent>{[...Array(5)].map((_, i) => <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>
+                        )}/>
+                        <FormField control={form.control} name="recipeComplexity" render={({ field }) => (
+                            <FormItem><FormLabel>Max recipe complexity</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select complexity" /></SelectTrigger></FormControl><SelectContent>{[...Array(5)].map((_, i) => <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>
+                        )}/>
+                    </div>
 
-                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                     <FormField
-                        control={form.control}
-                        name="dailyMeals"
-                        render={() => (
-                            <FormItem>
-                                <FormLabel>Daily meals</FormLabel>
-                                <Controller
-                                    control={form.control}
-                                    name="dailyMeals"
-                                    render={({ field }) => (
-                                        <FormControl>
-                                            <select
-                                                {...field}
-                                                multiple
-                                                className="flex h-24 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                                            >
-                                                <option value="breakfast">Breakfast</option>
-                                                <option value="lunch">Lunch</option>
-                                                <option value="dinner">Dinner</option>
-                                                <option value="snack">Snack</option>
-                                            </select>
-                                        </FormControl>
-                                    )}
-                                />
-                                <FormMessage />
-                            </FormItem>
-                        )}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <FormField
+                            control={form.control}
+                            name="dailyMeals"
+                            render={() => (
+                                <FormItem>
+                                    <FormLabel>Daily meals</FormLabel>
+                                    <Controller
+                                        control={form.control}
+                                        name="dailyMeals"
+                                        render={({ field }) => (
+                                            <FormControl>
+                                                <select
+                                                    {...field}
+                                                    multiple
+                                                    className="flex h-24 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
+                                                >
+                                                    <option value="breakfast">Breakfast</option>
+                                                    <option value="lunch">Lunch</option>
+                                                    <option value="dinner">Dinner</option>
+                                                    <option value="snack">Snack</option>
+                                                </select>
+                                            </FormControl>
+                                        )}
+                                    />
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField control={form.control} name="dietType" render={({ field }) => (
+                            <FormItem><FormLabel>Diet type</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select diet type" /></SelectTrigger></FormControl><SelectContent><SelectItem value="anything">Anything</SelectItem><SelectItem value="vegetarian">Vegetarian</SelectItem><SelectItem value="vegan">Vegan</SelectItem><SelectItem value="pescatarian">Pescatarian</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+                        )}/>
+                        <FormField control={form.control} name="budget" render={({ field }) => (
+                            <FormItem><FormLabel>Budget</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select budget" /></SelectTrigger></FormControl><SelectContent><SelectItem value="$">$</SelectItem><SelectItem value="$$">$$</SelectItem><SelectItem value="$$$">$$$</SelectItem></SelectContent></Select><FormMessage /></FormItem>
+                        )}/>
+                    </div>
+                    
+                    <FormField
+                    control={form.control}
+                    name="healthRequirements"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Health Requirements</FormLabel>
+                        <FormControl>
+                            <Textarea
+                            placeholder="e.g., Low potassium, 2000mg sodium limit, fluid restriction of 1.5L..."
+                            className="resize-none"
+                            {...field}
+                            />
+                        </FormControl>
+                        <FormDescription>
+                            List any specific dietary restrictions or health goals.
+                        </FormDescription>
+                        <FormMessage />
+                        </FormItem>
+                    )}
                     />
-                    <FormField control={form.control} name="dietType" render={({ field }) => (
-                        <FormItem><FormLabel>Diet type</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select diet type" /></SelectTrigger></FormControl><SelectContent><SelectItem value="anything">Anything</SelectItem><SelectItem value="vegetarian">Vegetarian</SelectItem><SelectItem value="vegan">Vegan</SelectItem><SelectItem value="pescatarian">Pescatarian</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                    <FormField control={form.control} name="budget" render={({ field }) => (
-                        <FormItem><FormLabel>Budget</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select budget" /></SelectTrigger></FormControl><SelectContent><SelectItem value="$">$</SelectItem><SelectItem value="$$">$$</SelectItem><SelectItem value="$$$">$$$</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                    )}/>
-                 </div>
-                
-                 <FormField
-                  control={form.control}
-                  name="healthRequirements"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Health Requirements</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="e.g., Low potassium, 2000mg sodium limit, fluid restriction of 1.5L..."
-                          className="resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        List any specific dietary restrictions or health goals.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="preferences"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Food Preferences & Allergies</FormLabel>
-                      <FormControl>
-                        <Textarea
-                          placeholder="e.g., love chicken and fish, dislike spicy food, allergic to nuts..."
-                          className="resize-none"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormDescription>
-                        Tell us about the foods you enjoy, want to avoid, or are allergic to.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </CardContent>
-              <CardFooter>
-                <Button type="submit" disabled={isLoading} size="lg">
-                  {isLoading && (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  )}
-                  Generate Diet Plan!
-                </Button>
-              </CardFooter>
-            </form>
-          </Form>
-        </Card>
+                    <FormField
+                    control={form.control}
+                    name="preferences"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Food Preferences & Allergies</FormLabel>
+                        <FormControl>
+                            <Textarea
+                            placeholder="e.g., love chicken and fish, dislike spicy food, allergic to nuts..."
+                            className="resize-none"
+                            {...field}
+                            />
+                        </FormControl>
+                        <FormDescription>
+                            Tell us about the foods you enjoy, want to avoid, or are allergic to.
+                        </FormDescription>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                    />
+                </CardContent>
+                <CardFooter>
+                    <Button type="submit" disabled={isLoading} size="lg">
+                    {isLoading && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
+                    Generate Diet Plan!
+                    </Button>
+                </CardFooter>
+                </form>
+            </Form>
+            </Card>
+        )}
 
         {isLoading && (
           <Card>
@@ -320,11 +334,19 @@ export default function DietPlanPage() {
         {dietPlan && (
           <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle>Your 7-Day Diet Plan</CardTitle>
-              <Button onClick={handleExportPdf} variant="outline" size="sm">
-                <Download className="mr-2 h-4 w-4" />
-                Export as PDF
-              </Button>
+                <div>
+                    <CardTitle>Your 7-Day Diet Plan</CardTitle>
+                    <CardDescription>
+                        Below is your personalized plan. You can regenerate it if needed.
+                    </CardDescription>
+                </div>
+              <div className="flex gap-2">
+                <Button onClick={() => setShowForm(true)} variant="secondary">Regenerate</Button>
+                <Button onClick={handleExportPdf} variant="outline" size="sm">
+                    <Download className="mr-2 h-4 w-4" />
+                    Export as PDF
+                </Button>
+              </div>
             </CardHeader>
             <CardContent ref={dietPlanRef}>
               <div
