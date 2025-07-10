@@ -24,11 +24,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import type { FoodItem } from "@/lib/food-data";
+import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import { searchFood } from "./actions";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/header";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
@@ -302,22 +301,19 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
     const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
     const [selectedServingSize, setSelectedServingSize] = useState<string | null>(null);
     const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
-    const [isSearching, startSearchTransition] = useTransition();
     const { toast } = useToast();
     
     const isFromRecognition = useMemo(() => !!(initialFoodName && initialNutrition?.calories), [initialFoodName, initialNutrition]);
 
     useEffect(() => {
         // This effect runs only on the client
-        if (initialFoodName) {
-            if (isFromRecognition) {
-                // Pre-fill from food recognition
-                setName(initialFoodName);
-                setCalories(Number(initialNutrition?.calories || 0));
-                setProtein(Number(initialNutrition?.protein || 0));
-                setFat(Number(initialNutrition?.fat || 0));
-                setCarbs(Number(initialNutrition?.carbs || 0));
-            }
+        if (isFromRecognition) {
+            // Pre-fill from food recognition
+            setName(initialFoodName || '');
+            setCalories(Number(initialNutrition?.calories || 0));
+            setProtein(Number(initialNutrition?.protein || 0));
+            setFat(Number(initialNutrition?.fat || 0));
+            setCarbs(Number(initialNutrition?.carbs || 0));
         }
     }, [initialFoodName, initialNutrition, isFromRecognition]);
     
@@ -360,15 +356,15 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
         const query = e.target.value;
         setName(query);
         setSelectedFood(null); 
-        
-        startSearchTransition(async () => {
-          if (query.length > 1) {
-            const results = await searchFood(query);
+
+        if (query.length > 1) {
+            const results = foodDatabase.filter(item => 
+              item.name.toLowerCase().includes(query.toLowerCase())
+            ).slice(0, 10);
             setSearchResults(results);
-          } else {
+        } else {
             setSearchResults([]);
-          }
-        });
+        }
     };
     
     const handleSelectFood = (food: FoodItem) => {
@@ -439,7 +435,6 @@ function AddMealForm({ onAddMeal, onCancel, initialFoodName, initialNutrition }:
                     <Label htmlFor="name">What did you eat?</Label>
                     <div className="relative">
                         <Input id="name" value={name} onChange={handleSearch} placeholder="e.g., Scrambled Eggs" autoComplete="off" required disabled={isFromRecognition} />
-                        {isSearching && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 animate-spin" />}
                     </div>
                     {searchResults.length > 0 && (
                         <Card className="absolute z-10 w-full mt-1 bg-background shadow-lg">

@@ -7,7 +7,7 @@ import AppSidebar from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: "KidneyWise Diet",
+  title: "Flip and Toss",
   description: "Your smart meal companion for kidney health.",
 };
 
