@@ -65,6 +65,49 @@ export type FoodItem = {
 
 export const foodDatabase: FoodItem[] = [
     {
+        slug: 'veggie-burger',
+        name: 'Veggie Burger',
+        cuisine: 'Generic',
+        mealCategory: 'Lunch',
+        foodGroup: 'Other',
+        nutritionFacts: {
+            servingSize: '1 pattie',
+            calories: 124,
+            totalFat: { value: 4.41, percent: 6 },
+            saturatedFat: { value: 0, percent: 0 },
+            cholesterol: { value: 4, percent: 1 },
+            sodium: { value: 398, percent: 17 },
+            totalCarbohydrate: { value: 9.99, percent: 4 },
+            dietaryFiber: { value: 3.4, percent: 12 },
+            sugars: { value: 0.75 },
+            protein: { value: 10.99 },
+            calcium: { value: 95, percent: 7 },
+            iron: { value: 1.69, percent: 9 },
+            potassium: { value: 233, percent: 5 },
+            vitaminC: { value: 3.2, percent: 4 },
+        },
+        nutritionSummary: {
+            calories: 124,
+            fat: '4.41g',
+            carbs: '9.99g',
+            protein: '10.99g',
+            summaryText: 'There are 124 calories in 1 pattie of Veggie Burgers.',
+            breakdown: '32% fat, 32% carbs, 36% protein.',
+        },
+        servingSizes: [
+            { size: '1 oz', calories: 50 },
+            { size: '1 pattie', calories: 124 },
+            { size: '100 g', calories: 177 },
+        ],
+        relatedTypes: {
+            veggieBurgers: [
+                'Soy Burger',
+                'Meatless Vegetable Burger or Patty',
+                'Meatless Soyburger',
+            ],
+        },
+    },
+    {
         slug: 'egg-omelet',
         name: 'Egg Omelet',
         cuisine: 'Generic',
@@ -1287,6 +1330,7 @@ export const foodDatabase: FoodItem[] = [
         ],
     }
 ];
+
 
 
 
