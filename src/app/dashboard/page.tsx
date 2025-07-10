@@ -28,7 +28,7 @@ const todaysMeals: Meal[] = [
     protein: 6,
     phosphorus: 120,
     cardColor: "bg-yellow-100/50",
-    buttonColor: "bg-orange-400 hover:bg-orange-500",
+    buttonColor: "bg-yellow-500 hover:bg-yellow-600",
   },
   {
     category: "Lunch",
@@ -77,7 +77,7 @@ export default function Dashboard() {
         title="Dashboard"
         description="Here's a summary of your meals and progress for today."
       />
-      <div className="p-4 md:p-8 space-y-8">
+      <main className="flex-1 p-4 md:p-8 space-y-8">
         <section>
           <h2 className="text-2xl font-bold tracking-tight mb-4">
             Today's Meals
@@ -128,7 +128,9 @@ export default function Dashboard() {
             </CardContent>
           </Card>
         </section>
-      </div>
+      </main>
     </div>
   );
 }
+
+    

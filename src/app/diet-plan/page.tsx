@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/accordion";
 import { useRouter } from "next/navigation";
 import { foodDatabase } from "@/lib/food-data";
+import { Checkbox } from "@/components/ui/checkbox";
 
 
 const FormSchema = z.object({
@@ -56,7 +57,9 @@ const FormSchema = z.object({
   weightGoal: z.string().min(1, "Weight goal is required."),
   weeklyVariety: z.string().min(1, "Weekly variety is required."),
   recipeComplexity: z.string().min(1, "Max recipe complexity is required."),
-  dailyMeals: z.array(z.string()).min(1, "Select at least one meal."),
+  dailyMeals: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one meal.",
+  }),
   dietType: z.string().min(1, "Diet type is required."),
   budget: z.string().optional(),
   healthRequirements: z.string().min(10, { message: "Please describe your health requirements in more detail." }),
@@ -69,6 +72,7 @@ type Meal = { name: string; calories: number; description: string; };
 type DayPlan = { breakfast?: Meal; lunch?: Meal; dinner?: Meal; snacks?: Meal; notes?: string; };
 const daysOfWeek = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 const mealTypes: (keyof Omit<DayPlan, 'notes'>)[] = ["breakfast", "lunch", "dinner", "snacks"];
+const dailyMealOptions = ["breakfast", "lunch", "dinner", "snacks"];
 
 export default function DietPlanPage() {
   const [dietPlan, setDietPlan] = useState<GenerateDietPlanOutput | null>(null);
@@ -265,28 +269,45 @@ export default function DietPlanPage() {
                             name="dailyMeals"
                             render={() => (
                                 <FormItem>
-                                    <FormLabel>Daily meals</FormLabel>
-                                    <Controller
-                                        control={form.control}
-                                        name="dailyMeals"
-                                        render={({ field }) => (
+                                  <FormLabel>Daily meals</FormLabel>
+                                  <div className="flex flex-col space-y-2 pt-2">
+                                  {dailyMealOptions.map((item) => (
+                                    <FormField
+                                      key={item}
+                                      control={form.control}
+                                      name="dailyMeals"
+                                      render={({ field }) => {
+                                        return (
+                                          <FormItem
+                                            key={item}
+                                            className="flex flex-row items-start space-x-3 space-y-0"
+                                          >
                                             <FormControl>
-                                                <select
-                                                    {...field}
-                                                    multiple
-                                                    className="flex h-24 w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                                                >
-                                                    <option value="breakfast">Breakfast</option>
-                                                    <option value="lunch">Lunch</option>
-                                                    <option value="dinner">Dinner</option>
-                                                    <option value="snacks">Snacks</option>
-                                                </select>
+                                              <Checkbox
+                                                checked={field.value?.includes(item)}
+                                                onCheckedChange={(checked) => {
+                                                  return checked
+                                                    ? field.onChange([...field.value, item])
+                                                    : field.onChange(
+                                                        field.value?.filter(
+                                                          (value) => value !== item
+                                                        )
+                                                      )
+                                                }}
+                                              />
                                             </FormControl>
-                                        )}
+                                            <FormLabel className="font-normal capitalize">
+                                              {item}
+                                            </FormLabel>
+                                          </FormItem>
+                                        )
+                                      }}
                                     />
-                                    <FormMessage />
+                                  ))}
+                                  </div>
+                                  <FormMessage />
                                 </FormItem>
-                            )}
+                              )}
                         />
                         <FormField control={form.control} name="dietType" render={({ field }) => (
                             <FormItem><FormLabel>Diet type</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select diet type" /></SelectTrigger></FormControl><SelectContent><SelectItem value="anything">Anything</SelectItem><SelectItem value="vegetarian">Vegetarian</SelectItem><SelectItem value="vegan">Vegan</SelectItem><SelectItem value="pescatarian">Pescatarian</SelectItem></SelectContent></Select><FormMessage /></FormItem>
@@ -431,3 +452,5 @@ export default function DietPlanPage() {
     </div>
   );
 }
+
+    

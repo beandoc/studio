@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import type { SuggestMealAlternativesOutput } from "@/ai/flows/suggest-meal-alternatives";
 import { suggestMealAlternatives } from "@/ai/flows/suggest-meal-alternatives";
 import { useToast } from "@/hooks/use-toast";
@@ -19,17 +19,16 @@ import { Zap, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 function MealAlternativesContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const mealSlug = searchParams.get('mealSlug');
   
   const [originalMeal, setOriginalMeal] = useState<FoodItem | null>(null);
   const [alternatives, setAlternatives] = useState<SuggestMealAlternativesOutput['alternatives'] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
-  const router = useRouter();
 
   useEffect(() => {
     if (!mealSlug) {
@@ -122,7 +121,7 @@ function MealAlternativesContent() {
         title="Meal Alternatives"
         description="Here are some smart suggestions for your meal plan."
       />
-      <div className="p-4 md:p-8 grid gap-8">
+      <main className="flex-1 p-4 md:p-8 grid gap-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
             <div className="lg:col-span-1 lg:sticky top-24">
                 <Card>
@@ -205,7 +204,7 @@ function MealAlternativesContent() {
                  )}
             </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
@@ -217,3 +216,5 @@ export default function MealAlternativesPage() {
         </Suspense>
     )
 }
+
+    

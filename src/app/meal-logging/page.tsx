@@ -77,7 +77,7 @@ export default function MealLoggingPage() {
         title="Daily Meal Log"
         description="Log your meals to track your nutrient intake."
       />
-      <div className="p-4 md:p-8">
+      <main className="flex-1 p-4 md:p-8">
         <Accordion type="multiple" defaultValue={["Breakfast", "Lunch"]} className="w-full">
           {(Object.keys(meals) as MealCategory[]).map((category) => (
             <AccordionItem value={category} key={category}>
@@ -114,7 +114,7 @@ export default function MealLoggingPage() {
             </AccordionItem>
           ))}
         </Accordion>
-      </div>
+      </main>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent>
@@ -185,3 +185,5 @@ function AddMealForm({ category, onAddMeal, onCancel }: AddMealFormProps) {
         </form>
     )
 }
+
+    

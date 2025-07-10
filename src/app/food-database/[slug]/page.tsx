@@ -163,3 +163,5 @@ export default function FoodDetailPage({ params }: { params: { slug: string } })
     </div>
   );
 }
+
+    

@@ -105,8 +105,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1 cup',
             calories: 250,
-            totalFat: { value: 8 },
-            saturatedFat: { value: 1.5 },
+            totalFat: { value: 8, percent: 10 },
+            saturatedFat: { value: 1.5, percent: 8 },
             cholesterol: { value: 0, percent: 0 },
             sodium: { value: 400, percent: 17 },
             totalCarbohydrate: { value: 40, percent: 15 },
@@ -133,8 +133,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1 cup',
             calories: 230,
-            totalFat: { value: 7 },
-            saturatedFat: { value: 1.2 },
+            totalFat: { value: 7, percent: 9 },
+            saturatedFat: { value: 1.2, percent: 6 },
             cholesterol: { value: 0, percent: 0 },
             sodium: { value: 380, percent: 16 },
             totalCarbohydrate: { value: 36, percent: 13 },
@@ -161,8 +161,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '2 pieces',
             calories: 180,
-            totalFat: { value: 8 },
-            saturatedFat: { value: 2 },
+            totalFat: { value: 8, percent: 10 },
+            saturatedFat: { value: 2, percent: 10 },
             cholesterol: { value: 5, percent: 2 },
             sodium: { value: 300, percent: 13 },
             totalCarbohydrate: { value: 24, percent: 9 },
@@ -189,8 +189,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1 bowl dal, 2 rotis',
             calories: 450,
-            totalFat: { value: 15 },
-            saturatedFat: { value: 7 },
+            totalFat: { value: 15, percent: 19 },
+            saturatedFat: { value: 7, percent: 35 },
             cholesterol: { value: 30, percent: 10 },
             sodium: { value: 600, percent: 26 },
             totalCarbohydrate: { value: 60, percent: 22 },
@@ -217,8 +217,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1 bowl curry, 1 cup rice',
             calories: 480,
-            totalFat: { value: 12 },
-            saturatedFat: { value: 2 },
+            totalFat: { value: 12, percent: 15 },
+            saturatedFat: { value: 2, percent: 10 },
             cholesterol: { value: 0, percent: 0 },
             sodium: { value: 700, percent: 30 },
             totalCarbohydrate: { value: 75, percent: 27 },
@@ -245,8 +245,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1 cup',
             calories: 220,
-            totalFat: { value: 8 },
-            saturatedFat: { value: 1.5 },
+            totalFat: { value: 8, percent: 10 },
+            saturatedFat: { value: 1.5, percent: 8 },
             cholesterol: { value: 0, percent: 0 },
             sodium: { value: 350, percent: 15 },
             totalCarbohydrate: { value: 32, percent: 12 },
@@ -273,8 +273,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1 serving',
             calories: 320,
-            totalFat: { value: 12 },
-            saturatedFat: { value: 3 },
+            totalFat: { value: 12, percent: 15 },
+            saturatedFat: { value: 3, percent: 15 },
             cholesterol: { value: 10, percent: 3 },
             sodium: { value: 450, percent: 20 },
             totalCarbohydrate: { value: 45, percent: 16 },
@@ -301,8 +301,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1.5 cups',
             calories: 290,
-            totalFat: { value: 7 },
-            saturatedFat: { value: 2 },
+            totalFat: { value: 7, percent: 9 },
+            saturatedFat: { value: 2, percent: 10 },
             cholesterol: { value: 5, percent: 2 },
             sodium: { value: 400, percent: 17 },
             totalCarbohydrate: { value: 48, percent: 17 },
@@ -329,8 +329,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1 cup',
             calories: 120,
-            totalFat: { value: 4 },
-            saturatedFat: { value: 1 },
+            totalFat: { value: 4, percent: 5 },
+            saturatedFat: { value: 1, percent: 5 },
             cholesterol: { value: 0, percent: 0 },
             sodium: { value: 200, percent: 9 },
             totalCarbohydrate: { value: 18, percent: 7 },
@@ -357,8 +357,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '2 idlis, 1 cup sambar',
             calories: 280,
-            totalFat: { value: 6 },
-            saturatedFat: { value: 1 },
+            totalFat: { value: 6, percent: 8 },
+            saturatedFat: { value: 1, percent: 5 },
             cholesterol: { value: 0, percent: 0 },
             sodium: { value: 550, percent: 24 },
             totalCarbohydrate: { value: 45, percent: 16 },
@@ -383,8 +383,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1 bowl curry, 2 rotis',
             calories: 420,
-            totalFat: { value: 20 },
-            saturatedFat: { value: 10 },
+            totalFat: { value: 20, percent: 26 },
+            saturatedFat: { value: 10, percent: 50 },
             cholesterol: { value: 40, percent: 13 },
             sodium: { value: 500, percent: 22 },
             totalCarbohydrate: { value: 40, percent: 15 },
@@ -409,8 +409,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '1.5 cups',
             calories: 350,
-            totalFat: { value: 10 },
-            saturatedFat: { value: 1.5 },
+            totalFat: { value: 10, percent: 13 },
+            saturatedFat: { value: 1.5, percent: 8 },
             cholesterol: { value: 0, percent: 0 },
             sodium: { value: 400, percent: 17 },
             totalCarbohydrate: { value: 60, percent: 22 },
@@ -435,8 +435,8 @@ export const foodDatabase: FoodItem[] = [
         nutritionFacts: {
             servingSize: '3 pieces',
             calories: 150,
-            totalFat: { value: 5 },
-            saturatedFat: { value: 1 },
+            totalFat: { value: 5, percent: 6 },
+            saturatedFat: { value: 1, percent: 5 },
             cholesterol: { value: 0, percent: 0 },
             sodium: { value: 350, percent: 15 },
             totalCarbohydrate: { value: 20, percent: 7 },
@@ -454,3 +454,5 @@ export const foodDatabase: FoodItem[] = [
         servingSizes: [{ size: '3 pieces', calories: 150 }],
     }
 ];
+
+    

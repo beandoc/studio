@@ -8,7 +8,6 @@ import {
   ClipboardList,
   LayoutDashboard,
   User,
-  CalendarDays,
   Database,
   HeartPulse,
   Home,
@@ -20,7 +19,6 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
 const menuItems = [
@@ -36,13 +34,8 @@ const menuItems = [
   },
   {
     href: "/diet-plan",
-    label: "Meal Planner",
+    label: "Diet Plan",
     icon: BookUser,
-  },
-  {
-    href: "/weekly-plan",
-    label: "Weekly Plan",
-    icon: CalendarDays,
   },
   {
     href: "/meal-logging",
@@ -73,14 +66,11 @@ export default function AppSidebar() {
   return (
     <Sidebar className="border-r" collapsible="icon">
       <SidebarHeader>
-        <div className="flex w-full items-center justify-between p-2">
-            <div className="flex items-center gap-2">
-                <Logo />
-                <div className="group-data-[collapsible=icon]:hidden">
-                    <span className="text-lg font-semibold text-sidebar-foreground">KidneyWise</span>
-                </div>
+        <div className="flex w-full items-center gap-2 p-2">
+            <Logo />
+            <div className="group-data-[collapsible=icon]:hidden">
+                <span className="text-lg font-semibold text-sidebar-foreground">KidneyWise</span>
             </div>
-            <SidebarTrigger className="hidden lg:flex" />
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -104,3 +94,5 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
+
+    

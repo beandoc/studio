@@ -1,89 +1,116 @@
 
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 @layer base {
   :root {
-    --background: 240 10% 98%; /* Light lavender */
+    --background: 94 50% 96%; /* off-white: #F4FDF2 */
     --foreground: 240 10% 3.9%;
+    
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
+ 
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 262 82% 62%; /* Vibrant purple */
-    --primary-foreground: 0 0% 98%;
+ 
+    --primary: 115 56% 75%; /* soft green: #A7D9A3 */
+    --primary-foreground: 120 27% 15%;
+ 
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
+ 
     --muted: 240 4.8% 95.9%;
     --muted-foreground: 240 3.8% 46.1%;
-    --accent: 262 82% 92%; /* Lighter purple for accents */
-    --accent-foreground: 262 82% 32%;
+ 
+    --accent: 191 33% 69%; /* muted blue: #7EB5A6 */
+    --accent-foreground: 190 30% 20%;
+ 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
+
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 262 82% 62%;
-    --chart-1: 262 70% 50%;
-    --chart-2: 220 60% 60%;
-    --chart-3: 180 50% 50%;
-    --chart-4: 300 70% 60%;
-    --chart-5: 340 75% 55%;
+    --ring: 115 56% 75%;
+ 
     --radius: 0.5rem;
 
-    /* Sidebar specific theme */
-    --sidebar-background: 262 82% 62%; /* Vibrant purple */
-    --sidebar-foreground: 0 0% 98%; /* White */
-    --sidebar-primary: 0 0% 100%; /* White */
-    --sidebar-primary-foreground: 262 82% 62%; /* Vibrant purple */
-    --sidebar-accent: 262 82% 55%; /* Slightly darker purple */
-    --sidebar-accent-foreground: 0 0% 98%; /* White */
-    --sidebar-border: 262 82% 55%;
+     /* Chart Colors */
+    --chart-1: 115 56% 75%;
+    --chart-2: 191 33% 69%;
+    --chart-3: 350 70% 70%;
+    --chart-4: 40 80% 70%;
+    --chart-5: 210 60% 70%;
+
+     /* Sidebar specific theme */
+    --sidebar-background: 115 56% 75%; /* soft green */
+    --sidebar-foreground: 120 27% 10%; /* Dark green text */
+    --sidebar-primary: 0 0% 100%; /* White for active item */
+    --sidebar-primary-foreground: 115 56% 45%; /* Darker green for active text */
+    --sidebar-accent: 115 30% 85%; /* Lighter green for hover */
+    --sidebar-accent-foreground: 120 27% 10%; /* Dark green text on hover */
+    --sidebar-border: 115 40% 70%;
     --sidebar-ring: 0 0% 98%;
   }
-
+ 
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
+ 
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
+ 
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 262 82% 62%;
+ 
+    --primary: 115 46% 65%;
     --primary-foreground: 0 0% 98%;
+ 
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
+ 
     --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 262 82% 20%;
+ 
+    --accent: 191 33% 59%;
     --accent-foreground: 0 0% 98%;
+ 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
+ 
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 262 82% 62%;
+    --ring: 115 46% 65%;
+
+     /* Chart Colors */
+    --chart-1: 115 46% 65%;
+    --chart-2: 191 33% 59%;
+    --chart-3: 350 60% 60%;
+    --chart-4: 40 70% 60%;
+    --chart-5: 210 50% 60%;
 
     /* Sidebar specific theme */
-    --sidebar-background: 262 82% 62%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 262 82% 62%;
-    --sidebar-accent: 262 82% 55%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 262 82% 55%;
+    --sidebar-background: 115 46% 65%; /* soft green */
+    --sidebar-foreground: 0 0% 98%; /* White text */
+    --sidebar-primary: 0 0% 100%; /* White for active item */
+    --sidebar-primary-foreground: 115 56% 45%; /* Darker green for active text */
+    --sidebar-accent: 115 30% 75%; /* Lighter green for hover */
+    --sidebar-accent-foreground: 0 0% 98%; /* White text on hover */
+    --sidebar-border: 115 40% 60%;
     --sidebar-ring: 0 0% 98%;
   }
 }
-
+ 
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'PT Sans', sans-serif;
   }
 }
+
+    
