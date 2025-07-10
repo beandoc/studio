@@ -701,6 +701,47 @@ export const foodDatabase: FoodItem[] = [
         }
     },
     {
+        slug: 'whole-wheat-bread',
+        name: 'Whole Wheat Bread',
+        cuisine: 'Generic',
+        mealCategory: 'Breakfast',
+        foodGroup: 'Breads & Cereals',
+        nutritionFacts: {
+            servingSize: '1 regular slice',
+            calories: 67,
+            totalFat: { value: 1.07, percent: 1 },
+            saturatedFat: { value: 0.233, percent: 1 },
+            polyunsaturatedFat: { value: 0.237 },
+            monounsaturatedFat: { value: 0.447 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 138, percent: 6 },
+            totalCarbohydrate: { value: 12.26, percent: 4 },
+            dietaryFiber: { value: 1.1, percent: 4 },
+            sugars: { value: 1.43 },
+            protein: { value: 2.37 },
+            calcium: { value: 27, percent: 2 },
+            iron: { value: 0.86, percent: 5 },
+            potassium: { value: 53, percent: 1 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 0, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 67,
+            fat: '1.07g',
+            carbs: '12.26g',
+            protein: '2.37g',
+            summaryText: 'There are 67 calories in 1 regular slice of Whole Wheat Bread.',
+            breakdown: '14% fat, 72% carbs, 14% protein.',
+        },
+        servingSizes: [
+            { size: '1 thin slice', calories: 52 },
+            { size: '1 regular slice', calories: 67 },
+            { size: '1 large or thick slice', calories: 78 },
+            { size: '1 oz', calories: 73 },
+            { size: '100 g', calories: 259 },
+        ],
+    },
+    {
         slug: 'poha',
         name: 'Poha',
         cuisine: 'Maharashtrian',
@@ -792,3 +833,4 @@ export const foodDatabase: FoodItem[] = [
         ],
     }
 ];
+
