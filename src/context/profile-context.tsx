@@ -20,7 +20,8 @@ type ProfileContextType = {
   setDietPlan: (plan: GenerateDietPlanOutput | null, profileId?: string) => void;
   updateDailyLog: (profileId: string, date: Date, log: DailyLog) => void;
   getDailyLog: (profileId: string, date: Date) => DailyLog | null;
-  getProfileLogs: (profileId: string, days: number) => { date: string; totals: { calories: number; protein: number; fat: number; } }[];
+  getProfileLogs: (profileId: string, days: number) => { date: Date; totals: { calories: number; protein: number; fat: number; } }[];
+  getRawProfileLogs: (profileId: string, days: number) => DailyLog[];
 };
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
@@ -82,14 +83,17 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
     
     setDietPlans(newDietPlans);
     localStorage.setItem('dietPlans', JSON.stringify(newDietPlans));
-    // Legacy support for single-plan storage - can be removed later
-    localStorage.setItem(`dietPlan-${targetProfileId}`, JSON.stringify(plan));
   };
   
   const getDailyLog = useCallback((profileId: string, date: Date): DailyLog | null => {
-    const logKey = `mealLog-${profileId}-${format(date, 'yyyy-MM-dd')}`;
-    const storedLog = localStorage.getItem(logKey);
-    return storedLog ? JSON.parse(storedLog) : null;
+    try {
+        const logKey = `mealLog-${profileId}-${format(date, 'yyyy-MM-dd')}`;
+        const storedLog = localStorage.getItem(logKey);
+        return storedLog ? JSON.parse(storedLog) : null;
+    } catch (e) {
+        console.error("Failed to parse daily log from localStorage", e);
+        return null;
+    }
   }, []);
 
   const updateDailyLog = useCallback((profileId: string, date: Date, log: DailyLog) => {
@@ -114,7 +118,20 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
                 totals.fat += item.fat || 0;
             });
         }
-        logs.push({ date: format(date, 'E dd'), totals });
+        logs.push({ date: date, totals });
+    }
+    return logs;
+  }, [getDailyLog]);
+  
+  const getRawProfileLogs = useCallback((profileId: string, days: number) => {
+     const today = new Date();
+    const logs: DailyLog[] = [];
+     for (let i = 0; i < days; i++) {
+      const date = subDays(today, i);
+      const log = getDailyLog(profileId, date);
+      if (log) {
+        logs.push(log);
+      }
     }
     return logs;
   }, [getDailyLog]);
@@ -135,6 +152,7 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
         updateDailyLog,
         getDailyLog,
         getProfileLogs,
+        getRawProfileLogs,
     }}>
       {children}
     </ProfileContext.Provider>
