@@ -1,10 +1,10 @@
 
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { format, addDays } from "date-fns";
 import { Plus, Settings, Copy, Printer, Trash2, ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw, GlassWater, Droplets } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, Legend } from "recharts";
 
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
@@ -101,12 +101,12 @@ export default function MyMealTrackerPage() {
   }, [currentDate, activeProfile, getDailyLog]);
 
   // Save to context/storage whenever dailyLog changes
-  const handleDailyLogChange = (newLog: DailyLog) => {
+  const handleDailyLogChange = useCallback((newLog: DailyLog) => {
     setDailyLog(newLog);
     if (activeProfile) {
         updateDailyLog(activeProfile.id, currentDate, newLog);
     }
-  }
+  }, [activeProfile, currentDate, updateDailyLog]);
 
   const handleOpenAddItem = (category: MealCategory) => {
     setCurrentCategory(category);
@@ -396,40 +396,38 @@ export default function MyMealTrackerPage() {
 
               {/* Right side: Pie Chart */}
               <div className="h-64">
-                  <ChartContainer config={{}} className="w-full h-full">
-                      <ResponsiveContainer width="100%" height="100%">
-                          <PieChart>
-                              <RechartsTooltip content={<ChartTooltipContent hideLabel />} />
-                              <Pie
-                                  data={calorieBreakdownData}
-                                  dataKey="value"
-                                  nameKey="name"
-                                  cx="50%"
-                                  cy="50%"
-                                  innerRadius={60}
-                                  outerRadius={80}
-                                  fill="#8884d8"
-                                  labelLine={false}
-                                  label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-                                      const RADIAN = Math.PI / 180;
-                                      const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-                                      const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                                      const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                                      return (
-                                      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-                                          {`${(percent * 100).toFixed(0)}%`}
-                                      </text>
-                                      );
-                                  }}
-                              >
-                                  {calorieBreakdownData.map((entry, index) => (
-                                      <Cell key={`cell-${index}`} fill={entry.color} />
-                                  ))}
-                              </Pie>
-                              <Legend />
-                          </PieChart>
-                      </ResponsiveContainer>
-                  </ChartContainer>
+                  <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                          <RechartsTooltip content={<ChartTooltipContent hideLabel />} />
+                          <Pie
+                              data={calorieBreakdownData}
+                              dataKey="value"
+                              nameKey="name"
+                              cx="50%"
+                              cy="50%"
+                              innerRadius={60}
+                              outerRadius={80}
+                              fill="#8884d8"
+                              labelLine={false}
+                              label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+                                  const RADIAN = Math.PI / 180;
+                                  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+                                  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                                  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                                  return (
+                                  <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+                                      {`${(percent * 100).toFixed(0)}%`}
+                                  </text>
+                                  );
+                              }}
+                          >
+                              {calorieBreakdownData.map((entry, index) => (
+                                  <Cell key={`cell-${index}`} fill={entry.color} />
+                              ))}
+                          </Pie>
+                          <Legend />
+                      </PieChart>
+                  </ResponsiveContainer>
               </div>
             </CardContent>
             <CardFooter className="text-sm text-muted-foreground">

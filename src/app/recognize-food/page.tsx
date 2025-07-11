@@ -48,7 +48,7 @@ export default function RecognizeFoodPage() {
   const router = useRouter();
 
   const getCameraPermission = async () => {
-    if (hasCameraPermission) return;
+    if (hasCameraPermission !== null) return;
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       toast({
         variant: "destructive",
@@ -166,8 +166,6 @@ export default function RecognizeFoodPage() {
       return;
     }
     
-    const updatedLog = getDailyLog(activeProfile.id, logDate) || getInitialLog();
-
     const itemsToLog = analysisResult.items.filter(item => selectedItems[item.name]);
 
     if(itemsToLog.length === 0) {
@@ -179,42 +177,37 @@ export default function RecognizeFoodPage() {
         return;
     }
 
-    const newMeal: Omit<LoggedMeal, 'id'> = {
-        category: mealCategory,
-        name: analysisResult.mealName || "Scanned Meal",
-        calories: 0,
-        protein: 0,
-        fat: 0,
-        carbs: 0,
-    };
-    
-    let loggedItemNames: string[] = [];
+    // This is the corrected logic:
+    // 1. Fetch the existing log for the date, or create an initial one if it's null.
+    // 2. Deep copy to avoid mutation issues.
+    // 3. Add each selected item as a separate entry.
+    // 4. Update the log in the context.
+
+    const existingLog = getDailyLog(activeProfile.id, logDate) || getInitialLog();
+    const updatedLog = JSON.parse(JSON.stringify(existingLog));
 
     itemsToLog.forEach(item => {
         const caloriesFromProteinAndFat = (item.protein * 4) + (item.fat * 9);
         const remainingCalories = item.calories - caloriesFromProteinAndFat;
         const calculatedCarbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
         
-        newMeal.calories += item.calories;
-        newMeal.protein += item.protein;
-        newMeal.fat += item.fat;
-        newMeal.carbs += calculatedCarbs;
-        loggedItemNames.push(item.name);
+        const newMeal: LoggedMeal = {
+            id: new Date().toISOString() + Math.random(),
+            category: mealCategory,
+            name: item.name,
+            calories: item.calories,
+            protein: item.protein,
+            fat: item.fat,
+            carbs: calculatedCarbs,
+        };
+        updatedLog.meals[mealCategory].push(newMeal);
     });
-
-    if(itemsToLog.length > 1) {
-        newMeal.name = `${analysisResult.mealName} (${loggedItemNames.length} items)`;
-    } else {
-        newMeal.name = loggedItemNames[0] || analysisResult.mealName;
-    }
-
-    updatedLog.meals[mealCategory].push({ ...newMeal, id: new Date().toISOString() + Math.random() });
     
     updateDailyLog(activeProfile.id, logDate, updatedLog);
 
     toast({
       title: "Meal Logged!",
-      description: `"${newMeal.name}" has been added to ${activeProfile.fullName}'s tracker for ${format(logDate, 'PPP')}.`,
+      description: `${itemsToLog.length} item(s) have been added to ${activeProfile.fullName}'s tracker for ${format(logDate, 'PPP')}.`,
     });
 
     router.push('/my-meal-tracker');
