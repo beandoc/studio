@@ -3312,6 +3312,7 @@ export const foodDatabase: FoodItem[] = [
             calories: 121,
             totalFat: { value: 3.72, percent: 5 },
             saturatedFat: { value: 0.763, percent: 4 },
+            transFat: { value: 0 },
             polyunsaturatedFat: { value: 0.722 },
             monounsaturatedFat: { value: 1.99 },
             cholesterol: { value: 5, percent: 2 },
@@ -3354,4 +3355,5 @@ export const foodDatabase: FoodItem[] = [
         },
     }
 ];
+
 
