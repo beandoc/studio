@@ -161,26 +161,27 @@ export default function RecognizeFoodPage() {
     
     // The AI doesn't return carbs, so we'll need to calculate it.
     // Calorie breakdown: 1g Protein = 4 cal, 1g Fat = 9 cal
-    const newMeals = analysisResult.items.map(item => {
-        const caloriesFromProtein = item.protein * 4;
-        const caloriesFromFat = item.fat * 9;
-        const remainingCalories = item.calories - caloriesFromProtein - caloriesFromFat;
-        const carbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
+    const caloriesFromProtein = analysisResult.totalProtein * 4;
+    const caloriesFromFat = analysisResult.totalFat * 9;
+    const remainingCalories = analysisResult.totalCalories - caloriesFromProtein - caloriesFromFat;
+    const carbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
 
-        return {
-            ...item,
-            id: new Date().toISOString() + Math.random(),
-            category: mealCategory,
-            carbs: carbs,
-        };
-    });
-
+    const newMeal = {
+        id: new Date().toISOString() + Math.random(),
+        category: mealCategory,
+        name: analysisResult.mealName,
+        calories: analysisResult.totalCalories,
+        protein: analysisResult.totalProtein,
+        fat: analysisResult.totalFat,
+        carbs: carbs
+    };
+    
     const updatedLog = { ...currentLog };
     
     if (!updatedLog.meals[mealCategory]) {
       updatedLog.meals[mealCategory] = [];
     }
-    updatedLog.meals[mealCategory] = [...updatedLog.meals[mealCategory], ...newMeals];
+    updatedLog.meals[mealCategory] = [...updatedLog.meals[mealCategory], newMeal];
     
     updateDailyLog(activeProfile.id, logDate, updatedLog);
 
