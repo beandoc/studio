@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useState } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts"
 import { format, subDays } from "date-fns"
 import type { DailyLog } from "@/app/my-meal-tracker/page"
@@ -33,7 +33,9 @@ type WeeklyProgressChartProps = {
 };
 
 export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) {
-    const chartData = useMemo(() => {
+    const [chartData, setChartData] = useState<any[]>([]);
+    
+    useEffect(() => {
         const today = new Date();
         const data = [];
         const daysToFetch = view === 'weekly' ? 7 : 30;
@@ -70,7 +72,7 @@ export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) 
                 fat: parseFloat(totals.fat.toFixed(1)),
             });
         }
-        return data;
+        setChartData(data);
     }, [view]);
 
 
