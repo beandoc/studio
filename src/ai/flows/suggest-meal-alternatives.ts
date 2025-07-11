@@ -11,7 +11,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import {z} from 'zod';
 import { foodDatabase, type FoodItem } from '@/lib/food-data';
 
 const SuggestMealAlternativesInputSchema = z.object({
@@ -39,7 +39,7 @@ export async function suggestMealAlternatives(input: SuggestMealAlternativesInpu
 }
 
 // Helper function to find alternatives
-const findAlternatives = (originalMeal: FoodItem): FoodItem[] => {
+const findAlternatives = (originalMeal: FoodItem, sameCuisineOnly: boolean): FoodItem[] => {
     // 1. Extract nutrition targets from the original meal
     const originalProtein = originalMeal.nutritionFacts.protein.value;
     const originalCarbs = originalMeal.nutritionFacts.totalCarbohydrate.value;
@@ -52,6 +52,28 @@ const findAlternatives = (originalMeal: FoodItem): FoodItem[] => {
     const suitableAlternatives = foodDatabase.filter(meal => {
         // Must not be the same meal
         if (meal.slug === originalMeal.slug) return false;
+
+        // Cuisine check (optional)
+        if (sameCuisineOnly && meal.cuisine !== originalMeal.cuisine) {
+            return false;
+        }
+
+        // Relaxed meal category check for Lunch/Dinner
+        const originalCategory = originalMeal.mealCategory;
+        const alternativeCategory = meal.mealCategory;
+        const lunchDinnerCategories = ['Lunch', 'Dinner', 'Lunch/Dinner'];
+
+        let isCategoryMatch = false;
+        if (lunchDinnerCategories.includes(originalCategory) && lunchDinnerCategories.includes(alternativeCategory)) {
+            isCategoryMatch = true;
+        } else {
+            isCategoryMatch = originalCategory === alternativeCategory;
+        }
+
+        if (!isCategoryMatch) {
+            return false;
+        }
+
 
         // Must be within the 20% protein and carb range
         const protein = meal.nutritionFacts.protein.value;
@@ -81,8 +103,13 @@ const suggestMealAlternativesFlow = ai.defineFlow(
       throw new Error(`Meal with slug "${input.mealSlug}" not found in the database.`);
     }
 
-    // Find alternatives based purely on nutritional similarity
-    let suitableAlternatives = findAlternatives(originalMeal);
+    // First pass: Prioritize same cuisine
+    let suitableAlternatives = findAlternatives(originalMeal, true);
+    
+    // Second pass: If no matches, broaden search to all cuisines
+    if (suitableAlternatives.length === 0) {
+      suitableAlternatives = findAlternatives(originalMeal, false);
+    }
     
     // 3. Format the output
     // Take the first two suitable alternatives found
