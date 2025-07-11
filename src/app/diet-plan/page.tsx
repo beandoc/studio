@@ -40,7 +40,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-intl/client";
 import { foodDatabase } from "@/lib/food-data";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";

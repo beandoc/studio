@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import { Link } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";

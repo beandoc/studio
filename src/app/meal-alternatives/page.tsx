@@ -2,7 +2,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next-intl/client';
 import type { SuggestMealAlternativesOutput } from "@/ai/flows/suggest-meal-alternatives";
 import { suggestMealAlternatives } from "@/ai/flows/suggest-meal-alternatives";
 import { useToast } from "@/hooks/use-toast";
@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 import { Zap, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { foodDatabase, type FoodItem } from "@/lib/food-data";
-import Link from "next/link";
+import { Link } from "next-intl";
 import { generateDietPlan, type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
 
 

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-intl/client";
 import { Button } from "@/components/ui/button";
 import {
   Card,

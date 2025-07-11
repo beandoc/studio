@@ -1,7 +1,8 @@
+
 "use client";
 
 import { usePathname } from "next/navigation";
-import Link from "next/link";
+import { Link } from "next-intl";
 import {
   BookUser,
   ClipboardList,
@@ -66,13 +67,19 @@ export default function SidebarNav() {
     },
   ];
 
+  // A simple way to check for active links that accounts for locales
+  const checkActive = (href: string) => {
+    if (href === '/') return pathname.split('/').length <= 2; // Home is active for root locale paths
+    return pathname.includes(href);
+  }
+
   return (
     <SidebarMenu>
       {menuItems.map((item) => (
         <SidebarMenuItem key={item.label}>
           <Link href={item.href}>
             <SidebarMenuButton
-              isActive={pathname === item.href || pathname.startsWith(`${item.href}/`)}
+              isActive={checkActive(item.href)}
               tooltip={item.label}
               className="justify-start"
             >

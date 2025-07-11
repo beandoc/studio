@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/card";
 import { type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-intl/client";
 import { Utensils, Sunrise, Sun, Moon, Coffee } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import Link from "next/link";
+import { Link } from "next-intl";
 
 type Meal = {
     type: string;
