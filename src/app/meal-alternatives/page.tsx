@@ -3,7 +3,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next-intl/client';
+import { useRouter } from 'next-intl';
 import type { SuggestMealAlternativesOutput } from "@/ai/flows/suggest-meal-alternatives";
 import { suggestMealAlternatives } from "@/ai/flows/suggest-meal-alternatives";
 import { useToast } from "@/hooks/use-toast";

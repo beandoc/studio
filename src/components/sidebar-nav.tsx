@@ -1,8 +1,7 @@
 
 "use client";
 
-import { usePathname } from "next-intl/client";
-import { Link } from "next-intl";
+import { usePathname, Link } from "next-intl";
 import {
   BookUser,
   ClipboardList,
