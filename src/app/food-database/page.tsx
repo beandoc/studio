@@ -1,14 +1,14 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Header from "@/components/header";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { foodDatabase, type FoodGroup } from "@/lib/food-data";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Search, Database } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -16,10 +16,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 
-
-const cuisineOptions = ['All', 'Maharashtrian', 'Gujarati', 'North Indian', 'South Indian', 'Generic'];
-const mealCategoryOptions = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack'];
+const cuisineOptions = ['All', 'Maharashtrian', 'Gujarati', 'North Indian', 'South Indian', 'Generic', 'Punjabi', 'Bengali', 'Jain', 'Indian'];
+const mealCategoryOptions = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner'];
 const foodGroupOptions: ('All' | FoodGroup)[] = [
     'All',
     'Beans & Legumes',
@@ -42,12 +42,43 @@ const foodGroupOptions: ('All' | FoodGroup)[] = [
     'Other'
 ];
 
+type Stats = {
+    total: number;
+    byFoodGroup: Record<string, number>;
+    byMealCategory: Record<string, number>;
+    byCuisine: Record<string, number>;
+}
+
 
 export default function FoodDatabasePage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [cuisineFilter, setCuisineFilter] = useState("All");
     const [mealCategoryFilter, setMealCategoryFilter] = useState("All");
     const [foodGroupFilter, setFoodGroupFilter] = useState<"All" | FoodGroup>("All");
+
+    const stats: Stats = useMemo(() => {
+        const byFoodGroup = foodDatabase.reduce((acc, food) => {
+            acc[food.foodGroup] = (acc[food.foodGroup] || 0) + 1;
+            return acc;
+        }, {} as Record<string, number>);
+
+        const byMealCategory = foodDatabase.reduce((acc, food) => {
+            acc[food.mealCategory] = (acc[food.mealCategory] || 0) + 1;
+            return acc;
+        }, {} as Record<string, number>);
+
+        const byCuisine = foodDatabase.reduce((acc, food) => {
+            acc[food.cuisine] = (acc[food.cuisine] || 0) + 1;
+            return acc;
+        }, {} as Record<string, number>);
+
+        return {
+            total: foodDatabase.length,
+            byFoodGroup: Object.fromEntries(Object.entries(byFoodGroup).sort(([,a],[,b]) => b-a)),
+            byMealCategory: Object.fromEntries(Object.entries(byMealCategory).sort(([,a],[,b]) => b-a)),
+            byCuisine: Object.fromEntries(Object.entries(byCuisine).sort(([,a],[,b]) => b-a)),
+        }
+    }, []);
 
     const filteredFoods = foodDatabase.filter(food => {
         const matchesSearch = food.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -64,7 +95,57 @@ export default function FoodDatabasePage() {
         description="Browse our growing list of foods and their nutritional information."
       />
       <main className="flex-1 p-4 md:p-8">
+        <Card className="mb-8 bg-muted/30">
+            <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                    <Database className="h-6 w-6 text-primary"/>
+                    Database At a Glance
+                </CardTitle>
+                <CardDescription>
+                    We currently have <Badge variant="secondary">{stats.total}</Badge> food items in our database.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <h4 className="font-bold mb-2">By Food Group</h4>
+                        <div className="flex flex-wrap gap-2">
+                            {Object.entries(stats.byFoodGroup).map(([group, count]) => (
+                                <Badge key={group} variant="outline" className="font-normal">
+                                    {group}: <span className="font-semibold ml-1">{count}</span>
+                                </Badge>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="font-bold mb-2">By Meal Category</h4>
+                         <div className="flex flex-wrap gap-2">
+                            {Object.entries(stats.byMealCategory).map(([group, count]) => (
+                                <Badge key={group} variant="outline" className="font-normal">
+                                    {group}: <span className="font-semibold ml-1">{count}</span>
+                                </Badge>
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="font-bold mb-2">By Cuisine</h4>
+                         <div className="flex flex-wrap gap-2">
+                            {Object.entries(stats.byCuisine).map(([group, count]) => (
+                                <Badge key={group} variant="outline" className="font-normal">
+                                    {group}: <span className="font-semibold ml-1">{count}</span>
+                                </Badge>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+
         <Card className="mb-8">
+            <CardHeader>
+                <CardTitle>Filter & Search</CardTitle>
+                <CardDescription>Find specific food items using the filters below.</CardDescription>
+            </CardHeader>
             <CardContent className="p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div className="relative md:col-span-1 lg:col-span-1">
@@ -150,3 +231,4 @@ export default function FoodDatabasePage() {
     </div>
   );
 }
+
