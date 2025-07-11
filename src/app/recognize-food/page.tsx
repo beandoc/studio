@@ -98,17 +98,24 @@ export default function RecognizeFoodPage() {
   };
 
   const handleLogMeal = () => {
-    if (!analysisResult || !activeProfile) {
-      toast({ variant: "destructive", title: "Cannot Log Meal", description: "No analysis result or active profile."});
+    if (!analysisResult) return;
+
+    if (!activeProfile) {
+      toast({
+        title: "No Profile Selected",
+        description: "Please select or create a profile to log this meal.",
+        action: (
+          <Button onClick={() => router.push('/profiles')}>Go to Profiles</Button>
+        ),
+      });
       return;
     }
     
     const today = new Date();
     const currentLog = getDailyLog(activeProfile.id, today) || { meals: { Breakfast: [], Lunch: [], Dinner: [], "Morning Snack": [], "Afternoon Snack": [], "Evening Snack": [] }, fluids: [] };
     
-    // Simple logic to guess meal category based on time
     const hour = today.getHours();
-    let category: MealCategory = "Snacks";
+    let category: MealCategory = "Morning Snack";
     if (hour >= 5 && hour < 11) category = "Breakfast";
     else if (hour >= 11 && hour < 14) category = "Lunch";
     else if (hour >= 14 && hour < 17) category = "Afternoon Snack";
@@ -119,10 +126,14 @@ export default function RecognizeFoodPage() {
         ...item,
         id: new Date().toISOString() + Math.random(),
         category: category,
-        carbs: 0, // Placeholder as recognize-food doesn't return carbs
+        carbs: 0,
     }));
 
     const updatedLog = { ...currentLog };
+    
+    if (!updatedLog.meals[category]) {
+      updatedLog.meals[category] = [];
+    }
     updatedLog.meals[category] = [...updatedLog.meals[category], ...newMeals];
     
     updateDailyLog(activeProfile.id, today, updatedLog);
@@ -134,25 +145,6 @@ export default function RecognizeFoodPage() {
 
     router.push('/my-meal-tracker');
   };
-  
-    if (!activeProfile) {
-        return (
-            <div className="flex flex-col w-full">
-                <Header
-                    title="FoodLens (AI enabled scanning)"
-                    description="Point your camera at a meal to identify items and estimate nutrition."
-                />
-                <main className="flex-1 p-4 md:p-8">
-                    <Card className="max-w-2xl mx-auto">
-                        <CardHeader>
-                            <CardTitle>No Profile Selected</CardTitle>
-                            <CardDescription>Please create or select a profile to use the FoodLens feature.</CardDescription>
-                        </CardHeader>
-                    </Card>
-                </main>
-            </div>
-        )
-    }
 
   return (
     <div className="flex flex-col w-full">
@@ -262,7 +254,8 @@ export default function RecognizeFoodPage() {
                          </div>
                     </div>
                     <Button onClick={handleLogMeal} className="w-full">
-                        <Utensils className="mr-2 h-4 w-4" /> Log this meal for {activeProfile.fullName}
+                        <Utensils className="mr-2 h-4 w-4" /> 
+                        {activeProfile ? `Log this meal for ${activeProfile.fullName}` : 'Log this Meal'}
                     </Button>
                 </CardContent>
               </Card>
