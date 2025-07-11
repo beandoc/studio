@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { recognizeFoodImage, type RecognizeFoodImageOutput } from "@/ai/flows/recognize-food-image";
-import { Camera, Loader2, Sparkles, Utensils, CheckCircle2, Upload, CalendarIcon } from "lucide-react";
+import { Camera, Loader2, Sparkles, Utensils, CheckCircle2, Upload, CalendarIcon, Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { useProfile } from "@/context/profile-context";
@@ -159,12 +159,21 @@ export default function RecognizeFoodPage() {
     
     const currentLog = getDailyLog(activeProfile.id, logDate) || { meals: { Breakfast: [], Lunch: [], Dinner: [], "Morning Snack": [], "Afternoon Snack": [], "Evening Snack": [] }, fluids: [] };
     
-    const newMeals = analysisResult.items.map(item => ({
-        ...item,
-        id: new Date().toISOString() + Math.random(),
-        category: mealCategory,
-        carbs: 0,
-    }));
+    // The AI doesn't return carbs, so we'll need to calculate it.
+    // Calorie breakdown: 1g Protein = 4 cal, 1g Fat = 9 cal
+    const newMeals = analysisResult.items.map(item => {
+        const caloriesFromProtein = item.protein * 4;
+        const caloriesFromFat = item.fat * 9;
+        const remainingCalories = item.calories - caloriesFromProtein - caloriesFromFat;
+        const carbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
+
+        return {
+            ...item,
+            id: new Date().toISOString() + Math.random(),
+            category: mealCategory,
+            carbs: carbs,
+        };
+    });
 
     const updatedLog = { ...currentLog };
     
@@ -332,7 +341,7 @@ export default function RecognizeFoodPage() {
                             </div>
                         </div>
                     </CardContent>
-                    <CardFooter className="flex-col sm:flex-row gap-4">
+                    <CardFooter className="flex-col sm:flex-row gap-4 items-stretch">
                         <div className="grid grid-cols-2 gap-4 w-full">
                              <Popover>
                                 <PopoverTrigger asChild>
@@ -368,10 +377,16 @@ export default function RecognizeFoodPage() {
                             </Select>
                         </div>
 
-                        <Button onClick={handleLogMeal} className="w-full sm:w-auto mt-4 sm:mt-0">
-                            <Utensils className="mr-2 h-4 w-4" /> 
-                            {activeProfile ? `Log Meal` : 'Log Meal'}
-                        </Button>
+                         <div className="flex gap-2 w-full sm:w-auto">
+                            <Button onClick={() => router.push('/my-meal-tracker')} variant="secondary" className="flex-1">
+                                <Plus className="mr-2 h-4 w-4" /> 
+                                Add Manually
+                            </Button>
+                            <Button onClick={handleLogMeal} className="flex-1">
+                                <Utensils className="mr-2 h-4 w-4" /> 
+                                {activeProfile ? `Add to Tracker` : 'Add to Tracker'}
+                            </Button>
+                        </div>
                     </CardFooter>
                 </Card>
                 )}

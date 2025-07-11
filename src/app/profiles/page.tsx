@@ -32,7 +32,8 @@ export default function ProfilesPage() {
     router.push("/dashboard");
   }
 
-  const handleDeleteProfile = (id: string) => {
+  const handleDeleteProfile = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation(); // Prevent card click event from firing
     removeProfile(id);
   }
 
@@ -75,7 +76,7 @@ export default function ProfilesPage() {
           </Link>
 
           {filteredProfiles.map(profile => (
-            <Card key={profile.id} className="flex flex-col">
+            <Card key={profile.id} className="flex flex-col hover:shadow-lg transition-shadow cursor-pointer" onClick={() => handleSelectProfile(profile.id)}>
               <CardHeader>
                 <div className="flex justify-between items-start">
                     <div>
@@ -85,9 +86,32 @@ export default function ProfilesPage() {
                         </CardTitle>
                         <CardDescription>{profile.age} years old, {profile.gender}</CardDescription>
                     </div>
-                    {activeProfileId === profile.id && (
-                        <CheckCircle className="h-6 w-6 text-green-500" />
-                    )}
+                     <div className="flex items-center gap-2">
+                        {activeProfileId === profile.id && (
+                            <CheckCircle className="h-6 w-6 text-green-500" />
+                        )}
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10" onClick={(e) => e.stopPropagation()}>
+                              <Trash2 className="h-4 w-4" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete the profile for {profile.fullName} and all of their associated data.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction onClick={(e) => handleDeleteProfile(e, profile.id)} className="bg-destructive hover:bg-destructive/90">
+                                Delete Profile
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                    </div>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow">
@@ -96,37 +120,6 @@ export default function ProfilesPage() {
                     <strong>Protein Goal:</strong> {profile.proteinGoal || 'N/A'}g | <strong>Fluid Goal:</strong> {profile.fluidGoal || 'N/A'}ml
                 </p>
               </CardContent>
-              <CardFooter className="flex justify-between items-center">
-                <Button 
-                  onClick={() => handleSelectProfile(profile.id)} 
-                  className="w-full"
-                  variant={activeProfileId === profile.id ? "secondary" : "default"}
-                  disabled={activeProfileId === profile.id}
-                >
-                  {activeProfileId === profile.id ? "Currently Active" : "Set Active & View"}
-                </Button>
-                 <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button variant="destructive" size="icon" className="ml-2 flex-shrink-0">
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This action cannot be undone. This will permanently delete the profile for {profile.fullName} and all of their associated data.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => handleDeleteProfile(profile.id)}>
-                        Delete Profile
-                      </AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
-              </CardFooter>
             </Card>
           ))}
         </div>

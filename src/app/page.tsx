@@ -49,7 +49,7 @@ export default function WelcomePage() {
                                     {t.doctorButton}
                                 </Button>
                             </Link>
-                             <Link href="/profiles" passHref>
+                             <Link href="/diet-plan" passHref>
                                 <Button size="lg" variant="secondary" className="w-full sm:w-auto">
                                     <User className="mr-2 h-5 w-5" />
                                     {t.patientButton}
