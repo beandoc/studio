@@ -35,11 +35,6 @@ export default function SidebarNav() {
 
   const menuItems = [
     {
-      href: "/",
-      label: t.home,
-      icon: Home,
-    },
-    {
       href: "/dashboard",
       label: t.dashboard,
       icon: LayoutDashboard,
