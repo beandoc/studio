@@ -66,7 +66,7 @@ export type FoodItem = {
 
 export const foodDatabase: FoodItem[] = [
     {
-        slug: 'hot-tea',
+        slug: 'hot-tea-garam-chai',
         name: 'Hot tea (Garam Chai)',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
@@ -91,11 +91,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.5g',
             carbs: '2.6g',
             protein: '0.4g',
-            summaryText: 'A serving of hot tea.',
+            summaryText: 'A serving of Hot tea (Garam Chai).',
             breakdown: '29% fat, 64% carbs, 7% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 16 }
+            { size: '1 serving', calories: 16.14 }
         ]
     },
     {
@@ -124,16 +124,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.8g',
             carbs: '3.7g',
             protein: '0.6g',
-            summaryText: 'A serving of instant coffee.',
+            summaryText: 'A serving of Instant coffee.',
             breakdown: '29% fat, 63% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 23 }
+            { size: '1 serving', calories: 23.16 }
         ]
     },
     {
         slug: 'espreso-coffee',
-        name: 'Espresso coffee',
+        name: 'Espreso coffee',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
         foodGroup: 'Beverages',
@@ -157,11 +157,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.1g',
             carbs: '6.6g',
             protein: '1.8g',
-            summaryText: 'A serving of espresso coffee.',
+            summaryText: 'A serving of Espreso coffee.',
             breakdown: '37% fat, 51% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 52 }
+            { size: '1 serving', calories: 51.54 }
         ]
     },
     {
@@ -190,15 +190,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.0g',
             carbs: '2.7g',
             protein: '0.0g',
-            summaryText: 'A serving of iced tea.',
+            summaryText: 'A serving of Iced tea.',
             breakdown: '0% fat, 99% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 10 }
+            { size: '1 serving', calories: 10.34 }
         ]
     },
     {
-        slug: 'aam-panna',
+        slug: 'raw-mango-drink-aam-panna',
         name: 'Raw mango drink (Aam panna)',
         cuisine: 'North Indian',
         mealCategory: 'Beverages',
@@ -223,15 +223,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.0g',
             carbs: '9.1g',
             protein: '0.2g',
-            summaryText: 'A refreshing raw mango drink.',
+            summaryText: 'A serving of Raw mango drink (Aam panna).',
             breakdown: '1% fat, 97% carbs, 2% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 36 }
+            { size: '1 serving', calories: 35.92 }
         ]
     },
     {
-        slug: 'fruit-punch-fresh',
+        slug: 'fruit-punch-with-fresh-juices',
         name: 'Fruit Punch (with fresh juices)',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
@@ -256,15 +256,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.0g',
             carbs: '9.4g',
             protein: '0.1g',
-            summaryText: 'A serving of fruit punch with fresh juices.',
+            summaryText: 'A serving of Fruit Punch (with fresh juices).',
             breakdown: '1% fat, 97% carbs, 2% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 36 }
+            { size: '1 serving', calories: 36.12 }
         ]
     },
     {
-        slug: 'fruit-punch-squash',
+        slug: 'fruit-punch-with-squashes',
         name: 'Fruit Punch (with squashes)',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
@@ -289,11 +289,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.0g',
             carbs: '6.0g',
             protein: '0.1g',
-            summaryText: 'A serving of fruit punch with squashes.',
+            summaryText: 'A serving of Fruit Punch (with squashes).',
             breakdown: '1% fat, 98% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 23 }
+            { size: '1 serving', calories: 23.13 }
         ]
     },
     {
@@ -322,11 +322,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.0g',
             carbs: '5.5g',
             protein: '0.0g',
-            summaryText: 'A serving of lemonade.',
+            summaryText: 'A serving of Lemonade.',
             breakdown: '0% fat, 99% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 21 }
+            { size: '1 serving', calories: 20.8 }
         ]
     },
     {
@@ -359,11 +359,11 @@ export const foodDatabase: FoodItem[] = [
             breakdown: '1% fat, 98% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 22 }
+            { size: '1 serving', calories: 21.52 }
         ]
     },
     {
-        slug: 'cumin-infused-water',
+        slug: 'cumin-infused-water-jeere-zeere-ka-pani',
         name: 'Cumin infused water (Jeere/Zeere ka pani)',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
@@ -388,11 +388,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.1g',
             carbs: '1.9g',
             protein: '0.2g',
-            summaryText: 'A serving of cumin infused water.',
+            summaryText: 'A serving of Cumin infused water (Jeere/Zeere ka pani).',
             breakdown: '11% fat, 82% carbs, 7% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 9 }
+            { size: '1 serving', calories: 9.09 }
         ]
     },
     {
@@ -421,11 +421,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '1.0g',
             carbs: '5.7g',
             protein: '0.6g',
-            summaryText: 'A serving of coco pine cooler.',
+            summaryText: 'A serving of Coco pine cooler.',
             breakdown: '28% fat, 69% carbs, 3% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 33 }
+            { size: '1 serving', calories: 32.75 }
         ]
     },
     {
@@ -454,11 +454,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.0g',
             carbs: '5.4g',
             protein: '0.4g',
-            summaryText: 'A serving of summer cooler.',
+            summaryText: 'A serving of Summer cooler.',
             breakdown: '1% fat, 96% carbs, 3% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 22 }
+            { size: '1 serving', calories: 22.43 }
         ]
     },
     {
@@ -487,11 +487,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.6g',
             carbs: '9.2g',
             protein: '3.4g',
-            summaryText: 'A serving of hot cocoa.',
+            summaryText: 'A serving of Hot cocoa.',
             breakdown: '46% fat, 41% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 90 }
+            { size: '1 serving', calories: 90.1 }
         ]
     },
     {
@@ -520,15 +520,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.1g',
             carbs: '11.2g',
             protein: '1.6g',
-            summaryText: 'A serving of cold coffee with ice cream.',
+            summaryText: 'A serving of Cold coffee with ice cream.',
             breakdown: '28% fat, 66% carbs, 6% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 68 }
+            { size: '1 serving', calories: 67.85 }
         ]
     },
     {
-        slug: 'banana-milkshake',
+        slug: 'banana-milkshake-kele-milkshake',
         name: 'Banana milkshake (Kele milkshake)',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
@@ -553,15 +553,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.4g',
             carbs: '9.2g',
             protein: '1.8g',
-            summaryText: 'A serving of banana milkshake.',
+            summaryText: 'A serving of Banana milkshake (Kele milkshake).',
             breakdown: '33% fat, 56% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 65 }
+            { size: '1 serving', calories: 65.31 }
         ]
     },
     {
-        slug: 'mango-milkshake',
+        slug: 'mango-milkshake-aam-milkshake',
         name: 'Mango milkshake (Aam milkshake)',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
@@ -586,15 +586,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.4g',
             carbs: '7.2g',
             protein: '1.7g',
-            summaryText: 'A serving of mango milkshake.',
+            summaryText: 'A serving of Mango milkshake (Aam milkshake).',
             breakdown: '37% fat, 51% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 57 }
+            { size: '1 serving', calories: 56.9 }
         ]
     },
     {
-        slug: 'pineapple-milkshake',
+        slug: 'pineapple-milkshake-ananas-milkshake',
         name: 'Pineapple milkshake (Ananas milkshake)',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
@@ -619,15 +619,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.2g',
             carbs: '7.6g',
             protein: '1.7g',
-            summaryText: 'A serving of pineapple milkshake.',
+            summaryText: 'A serving of Pineapple milkshake (Ananas milkshake).',
             breakdown: '36% fat, 55% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 56 }
+            { size: '1 serving', calories: 55.72 }
         ]
     },
     {
-        slug: 'orange-milkshake',
+        slug: 'orange-milkshake-narangi-milkshake',
         name: 'Orange milkshake (Narangi milkshake)',
         cuisine: 'Generic',
         mealCategory: 'Beverages',
@@ -652,11 +652,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.5g',
             carbs: '7.1g',
             protein: '1.9g',
-            summaryText: 'A serving of orange milkshake.',
+            summaryText: 'A serving of Orange milkshake (Narangi milkshake).',
             breakdown: '39% fat, 50% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 57 }
+            { size: '1 serving', calories: 57.42 }
         ]
     },
     {
@@ -685,15 +685,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.1g',
             carbs: '8.2g',
             protein: '4.8g',
-            summaryText: 'A serving of egg nog.',
+            summaryText: 'A serving of Egg nog.',
             breakdown: '47% fat, 34% carbs, 19% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 97 }
+            { size: '1 serving', calories: 97.14 }
         ]
     },
     {
-        slug: 'sweet-lassi',
+        slug: 'sweet-lassi-meethi-lassi',
         name: 'Sweet Lassi (Meethi lassi)',
         cuisine: 'North Indian',
         mealCategory: 'Beverages',
@@ -718,15 +718,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.7g',
             carbs: '6.5g',
             protein: '1.3g',
-            summaryText: 'A serving of sweet lassi.',
+            summaryText: 'A serving of Sweet Lassi (Meethi lassi).',
             breakdown: '17% fat, 73% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 36 }
+            { size: '1 serving', calories: 35.66 }
         ]
     },
     {
-        slug: 'salted-lassi',
+        slug: 'lassi-salted',
         name: 'Lassi (salted)',
         cuisine: 'North Indian',
         mealCategory: 'Beverages',
@@ -751,15 +751,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.7g',
             carbs: '1.9g',
             protein: '1.4g',
-            summaryText: 'A serving of salted lassi.',
+            summaryText: 'A serving of Lassi (salted).',
             breakdown: '34% fat, 40% carbs, 26% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 19 }
+            { size: '1 serving', calories: 18.84 }
         ]
     },
     {
-        slug: 'cheese-chilli-sandwich',
+        slug: 'cheese-and-chilli-sandwich',
         name: 'Cheese and chilli sandwich',
         cuisine: 'Generic',
         mealCategory: 'Snack',
@@ -784,15 +784,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '9.8g',
             carbs: '27.4g',
             protein: '6.8g',
-            summaryText: 'A cheese and chilli sandwich.',
+            summaryText: 'A serving of Cheese and chilli sandwich.',
             breakdown: '40% fat, 50% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 218 }
+            { size: '1 serving', calories: 218.11 }
         ]
     },
     {
-        slug: 'egg-sandwich',
+        slug: 'egg-sandwich-ande-ka-sandwich',
         name: 'Egg sandwich (Ande ka sandwich)',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -817,15 +817,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '15.8g',
             carbs: '29.2g',
             protein: '8.7g',
-            summaryText: 'An egg sandwich.',
+            summaryText: 'A serving of Egg sandwich (Ande ka sandwich).',
             breakdown: '50% fat, 41% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 286 }
+            { size: '1 serving', calories: 285.96 }
         ]
     },
     {
-        slug: 'cucumber-sandwich',
+        slug: 'cucumber-sandwich-kheere-ka-sandwich',
         name: 'Cucumber sandwich (Kheere ka sandwich)',
         cuisine: 'Generic',
         mealCategory: 'Snack',
@@ -850,16 +850,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '8.0g',
             carbs: '25.8g',
             protein: '4.8g',
-            summaryText: 'A cucumber sandwich.',
+            summaryText: 'A serving of Cucumber sandwich (Kheere ka sandwich).',
             breakdown: '38% fat, 55% carbs, 7% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 189 }
+            { size: '1 serving', calories: 188.6 }
         ]
     },
     {
-        slug: 'cheese-pineapple-sandwich',
-        name: 'Cheese and pineapple sandwich',
+        slug: 'cheese-and-pineapple-sandwich-cheese-aur-ananas-ka-sandwich',
+        name: 'Cheese and pineapple sandwich (Cheese aur ananas ka sandwich)',
         cuisine: 'Generic',
         mealCategory: 'Snack',
         foodGroup: 'Snacks',
@@ -883,16 +883,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.8g',
             carbs: '29.1g',
             protein: '8.2g',
-            summaryText: 'A cheese and pineapple sandwich.',
+            summaryText: 'A serving of Cheese and pineapple sandwich (Cheese aur ananas ka sandwich).',
             breakdown: '45% fat, 45% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 258 }
+            { size: '1 serving', calories: 257.71 }
         ]
     },
     {
-        slug: 'cheese-tomato-sandwich',
-        name: 'Cheese and tomato sandwich',
+        slug: 'cheese-and-tomato-sandwich-cheese-aur-tamatar-ke-sandwich',
+        name: 'Cheese and tomato sandwich (Cheese aur tamatar ke sandwich)',
         cuisine: 'Generic',
         mealCategory: 'Snack',
         foodGroup: 'Snacks',
@@ -916,11 +916,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.3g',
             carbs: '26.9g',
             protein: '7.9g',
-            summaryText: 'A cheese and tomato sandwich.',
+            summaryText: 'A serving of Cheese and tomato sandwich (Cheese aur tamatar ke sandwich).',
             breakdown: '45% fat, 44% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 243 }
+            { size: '1 serving', calories: 243.32 }
         ]
     },
     {
@@ -949,16 +949,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '11.8g',
             carbs: '25.4g',
             protein: '13.1g',
-            summaryText: 'A chicken sandwich.',
+            summaryText: 'A serving of Chicken sandwich.',
             breakdown: '42% fat, 40% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 253 }
+            { size: '1 serving', calories: 253.27 }
         ]
     },
     {
-        slug: 'peanut-tomato-sandwich',
-        name: 'Peanut and tomato sandwich',
+        slug: 'peanut-and-tomato-sandwich-moongfali-aur-tamatar-ka-sandwich',
+        name: 'Peanut and tomato sandwich (Moongfali aur tamatar ka sandwich)',
         cuisine: 'Generic',
         mealCategory: 'Snack',
         foodGroup: 'Snacks',
@@ -982,11 +982,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '16.1g',
             carbs: '28.5g',
             protein: '9.5g',
-            summaryText: 'A peanut and tomato sandwich.',
+            summaryText: 'A serving of Peanut and tomato sandwich (Moongfali aur tamatar ka sandwich).',
             breakdown: '50% fat, 39% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 291 }
+            { size: '1 serving', calories: 291.43 }
         ]
     },
     {
@@ -1015,11 +1015,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.5g',
             carbs: '34.3g',
             protein: '7.8g',
-            summaryText: 'A colorful rainbow sandwich.',
+            summaryText: 'A serving of Rainbow sandwich.',
             breakdown: '41% fat, 50% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 273 }
+            { size: '1 serving', calories: 272.75 }
         ]
     },
     {
@@ -1048,11 +1048,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '15.1g',
             carbs: '18.5g',
             protein: '7.3g',
-            summaryText: 'A classic club sandwich.',
+            summaryText: 'A serving of Club sandwich.',
             breakdown: '58% fat, 31% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 235 }
+            { size: '1 serving', calories: 235.32 }
         ]
     },
     {
@@ -1081,11 +1081,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '11.3g',
             carbs: '19.7g',
             protein: '5.5g',
-            summaryText: 'A vegetarian club sandwich.',
+            summaryText: 'A serving of Vegetarian club sandwich.',
             breakdown: '51% fat, 40% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 198 }
+            { size: '1 serving', calories: 198.33 }
         ]
     },
     {
@@ -1114,16 +1114,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '24.9g',
             carbs: '14.0g',
             protein: '8.8g',
-            summaryText: 'A pin wheel sandwich.',
+            summaryText: 'A serving of Pin wheel sandwich.',
             breakdown: '72% fat, 18% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 312 }
+            { size: '1 serving', calories: 311.52 }
         ]
     },
     {
-        slug: 'carrot-apple-sandwich',
-        name: 'Carrot apple sandwich',
+        slug: 'carrot-apple-sandwich-gajar-aur-seb-ka-sandwich',
+        name: 'Carrot apple sandwich (Gajar aur seb ka sandwich)',
         cuisine: 'Generic',
         mealCategory: 'Snack',
         foodGroup: 'Snacks',
@@ -1147,11 +1147,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '9.1g',
             carbs: '29.0g',
             protein: '5.3g',
-            summaryText: 'A carrot and apple sandwich.',
+            summaryText: 'A serving of Carrot apple sandwich (Gajar aur seb ka sandwich).',
             breakdown: '38% fat, 54% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 214 }
+            { size: '1 serving', calories: 214.11 }
         ]
     },
     {
@@ -1180,15 +1180,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '15.5g',
             carbs: '21.5g',
             protein: '8.7g',
-            summaryText: 'A salami sandwich.',
+            summaryText: 'A serving of Salami sandwich.',
             breakdown: '55% fat, 34% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 256 }
+            { size: '1 serving', calories: 255.59 }
         ]
     },
     {
-        slug: 'vegetable-mayonnaise-sandwich',
+        slug: 'vegetable-and-mayonnaise-sandwich',
         name: 'Vegetable and mayonnaise sandwich',
         cuisine: 'Generic',
         mealCategory: 'Snack',
@@ -1213,16 +1213,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '15.4g',
             carbs: '23.2g',
             protein: '4.5g',
-            summaryText: 'A vegetable and mayonnaise sandwich.',
+            summaryText: 'A serving of Vegetable and mayonnaise sandwich.',
             breakdown: '57% fat, 38% carbs, 5% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 244 }
+            { size: '1 serving', calories: 244.26 }
         ]
     },
     {
-        slug: 'egg-tomato-sandwich',
-        name: 'Egg and tomato sandwich',
+        slug: 'egg-and-tomato-sandwich-ande-aur-tamatar-ka-sandwich',
+        name: 'Egg and tomato sandwich (Ande aur tamatar ka sandwich)',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
         foodGroup: 'Snacks',
@@ -1246,11 +1246,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '10.5g',
             carbs: '25.9g',
             protein: '7.7g',
-            summaryText: 'An egg and tomato sandwich.',
+            summaryText: 'A serving of Egg and tomato sandwich (Ande aur tamatar ka sandwich).',
             breakdown: '42% fat, 47% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 222 }
+            { size: '1 serving', calories: 222.11 }
         ]
     },
     {
@@ -1279,15 +1279,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '8.2g',
             carbs: '39.2g',
             protein: '5.0g',
-            summaryText: 'A sweet open sandwich.',
+            summaryText: 'A serving of Sweet open sandwich.',
             breakdown: '30% fat, 64% carbs, 6% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 244 }
+            { size: '1 serving', calories: 244.25 }
         ]
     },
     {
-        slug: 'mushroom-cheese-sandwich-toasted',
+        slug: 'mushroom-and-cheese-sandwich-toasted',
         name: 'Mushroom and cheese sandwich (toasted)',
         cuisine: 'Generic',
         mealCategory: 'Snack',
@@ -1312,16 +1312,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '13.0g',
             carbs: '21.0g',
             protein: '7.8g',
-            summaryText: 'A toasted mushroom and cheese sandwich.',
+            summaryText: 'A serving of Mushroom and cheese sandwich (toasted).',
             breakdown: '51% fat, 37% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 227 }
+            { size: '1 serving', calories: 227.42 }
         ]
     },
     {
-        slug: 'cheese-tomato-sandwich-toasted',
-        name: 'Cheese and tomato sandwich (toasted)',
+        slug: 'cheese-and-tomato-sandwich-toasted-cheese-aur-tamatar-ke-sandwich-toasted',
+        name: 'Cheese and tomato sandwich (toasted) (Cheese aur tamatar ke sandwich (toasted))',
         cuisine: 'Generic',
         mealCategory: 'Snack',
         foodGroup: 'Snacks',
@@ -1345,16 +1345,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '13.0g',
             carbs: '21.4g',
             protein: '6.8g',
-            summaryText: 'A toasted cheese and tomato sandwich.',
+            summaryText: 'A serving of Cheese and tomato sandwich (toasted) (Cheese aur tamatar ke sandwich (toasted)).',
             breakdown: '52% fat, 38% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 225 }
+            { size: '1 serving', calories: 224.58 }
         ]
     },
     {
-        slug: 'pea-potato-sandwich-toasted',
-        name: 'Pea potato sandwich (toasted)',
+        slug: 'pea-potato-sandwich-toasted-matar-aloo-ka-sandwich',
+        name: 'Pea potato sandwich (toasted) (Matar aloo ka sandwich)',
         cuisine: 'North Indian',
         mealCategory: 'Snack',
         foodGroup: 'Snacks',
@@ -1378,16 +1378,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.4g',
             carbs: '25.2g',
             protein: '4.6g',
-            summaryText: 'A toasted pea and potato sandwich.',
+            summaryText: 'A serving of Pea potato sandwich (toasted) (Matar aloo ka sandwich).',
             breakdown: '29% fat, 61% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 165 }
+            { size: '1 serving', calories: 164.9 }
         ]
     },
     {
-        slug: 'paneer-pea-sandwich-toasted',
-        name: 'Paneer pea sandwich (toasted)',
+        slug: 'paneer-pea-sandwich-toasted-paneer-matar-ka-sandwich',
+        name: 'Paneer pea sandwich (toasted) (Paneer matar ka sandwich)',
         cuisine: 'North Indian',
         mealCategory: 'Snack',
         foodGroup: 'Snacks',
@@ -1411,11 +1411,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.0g',
             carbs: '24.1g',
             protein: '12.4g',
-            summaryText: 'A toasted paneer and pea sandwich.',
+            summaryText: 'A serving of Paneer pea sandwich (toasted) (Paneer matar ka sandwich).',
             breakdown: '43% fat, 39% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 250 }
+            { size: '1 serving', calories: 249.56 }
         ]
     },
     {
@@ -1444,16 +1444,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.3g',
             carbs: '18.8g',
             protein: '12.1g',
-            summaryText: 'A toasted chicken sandwich.',
+            summaryText: 'A serving of Chicken sandwich (toasted).',
             breakdown: '28% fat, 45% carbs, 27% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 167 }
+            { size: '1 serving', calories: 167.37 }
         ]
     },
     {
-        slug: 'pea-keema-sandwich-toasted',
-        name: 'Pea keema sandwich (toasted)',
+        slug: 'pea-keema-sandwich-toasted-matar-aur-keema-ka-sandwich',
+        name: 'Pea keema sandwich (toasted) (Matar aur keema ka sandwich)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Meat',
@@ -1477,11 +1477,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.6g',
             carbs: '20.3g',
             protein: '11.1g',
-            summaryText: 'A toasted pea and keema sandwich.',
+            summaryText: 'A serving of Pea keema sandwich (toasted) (Matar aur keema ka sandwich).',
             breakdown: '29% fat, 47% carbs, 24% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 172 }
+            { size: '1 serving', calories: 171.78 }
         ]
     },
     {
@@ -1510,11 +1510,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '11.6g',
             carbs: '18.5g',
             protein: '6.7g',
-            summaryText: 'A classic club sandwich.',
+            summaryText: 'A serving of Classic club sandwich.',
             breakdown: '52% fat, 37% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 201 }
+            { size: '1 serving', calories: 200.83 }
         ]
     },
     {
@@ -1543,15 +1543,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '49.4g',
             carbs: '11.2g',
             protein: '1.9g',
-            summaryText: 'A serving of sesame toast.',
+            summaryText: 'A serving of Sesame toast.',
             breakdown: '90% fat, 9% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 495 }
+            { size: '1 serving', calories: 495.19 }
         ]
     },
     {
-        slug: 'cracked-wheat-porridge',
+        slug: 'cracked-wheat-porridge-meetha-daliya',
         name: 'Cracked wheat porridge (Meetha daliya)',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
@@ -1576,15 +1576,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.1g',
             carbs: '8.9g',
             protein: '2.6g',
-            summaryText: 'A serving of cracked wheat porridge.',
+            summaryText: 'A serving of Cracked wheat porridge (Meetha daliya).',
             breakdown: '45% fat, 44% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 82 }
+            { size: '1 serving', calories: 81.57 }
         ]
     },
     {
-        slug: 'semolina-porridge',
+        slug: 'semolina-porridge-suji-rava-daliya',
         name: 'Semolina porridge (Suji/Rava daliya)',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -1609,11 +1609,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.1g',
             carbs: '12.4g',
             protein: '3.8g',
-            summaryText: 'A serving of semolina porridge.',
+            summaryText: 'A serving of Semolina porridge (Suji/Rava daliya).',
             breakdown: '36% fat, 49% carbs, 15% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 101 }
+            { size: '1 serving', calories: 100.89 }
         ]
     },
     {
@@ -1642,11 +1642,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.2g',
             carbs: '8.8g',
             protein: '2.6g',
-            summaryText: 'A serving of oatmeal porridge.',
+            summaryText: 'A serving of Oatmeal Porridge.',
             breakdown: '40% fat, 48% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 73 }
+            { size: '1 serving', calories: 72.85 }
         ]
     },
     {
@@ -1675,15 +1675,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.1g',
             carbs: '15.0g',
             protein: '3.6g',
-            summaryText: 'A serving of cornflakes with milk.',
+            summaryText: 'A serving of Cornflakes with milk.',
             breakdown: '39% fat, 51% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 117 }
+            { size: '1 serving', calories: 117.33 }
         ]
     },
     {
-        slug: 'rice-flakes',
+        slug: 'rice-flakes-chiwda-aval',
         name: 'Rice flakes (Chiwda/Aval)',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -1708,11 +1708,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.0g',
             carbs: '15.6g',
             protein: '3.6g',
-            summaryText: 'A serving of rice flakes.',
+            summaryText: 'A serving of Rice flakes (Chiwda/Aval).',
             breakdown: '32% fat, 55% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 112 }
+            { size: '1 serving', calories: 112.44 }
         ]
     },
     {
@@ -1741,16 +1741,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.0g',
             carbs: '15.6g',
             protein: '3.6g',
-            summaryText: 'A serving of wheat flakes.',
+            summaryText: 'A serving of Wheat flakes.',
             breakdown: '32% fat, 55% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 112 }
+            { size: '1 serving', calories: 112.44 }
         ]
     },
     {
-        slug: 'puffed-rice',
-        name: 'Puffed rice (Murmura)',
+        slug: 'murmura-puffed-rice',
+        name: 'Murmura (Puffed rice)',
         cuisine: 'Generic',
         mealCategory: 'Snack',
         foodGroup: 'Snacks',
@@ -1774,15 +1774,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.0g',
             carbs: '15.7g',
             protein: '3.6g',
-            summaryText: 'A serving of puffed rice.',
+            summaryText: 'A serving of Murmura (Puffed rice).',
             breakdown: '32% fat, 55% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 113 }
+            { size: '1 serving', calories: 113.32 }
         ]
     },
     {
-        slug: 'puffed-wheat',
+        slug: 'puffed-wheat-murmure-moori',
         name: 'Puffed wheat (Murmure/Moori)',
         cuisine: 'Generic',
         mealCategory: 'Snack',
@@ -1807,15 +1807,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.0g',
             carbs: '15.7g',
             protein: '3.6g',
-            summaryText: 'A serving of puffed wheat.',
+            summaryText: 'A serving of Puffed wheat (Murmure/Moori).',
             breakdown: '32% fat, 55% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 113 }
+            { size: '1 serving', calories: 113.32 }
         ]
     },
     {
-        slug: 'boiled-egg',
+        slug: 'boiled-egg-ubla-anda',
         name: 'Boiled egg (Ubla anda)',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -1840,11 +1840,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.0g',
             carbs: '0.1g',
             protein: '4.4g',
-            summaryText: 'A single boiled egg.',
+            summaryText: 'A serving of Boiled egg (Ubla anda).',
             breakdown: '60% fat, 1% carbs, 39% protein.'
         },
         servingSizes: [
-            { size: '1 egg', calories: 45 }
+            { size: '1 egg', calories: 45.35 }
         ]
     },
     {
@@ -1873,11 +1873,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '19.6g',
             carbs: '0.3g',
             protein: '11.6g',
-            summaryText: 'A single fried egg.',
+            summaryText: 'A serving of Fried Egg.',
             breakdown: '79% fat, 1% carbs, 20% protein.'
         },
         servingSizes: [
-            { size: '1 egg', calories: 224 }
+            { size: '1 egg', calories: 223.67 }
         ]
     },
     {
@@ -1906,15 +1906,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '8.2g',
             carbs: '0.4g',
             protein: '12.0g',
-            summaryText: 'A single poached egg.',
+            summaryText: 'A serving of Poached egg.',
             breakdown: '59% fat, 1% carbs, 40% protein.'
         },
         servingSizes: [
-            { size: '1 egg', calories: 124 }
+            { size: '1 egg', calories: 123.87 }
         ]
     },
     {
-        slug: 'scrambled-egg',
+        slug: 'scrambled-egg-ande-ki-bhurji',
         name: 'Scrambled egg (Ande ki bhurji)',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -1939,11 +1939,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.2g',
             carbs: '1.4g',
             protein: '10.3g',
-            summaryText: 'A serving of scrambled eggs.',
+            summaryText: 'A serving of Scrambled egg (Ande ki bhurji).',
             breakdown: '70% fat, 3% carbs, 27% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 156 }
+            { size: '1 serving', calories: 155.97 }
         ]
     },
     {
@@ -1972,15 +1972,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.7g',
             carbs: '15.4g',
             protein: '11.9g',
-            summaryText: 'A single baked egg.',
+            summaryText: 'A serving of Baked egg.',
             breakdown: '52% fat, 28% carbs, 20% protein.'
         },
         servingSizes: [
-            { size: '1 egg', calories: 219 }
+            { size: '1 egg', calories: 218.85 }
         ]
     },
     {
-        slug: 'plain-omelette',
+        slug: 'plain-omelette-omlet',
         name: 'Plain omelette/omlet',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -2005,15 +2005,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '25.7g',
             carbs: '0.6g',
             protein: '9.7g',
-            summaryText: 'A plain omelette.',
+            summaryText: 'A serving of Plain omelette/omlet.',
             breakdown: '85% fat, 1% carbs, 14% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 272 }
+            { size: '1 serving', calories: 272.41 }
         ]
     },
     {
-        slug: 'stuffed-egg-omelette',
+        slug: 'stuffed-egg-omelette-omlet',
         name: 'Stuffed egg omelette/omlet',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -2038,11 +2038,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '17.8g',
             carbs: '2.3g',
             protein: '8.6g',
-            summaryText: 'A stuffed egg omelette.',
+            summaryText: 'A serving of Stuffed egg omelette/omlet.',
             breakdown: '78% fat, 5% carbs, 17% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 204 }
+            { size: '1 serving', calories: 203.51 }
         ]
     },
     {
@@ -2071,11 +2071,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '10.8g',
             carbs: '20.5g',
             protein: '5.7g',
-            summaryText: 'A serving of pancake.',
+            summaryText: 'A serving of Pancake.',
             breakdown: '48% fat, 40% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 203 }
+            { size: '1 serving', calories: 203.36 }
         ]
     },
     {
@@ -2104,11 +2104,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '11.3g',
             carbs: '9.6g',
             protein: '9.0g',
-            summaryText: 'A keema pancake.',
+            summaryText: 'A serving of Keema pancake.',
             breakdown: '58% fat, 22% carbs, 20% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 176 }
+            { size: '1 serving', calories: 176.27 }
         ]
     },
     {
@@ -2137,15 +2137,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '6.6g',
             carbs: '12.2g',
             protein: '3.9g',
-            summaryText: 'A vegetable pancake.',
+            summaryText: 'A serving of Vegetable pancake.',
             breakdown: '47% fat, 39% carbs, 14% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 125 }
+            { size: '1 serving', calories: 125.18 }
         ]
     },
     {
-        slug: 'jam-fruit-pancake',
+        slug: 'jam-and-fruit-pancake',
         name: 'Jam and fruit pancake',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -2170,15 +2170,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '7.0g',
             carbs: '20.7g',
             protein: '3.8g',
-            summaryText: 'A jam and fruit pancake.',
+            summaryText: 'A serving of Jam and fruit pancake.',
             breakdown: '39% fat, 51% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 162 }
+            { size: '1 serving', calories: 162.02 }
         ]
     },
     {
-        slug: 'khoa-coconut-pancake',
+        slug: 'khoa-and-coconut-pancake',
         name: 'Khoa and coconut pancake',
         cuisine: 'Generic',
         mealCategory: 'Breakfast',
@@ -2203,11 +2203,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '15.3g',
             carbs: '27.3g',
             protein: '7.0g',
-            summaryText: 'A khoa and coconut pancake.',
+            summaryText: 'A serving of Khoa and coconut pancake.',
             breakdown: '51% fat, 40% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 272 }
+            { size: '1 serving', calories: 271.98 }
         ]
     },
     {
@@ -2236,11 +2236,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '1.4g',
             carbs: '0.3g',
             protein: '2.0g',
-            summaryText: 'A serving of brown stock.',
+            summaryText: 'A serving of Brown stock.',
             breakdown: '58% fat, 5% carbs, 37% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 21 }
+            { size: '1 serving', calories: 21.32 }
         ]
     },
     {
@@ -2269,11 +2269,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '1.4g',
             carbs: '1.0g',
             protein: '0.3g',
-            summaryText: 'A serving of vegetable stock.',
+            summaryText: 'A serving of Vegetable stock.',
             breakdown: '70% fat, 22% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 18 }
+            { size: '1 serving', calories: 17.6 }
         ]
     },
     {
@@ -2302,15 +2302,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '1.5g',
             carbs: '0.4g',
             protein: '3.7g',
-            summaryText: 'A serving of chicken stock.',
+            summaryText: 'A serving of Chicken stock.',
             breakdown: '45% fat, 5% carbs, 50% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 30 }
+            { size: '1 serving', calories: 29.88 }
         ]
     },
     {
-        slug: 'clear-tomato-soup',
+        slug: 'clear-tomato-soup-tamatar-ka-soup',
         name: 'Clear tomato soup (Tamatar ka soup)',
         cuisine: 'Generic',
         mealCategory: 'Soups',
@@ -2335,11 +2335,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.2g',
             carbs: '3.5g',
             protein: '4.8g',
-            summaryText: 'A serving of clear tomato soup.',
+            summaryText: 'A serving of Clear tomato soup (Tamatar ka soup).',
             breakdown: '86% fat, 9% carbs, 5% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 80 }
+            { size: '1 serving', calories: 80.07 }
         ]
     },
     {
@@ -2368,15 +2368,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '11.7g',
             carbs: '3.9g',
             protein: '9.7g',
-            summaryText: 'A serving of lentil soup.',
+            summaryText: 'A serving of Lentil soup.',
             breakdown: '84% fat, 5% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 31 }
+            { size: '1 serving', calories: 31.17 }
         ]
     },
     {
-        slug: 'chicken-consomme',
+        slug: 'chicken-consomme-clear-chicken-soup',
         name: 'Chicken consomme (Clear chicken soup)',
         cuisine: 'Generic',
         mealCategory: 'Soups',
@@ -2401,11 +2401,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.0g',
             carbs: '1.2g',
             protein: '11.5g',
-            summaryText: 'A serving of chicken consomme.',
+            summaryText: 'A serving of Chicken consomme (Clear chicken soup).',
             breakdown: '85% fat, 2% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 48 }
+            { size: '1 serving', calories: 47.94 }
         ]
     },
     {
@@ -2434,11 +2434,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '13.1g',
             carbs: '3.9g',
             protein: '4.6g',
-            summaryText: 'A serving of cream of tomato soup.',
+            summaryText: 'A serving of Cream of tomato soup.',
             breakdown: '85% fat, 10% carbs, 5% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 98 }
+            { size: '1 serving', calories: 97.81 }
         ]
     },
     {
@@ -2467,11 +2467,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '14.8g',
             carbs: '6.8g',
             protein: '7.1g',
-            summaryText: 'A serving of cream of green peas soup.',
+            summaryText: 'A serving of Cream of green peas soup.',
             breakdown: '82% fat, 11% carbs, 7% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 128 }
+            { size: '1 serving', calories: 127.84 }
         ]
     },
     {
@@ -2500,11 +2500,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '13.3g',
             carbs: '3.5g',
             protein: '5.2g',
-            summaryText: 'A serving of cream of spinach soup.',
+            summaryText: 'A serving of Cream of spinach soup.',
             breakdown: '86% fat, 9% carbs, 5% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 101 }
+            { size: '1 serving', calories: 100.54 }
         ]
     },
     {
@@ -2533,11 +2533,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '9.1g',
             carbs: '4.9g',
             protein: '6.8g',
-            summaryText: 'A serving of cream of mixed vegetable soup.',
+            summaryText: 'A serving of Cream of mixed vegetable soup.',
             breakdown: '83% fat, 8% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 60 }
+            { size: '1 serving', calories: 59.65 }
         ]
     },
     {
@@ -2566,11 +2566,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '15.5g',
             carbs: '3.7g',
             protein: '6.6g',
-            summaryText: 'A serving of cream of mushroom soup.',
+            summaryText: 'A serving of Cream of mushroom soup.',
             breakdown: '87% fat, 6% carbs, 7% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 117 }
+            { size: '1 serving', calories: 117.28 }
         ]
     },
     {
@@ -2599,11 +2599,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.6g',
             carbs: '1.6g',
             protein: '14.5g',
-            summaryText: 'A serving of chicken sweet corn soup.',
+            summaryText: 'A serving of Chicken sweet corn soup.',
             breakdown: '82% fat, 2% carbs, 16% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 28 }
+            { size: '1 serving', calories: 28.32 }
         ]
     },
     {
@@ -2632,11 +2632,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '11.1g',
             carbs: '3.7g',
             protein: '9.3g',
-            summaryText: 'A serving of minestrone soup.',
+            summaryText: 'A serving of Minestrone soup.',
             breakdown: '80% fat, 9% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 43 }
+            { size: '1 serving', calories: 42.66 }
         ]
     },
     {
@@ -2665,15 +2665,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '13.5g',
             carbs: '1.1g',
             protein: '12.9g',
-            summaryText: 'A serving of egg drop soup.',
+            summaryText: 'A serving of Egg drop soup.',
             breakdown: '86% fat, 2% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 27 }
+            { size: '1 serving', calories: 26.64 }
         ]
     },
     {
-        slug: 'chinese-cabbage-meat-ball-soup',
+        slug: 'chinese-cabbage-and-meat-ball-soup',
         name: 'Chinese cabbage and meat ball soup',
         cuisine: 'Generic',
         mealCategory: 'Soups',
@@ -2702,7 +2702,7 @@ export const foodDatabase: FoodItem[] = [
             breakdown: '93% fat, 1% carbs, 6% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 484 }
+            { size: '1 serving', calories: 484.31 }
         ]
     },
     {
@@ -2731,15 +2731,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '14.4g',
             carbs: '4.3g',
             protein: '11.4g',
-            summaryText: 'A serving of french onion soup.',
+            summaryText: 'A serving of French onion soup.',
             breakdown: '85% fat, 8% carbs, 7% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 56 }
+            { size: '1 serving', calories: 55.61 }
         ]
     },
     {
-        slug: 'hot-sour-soup',
+        slug: 'hot-and-sour-soup',
         name: 'Hot and sour soup',
         cuisine: 'Generic',
         mealCategory: 'Soups',
@@ -2764,11 +2764,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '1.3g',
             carbs: '1.8g',
             protein: '3.1g',
-            summaryText: 'A serving of hot and sour soup.',
+            summaryText: 'A serving of Hot and sour soup.',
             breakdown: '37% fat, 23% carbs, 40% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 32 }
+            { size: '1 serving', calories: 31.51 }
         ]
     },
     {
@@ -2797,15 +2797,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.8g',
             carbs: '4.2g',
             protein: '10.1g',
-            summaryText: 'A serving of talaumein soup.',
+            summaryText: 'A serving of Talaumein soup.',
             breakdown: '85% fat, 5% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 36 }
+            { size: '1 serving', calories: 35.63 }
         ]
     },
     {
-        slug: 'cold-cucumber-soup',
+        slug: 'cold-cucumber-soup-thanda-kheere-ka-soup',
         name: 'Cold cucumber soup (Thanda kheere ka soup)',
         cuisine: 'Generic',
         mealCategory: 'Soups',
@@ -2830,11 +2830,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.0g',
             carbs: '4.6g',
             protein: '3.0g',
-            summaryText: 'A serving of cold cucumber soup.',
+            summaryText: 'A serving of Cold cucumber soup (Thanda kheere ka soup).',
             breakdown: '37% fat, 38% carbs, 25% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 48 }
+            { size: '1 serving', calories: 48.03 }
         ]
     },
     {
@@ -2863,11 +2863,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '14.1g',
             carbs: '2.7g',
             protein: '8.6g',
-            summaryText: 'A serving of cold summer garden soup.',
+            summaryText: 'A serving of Cold summer garden soup.',
             breakdown: '86% fat, 5% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 49 }
+            { size: '1 serving', calories: 49.19 }
         ]
     },
     {
@@ -2896,15 +2896,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.6g',
             carbs: '35.7g',
             protein: '5.9g',
-            summaryText: 'A piece of chapati or roti.',
+            summaryText: 'A serving of Chapati/Roti.',
             breakdown: '16% fat, 70% carbs, 14% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 202 }
+            { size: '1 piece', calories: 202.31 }
         ]
     },
     {
-        slug: 'plain-paratha',
+        slug: 'plain-parantha-paratha',
         name: 'Plain parantha/paratha',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
@@ -2929,16 +2929,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '16.9g',
             carbs: '30.7g',
             protein: '5.1g',
-            summaryText: 'A piece of plain paratha.',
+            summaryText: 'A serving of Plain parantha/paratha.',
             breakdown: '51% fat, 41% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 298 }
+            { size: '1 piece', calories: 298.3 }
         ]
     },
     {
-        slug: 'aloo-paratha',
-        name: 'Potato parantha/paratha (Aloo ka parantha)',
+        slug: 'potato-parantha-paratha-aloo-ka-parantha-paratha',
+        name: 'Potato parantha/paratha (Aloo ka parantha/paratha)',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
         foodGroup: 'Breads & Cereals',
@@ -2962,16 +2962,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '10.2g',
             carbs: '23.9g',
             protein: '3.7g',
-            summaryText: 'A piece of aloo paratha.',
+            summaryText: 'A serving of Potato parantha/paratha (Aloo ka parantha/paratha).',
             breakdown: '45% fat, 47% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 205 }
+            { size: '1 piece', calories: 205.04 }
         ]
     },
     {
-        slug: 'radish-paratha',
-        name: 'Radish parantha/paratha (Mooli ka parantha)',
+        slug: 'radish-parantha-paratha-mooli-ka-parantha-paratha',
+        name: 'Radish parantha/paratha (Mooli ka parantha/paratha)',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
         foodGroup: 'Breads & Cereals',
@@ -2995,16 +2995,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '9.5g',
             carbs: '20.5g',
             protein: '3.3g',
-            summaryText: 'A piece of mooli paratha.',
+            summaryText: 'A serving of Radish parantha/paratha (Mooli ka parantha/paratha).',
             breakdown: '47% fat, 45% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 184 }
+            { size: '1 piece', calories: 183.52 }
         ]
     },
     {
-        slug: 'gobi-paratha',
-        name: 'Cauliflower parantha/paratha (Gobi parantha)',
+        slug: 'cauliflower-parantha-paratha-phoolgobhi-ka-parantha-paratha',
+        name: 'Cauliflower parantha/paratha (Phoolgobhi ka parantha/paratha)',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
         foodGroup: 'Breads & Cereals',
@@ -3028,15 +3028,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '9.5g',
             carbs: '18.8g',
             protein: '3.7g',
-            summaryText: 'A piece of gobi paratha.',
+            summaryText: 'A serving of Cauliflower parantha/paratha (Phoolgobhi ka parantha/paratha).',
             breakdown: '48% fat, 42% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 178 }
+            { size: '1 piece', calories: 178.07 }
         ]
     },
     {
-        slug: 'dal-paratha',
+        slug: 'dal-parantha-paratha',
         name: 'Dal parantha/paratha',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
@@ -3061,15 +3061,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '13.1g',
             carbs: '30.0g',
             protein: '6.8g',
-            summaryText: 'A piece of dal paratha.',
+            summaryText: 'A serving of Dal parantha/paratha.',
             breakdown: '44% fat, 45% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 268 }
+            { size: '1 piece', calories: 268.24 }
         ]
     },
     {
-        slug: 'sprouted-moong-paratha',
+        slug: 'sprouted-moong-parantha-paratha',
         name: 'Sprouted moong parantha/paratha',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
@@ -3094,16 +3094,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.4g',
             carbs: '24.3g',
             protein: '4.3g',
-            summaryText: 'A piece of sprouted moong paratha.',
+            summaryText: 'A serving of Sprouted moong parantha/paratha.',
             breakdown: '49% fat, 42% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 229 }
+            { size: '1 piece', calories: 228.59 }
         ]
     },
     {
-        slug: 'pea-paratha',
-        name: 'Pea parantha/paratha (Matar ka parantha)',
+        slug: 'pea-parantha-paratha-matar-ka-parantha-paratha',
+        name: 'Pea parantha/paratha (Matar ka parantha/paratha)',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
         foodGroup: 'Breads & Cereals',
@@ -3127,15 +3127,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '8.8g',
             carbs: '21.5g',
             protein: '5.6g',
-            summaryText: 'A piece of pea paratha.',
+            summaryText: 'A serving of Pea parantha/paratha (Matar ka parantha/paratha).',
             breakdown: '41% fat, 45% carbs, 14% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 191 }
+            { size: '1 piece', calories: 190.73 }
         ]
     },
     {
-        slug: 'keema-paratha',
+        slug: 'keema-parantha-paratha',
         name: 'Keema parantha/paratha',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -3160,15 +3160,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '13.9g',
             carbs: '18.4g',
             protein: '9.4g',
-            summaryText: 'A piece of keema paratha.',
+            summaryText: 'A serving of Keema parantha/paratha.',
             breakdown: '53% fat, 31% carbs, 16% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 238 }
+            { size: '1 piece', calories: 238.09 }
         ]
     },
     {
-        slug: 'paneer-paratha',
+        slug: 'paneer-parantha-paratha',
         name: 'Paneer parantha/paratha',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
@@ -3193,16 +3193,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '14.6g',
             carbs: '24.3g',
             protein: '8.0g',
-            summaryText: 'A piece of paneer paratha.',
+            summaryText: 'A serving of Paneer parantha/paratha.',
             breakdown: '50% fat, 37% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 263 }
+            { size: '1 piece', calories: 262.97 }
         ]
     },
     {
-        slug: 'besan-spinach-paratha',
-        name: 'Besan and spinach parantha/paratha',
+        slug: 'besan-and-spinach-parantha-paratha-besan-aur-palak-ka-parantha-paratha',
+        name: 'Besan and spinach parantha/paratha (Besan aur palak ka parantha/paratha)',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
         foodGroup: 'Breads & Cereals',
@@ -3226,11 +3226,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '12.1g',
             carbs: '21.4g',
             protein: '5.5g',
-            summaryText: 'A piece of besan and spinach paratha.',
+            summaryText: 'A serving of Besan and spinach parantha/paratha (Besan aur palak ka parantha/paratha).',
             breakdown: '50% fat, 40% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 216 }
+            { size: '1 piece', calories: 216.49 }
         ]
     },
     {
@@ -3259,15 +3259,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '77.6g',
             carbs: '8.2g',
             protein: '1.4g',
-            summaryText: 'A piece of deep-fried poori.',
+            summaryText: 'A serving of Poori.',
             breakdown: '94% fat, 5% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 738 }
+            { size: '1 piece', calories: 737.63 }
         ]
     },
     {
-        slug: 'spinach-poori',
+        slug: 'spinach-poori-palak-poori',
         name: 'Spinach poori (Palak poori)',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
@@ -3292,11 +3292,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '71.9g',
             carbs: '7.8g',
             protein: '1.4g',
-            summaryText: 'A piece of spinach poori.',
+            summaryText: 'A serving of Spinach poori (Palak poori).',
             breakdown: '94% fat, 5% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 684 }
+            { size: '1 piece', calories: 684.25 }
         ]
     },
     {
@@ -3325,11 +3325,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '74.6g',
             carbs: '8.0g',
             protein: '1.5g',
-            summaryText: 'A piece of methi poori.',
+            summaryText: 'A serving of Methi poori.',
             breakdown: '94% fat, 5% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 710 }
+            { size: '1 piece', calories: 710.02 }
         ]
     },
     {
@@ -3358,15 +3358,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '81.7g',
             carbs: '10.1g',
             protein: '2.1g',
-            summaryText: 'A piece of dal stuffed poori.',
+            summaryText: 'A serving of Dal stuffed poori.',
             breakdown: '94% fat, 5% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 785 }
+            { size: '1 piece', calories: 785.16 }
         ]
     },
     {
-        slug: 'potato-stuffed-poori',
+        slug: 'potato-stuffed-poori-aloo-ki-poori',
         name: 'Potato stuffed poori (Aloo ki poori)',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
@@ -3391,15 +3391,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '81.4g',
             carbs: '9.4g',
             protein: '1.5g',
-            summaryText: 'A piece of potato stuffed poori.',
+            summaryText: 'A serving of Potato stuffed poori (Aloo ki poori).',
             breakdown: '94% fat, 5% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 777 }
+            { size: '1 piece', calories: 776.74 }
         ]
     },
     {
-        slug: 'tandoori-paratha',
+        slug: 'tandoori-parantha-paratha',
         name: 'Tandoori parantha/paratha',
         cuisine: 'North Indian',
         mealCategory: 'Breakfast',
@@ -3424,21 +3424,21 @@ export const foodDatabase: FoodItem[] = [
             fat: '16.5g',
             carbs: '30.7g',
             protein: '5.1g',
-            summaryText: 'A piece of tandoori paratha.',
+            summaryText: 'A serving of Tandoori parantha/paratha.',
             breakdown: '50% fat, 42% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 295 }
+            { size: '1 piece', calories: 295.37 }
         ]
     },
     {
-        slug: 'boiled-rice',
+        slug: 'boiled-rice-uble-chawal',
         name: 'Boiled rice (Uble chawal)',
         cuisine: 'Generic',
         mealCategory: 'Lunch',
         foodGroup: 'Pasta, Rice & Noodles',
         nutritionFacts: {
-            servingSize: '100g',
+            servingSize: '1 serving',
             calories: 117.19,
             totalFat: { value: 0.18 },
             cholesterol: { value: 0 },
@@ -3457,11 +3457,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.2g',
             carbs: '25.7g',
             protein: '2.6g',
-            summaryText: 'A serving of boiled rice.',
+            summaryText: 'A serving of Boiled rice (Uble chawal).',
             breakdown: '1% fat, 88% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '100g', calories: 117 }
+            { size: '1 serving', calories: 117.19 }
         ]
     },
     {
@@ -3490,11 +3490,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.6g',
             carbs: '21.8g',
             protein: '2.3g',
-            summaryText: 'A serving of plain pulao.',
+            summaryText: 'A serving of Plain pulao.',
             breakdown: '30% fat, 62% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 140 }
+            { size: '1 serving', calories: 140.21 }
         ]
     },
     {
@@ -3523,11 +3523,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.3g',
             carbs: '17.5g',
             protein: '2.7g',
-            summaryText: 'A serving of mixed vegetable pulao.',
+            summaryText: 'A serving of Mixed vegetable pulao.',
             breakdown: '26% fat, 62% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 113 }
+            { size: '1 serving', calories: 113.05 }
         ]
     },
     {
@@ -3556,11 +3556,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.0g',
             carbs: '19.0g',
             protein: '2.5g',
-            summaryText: 'A serving of mushroom pulao.',
+            summaryText: 'A serving of Mushroom pulao.',
             breakdown: '29% fat, 61% carbs, 10% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 124 }
+            { size: '1 serving', calories: 124.29 }
         ]
     },
     {
@@ -3589,11 +3589,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.6g',
             carbs: '17.5g',
             protein: '2.2g',
-            summaryText: 'A serving of sprouted moong pulao.',
+            summaryText: 'A serving of Sprouted moong pulao.',
             breakdown: '29% fat, 62% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 113 }
+            { size: '1 serving', calories: 112.97 }
         ]
     },
     {
@@ -3622,11 +3622,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '59.8g',
             carbs: '8.8g',
             protein: '2.0g',
-            summaryText: 'A serving of paneer pulao.',
+            summaryText: 'A serving of Paneer pulao.',
             breakdown: '92% fat, 6% carbs, 2% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 582 }
+            { size: '1 serving', calories: 581.91 }
         ]
     },
     {
@@ -3655,11 +3655,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '9.5g',
             carbs: '21.2g',
             protein: '5.3g',
-            summaryText: 'A serving of peanut pulao.',
+            summaryText: 'A serving of Peanut pulao.',
             breakdown: '44% fat, 44% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 193 }
+            { size: '1 serving', calories: 193.28 }
         ]
     },
     {
@@ -3692,12 +3692,12 @@ export const foodDatabase: FoodItem[] = [
             breakdown: '33% fat, 56% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 262 }
+            { size: '1 serving', calories: 261.71 }
         ]
     },
     {
-        slug: 'green-chickpeas-pulao',
-        name: 'Green chickpeas pulao',
+        slug: 'green-chickpeas-pulao-choliya-pulao-hare-chane-ka-pulao',
+        name: 'Green chickpeas pulao (Choliya pulao/Hare chane ka pulao)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Pasta, Rice & Noodles',
@@ -3721,15 +3721,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.8g',
             carbs: '27.6g',
             protein: '4.9g',
-            summaryText: 'A serving of green chickpeas pulao.',
+            summaryText: 'A serving of Green chickpeas pulao (Choliya pulao/Hare chane ka pulao).',
             breakdown: '25% fat, 64% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 173 }
+            { size: '1 serving', calories: 173.43 }
         ]
     },
     {
-        slug: 'mutton-biryani',
+        slug: 'mutton-biryani-biriyani',
         name: 'Mutton biryani/biriyani',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -3754,15 +3754,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '7.7g',
             carbs: '22.5g',
             protein: '7.4g',
-            summaryText: 'A serving of mutton biryani.',
+            summaryText: 'A serving of Mutton biryani/biriyani.',
             breakdown: '36% fat, 47% carbs, 17% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 191 }
+            { size: '1 serving', calories: 190.76 }
         ]
     },
     {
-        slug: 'vegetable-biryani',
+        slug: 'vegetable-biryani-biriyani',
         name: 'Vegetable biryani/biriyani',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -3787,16 +3787,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '9.5g',
             carbs: '18.6g',
             protein: '3.2g',
-            summaryText: 'A serving of vegetable biryani.',
+            summaryText: 'A serving of Vegetable biryani/biriyani.',
             breakdown: '49% fat, 43% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 175 }
+            { size: '1 serving', calories: 174.61 }
         ]
     },
     {
-        slug: 'lemon-rice',
-        name: 'Lemon rice',
+        slug: 'lemon-rice-pulihora-elumichai-sadam-chitranna',
+        name: 'Lemon rice (Pulihora, Elumichai sadam, Chitranna)',
         cuisine: 'South Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Pasta, Rice & Noodles',
@@ -3820,15 +3820,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '7.9g',
             carbs: '21.6g',
             protein: '4.3g',
-            summaryText: 'A serving of lemon rice.',
+            summaryText: 'A serving of Lemon rice (Pulihora, Elumichai sadam, Chitranna).',
             breakdown: '40% fat, 49% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 176 }
+            { size: '1 serving', calories: 176.3 }
         ]
     },
     {
-        slug: 'sweet-rice',
+        slug: 'sweet-rice-meethe-chawal',
         name: 'Sweet rice (Meethe chawal)',
         cuisine: 'North Indian',
         mealCategory: 'Snack',
@@ -3853,16 +3853,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.6g',
             carbs: '42.6g',
             protein: '2.1g',
-            summaryText: 'A serving of sweet rice.',
+            summaryText: 'A serving of Sweet rice (Meethe chawal).',
             breakdown: '19% fat, 79% carbs, 2% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 215 }
+            { size: '1 serving', calories: 215.41 }
         ]
     },
     {
-        slug: 'curd-rice',
-        name: 'Curd rice',
+        slug: 'curd-rice-dahi-bhaat-dahi-chawal-perugu-annamdaddojanamthayir-saadam',
+        name: 'Curd rice (Dahi bhaat/Dahi chawal/ Perugu annam/Daddojanam/Thayir saadam)',
         cuisine: 'South Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Pasta, Rice & Noodles',
@@ -3886,16 +3886,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.3g',
             carbs: '32.9g',
             protein: '5.8g',
-            summaryText: 'A serving of curd rice.',
+            summaryText: 'A serving of Curd rice (Dahi bhaat/Dahi chawal/ Perugu annam/Daddojanam/Thayir saadam).',
             breakdown: '20% fat, 67% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 196 }
+            { size: '1 serving', calories: 195.74 }
         ]
     },
     {
-        slug: 'tamarind-rice',
-        name: 'Tamarind rice',
+        slug: 'tamarind-rice-chintapandu-pulihorapuliyodharaipuli-sadamhuli-anna',
+        name: 'Tamarind rice (Chintapandu pulihora/Puliyodharai/Puli sadam/Huli anna)',
         cuisine: 'South Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Pasta, Rice & Noodles',
@@ -3919,11 +3919,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '8.5g',
             carbs: '65.1g',
             protein: '7.5g',
-            summaryText: 'A serving of tamarind rice.',
+            summaryText: 'A serving of Tamarind rice (Chintapandu pulihora/Puliyodharai/Puli sadam/Huli anna).',
             breakdown: '21% fat, 70% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 373 }
+            { size: '1 serving', calories: 373.04 }
         ]
     },
     {
@@ -3956,7 +3956,7 @@ export const foodDatabase: FoodItem[] = [
             breakdown: '12% fat, 76% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 164 }
+            { size: '1 serving', calories: 164.24 }
         ]
     },
     {
@@ -3989,12 +3989,12 @@ export const foodDatabase: FoodItem[] = [
             breakdown: '40% fat, 45% carbs, 15% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 121 }
+            { size: '1 serving', calories: 120.58 }
         ]
     },
     {
-        slug: 'macaroni-cheese-pie',
-        name: 'Macaroni cheese pie',
+        slug: 'macroni-cheese-pie',
+        name: 'Macroni cheese pie',
         cuisine: 'Generic',
         mealCategory: 'Dinner',
         foodGroup: 'Pasta, Rice & Noodles',
@@ -4018,11 +4018,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '7.5g',
             carbs: '21.1g',
             protein: '5.9g',
-            summaryText: 'A macaroni cheese pie.',
+            summaryText: 'A serving of Macroni cheese pie.',
             breakdown: '39% fat, 50% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 171 }
+            { size: '1 serving', calories: 170.63 }
         ]
     },
     {
@@ -4051,11 +4051,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '6.4g',
             carbs: '15.4g',
             protein: '3.1g',
-            summaryText: 'A serving of vegetable chowmein.',
+            summaryText: 'A serving of Vegetable chowmein.',
             breakdown: '44% fat, 48% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 130 }
+            { size: '1 serving', calories: 129.71 }
         ]
     },
     {
@@ -4084,11 +4084,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '8.2g',
             carbs: '13.3g',
             protein: '6.3g',
-            summaryText: 'A serving of chicken chowmein.',
+            summaryText: 'A serving of Chicken chowmein.',
             breakdown: '49% fat, 35% carbs, 16% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 151 }
+            { size: '1 serving', calories: 151.33 }
         ]
     },
     {
@@ -4117,15 +4117,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '6.1g',
             carbs: '14.0g',
             protein: '6.2g',
-            summaryText: 'A cheese noodle ring.',
+            summaryText: 'A serving of Cheese noodle ring.',
             breakdown: '41% fat, 42% carbs, 17% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 134 }
+            { size: '1 serving', calories: 133.67 }
         ]
     },
     {
-        slug: 'spaghetti-cheese-balls-tomato-sauce',
+        slug: 'spaghetti-and-cheese-balls-in-tomato-sauce',
         name: 'Spaghetti and cheese balls in tomato sauce',
         cuisine: 'Generic',
         mealCategory: 'Dinner',
@@ -4150,11 +4150,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '52.1g',
             carbs: '7.8g',
             protein: '2.4g',
-            summaryText: 'Spaghetti and cheese balls in tomato sauce.',
+            summaryText: 'A serving of Spaghetti and cheese balls in tomato sauce.',
             breakdown: '92% fat, 6% carbs, 2% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 508 }
+            { size: '1 serving', calories: 508.32 }
         ]
     },
     {
@@ -4183,11 +4183,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '8.7g',
             carbs: '20.9g',
             protein: '5.0g',
-            summaryText: 'A serving of penne platter.',
+            summaryText: 'A serving of Penne platter.',
             breakdown: '44% fat, 47% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 177 }
+            { size: '1 serving', calories: 177.4 }
         ]
     },
     {
@@ -4216,11 +4216,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '6.5g',
             carbs: '11.6g',
             protein: '5.8g',
-            summaryText: 'A serving of pasta hot pot.',
+            summaryText: 'A serving of Pasta hot pot.',
             breakdown: '46% fat, 37% carbs, 17% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 125 }
+            { size: '1 serving', calories: 125.17 }
         ]
     },
     {
@@ -4249,15 +4249,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '10.4g',
             carbs: '13.9g',
             protein: '10.5g',
-            summaryText: 'A serving of chicken lasagne.',
+            summaryText: 'A serving of Chicken lasagne.',
             breakdown: '50% fat, 30% carbs, 20% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 187 }
+            { size: '1 serving', calories: 187.49 }
         ]
     },
     {
-        slug: 'fettuccine-spinach-sauce',
+        slug: 'fettuccine-with-spinach-sauce',
         name: 'Fettuccine with spinach sauce',
         cuisine: 'Generic',
         mealCategory: 'Dinner',
@@ -4282,11 +4282,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '7.8g',
             carbs: '12.2g',
             protein: '3.1g',
-            summaryText: 'Fettuccine with spinach sauce.',
+            summaryText: 'A serving of Fettuccine with spinach sauce.',
             breakdown: '55% fat, 38% carbs, 7% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 129 }
+            { size: '1 serving', calories: 129.21 }
         ]
     },
     {
@@ -4315,11 +4315,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.0g',
             carbs: '51.8g',
             protein: '8.1g',
-            summaryText: 'A piece of naan bread.',
+            summaryText: 'A serving of Naan.',
             breakdown: '16% fat, 72% carbs, 12% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 286 }
+            { size: '1 piece', calories: 286.45 }
         ]
     },
     {
@@ -4348,11 +4348,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '82.6g',
             carbs: '10.7g',
             protein: '1.6g',
-            summaryText: 'A piece of bhatura.',
+            summaryText: 'A serving of Bhatura.',
             breakdown: '94% fat, 5% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 793 }
+            { size: '1 piece', calories: 793.2 }
         ]
     },
     {
@@ -4381,11 +4381,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.3g',
             carbs: '28.2g',
             protein: '4.6g',
-            summaryText: 'A piece of idli.',
+            summaryText: 'A serving of Idli.',
             breakdown: '2% fat, 82% carbs, 16% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 138 }
+            { size: '1 piece', calories: 137.54 }
         ]
     },
     {
@@ -4414,15 +4414,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '7.8g',
             carbs: '19.6g',
             protein: '3.3g',
-            summaryText: 'A piece of masala dosa.',
+            summaryText: 'A serving of Masala dosa.',
             breakdown: '43% fat, 48% carbs, 9% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 165 }
+            { size: '1 piece', calories: 164.58 }
         ]
     },
     {
-        slug: 'semolina-dosa',
+        slug: 'semolina-dosa-suji-rava-dosa',
         name: 'Semolina dosa (Suji/Rava dosa)',
         cuisine: 'South Indian',
         mealCategory: 'Breakfast',
@@ -4447,11 +4447,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '7.1g',
             carbs: '32.8g',
             protein: '7.3g',
-            summaryText: 'A piece of semolina dosa.',
+            summaryText: 'A serving of Semolina dosa (Suji/Rava dosa).',
             breakdown: '28% fat, 58% carbs, 14% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 227 }
+            { size: '1 piece', calories: 227.05 }
         ]
     },
     {
@@ -4480,11 +4480,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '45.3g',
             carbs: '11.3g',
             protein: '1.9g',
-            summaryText: 'A piece of onion tomato uttapam.',
+            summaryText: 'A serving of Onion tomato uttapam.',
             breakdown: '88% fat, 10% carbs, 2% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 462 }
+            { size: '1 piece', calories: 462.02 }
         ]
     },
     {
@@ -4513,11 +4513,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '19.6g',
             carbs: '20.1g',
             protein: '6.9g',
-            summaryText: 'A paneer kaathi roll.',
+            summaryText: 'A serving of Paneer kaathi roll.',
             breakdown: '61% fat, 28% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 286 }
+            { size: '1 piece', calories: 285.94 }
         ]
     },
     {
@@ -4546,15 +4546,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '16.9g',
             carbs: '24.2g',
             protein: '3.5g',
-            summaryText: 'A piece of makki ki roti.',
+            summaryText: 'A serving of Makki ki roti.',
             breakdown: '58% fat, 37% carbs, 5% protein.'
         },
         servingSizes: [
-            { size: '1 piece', calories: 264 }
+            { size: '1 piece', calories: 263.97 }
         ]
     },
     {
-        slug: 'washed-moong-dal',
+        slug: 'washed-moong-dal-dhuli-moong-ki-dal',
         name: 'Washed moong dal (Dhuli moong ki dal)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -4579,7 +4579,7 @@ export const foodDatabase: FoodItem[] = [
             fat: '1.7g',
             carbs: '5.9g',
             protein: '2.7g',
-            summaryText: 'A serving of washed moong dal.',
+            summaryText: 'A serving of Washed moong dal (Dhuli moong ki dal).',
             breakdown: '30% fat, 47% carbs, 23% protein.'
         },
         servingSizes: [
@@ -4587,7 +4587,7 @@ export const foodDatabase: FoodItem[] = [
         ]
     },
     {
-        slug: 'washed-urad-dal',
+        slug: 'washed-urad-dal-dhuli-urad-ki-dal',
         name: 'Washed urad dal (Dhuli urad ki dal)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -4612,16 +4612,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.0g',
             carbs: '5.8g',
             protein: '2.5g',
-            summaryText: 'A serving of washed urad dal.',
+            summaryText: 'A serving of Washed urad dal (Dhuli urad ki dal).',
             breakdown: '44% fat, 38% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 61 }
+            { size: '1 serving', calories: 61.32 }
         ]
     },
     {
-        slug: 'split-bengal-gram-bottle-gourd',
-        name: 'Split bengal gram with bottle gourd',
+        slug: 'split-bengal-gram-with-bottle-gourd-channa-dal-with-ghiya-lauki',
+        name: 'Split bengal gram with bottle gourd (Channa dal with ghiya/lauki)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Beans & Legumes',
@@ -4645,15 +4645,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.6g',
             carbs: '7.1g',
             protein: '2.8g',
-            summaryText: 'Split bengal gram with bottle gourd.',
+            summaryText: 'A serving of Split bengal gram with bottle gourd (Channa dal with ghiya/lauki).',
             breakdown: '44% fat, 39% carbs, 17% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 73 }
+            { size: '1 serving', calories: 73.25 }
         ]
     },
     {
-        slug: 'dry-washed-urad-dal',
+        slug: 'dry-washed-urad',
         name: 'Dry washed urad',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -4678,11 +4678,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.5g',
             carbs: '15.7g',
             protein: '6.9g',
-            summaryText: 'A serving of dry washed urad.',
+            summaryText: 'A serving of Dry washed urad.',
             breakdown: '25% fat, 50% carbs, 25% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 125 }
+            { size: '1 serving', calories: 124.71 }
         ]
     },
     {
@@ -4711,16 +4711,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '3.1g',
             carbs: '5.8g',
             protein: '2.5g',
-            summaryText: 'A serving of mixed dal.',
+            summaryText: 'A serving of Mixed dal.',
             breakdown: '45% fat, 37% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 62 }
+            { size: '1 serving', calories: 61.93 }
         ]
     },
     {
-        slug: 'whole-moong-dal',
-        name: 'Whole moong dal',
+        slug: 'whole-moong-moong-ki-dal',
+        name: 'Whole moong (Moong ki dal)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Beans & Legumes',
@@ -4744,16 +4744,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.6g',
             carbs: '5.2g',
             protein: '2.3g',
-            summaryText: 'A serving of whole moong dal.',
+            summaryText: 'A serving of Whole moong (Moong ki dal).',
             breakdown: '43% fat, 39% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 54 }
+            { size: '1 serving', calories: 53.7 }
         ]
     },
     {
-        slug: 'whole-masoor-dal',
-        name: 'Whole masoor dal',
+        slug: 'whole-masoor-masoor-ki-dal',
+        name: 'Whole masoor (Masoor ki dal)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Beans & Legumes',
@@ -4777,16 +4777,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.5g',
             carbs: '5.4g',
             protein: '2.3g',
-            summaryText: 'A serving of whole masoor dal.',
+            summaryText: 'A serving of Whole masoor (Masoor ki dal).',
             breakdown: '42% fat, 40% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 54 }
+            { size: '1 serving', calories: 54.05 }
         ]
     },
     {
-        slug: 'whole-moth-dal',
-        name: 'Whole moth dal',
+        slug: 'whole-moth-moth-ki-dal',
+        name: 'Whole moth (Moth ki dal)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Beans & Legumes',
@@ -4810,7 +4810,7 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.6g',
             carbs: '5.7g',
             protein: '2.0g',
-            summaryText: 'A serving of whole moth dal.',
+            summaryText: 'A serving of Whole moth (Moth ki dal).',
             breakdown: '43% fat, 42% carbs, 15% protein.'
         },
         servingSizes: [
@@ -4818,8 +4818,8 @@ export const foodDatabase: FoodItem[] = [
         ]
     },
     {
-        slug: 'whole-urad-dal',
-        name: 'Whole urad dal',
+        slug: 'whole-urad-urad-ki-dal',
+        name: 'Whole urad (Urad ki dal)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Beans & Legumes',
@@ -4843,15 +4843,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '2.6g',
             carbs: '5.1g',
             protein: '2.2g',
-            summaryText: 'A serving of whole urad dal.',
+            summaryText: 'A serving of Whole urad (Urad ki dal).',
             breakdown: '44% fat, 38% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 54 }
+            { size: '1 serving', calories: 53.8 }
         ]
     },
     {
-        slug: 'moti-mahal-dal',
+        slug: 'moti-mahal-dal-urad-rajmah-mix-dal',
         name: 'Moti mahal dal (Urad rajmah mix dal)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -4876,16 +4876,16 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.7g',
             carbs: '8.7g',
             protein: '3.9g',
-            summaryText: 'A serving of Moti mahal dal.',
+            summaryText: 'A serving of Moti mahal dal (Urad rajmah mix dal).',
             breakdown: '49% fat, 34% carbs, 17% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 103 }
+            { size: '1 serving', calories: 103.13 }
         ]
     },
     {
-        slug: 'black-channa-curry',
-        name: 'Black channa curry/Bengal gram curry',
+        slug: 'black-channa-curry-bengal-gram-curry-kale-chane-ki-curry',
+        name: 'Black channa curry/Bengal gram curry (Kale chane ki curry)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
         foodGroup: 'Beans & Legumes',
@@ -4909,15 +4909,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '6.6g',
             carbs: '14.1g',
             protein: '5.7g',
-            summaryText: 'A serving of black channa curry.',
+            summaryText: 'A serving of Black channa curry/Bengal gram curry (Kale chane ki curry).',
             breakdown: '42% fat, 40% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 141 }
+            { size: '1 serving', calories: 140.68 }
         ]
     },
     {
-        slug: 'chickpeas-curry',
+        slug: 'chickpeas-curry-safed-channa-curry',
         name: 'Chickpeas curry (Safed channa curry)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -4942,11 +4942,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '6.8g',
             carbs: '20.0g',
             protein: '6.1g',
-            summaryText: 'A serving of chickpeas curry.',
+            summaryText: 'A serving of Chickpeas curry (Safed channa curry).',
             breakdown: '38% fat, 49% carbs, 13% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 163 }
+            { size: '1 serving', calories: 163.43 }
         ]
     },
     {
@@ -4975,11 +4975,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.6g',
             carbs: '17.9g',
             protein: '6.1g',
-            summaryText: 'A serving of lobia curry.',
+            summaryText: 'A serving of Lobia curry.',
             breakdown: '34% fat, 48% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 149 }
+            { size: '1 serving', calories: 148.99 }
         ]
     },
     {
@@ -5008,15 +5008,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '10.2g',
             carbs: '6.8g',
             protein: '10.4g',
-            summaryText: 'A serving of soyabean curry.',
+            summaryText: 'A serving of Soyabean curry.',
             breakdown: '56% fat, 17% carbs, 27% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 163 }
+            { size: '1 serving', calories: 163.28 }
         ]
     },
     {
-        slug: 'kidney-bean-curry',
+        slug: 'kidney-bean-curry-rajmah-curry',
         name: 'Kidney bean curry (Rajmah curry)',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -5041,11 +5041,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '5.8g',
             carbs: '16.4g',
             protein: '6.0g',
-            summaryText: 'A serving of kidney bean curry.',
+            summaryText: 'A serving of Kidney bean curry (Rajmah curry).',
             breakdown: '36% fat, 46% carbs, 18% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 144 }
+            { size: '1 serving', calories: 143.73 }
         ]
     },
     {
@@ -5055,7 +5055,7 @@ export const foodDatabase: FoodItem[] = [
         mealCategory: 'Lunch',
         foodGroup: 'Soups',
         nutritionFacts: {
-            servingSize: '1 cup',
+            servingSize: '1 serving',
             calories: 96.92,
             totalFat: { value: 4.38 },
             cholesterol: { value: 0 },
@@ -5066,7 +5066,6 @@ export const foodDatabase: FoodItem[] = [
             protein: { value: 3.35 },
             calcium: { value: 30.24 },
             iron: { value: 1.24 },
-            potassium: { value: 450 },
             vitaminC: { value: 20.35 },
             folate: { value: 68.19 }
         },
@@ -5075,16 +5074,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '4.4g',
             carbs: '10.6g',
             protein: '3.4g',
-            summaryText: 'A lentil-based vegetable stew, cooked with tamarind broth.',
+            summaryText: 'A serving of Sambar.',
             breakdown: '41% fat, 44% carbs, 15% protein.'
         },
         servingSizes: [
-            { size: '1 cup', calories: 97 },
-            { size: '1 bowl (250ml)', calories: 121 }
+            { size: '1 serving', calories: 96.92 }
         ]
     },
     {
-        slug: 'besan-kadhi-pakodies',
+        slug: 'besan-kadhi-with-pakodies',
         name: 'Besan kadhi with pakodies',
         cuisine: 'North Indian',
         mealCategory: 'Lunch',
@@ -5109,11 +5107,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '42.6g',
             carbs: '3.6g',
             protein: '1.6g',
-            summaryText: 'Besan kadhi with pakodies.',
+            summaryText: 'A serving of Besan kadhi with pakodies.',
             breakdown: '95% fat, 4% carbs, 1% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 403 }
+            { size: '1 serving', calories: 403.35 }
         ]
     },
     {
@@ -5142,11 +5140,11 @@ export const foodDatabase: FoodItem[] = [
             fat: '10.6g',
             carbs: '21.1g',
             protein: '6.3g',
-            summaryText: 'A serving of khatta channa.',
+            summaryText: 'A serving of Khatta channa.',
             breakdown: '47% fat, 42% carbs, 11% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 203 }
+            { size: '1 serving', calories: 202.57 }
         ]
     },
     {
@@ -5175,15 +5173,15 @@ export const foodDatabase: FoodItem[] = [
             fat: '0.3g',
             carbs: '6.0g',
             protein: '1.4g',
-            summaryText: 'A serving of sprouted moong dal chat.',
+            summaryText: 'A serving of Sprouted moong dal chat.',
             breakdown: '9% fat, 74% carbs, 17% protein.'
         },
         servingSizes: [
-            { size: '1 serving', calories: 32 }
+            { size: '1 serving', calories: 32.47 }
         ]
     },
     {
-        slug: 'aloo-gobi',
+        slug: 'potato-cauliflower-aloo-gobhi',
         name: 'Potato cauliflower (Aloo gobhi)',
         cuisine: 'North Indian',
         mealCategory: 'Dinner',
@@ -5208,11 +5206,668 @@ export const foodDatabase: FoodItem[] = [
             fat: '8.1g',
             carbs: '6.0g',
             protein: '1.9g',
-            summaryText: 'A dry curry made with potatoes and cauliflower.',
+            summaryText: 'A serving of Potato cauliflower (Aloo gobhi).',
             breakdown: '69% fat, 23% carbs, 8% protein.'
         },
         servingSizes: [
-            { size: '1 cup', calories: 106 }
+            { size: '1 cup', calories: 106.18 }
+        ]
+    },
+    {
+        slug: 'vegetables-indian-style',
+        name: 'Vegetables Indian Style',
+        cuisine: 'Generic',
+        mealCategory: 'Lunch',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1 cup (245 g)',
+            calories: 97,
+            totalFat: { value: 2.00, percent: 3 },
+            transFat: { value: 1.000 },
+            saturatedFat: { value: 0.300, percent: 2 },
+            sodium: { value: 480, percent: 21 },
+            totalCarbohydrate: { value: 11.00, percent: 4 },
+            dietaryFiber: { value: 5.5, percent: 20 },
+            sugars: { value: 5.50 },
+            protein: { value: 4.50 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 97,
+            fat: '2g',
+            carbs: '11g',
+            protein: '4.5g',
+            summaryText: 'There are 97 calories in 1 cup (245 g) of Karine & Jeff Vegetables Indian Style.',
+            breakdown: '22% fat, 55% carbs, 22% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup (245 g)', calories: 97 }
+        ]
+    },
+    {
+        slug: 'cauliflower',
+        name: 'Cauliflower',
+        cuisine: 'Generic',
+        mealCategory: 'Other',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 25,
+            totalFat: { value: 0.1, percent: 0 },
+            saturatedFat: { value: 0.032, percent: 0 },
+            polyunsaturatedFat: { value: 0.099 },
+            monounsaturatedFat: { value: 0.014 },
+            sodium: { value: 30, percent: 1 },
+            totalCarbohydrate: { value: 5.3, percent: 2 },
+            dietaryFiber: { value: 2.5, percent: 9 },
+            sugars: { value: 2.4 },
+            protein: { value: 1.98 },
+            calcium: { value: 22, percent: 2 },
+            iron: { value: 0.44, percent: 2 },
+            potassium: { value: 303, percent: 6 },
+            vitaminA: { value: 1, percent: 0 },
+            vitaminC: { value: 46.4, percent: 52 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 25,
+            fat: '0.1g',
+            carbs: '5.3g',
+            protein: '1.98g',
+            summaryText: 'There are 25 calories in 1 cup of Cauliflower.',
+            breakdown: '3% fat, 71% carbs, 26% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup', calories: 25 },
+            { size: '1 floweret', calories: 3 },
+            { size: '100 g', calories: 25 },
+            { size: '1 head medium (5-6" dia)', calories: 144 },
+            { size: '1 head large (6-7" dia)', calories: 210 }
+        ]
+    },
+    {
+        slug: 'turnips',
+        name: 'Turnips',
+        cuisine: 'Generic',
+        mealCategory: 'Other',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1 cup of cubed',
+            calories: 36,
+            totalFat: { value: 0.13, percent: 0 },
+            saturatedFat: { value: 0.014, percent: 0 },
+            polyunsaturatedFat: { value: 0.069 },
+            monounsaturatedFat: { value: 0.008 },
+            sodium: { value: 87, percent: 4 },
+            totalCarbohydrate: { value: 8.36, percent: 3 },
+            dietaryFiber: { value: 2.3, percent: 8 },
+            sugars: { value: 4.94 },
+            protein: { value: 1.17 },
+            calcium: { value: 39, percent: 3 },
+            iron: { value: 0.39, percent: 2 },
+            potassium: { value: 248, percent: 5 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 27.3, percent: 30 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 36,
+            fat: '0.13g',
+            carbs: '8.36g',
+            protein: '1.17g',
+            summaryText: 'There are 36 calories in 1 cup of cubed Turnips.',
+            breakdown: '3% fat, 85% carbs, 12% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup cubed', calories: 36 },
+            { size: '1 medium', calories: 34 }
+        ]
+    },
+    {
+        slug: 'red-tomatoes',
+        name: 'Red Tomatoes',
+        cuisine: 'Generic',
+        mealCategory: 'Other',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1 cup of chopped or sliced',
+            calories: 32,
+            totalFat: { value: 0.36, percent: 0 },
+            saturatedFat: { value: 0.083, percent: 0 },
+            polyunsaturatedFat: { value: 0.243 },
+            monounsaturatedFat: { value: 0.092 },
+            sodium: { value: 9, percent: 0 },
+            totalCarbohydrate: { value: 7.06, percent: 3 },
+            dietaryFiber: { value: 2.2, percent: 8 },
+            sugars: { value: 4.73 },
+            protein: { value: 1.58 },
+            calcium: { value: 18, percent: 1 },
+            iron: { value: 0.49, percent: 3 },
+            potassium: { value: 427, percent: 9 },
+            vitaminA: { value: 76, percent: 8 },
+            vitaminC: { value: 22.9, percent: 25 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 32,
+            fat: '0.36g',
+            carbs: '7.06g',
+            protein: '1.58g',
+            summaryText: 'There are 32 calories in 1 cup of chopped or sliced Red Tomatoes.',
+            breakdown: '9% fat, 75% carbs, 17% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup chopped or sliced', calories: 32 }
+        ]
+    },
+    {
+        slug: 'indian-punjab-eggplant',
+        name: 'Indian Punjab Eggplant',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1/2 package (5 oz)',
+            calories: 100,
+            totalFat: { value: 5.00, percent: 6 },
+            saturatedFat: { value: 0.000, percent: 0 },
+            sodium: { value: 480, percent: 21 },
+            totalCarbohydrate: { value: 12.00, percent: 4 },
+            dietaryFiber: { value: 2.0, percent: 7 },
+            sugars: { value: 4.00 },
+            protein: { value: 3.00 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 100,
+            fat: '5g',
+            carbs: '12g',
+            protein: '3g',
+            summaryText: 'There are 100 calories in 1/2 package (5 oz) of Tasty Bite Indian Punjab Eggplant.',
+            breakdown: '43% fat, 46% carbs, 11% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 package (5 oz)', calories: 100 }
+        ]
+    },
+    {
+        slug: 'tikka-vegetables',
+        name: 'Tikka Vegetables',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '2/3 cup (140 g)',
+            calories: 150,
+            totalFat: { value: 8.00, percent: 10 },
+            saturatedFat: { value: 4.000, percent: 20 },
+            polyunsaturatedFat: { value: 4.000 },
+            sodium: { value: 340, percent: 15 },
+            totalCarbohydrate: { value: 16.00, percent: 6 },
+            dietaryFiber: { value: 3.0, percent: 11 },
+            sugars: { value: 8.00 },
+            protein: { value: 4.00 },
+            cholesterol: { value: 15, percent: 5 }
+        },
+        nutritionSummary: {
+            calories: 150,
+            fat: '8g',
+            carbs: '16g',
+            protein: '4g',
+            summaryText: 'There are 150 calories in 2/3 cup (140 g) of Trader Joe\'s Indian Fare Tikka Vegetables.',
+            breakdown: '47% fat, 42% carbs, 11% protein.'
+        },
+        servingSizes: [
+            { size: '2/3 cup (140 g)', calories: 150 }
+        ]
+    },
+    {
+        slug: 'stir-fry-mix-vegetables',
+        name: 'Stir Fry Mix Vegetables',
+        cuisine: 'Generic',
+        mealCategory: 'Dinner',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1 cup (85 g)',
+            calories: 30,
+            totalFat: { value: 0.00, percent: 0 },
+            saturatedFat: { value: 0.000, percent: 0 },
+            sodium: { value: 20, percent: 1 },
+            totalCarbohydrate: { value: 6.00, percent: 2 },
+            dietaryFiber: { value: 2.0, percent: 7 },
+            sugars: { value: 3.00 },
+            protein: { value: 1.00 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 30,
+            fat: '0g',
+            carbs: '6g',
+            protein: '1g',
+            summaryText: 'There are 30 calories in 1 cup (85 g) of Food Lion Stir Fry Mix Vegetables.',
+            breakdown: '0% fat, 86% carbs, 14% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup (85 g)', calories: 30 }
+        ]
+    },
+    {
+        slug: 'indian-mushroom-masala',
+        name: 'Indian Mushroom Masala',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1/2 pack (142.5 g)',
+            calories: 110,
+            totalFat: { value: 4.50, percent: 6 },
+            saturatedFat: { value: 0.000, percent: 0 },
+            sodium: { value: 440, percent: 19 },
+            totalCarbohydrate: { value: 14.00, percent: 5 },
+            dietaryFiber: { value: 2.0, percent: 7 },
+            sugars: { value: 5.00 },
+            protein: { value: 3.00 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 110,
+            fat: '4.5g',
+            carbs: '14g',
+            protein: '3g',
+            summaryText: 'There are 110 calories in 1/2 pack (142.5 g) of Tasty Bite Indian Mushroom Masala.',
+            breakdown: '37% fat, 52% carbs, 11% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 pack (142.5 g)', calories: 110 }
+        ]
+    },
+    {
+        slug: 'channa-masala',
+        name: 'Channa Masala',
+        cuisine: 'North Indian',
+        mealCategory: 'Lunch',
+        foodGroup: 'Beans & Legumes',
+        nutritionFacts: {
+            servingSize: '2/3 cup (140 g)',
+            calories: 170,
+            totalFat: { value: 6.00, percent: 8 },
+            saturatedFat: { value: 0.500, percent: 3 },
+            sodium: { value: 400, percent: 17 },
+            totalCarbohydrate: { value: 22.00, percent: 8 },
+            dietaryFiber: { value: 8.0, percent: 29 },
+            sugars: { value: 3.00 },
+            protein: { value: 6.00 },
+            calcium: { value: 50, percent: 4 },
+            iron: { value: 1.80, percent: 10 },
+            potassium: { value: 0, percent: 0 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 170,
+            fat: '6g',
+            carbs: '22g',
+            protein: '6g',
+            summaryText: 'There are 170 calories in 2/3 cup (140 g) of Tasty Bite Channa Masala.',
+            breakdown: '33% fat, 53% carbs, 14% protein.'
+        },
+        servingSizes: [
+            { size: '2/3 cup (140 g)', calories: 170 }
+        ]
+    },
+    {
+        slug: 'matar-paneer',
+        name: 'Matar Paneer',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1/2 pack',
+            calories: 150,
+            totalFat: { value: 10.00, percent: 13 },
+            sodium: { value: 350, percent: 15 },
+            totalCarbohydrate: { value: 7.00, percent: 3 },
+            dietaryFiber: { value: 6.0, percent: 21 },
+            sugars: { value: 4.50 },
+            protein: { value: 3.00 },
+            cholesterol: { value: 13, percent: 4 }
+        },
+        nutritionSummary: {
+            calories: 150,
+            fat: '10g',
+            carbs: '7g',
+            protein: '3g',
+            summaryText: 'There are 150 calories in 1/2 pack of Tasty Bite Peas Paneer.',
+            breakdown: '69% fat, 22% carbs, 9% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 pack', calories: 150 }
+        ]
+    },
+    {
+        slug: 'aloo-palak',
+        name: 'Aloo Palak',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1/2 package (142.5 g)',
+            calories: 100,
+            totalFat: { value: 3.00, percent: 4 },
+            saturatedFat: { value: 0.000, percent: 0 },
+            sodium: { value: 400, percent: 17 },
+            totalCarbohydrate: { value: 13.00, percent: 5 },
+            dietaryFiber: { value: 3.0, percent: 11 },
+            sugars: { value: 3.00 },
+            protein: { value: 3.00 },
+            potassium: { value: 0, percent: 0 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 100,
+            fat: '3g',
+            carbs: '13g',
+            protein: '3g',
+            summaryText: 'There are 100 calories in 1/2 package (142.5 g) of Tasty Bite Aloo Palak.',
+            breakdown: '30% fat, 57% carbs, 13% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 package (142.5 g)', calories: 100 }
+        ]
+    },
+    {
+        slug: 'chicken-curry',
+        name: 'Chicken Curry',
+        cuisine: 'Generic',
+        mealCategory: 'Dinner',
+        foodGroup: 'Meat',
+        nutritionFacts: {
+            servingSize: '1/2 chicken breast with sauce',
+            calories: 160,
+            totalFat: { value: 8.6, percent: 11 },
+            saturatedFat: { value: 1.752, percent: 9 },
+            polyunsaturatedFat: { value: 2.433 },
+            monounsaturatedFat: { value: 3.665 },
+            sodium: { value: 624, percent: 27 },
+            totalCarbohydrate: { value: 6.11, percent: 2 },
+            dietaryFiber: { value: 1.2, percent: 4 },
+            sugars: { value: 2.67 },
+            protein: { value: 14.8 },
+            calcium: { value: 22, percent: 2 },
+            iron: { value: 1.21, percent: 7 },
+            potassium: { value: 321, percent: 7 },
+            vitaminA: { value: 81, percent: 9 },
+            vitaminC: { value: 6.6, percent: 7 },
+            cholesterol: { value: 45, percent: 15 }
+        },
+        nutritionSummary: {
+            calories: 160,
+            fat: '8.6g',
+            carbs: '6.11g',
+            protein: '14.8g',
+            summaryText: 'There are 160 calories in a 1/2 chicken breast with sauce of Chicken Curry.',
+            breakdown: '48% fat, 15% carbs, 37% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 chicken breast with sauce', calories: 160 },
+            { size: '1 cup', calories: 293 }
+        ]
+    },
+    {
+        slug: 'lamb-curry',
+        name: 'Lamb Curry',
+        cuisine: 'Generic',
+        mealCategory: 'Dinner',
+        foodGroup: 'Meat',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 257,
+            totalFat: { value: 13.83, percent: 18 },
+            saturatedFat: { value: 3.944, percent: 20 },
+            polyunsaturatedFat: { value: 3.186 },
+            monounsaturatedFat: { value: 5.055 },
+            sodium: { value: 496, percent: 22 },
+            totalCarbohydrate: { value: 3.71, percent: 1 },
+            dietaryFiber: { value: 0.9, percent: 3 },
+            sugars: { value: 1.27 },
+            protein: { value: 28.23 },
+            calcium: { value: 38, percent: 3 },
+            iron: { value: 2.95, percent: 16 },
+            potassium: { value: 493, percent: 10 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 1.4, percent: 2 },
+            cholesterol: { value: 90, percent: 30 }
+        },
+        nutritionSummary: {
+            calories: 257,
+            fat: '13.83g',
+            carbs: '3.71g',
+            protein: '28.23g',
+            summaryText: 'There are 257 calories in 1 cup of Lamb Curry.',
+            breakdown: '49% fat, 6% carbs, 45% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup', calories: 257 },
+            { size: '100 g', calories: 109 }
+        ]
+    },
+    {
+        slug: 'lamb-roast',
+        name: 'Lamb Roast',
+        cuisine: 'Generic',
+        mealCategory: 'Dinner',
+        foodGroup: 'Meat',
+        nutritionFacts: {
+            servingSize: '100 g',
+            calories: 266,
+            totalFat: { value: 18.15, percent: 23 },
+            saturatedFat: { value: 7.633, percent: 38 },
+            polyunsaturatedFat: { value: 1.394 },
+            monounsaturatedFat: { value: 7.533 },
+            sodium: { value: 228, percent: 10 },
+            totalCarbohydrate: { value: 0, percent: 0 },
+            dietaryFiber: { value: 0, percent: 0 },
+            sugars: { value: 0 },
+            protein: { value: 23.93 },
+            calcium: { value: 16, percent: 1 },
+            iron: { value: 1.97, percent: 11 },
+            potassium: { value: 281, percent: 6 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 0, percent: 0 },
+            cholesterol: { value: 92, percent: 31 }
+        },
+        nutritionSummary: {
+            calories: 266,
+            fat: '18.15g',
+            carbs: '0g',
+            protein: '23.93g',
+            summaryText: 'There are 266 calories in 100 grams of Lamb Roast.',
+            breakdown: '63% fat, 0% carbs, 37% protein.'
+        },
+        servingSizes: [
+            { size: '100 g', calories: 266 },
+            { size: '1 cup diced', calories: 356 }
+        ]
+    },
+    {
+        slug: 'mixed-salad-greens',
+        name: 'Mixed Salad Greens',
+        cuisine: 'Generic',
+        mealCategory: 'Other',
+        foodGroup: 'Salads',
+        nutritionFacts: {
+            servingSize: '1 cup of shredded or chopped',
+            calories: 9,
+            totalFat: { value: 0.13, percent: 0 },
+            saturatedFat: { value: 0.021, percent: 0 },
+            polyunsaturatedFat: { value: 0.063 },
+            monounsaturatedFat: { value: 0.004 },
+            sodium: { value: 16, percent: 1 },
+            totalCarbohydrate: { value: 1.76, percent: 1 },
+            dietaryFiber: { value: 1.1, percent: 4 },
+            sugars: { value: 0.48 },
+            protein: { value: 0.84 },
+            calcium: { value: 26, percent: 2 },
+            iron: { value: 0.64, percent: 4 },
+            potassium: { value: 160, percent: 3 },
+            vitaminA: { value: 139, percent: 15 },
+            vitaminC: { value: 8.7, percent: 10 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 9,
+            fat: '0.13g',
+            carbs: '1.76g',
+            protein: '0.84g',
+            summaryText: 'There are 9 calories in 1 cup of shredded or chopped Mixed Salad Greens.',
+            breakdown: '10% fat, 61% carbs, 29% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup shredded or chopped', calories: 9 }
+        ]
+    },
+    {
+        slug: 'lettuce-salad-with-tomato',
+        name: 'Lettuce Salad with Tomato',
+        cuisine: 'Generic',
+        mealCategory: 'Other',
+        foodGroup: 'Salads',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 15,
+            totalFat: { value: 0.15, percent: 0 },
+            saturatedFat: { value: 0.028, percent: 0 },
+            polyunsaturatedFat: { value: 0.086 },
+            monounsaturatedFat: { value: 0.023 },
+            sodium: { value: 14, percent: 1 },
+            totalCarbohydrate: { value: 3.17, percent: 1 },
+            dietaryFiber: { value: 1.2, percent: 4 },
+            sugars: { value: 1.95 },
+            protein: { value: 0.76 },
+            calcium: { value: 15, percent: 1 },
+            iron: { value: 0.29, percent: 2 },
+            potassium: { value: 173, percent: 4 },
+            vitaminA: { value: 55, percent: 6 },
+            vitaminC: { value: 6.6, percent: 7 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 15,
+            fat: '0.15g',
+            carbs: '3.17g',
+            protein: '0.76g',
+            summaryText: 'There are 15 calories in 1 cup of Lettuce Salad with Tomato.',
+            breakdown: '8% fat, 74% carbs, 18% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup', calories: 15 }
+        ]
+    },
+    {
+        slug: 'tomato-soup',
+        name: 'Tomato Soup',
+        cuisine: 'Generic',
+        mealCategory: 'Soups',
+        foodGroup: 'Soups',
+        nutritionFacts: {
+            servingSize: '1/2 cup',
+            calories: 90,
+            totalFat: { value: 0.00, percent: 0 },
+            saturatedFat: { value: 0.000, percent: 0 },
+            sodium: { value: 480, percent: 21 },
+            totalCarbohydrate: { value: 21.00, percent: 8 },
+            dietaryFiber: { value: 1.0, percent: 4 },
+            sugars: { value: 12.00 },
+            protein: { value: 2.00 },
+            cholesterol: { value: 0 }
+        },
+        nutritionSummary: {
+            calories: 90,
+            fat: '0g',
+            carbs: '21g',
+            protein: '2g',
+            summaryText: 'There are 90 calories in 1/2 cup of Food Club Tomato Soup.',
+            breakdown: '0% fat, 91% carbs, 9% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 cup', calories: 90 }
+        ]
+    },
+    {
+        slug: 'chicken-soup',
+        name: 'Chicken Soup',
+        cuisine: 'Generic',
+        mealCategory: 'Soups',
+        foodGroup: 'Soups',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 75,
+            totalFat: { value: 2.46, percent: 3 },
+            saturatedFat: { value: 0.651, percent: 3 },
+            polyunsaturatedFat: { value: 0.554 },
+            monounsaturatedFat: { value: 1.109 },
+            sodium: { value: 1106, percent: 48 },
+            totalCarbohydrate: { value: 9.35, percent: 3 },
+            dietaryFiber: { value: 0.7, percent: 3 },
+            sugars: { value: 0.27 },
+            protein: { value: 4.05 },
+            calcium: { value: 17, percent: 1 },
+            iron: { value: 0.77, percent: 4 },
+            potassium: { value: 55, percent: 1 },
+            vitaminA: { value: 36, percent: 4 },
+            vitaminC: { value: 0.2, percent: 0 },
+            cholesterol: { value: 7, percent: 2 }
+        },
+        nutritionSummary: {
+            calories: 75,
+            fat: '2.46g',
+            carbs: '9.35g',
+            protein: '4.05g',
+            summaryText: 'There are 75 calories in 1 cup of Chicken Soup.',
+            breakdown: '29% fat, 49% carbs, 21% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup', calories: 75 },
+            { size: '1 can (10.5 oz)', calories: 182 }
+        ]
+    },
+    {
+        slug: 'baked-beans',
+        name: 'Baked Beans',
+        cuisine: 'Generic',
+        mealCategory: 'Other',
+        foodGroup: 'Beans & Legumes',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 382,
+            totalFat: { value: 13.03, percent: 17 },
+            saturatedFat: { value: 4.928, percent: 25 },
+            polyunsaturatedFat: { value: 1.872 },
+            monounsaturatedFat: { value: 5.396 },
+            sodium: { value: 1068, percent: 46 },
+            totalCarbohydrate: { value: 54.12, percent: 20 },
+            dietaryFiber: { value: 13.9, percent: 50 },
+            protein: { value: 14.02 },
+            calcium: { value: 154, percent: 12 },
+            iron: { value: 5.03, percent: 28 },
+            potassium: { value: 906, percent: 19 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 2.8, percent: 3 },
+            cholesterol: { value: 13, percent: 4 }
+        },
+        nutritionSummary: {
+            calories: 382,
+            fat: '13.03g',
+            carbs: '54.12g',
+            protein: '14.02g',
+            summaryText: 'There are 382 calories in 1 cup of Baked Beans.',
+            breakdown: '30% fat, 56% carbs, 14% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup', calories: 382 },
+            { size: '100 g', calories: 151 }
         ]
     }
-]
+];
+
+
+    
