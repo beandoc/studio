@@ -4,7 +4,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { format, addDays } from "date-fns";
 import { Plus, Settings, Copy, Printer, Trash2, ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw, GlassWater, Droplets } from "lucide-react";
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip as RechartsTooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
 
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
@@ -101,12 +101,12 @@ export default function MyMealTrackerPage() {
   }, [currentDate, activeProfile, getDailyLog]);
 
   // Save to context/storage whenever dailyLog changes
-  useEffect(() => {
+  const handleDailyLogChange = (newLog: DailyLog) => {
+    setDailyLog(newLog);
     if (activeProfile) {
-        updateDailyLog(activeProfile.id, currentDate, dailyLog);
+        updateDailyLog(activeProfile.id, currentDate, newLog);
     }
-  }, [dailyLog, currentDate, activeProfile, updateDailyLog]);
-  
+  }
 
   const handleOpenAddItem = (category: MealCategory) => {
     setCurrentCategory(category);
@@ -114,47 +114,33 @@ export default function MyMealTrackerPage() {
   };
 
   const handleAddMeal = (meal: Omit<LoggedMeal, 'id'>) => {
-    setDailyLog(prevLog => ({
-        ...prevLog,
-        meals: {
-            ...prevLog.meals,
-            [meal.category]: [...prevLog.meals[meal.category], { ...meal, id: new Date().toISOString() }]
-        }
-    }));
+    const newLog = JSON.parse(JSON.stringify(dailyLog));
+    newLog.meals[meal.category].push({ ...meal, id: new Date().toISOString() });
+    handleDailyLogChange(newLog);
   };
   
   const handleAddFluid = (fluid: Omit<LoggedFluid, 'id'>) => {
-    setDailyLog(prevLog => ({
-        ...prevLog,
-        fluids: [...prevLog.fluids, { ...fluid, id: new Date().toISOString() }]
-    }));
+    const newLog = JSON.parse(JSON.stringify(dailyLog));
+    newLog.fluids.push({ ...fluid, id: new Date().toISOString() });
+    handleDailyLogChange(newLog);
   };
 
   const handleLogAgain = (item: LoggedMeal) => {
-     setDailyLog(prevLog => ({
-      ...prevLog,
-      meals: {
-        ...prevLog.meals,
-        [item.category]: [...prevLog.meals[item.category], { ...item, id: new Date().toISOString() }]
-      }
-     }));
+     const newLog = JSON.parse(JSON.stringify(dailyLog));
+     newLog.meals[item.category].push({ ...item, id: new Date().toISOString() });
+     handleDailyLogChange(newLog);
   }
   
   const handleRemoveFluid = (id: string) => {
-    setDailyLog(prevLog => ({
-      ...prevLog,
-      fluids: prevLog.fluids.filter(item => item.id !== id),
-    }));
+    const newLog = JSON.parse(JSON.stringify(dailyLog));
+    newLog.fluids = newLog.fluids.filter((item: LoggedFluid) => item.id !== id);
+    handleDailyLogChange(newLog);
   };
 
   const handleRemoveItem = (category: MealCategory, id: string) => {
-    setDailyLog(prevLog => ({
-      ...prevLog,
-      meals: {
-        ...prevLog.meals,
-        [category]: prevLog.meals[category].filter(item => item.id !== id),
-      }
-    }));
+    const newLog = JSON.parse(JSON.stringify(dailyLog));
+    newLog.meals[category] = newLog.meals[category].filter((item: LoggedMeal) => item.id !== id);
+    handleDailyLogChange(newLog);
   };
 
   const changeDate = (offset: number) => {
@@ -162,28 +148,24 @@ export default function MyMealTrackerPage() {
   };
 
   const totals = useMemo(() => {
-    let calories = 0, protein = 0, fat = 0, carbs = 0;
+    let calories = 0, protein = 0, fat = 0, carbs = 0, fluid = 0;
     
-    if (dailyLog && dailyLog.meals) {
-        for (const category of MEAL_CATEGORIES) {
-            if (dailyLog.meals[category]) {
-                dailyLog.meals[category].forEach(item => {
-                    calories += item.calories || 0;
-                    protein += item.protein || 0;
-                    fat += item.fat || 0;
-                    carbs += item.carbs || 0;
-                });
-            }
+    if (dailyLog) {
+        if (dailyLog.meals) {
+            Object.values(dailyLog.meals).flat().forEach(item => {
+                calories += item.calories || 0;
+                protein += item.protein || 0;
+                fat += item.fat || 0;
+                carbs += item.carbs || 0;
+            });
+        }
+        if (dailyLog.fluids) {
+            dailyLog.fluids.forEach(item => {
+                fluid += item.amount || 0;
+            });
         }
     }
     
-    let fluid = 0;
-    if (dailyLog && dailyLog.fluids) {
-        dailyLog.fluids.forEach(item => {
-            fluid += item.amount || 0;
-        });
-    }
-
     return { calories, protein, fat, carbs, fluid };
   }, [dailyLog]);
 

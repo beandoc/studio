@@ -179,28 +179,42 @@ export default function RecognizeFoodPage() {
         return;
     }
 
+    const newMeal: Omit<LoggedMeal, 'id'> = {
+        category: mealCategory,
+        name: analysisResult.mealName || "Scanned Meal",
+        calories: 0,
+        protein: 0,
+        fat: 0,
+        carbs: 0,
+    };
+    
+    let loggedItemNames: string[] = [];
+
     itemsToLog.forEach(item => {
         const caloriesFromProteinAndFat = (item.protein * 4) + (item.fat * 9);
         const remainingCalories = item.calories - caloriesFromProteinAndFat;
         const calculatedCarbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
         
-        const newMeal: Omit<LoggedMeal, 'id'> = {
-            category: mealCategory,
-            name: item.name,
-            calories: item.calories,
-            protein: item.protein,
-            fat: item.fat,
-            carbs: calculatedCarbs,
-        };
-
-        updatedLog.meals[mealCategory].push({ ...newMeal, id: new Date().toISOString() + Math.random() });
+        newMeal.calories += item.calories;
+        newMeal.protein += item.protein;
+        newMeal.fat += item.fat;
+        newMeal.carbs += calculatedCarbs;
+        loggedItemNames.push(item.name);
     });
+
+    if(itemsToLog.length > 1) {
+        newMeal.name = `${analysisResult.mealName} (${loggedItemNames.length} items)`;
+    } else {
+        newMeal.name = loggedItemNames[0] || analysisResult.mealName;
+    }
+
+    updatedLog.meals[mealCategory].push({ ...newMeal, id: new Date().toISOString() + Math.random() });
     
     updateDailyLog(activeProfile.id, logDate, updatedLog);
 
     toast({
       title: "Meal Logged!",
-      description: `${itemsToLog.length} item(s) have been added to ${activeProfile.fullName}'s tracker for ${format(logDate, 'PPP')}.`,
+      description: `"${newMeal.name}" has been added to ${activeProfile.fullName}'s tracker for ${format(logDate, 'PPP')}.`,
     });
 
     router.push('/my-meal-tracker');
