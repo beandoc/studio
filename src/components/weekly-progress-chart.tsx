@@ -1,7 +1,7 @@
 
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts"
 import { format, subDays } from "date-fns"
 import type { DailyLog } from "@/app/my-meal-tracker/page"
@@ -33,9 +33,7 @@ type WeeklyProgressChartProps = {
 };
 
 export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) {
-    const [chartData, setChartData] = useState<any[]>([]);
-
-    useEffect(() => {
+    const chartData = useMemo(() => {
         const today = new Date();
         const data = [];
         const daysToFetch = view === 'weekly' ? 7 : 30;
@@ -50,14 +48,15 @@ export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) 
             if (storedLog) {
                 try {
                     const parsedLog: DailyLog = JSON.parse(storedLog);
-                    const allMeals = Object.values(parsedLog.meals).flat();
-                    
-                    if (Array.isArray(allMeals)) {
-                        allMeals.forEach(item => {
-                            totals.calories += item.calories || 0;
-                            totals.protein += item.protein || 0;
-                            totals.fat += item.fat || 0;
-                        });
+                    if (parsedLog && parsedLog.meals) {
+                        const allMeals = Object.values(parsedLog.meals).flat();
+                        if (Array.isArray(allMeals)) {
+                            allMeals.forEach(item => {
+                                totals.calories += item.calories || 0;
+                                totals.protein += item.protein || 0;
+                                totals.fat += item.fat || 0;
+                            });
+                        }
                     }
                 } catch (e) {
                     console.error("Failed to parse log for chart", e);
@@ -71,7 +70,7 @@ export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) 
                 fat: parseFloat(totals.fat.toFixed(1)),
             });
         }
-        setChartData(data);
+        return data;
     }, [view]);
 
 

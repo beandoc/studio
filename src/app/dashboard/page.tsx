@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
-import { Link } from "next-intl";
+import { useState, useEffect, useMemo } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
@@ -82,15 +82,12 @@ const goals: Goals = {
 
 export default function Dashboard() {
   const [chartView, setChartView] = useState<'weekly' | 'monthly'>('weekly');
-  const [averages, setAverages] = useState<NutrientAverage>({ protein: 0, carbs: 0 });
+  const [dailyLogs, setDailyLogs] = useState<DailyLog[]>([]);
 
   useEffect(() => {
     const today = new Date();
-    let totalProtein = 0;
-    let totalCarbs = 0;
-    const daysWithLogs = 7;
-
-    for (let i = 0; i < daysWithLogs; i++) {
+    const logs: DailyLog[] = [];
+    for (let i = 0; i < 7; i++) {
         const date = subDays(today, i);
         const logKey = `mealLog-${format(date, 'yyyy-MM-dd')}`;
         const storedLog = localStorage.getItem(logKey);
@@ -98,23 +95,35 @@ export default function Dashboard() {
         if (storedLog) {
             try {
                 const parsedLog: DailyLog = JSON.parse(storedLog);
-                if(parsedLog && parsedLog.meals){
-                  Object.values(parsedLog.meals).flat().forEach(item => {
-                      totalProtein += item.protein;
-                      totalCarbs += item.carbs;
-                  });
-                }
+                logs.push(parsedLog);
             } catch (e) {
                 console.error("Failed to parse log for dashboard averages", e);
             }
         }
     }
-
-    setAverages({
-      protein: totalProtein > 0 ? (totalProtein / daysWithLogs) : 0,
-      carbs: totalCarbs > 0 ? (totalCarbs / daysWithLogs) : 0,
-    });
+    setDailyLogs(logs);
   }, []);
+
+  const averages = useMemo<NutrientAverage>(() => {
+    let totalProtein = 0;
+    let totalCarbs = 0;
+    const daysWithLogs = dailyLogs.length > 0 ? dailyLogs.length : 1;
+
+    dailyLogs.forEach(log => {
+      if (log && log.meals) {
+        Object.values(log.meals).flat().forEach(item => {
+          totalProtein += item.protein;
+          totalCarbs += item.carbs;
+        });
+      }
+    });
+
+    return {
+      protein: totalProtein / daysWithLogs,
+      carbs: totalCarbs / daysWithLogs,
+    };
+  }, [dailyLogs]);
+
 
   const proteinPercentage = goals.protein > 0 ? (averages.protein / goals.protein) * 100 : 0;
   const carbsPercentage = goals.carbs > 0 ? (averages.carbs / goals.carbs) * 100 : 0;

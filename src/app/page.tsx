@@ -1,20 +1,25 @@
 
-import { Link } from "next-intl";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Header from "@/components/header";
-import { useTranslations } from 'next-intl';
 
 export default function WelcomePage() {
-  const t = useTranslations('WelcomePage');
+  const t = {
+    title: "Welcome to Flip & Toss",
+    description: "Your smart meal companion for kidney health.",
+    cardTitle: "Take Control of Your Kidney Health",
+    cardDescription: "KidneyWise Diet helps you manage your diet with personalized meal plans, tracking, and smart food suggestions. Let's get started by setting up your profile.",
+    getStartedButton: "Let's get started"
+  };
 
   return (
     <div className="flex flex-col w-full">
       <Header
-        title={t('title')}
-        description={t('description')}
+        title={t.title}
+        description={t.description}
       />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
@@ -30,15 +35,15 @@ export default function WelcomePage() {
             <div className="flex flex-col items-start">
                  <Card className="w-full border-0 shadow-none">
                     <CardHeader>
-                        <CardTitle className="text-4xl font-bold text-primary">{t('cardTitle')}</CardTitle>
+                        <CardTitle className="text-4xl font-bold text-primary">{t.cardTitle}</CardTitle>
                         <CardDescription className="text-lg text-muted-foreground mt-2">
-                            {t('cardDescription')}
+                            {t.cardDescription}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Link href="/my-profile">
                             <Button size="lg">
-                                {t('getStartedButton')}
+                                {t.getStartedButton}
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
                         </Link>

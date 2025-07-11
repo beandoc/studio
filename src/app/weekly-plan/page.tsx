@@ -12,10 +12,9 @@ import {
 } from "@/components/ui/card";
 import { type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next-intl";
 import { Utensils, Sunrise, Sun, Moon, Coffee } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Link } from "next-intl";
+import Link from "next/link";
 
 type Meal = {
     type: string;
@@ -42,7 +41,6 @@ const mealIcons: { [key: string]: React.ElementType } = {
 export default function WeeklyPlanPage() {
   const [dietPlan, setDietPlan] = useState<GenerateDietPlanOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     try {
