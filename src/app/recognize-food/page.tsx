@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { recognizeFoodImage, type RecognizeFoodImageOutput } from "@/ai/flows/recognize-food-image";
-import { Camera, Loader2, Sparkles, Utensils, CheckCircle2, Upload } from "lucide-react";
+import { Camera, Loader2, Sparkles, Utensils, CheckCircle2, Upload, CalendarIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { useProfile } from "@/context/profile-context";
@@ -18,6 +18,14 @@ import { MealCategory } from "../my-meal-tracker/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+
+const MEAL_CATEGORIES: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Morning Snack", "Afternoon Snack", "Evening Snack"];
 
 export default function RecognizeFoodPage() {
   const { activeProfile, updateDailyLog, getDailyLog } = useProfile();
@@ -26,6 +34,9 @@ export default function RecognizeFoodPage() {
   const [analysisResult, setAnalysisResult] = useState<RecognizeFoodImageOutput | null>(null);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   
+  const [logDate, setLogDate] = useState<Date>(new Date());
+  const [mealCategory, setMealCategory] = useState<MealCategory>("Lunch");
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -115,6 +126,7 @@ export default function RecognizeFoodPage() {
     context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
     
     const photoDataUri = canvas.toDataURL("image/jpeg");
+    setUploadedImage(photoDataUri); // also set the image for display
     recognizeImage(photoDataUri);
   }
   
@@ -145,36 +157,27 @@ export default function RecognizeFoodPage() {
       return;
     }
     
-    const today = new Date();
-    const currentLog = getDailyLog(activeProfile.id, today) || { meals: { Breakfast: [], Lunch: [], Dinner: [], "Morning Snack": [], "Afternoon Snack": [], "Evening Snack": [] }, fluids: [] };
+    const currentLog = getDailyLog(activeProfile.id, logDate) || { meals: { Breakfast: [], Lunch: [], Dinner: [], "Morning Snack": [], "Afternoon Snack": [], "Evening Snack": [] }, fluids: [] };
     
-    const hour = today.getHours();
-    let category: MealCategory = "Morning Snack";
-    if (hour >= 5 && hour < 11) category = "Breakfast";
-    else if (hour >= 11 && hour < 14) category = "Lunch";
-    else if (hour >= 14 && hour < 17) category = "Afternoon Snack";
-    else if (hour >= 17 && hour < 22) category = "Dinner";
-    else category = "Evening Snack";
-
     const newMeals = analysisResult.items.map(item => ({
         ...item,
         id: new Date().toISOString() + Math.random(),
-        category: category,
+        category: mealCategory,
         carbs: 0,
     }));
 
     const updatedLog = { ...currentLog };
     
-    if (!updatedLog.meals[category]) {
-      updatedLog.meals[category] = [];
+    if (!updatedLog.meals[mealCategory]) {
+      updatedLog.meals[mealCategory] = [];
     }
-    updatedLog.meals[category] = [...updatedLog.meals[category], ...newMeals];
+    updatedLog.meals[mealCategory] = [...updatedLog.meals[mealCategory], ...newMeals];
     
-    updateDailyLog(activeProfile.id, today, updatedLog);
+    updateDailyLog(activeProfile.id, logDate, updatedLog);
 
     toast({
       title: "Meal Logged!",
-      description: `${analysisResult.mealName} has been added to ${activeProfile.fullName}'s tracker.`,
+      description: `${analysisResult.mealName} has been added to ${activeProfile.fullName}'s tracker for ${format(logDate, 'PPP')}.`,
     });
 
     router.push('/my-meal-tracker');
@@ -328,11 +331,48 @@ export default function RecognizeFoodPage() {
                                 ))}
                             </div>
                         </div>
-                        <Button onClick={handleLogMeal} className="w-full">
-                            <Utensils className="mr-2 h-4 w-4" /> 
-                            {activeProfile ? `Log this meal for ${activeProfile.fullName}` : 'Log this Meal'}
-                        </Button>
                     </CardContent>
+                    <CardFooter className="flex-col sm:flex-row gap-4">
+                        <div className="grid grid-cols-2 gap-4 w-full">
+                             <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full justify-start text-left font-normal",
+                                        !logDate && "text-muted-foreground"
+                                    )}
+                                    >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {logDate ? format(logDate, "PPP") : <span>Pick a date</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                    mode="single"
+                                    selected={logDate}
+                                    onSelect={(date) => date && setLogDate(date)}
+                                    initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                             <Select value={mealCategory} onValueChange={(value: MealCategory) => setMealCategory(value)}>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Select meal type" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {MEAL_CATEGORIES.map(cat => (
+                                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+
+                        <Button onClick={handleLogMeal} className="w-full sm:w-auto mt-4 sm:mt-0">
+                            <Utensils className="mr-2 h-4 w-4" /> 
+                            {activeProfile ? `Log Meal` : 'Log Meal'}
+                        </Button>
+                    </CardFooter>
                 </Card>
                 )}
 

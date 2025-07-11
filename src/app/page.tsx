@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import { Stethoscope, User } from "lucide-react";
 import Image from "next/image";
 import Header from "@/components/header";
 
@@ -11,8 +11,9 @@ export default function WelcomePage() {
     title: "Welcome to Flip & Toss",
     description: "Your smart meal companion for kidney health.",
     cardTitle: "Take Control of Your Kidney Health",
-    cardDescription: "Manage diet with personalized meal plans, tracking, and smart food suggestions for multiple users. Let's get started by setting up your first profile.",
-    getStartedButton: "Let's get started"
+    cardDescription: "Manage diet with personalized meal plans, tracking, and smart food suggestions. Select your role to get started.",
+    doctorButton: "I'm a Doctor",
+    patientButton: "I'm a Patient"
   };
 
   return (
@@ -41,12 +42,20 @@ export default function WelcomePage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Link href="/profiles">
-                            <Button size="lg">
-                                {t.getStartedButton}
-                                <ArrowRight className="ml-2 h-5 w-5" />
-                            </Button>
-                        </Link>
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Link href="/profiles" passHref>
+                                <Button size="lg" className="w-full sm:w-auto">
+                                    <Stethoscope className="mr-2 h-5 w-5" />
+                                    {t.doctorButton}
+                                </Button>
+                            </Link>
+                             <Link href="/profiles" passHref>
+                                <Button size="lg" variant="secondary" className="w-full sm:w-auto">
+                                    <User className="mr-2 h-5 w-5" />
+                                    {t.patientButton}
+                                </Button>
+                            </Link>
+                        </div>
                     </CardContent>
                 </Card>
             </div>

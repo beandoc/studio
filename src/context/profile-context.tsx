@@ -6,6 +6,8 @@ import type { FormValues as Profile } from '@/app/my-profile/page';
 import type { GenerateDietPlanOutput } from '@/ai/flows/generate-diet-plan';
 import type { DailyLog } from '@/app/my-meal-tracker/page';
 import { format, subDays } from 'date-fns';
+import { useToast } from '@/hooks/use-toast';
+
 
 export type ProfileWithId = Profile & { id: string };
 
@@ -16,6 +18,7 @@ type ProfileContextType = {
   isLoading: boolean;
   dietPlan: GenerateDietPlanOutput | null;
   addProfile: (profile: Profile) => string;
+  removeProfile: (id: string) => void;
   setActiveProfileId: (id: string | null) => void;
   setDietPlan: (plan: GenerateDietPlanOutput | null, profileId?: string) => void;
   updateDailyLog: (profileId: string, date: Date, log: DailyLog) => void;
@@ -31,6 +34,7 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const [activeProfileId, setActiveProfileIdState] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [dietPlans, setDietPlans] = useState<Record<string, GenerateDietPlanOutput>>({});
+  const { toast } = useToast();
 
   // Load initial data from localStorage
   useEffect(() => {
@@ -68,6 +72,39 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
     setProfiles(updatedProfiles);
     localStorage.setItem('profiles', JSON.stringify(updatedProfiles));
     return newProfile.id;
+  };
+
+  const removeProfile = (id: string) => {
+    const profileToRemove = profiles.find(p => p.id === id);
+    if (!profileToRemove) return;
+
+    // Remove profile from state and localStorage
+    const updatedProfiles = profiles.filter(p => p.id !== id);
+    setProfiles(updatedProfiles);
+    localStorage.setItem('profiles', JSON.stringify(updatedProfiles));
+
+    // Remove associated diet plan and daily logs
+    const newDietPlans = { ...dietPlans };
+    delete newDietPlans[id];
+    setDietPlans(newDietPlans);
+    localStorage.setItem('dietPlans', JSON.stringify(newDietPlans));
+    
+    // Clear logs from localStorage (this might be slow if there are many, but it's thorough)
+    Object.keys(localStorage).forEach(key => {
+        if (key.startsWith(`mealLog-${id}-`)) {
+            localStorage.removeItem(key);
+        }
+    });
+
+    // If the deleted profile was active, clear the active profile ID
+    if (activeProfileId === id) {
+        setActiveProfileId(null);
+    }
+    
+    toast({
+        title: "Profile Deleted",
+        description: `The profile for ${profileToRemove.fullName} has been removed.`
+    });
   };
 
   const setDietPlan = (plan: GenerateDietPlanOutput | null, profileId?: string) => {
@@ -146,7 +183,8 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
         activeProfileId, 
         isLoading,
         dietPlan, 
-        addProfile, 
+        addProfile,
+        removeProfile,
         setActiveProfileId, 
         setDietPlan,
         updateDailyLog,

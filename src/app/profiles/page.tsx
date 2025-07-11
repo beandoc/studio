@@ -5,20 +5,35 @@ import { useState } from "react";
 import Link from "next/link";
 import { useProfile } from "@/context/profile-context";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusCircle, User, CheckCircle, Search } from "lucide-react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { PlusCircle, User, CheckCircle, Search, Trash2 } from "lucide-react";
 import Header from "@/components/header";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 export default function ProfilesPage() {
-  const { profiles, activeProfileId, setActiveProfileId } = useProfile();
+  const { profiles, activeProfileId, setActiveProfileId, removeProfile } = useProfile();
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSelectProfile = (id: string) => {
     setActiveProfileId(id);
     router.push("/dashboard");
+  }
+
+  const handleDeleteProfile = (id: string) => {
+    removeProfile(id);
   }
 
   const filteredProfiles = profiles.filter(profile => 
@@ -81,16 +96,37 @@ export default function ProfilesPage() {
                     <strong>Protein Goal:</strong> {profile.proteinGoal || 'N/A'}g | <strong>Fluid Goal:</strong> {profile.fluidGoal || 'N/A'}ml
                 </p>
               </CardContent>
-              <CardContent>
+              <CardFooter className="flex justify-between items-center">
                 <Button 
                   onClick={() => handleSelectProfile(profile.id)} 
                   className="w-full"
                   variant={activeProfileId === profile.id ? "secondary" : "default"}
                   disabled={activeProfileId === profile.id}
                 >
-                  {activeProfileId === profile.id ? "Currently Active" : "Set Active & View Dashboard"}
+                  {activeProfileId === profile.id ? "Currently Active" : "Set Active & View"}
                 </Button>
-              </CardContent>
+                 <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="destructive" size="icon" className="ml-2 flex-shrink-0">
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete the profile for {profile.fullName} and all of their associated data.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => handleDeleteProfile(profile.id)}>
+                        Delete Profile
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </CardFooter>
             </Card>
           ))}
         </div>
