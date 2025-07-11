@@ -19,7 +19,6 @@ import { Zap, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import Link from "next/link";
-import { type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
 import { useProfile } from "@/context/profile-context";
 
 
@@ -27,7 +26,7 @@ function MealAlternativesContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const mealSlug = searchParams.get('mealSlug');
-  const { activeProfile, setDietPlan } = useProfile();
+  const { activeProfile, dietPlan, setDietPlan } = useProfile();
   
   const [originalMeal, setOriginalMeal] = useState<FoodItem | null>(null);
   const [alternatives, setAlternatives] = useState<SuggestMealAlternativesOutput['alternatives'] | null>(null);
@@ -86,53 +85,44 @@ function MealAlternativesContent() {
   }, [mealSlug, toast]);
 
   const handleSwap = (alternativeName: string) => {
-    if (!activeProfile) {
-        toast({ variant: "destructive", title: "Error", description: "No active profile to swap meal for." });
-        return;
-    }
-    
-    const dietPlanRaw = localStorage.getItem(`dietPlan-${activeProfile.id}`);
     const dayToReplace = searchParams.get('day');
     const mealTypeToReplace = searchParams.get('mealType');
-  
-    if (dietPlanRaw && dayToReplace && mealTypeToReplace) {
-      try {
-        let dietPlan: GenerateDietPlanOutput = JSON.parse(dietPlanRaw);
-        const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
-  
-        if (newMealData) {
-          const dayIndex = dietPlan.plan.findIndex(d => d.day.toLowerCase() === dayToReplace.toLowerCase());
-          
-          if (dayIndex !== -1) {
-            const mealIndex = dietPlan.plan[dayIndex].meals.findIndex(m => m.type.toLowerCase() === mealTypeToReplace.toLowerCase());
-            
-            if (mealIndex !== -1) {
-              dietPlan.plan[dayIndex].meals[mealIndex].details = {
+
+    if (!activeProfile || !dietPlan || !dayToReplace || !mealTypeToReplace) {
+        toast({ variant: "destructive", title: "Error", description: "Could not find profile, diet plan, or meal details to perform the swap." });
+        return;
+    }
+
+    const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
+    if (!newMealData) {
+        toast({ variant: "destructive", title: "Error", description: "Could not find new meal data for the swap." });
+        return;
+    }
+
+    const updatedPlan = JSON.parse(JSON.stringify(dietPlan)); // Deep copy
+    const dayIndex = updatedPlan.plan.findIndex((d: any) => d.day.toLowerCase() === dayToReplace.toLowerCase());
+    
+    if (dayIndex !== -1) {
+        const mealIndex = updatedPlan.plan[dayIndex].meals.findIndex((m: any) => m.type.toLowerCase() === mealTypeToReplace.toLowerCase());
+        
+        if (mealIndex !== -1) {
+            updatedPlan.plan[dayIndex].meals[mealIndex].details = {
                 name: newMealData.name,
                 calories: newMealData.nutritionFacts.calories,
                 description: newMealData.nutritionSummary.summaryText,
-              };
-  
-              setDietPlan(dietPlan); // This now updates context and localStorage
-              toast({
+            };
+
+            setDietPlan(updatedPlan); // Update context
+            toast({
                 title: "Meal Swapped!",
                 description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
-              });
-              router.push('/diet-plan');
-            } else {
-              toast({ variant: "destructive", title: "Error", description: `Could not find meal type "${mealTypeToReplace}" to swap.` });
-            }
-          } else {
-            toast({ variant: "destructive", title: "Error", description: `Could not find day "${dayToReplace}" to swap.` });
-          }
+            });
+            router.push('/diet-plan');
         } else {
-          toast({ variant: "destructive", title: "Error", description: "Could not find new meal data for the swap." });
+            toast({ variant: "destructive", title: "Error", description: `Could not find meal type "${mealTypeToReplace}" to swap.` });
         }
-      } catch (error) {
-        toast({ variant: "destructive", title: "Error", description: "Failed to parse diet plan from storage." });
-      }
     } else {
-      toast({ variant: "destructive", title: "Error", description: "Could not find diet plan or meal details to perform the swap." });
+        toast({ variant: "destructive", title: "Error", description: `Could not find day "${dayToReplace}" to swap.` });
     }
   };
 
