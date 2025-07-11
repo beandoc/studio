@@ -24,7 +24,7 @@ const GenerateDietPlanInputSchema = z.object({
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
 const MealSchema = z.object({
-    name: z.string().describe("Name of the meal."),
+    name: z.string().describe("Name of the meal. Keep it concise (max 3 words)."),
     calories: z.number().describe("Estimated calories for the meal."),
     description: z.string().describe("A brief description of the meal."),
 });
@@ -56,6 +56,7 @@ const prompt = ai.definePrompt({
   Based on the user's health requirements and preferences, generate a personalized 7-day diet plan as a list of daily plans.
   For each day, provide the day name, a list of meals, and optional daily notes.
   Each meal in the list should have a 'type' (one of: {{{meals}}}) and 'details' containing the name, description, and calorie count.
+  The meal name MUST be concise, containing a maximum of three words.
   Ensure the generated plan strictly adheres to the provided health requirements.
 
   Health Requirements: {{{healthRequirements}}}

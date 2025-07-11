@@ -120,7 +120,7 @@ export default function WeeklyPlanPage() {
                     const Icon = mealIcons[meal.type.toLowerCase()] || Utensils;
                      if (!meal || !meal.details || !meal.details.name) return null;
                     return (
-                      <div key={meal.type} className="flex items-start gap-4 p-3 rounded-md bg-background/60 shadow-sm">
+                      <div key={`${meal.type}-${meal.details.name}`} className="flex items-start gap-4 p-3 rounded-md bg-background/60 shadow-sm">
                         <Icon className="h-5 w-5 mt-1 text-muted-foreground" />
                         <div>
                             <p className="font-semibold capitalize text-muted-foreground text-sm">{meal.type}</p>
