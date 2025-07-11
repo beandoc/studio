@@ -25,7 +25,7 @@ export default function SidebarNav() {
   const t = {
     home: "Home",
     dashboard: "Dashboard",
-    myProfile: "My Profile",
+    myProfile: "Manage Profiles",
     dietPlan: "Diet Plan",
     weeklyPlan: "Weekly Plan",
     myMealTracker: "My Meal Tracker",
@@ -45,7 +45,7 @@ export default function SidebarNav() {
       icon: LayoutDashboard,
     },
     {
-      href: "/my-profile",
+      href: "/profiles",
       label: t.myProfile,
       icon: User,
     },

@@ -19,13 +19,15 @@ import { Zap, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import Link from "next/link";
-import { generateDietPlan, type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
+import { type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
+import { useProfile } from "@/context/profile-context";
 
 
 function MealAlternativesContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const mealSlug = searchParams.get('mealSlug');
+  const { activeProfile, setDietPlan } = useProfile();
   
   const [originalMeal, setOriginalMeal] = useState<FoodItem | null>(null);
   const [alternatives, setAlternatives] = useState<SuggestMealAlternativesOutput['alternatives'] | null>(null);
@@ -84,7 +86,12 @@ function MealAlternativesContent() {
   }, [mealSlug, toast]);
 
   const handleSwap = (alternativeName: string) => {
-    const dietPlanRaw = localStorage.getItem("dietPlan");
+    if (!activeProfile) {
+        toast({ variant: "destructive", title: "Error", description: "No active profile to swap meal for." });
+        return;
+    }
+    
+    const dietPlanRaw = localStorage.getItem(`dietPlan-${activeProfile.id}`);
     const dayToReplace = searchParams.get('day');
     const mealTypeToReplace = searchParams.get('mealType');
   
@@ -106,7 +113,7 @@ function MealAlternativesContent() {
                 description: newMealData.nutritionSummary.summaryText,
               };
   
-              localStorage.setItem("dietPlan", JSON.stringify(dietPlan));
+              setDietPlan(dietPlan); // This now updates context and localStorage
               toast({
                 title: "Meal Swapped!",
                 description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`

@@ -2,55 +2,40 @@
 "use client";
 
 import { useState, useEffect, useMemo, Profiler, type ProfilerOnRenderCallback } from "react";
-import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from "@/components/ui/card";
 import Header from "@/components/header";
-import { Button } from "@/components/ui/button";
-import { Replace } from "lucide-react";
-import WeeklyProgressChart from "@/components/weekly-progress-chart";
-import { foodDatabase, type FoodItem } from "@/lib/food-data";
-import { cn } from "@/lib/utils";
-import type { DailyLog, Goals } from "@/app/my-meal-tracker/page";
-import { format, subDays } from "date-fns";
 import { Progress } from "@/components/ui/progress";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import WeeklyProgressChart from "@/components/weekly-progress-chart";
+import { useProfile } from "@/context/profile-context";
+import type { DailyLog, Goals } from "@/app/my-meal-tracker/page";
 
 type NutrientAverage = {
   protein: number;
   carbs: number;
 };
 
-const goals: Goals = {
-    calories: 2200,
-    protein: 80,
-    fat: 70,
-    carbs: 300,
-    fluid: 2000,
-};
-
 export default function Dashboard() {
+  const { activeProfile, getProfileLogs } = useProfile();
   const [chartView, setChartView] = useState<'weekly' | 'monthly'>('weekly');
   const [dailyLogs, setDailyLogs] = useState<DailyLog[]>([]);
 
   useEffect(() => {
-    const today = new Date();
-    const logs: DailyLog[] = [];
-    for (let i = 0; i < 7; i++) {
-        const date = subDays(today, i);
-        const logKey = `mealLog-${format(date, 'yyyy-MM-dd')}`;
-        const storedLog = localStorage.getItem(logKey);
-
-        if (storedLog) {
-            try {
-                const parsedLog: DailyLog = JSON.parse(storedLog);
-                logs.push(parsedLog);
-            } catch (e) {
-                console.error("Failed to parse log for dashboard averages", e);
-            }
-        }
+    if (activeProfile) {
+      const logs = getProfileLogs(activeProfile.id, 7);
+      setDailyLogs(logs);
+    } else {
+      setDailyLogs([]);
     }
-    setDailyLogs(logs);
-  }, []);
+  }, [activeProfile, getProfileLogs]);
+
+  const goals = useMemo<Goals>(() => ({
+    calories: activeProfile?.calorieGoal || 2200,
+    protein: activeProfile?.proteinGoal || 80,
+    fat: 70, // This is not in profile yet, so keeping it static for now
+    carbs: 300, // This is not in profile yet
+    fluid: activeProfile?.fluidGoal || 2000,
+  }), [activeProfile]);
 
   const averages = useMemo<NutrientAverage>(() => {
     let totalProtein = 0;
@@ -72,7 +57,6 @@ export default function Dashboard() {
     };
   }, [dailyLogs]);
 
-
   const proteinPercentage = goals.protein > 0 ? (averages.protein / goals.protein) * 100 : 0;
   const carbsPercentage = goals.carbs > 0 ? (averages.carbs / goals.carbs) * 100 : 0;
 
@@ -80,11 +64,30 @@ export default function Dashboard() {
     console.log(`Profiler: ${id} ${phase} in ${actualDuration.toFixed(2)}ms`);
   };
 
+  if (!activeProfile) {
+    return (
+       <div className="flex flex-col w-full">
+        <Header
+          title="Dashboard"
+          description="Select a profile to view the dashboard."
+        />
+        <main className="flex-1 p-4 md:p-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>No Profile Selected</CardTitle>
+                    <CardDescription>Please create or select a profile from the sidebar to view the dashboard.</CardDescription>
+                </CardHeader>
+            </Card>
+        </main>
+      </div>
+    )
+  }
+
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="Dashboard"
-        description="Here's a summary of your meals and progress."
+        title={`${activeProfile.fullName}'s Dashboard`}
+        description="Here's a summary of meals and progress."
         showImage={true}
       />
       <Profiler id="Dashboard" onRender={onRender}>

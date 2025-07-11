@@ -12,8 +12,11 @@ import { recognizeFoodImage, type RecognizeFoodImageOutput } from "@/ai/flows/re
 import { Camera, Loader2, Sparkles, Utensils, CheckCircle2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
+import { useProfile } from "@/context/profile-context";
+import { MealCategory } from "../my-meal-tracker/page";
 
 export default function RecognizeFoodPage() {
+  const { activeProfile, updateDailyLog, getDailyLog } = useProfile();
   const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<RecognizeFoodImageOutput | null>(null);
@@ -95,20 +98,59 @@ export default function RecognizeFoodPage() {
   };
 
   const handleLogMeal = () => {
-    if (!analysisResult) return;
+    if (!analysisResult || !activeProfile) {
+      toast({ variant: "destructive", title: "Cannot Log Meal", description: "No analysis result or active profile."});
+      return;
+    }
+    
+    const today = new Date();
+    const currentLog = getDailyLog(activeProfile.id, today) || { meals: { Breakfast: [], Lunch: [], Dinner: [], Snacks: [] }, fluids: [] };
+    
+    // Simple logic to guess meal category based on time
+    const hour = today.getHours();
+    let category: MealCategory = "Snacks";
+    if (hour >= 5 && hour < 11) category = "Breakfast";
+    else if (hour >= 11 && hour < 16) category = "Lunch";
+    else if (hour >= 16 && hour < 22) category = "Dinner";
 
-    // This is where you would get the current date's log from localStorage
-    // and add the items to it.
-    // For now, we'll just log to console and navigate.
-    console.log("Logging meal:", analysisResult);
+    const newMeals = analysisResult.items.map(item => ({
+        ...item,
+        id: new Date().toISOString() + Math.random(),
+        category: category,
+        carbs: 0, // Placeholder as recognize-food doesn't return carbs
+    }));
+
+    const updatedLog = { ...currentLog };
+    updatedLog.meals[category] = [...updatedLog.meals[category], ...newMeals];
+    
+    updateDailyLog(activeProfile.id, today, updatedLog);
 
     toast({
       title: "Meal Logged!",
-      description: `${analysisResult.mealName} has been added to your tracker.`,
+      description: `${analysisResult.mealName} has been added to ${activeProfile.fullName}'s tracker.`,
     });
 
     router.push('/my-meal-tracker');
   };
+  
+    if (!activeProfile) {
+        return (
+            <div className="flex flex-col w-full">
+                <Header
+                    title="FoodLens (AI enabled scanning)"
+                    description="Point your camera at a meal to identify items and estimate nutrition."
+                />
+                <main className="flex-1 p-4 md:p-8">
+                    <Card className="max-w-2xl mx-auto">
+                        <CardHeader>
+                            <CardTitle>No Profile Selected</CardTitle>
+                            <CardDescription>Please create or select a profile to use the FoodLens feature.</CardDescription>
+                        </CardHeader>
+                    </Card>
+                </main>
+            </div>
+        )
+    }
 
   return (
     <div className="flex flex-col w-full">
@@ -218,7 +260,7 @@ export default function RecognizeFoodPage() {
                          </div>
                     </div>
                     <Button onClick={handleLogMeal} className="w-full">
-                        <Utensils className="mr-2 h-4 w-4" /> Log this meal
+                        <Utensils className="mr-2 h-4 w-4" /> Log this meal for {activeProfile.fullName}
                     </Button>
                 </CardContent>
               </Card>

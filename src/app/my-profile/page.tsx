@@ -36,6 +36,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
+import { useProfile } from "@/context/profile-context";
 
 
 const steps = [
@@ -57,7 +58,7 @@ const healthConditionOptions = [
 
 const formSchema = z.object({
   // Step 1
-  fullName: z.string().optional(),
+  fullName: z.string().min(1, "Full name is required."),
   age: z.coerce.number().optional(),
   gender: z.string().optional(),
   height: z.coerce.number().optional(),
@@ -85,7 +86,7 @@ const formSchema = z.object({
   proteinGoal: z.coerce.number().optional(),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+export type FormValues = z.infer<typeof formSchema>;
 
 const cuisineOptions = [
     'Maharashtrian',
@@ -100,9 +101,10 @@ const cuisineOptions = [
 
 export default function MyProfilePage() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const { addProfile, setActiveProfileId, setDietPlan } = useProfile();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -156,6 +158,11 @@ export default function MyProfilePage() {
 
 
   const handleNext = async () => {
+    const isValid = await form.trigger();
+    if (!isValid && currentStep === 1) { // Only check for name on first step
+        return;
+    }
+    
     if (currentStep < steps.length) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -170,10 +177,10 @@ export default function MyProfilePage() {
   };
 
   const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
+    setIsGenerating(true);
     
-    // Save profile data to localStorage
-    localStorage.setItem("userProfile", JSON.stringify(data));
+    const newProfileId = addProfile(data);
+    setActiveProfileId(newProfileId);
 
     const healthRequirements = `
       - Kidney Condition: ${data.kidneyCondition?.replace(/_/g, ' ') || 'Not specified'}
@@ -200,11 +207,15 @@ export default function MyProfilePage() {
     `;
 
     try {
+      toast({
+        title: "Generating Diet Plan...",
+        description: `Creating a personalized plan for ${data.fullName}.`,
+      });
       const result = await generateDietPlan({ healthRequirements, preferences, meals: "breakfast, lunch, dinner, snacks" });
-      localStorage.setItem("dietPlan", JSON.stringify(result));
+      setDietPlan(result, newProfileId);
       toast({
         title: "Profile Saved & Diet Plan Generated!",
-        description: "Redirecting you to your new diet plan...",
+        description: "Redirecting you to the diet plan...",
       });
       router.push('/diet-plan');
     } catch (error) {
@@ -212,10 +223,11 @@ export default function MyProfilePage() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to generate diet plan. Please try again.",
+        description: "Failed to generate diet plan. Profile was saved, but please try generating the plan again.",
       });
+       router.push('/profiles');
     } finally {
-        setIsLoading(false);
+        setIsGenerating(false);
     }
   };
 
@@ -236,7 +248,7 @@ export default function MyProfilePage() {
 
   return (
     <div className="flex flex-col w-full">
-       <Header title="My Profile" description="Complete your profile for a personalized experience." />
+       <Header title="Create a New Profile" description="Complete the profile for a new patient or user." />
        <div className="flex-grow p-4 md:p-8 flex items-center justify-center">
         <div className="w-full max-w-4xl">
           <Form {...form}>
@@ -251,8 +263,8 @@ export default function MyProfilePage() {
                       className="rounded-full"
                   />
                 </div>
-                <CardTitle className="text-center">Let's Get Started</CardTitle>
-                <CardDescription className="text-center">Follow the steps to set up your health profile.</CardDescription>
+                <CardTitle className="text-center">New Profile Setup</CardTitle>
+                <CardDescription className="text-center">Follow the steps to set up a new health profile.</CardDescription>
                 <div className="mt-4">
                   <div className="flex items-center justify-between mb-2">
                       {steps.map((step, index) => (
@@ -272,10 +284,19 @@ export default function MyProfilePage() {
                 <CardContent className="min-h-[350px]">
                   {currentStep === 1 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 animate-in fade-in-50">
-                      <div className="space-y-2">
-                        <Label htmlFor="fullName">Full Name</Label>
-                        <Input id="fullName" {...form.register("fullName")} placeholder="Enter your name" />
-                      </div>
+                        <FormField
+                            control={form.control}
+                            name="fullName"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <Label>Full Name</Label>
+                                    <FormControl>
+                                        <Input placeholder="Enter your name" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                       <div className="space-y-2">
                         <Label htmlFor="age">Age</Label>
                         <Input id="age" type="number" {...form.register("age")} placeholder="Years" />
@@ -516,9 +537,9 @@ export default function MyProfilePage() {
                   <div>
                       {currentStep > 1 && <Button type="button" variant="outline" onClick={handleBack}>Back</Button>}
                   </div>
-                  <Button type="button" onClick={handleNext} disabled={isLoading}>
-                    {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {currentStep === steps.length ? "Generate Diet Plan" : "Next Step"}
+                  <Button type="button" onClick={handleNext} disabled={isGenerating}>
+                    {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {currentStep === steps.length ? "Save and Generate Diet Plan" : "Next Step"}
                   </Button>
                 </CardFooter>
               </form>

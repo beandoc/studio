@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Utensils, Sunrise, Sun, Moon, Coffee } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import { useProfile } from "@/context/profile-context";
 
 type Meal = {
     type: string;
@@ -39,21 +40,7 @@ const mealIcons: { [key: string]: React.ElementType } = {
 
 
 export default function WeeklyPlanPage() {
-  const [dietPlan, setDietPlan] = useState<GenerateDietPlanOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    try {
-      const storedPlan = localStorage.getItem("dietPlan");
-      if (storedPlan) {
-        setDietPlan(JSON.parse(storedPlan));
-      }
-    } catch (e) {
-      console.error("Failed to parse diet plan from localStorage", e);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const { activeProfile, dietPlan, isLoading } = useProfile();
 
   if (isLoading) {
     return (
@@ -82,7 +69,7 @@ export default function WeeklyPlanPage() {
     )
   }
 
-  if (!dietPlan || !dietPlan.plan || dietPlan.plan.length === 0) {
+  if (!activeProfile || !dietPlan || !dietPlan.plan || dietPlan.plan.length === 0) {
     return (
       <div className="flex flex-col w-full">
         <Header
@@ -94,8 +81,9 @@ export default function WeeklyPlanPage() {
             <CardHeader>
               <CardTitle>No Diet Plan Found</CardTitle>
               <CardDescription>
-                You haven't generated a diet plan yet. Create one to see your
-                weekly schedule here.
+                {activeProfile 
+                    ? `No diet plan found for ${activeProfile.fullName}. Generate one to see the weekly schedule.`
+                    : "Please select a profile to view a diet plan."}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -112,7 +100,7 @@ export default function WeeklyPlanPage() {
   return (
     <div className="flex flex-col w-full bg-muted/20">
       <Header
-        title="Weekly Meal Plan"
+        title={`Weekly Meal Plan for ${activeProfile.fullName}`}
         description="Your 7-day diet at a glance."
       />
       <main className="flex-1 p-4 md:p-8">

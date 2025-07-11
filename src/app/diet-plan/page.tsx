@@ -44,27 +44,15 @@ import { useRouter } from "next/navigation";
 import { foodDatabase } from "@/lib/food-data";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
+import { useProfile } from "@/context/profile-context";
 
 
 const FormSchema = z.object({
-  gender: z.string().min(1, "Gender is required."),
-  age: z.coerce.number().min(1, "Age must be a positive number."),
-  units: z.string().min(1, "Units system is required."),
-  heightFt: z.coerce.number().optional(),
-  heightIn: z.coerce.number().optional(),
-  heightCm: z.coerce.number().optional(),
-  weight: z.coerce.number().min(1, "Weight must be a positive number."),
-  activityLevel: z.string().min(1, "Activity level is required."),
-  weightGoal: z.string().min(1, "Weight goal is required."),
-  weeklyVariety: z.string().min(1, "Weekly variety is required."),
-  recipeComplexity: z.string().min(1, "Max recipe complexity is required."),
-  dailyMeals: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "You have to select at least one meal.",
-  }),
-  dietType: z.string().min(1, "Diet type is required."),
-  budget: z.string().optional(),
   healthRequirements: z.string().min(10, { message: "Please describe your health requirements in more detail." }),
   preferences: z.string().min(10, { message: "Please describe your food preferences in more detail." }),
+  meals: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "You have to select at least one meal.",
+  }),
 });
 
 type FormValues = z.infer<typeof FormSchema>;
@@ -76,88 +64,74 @@ type DayPlan = { day: string; meals: Meal[]; notes?: string; };
 const dailyMealOptions = ["breakfast", "lunch", "dinner", "snacks"];
 
 export default function DietPlanPage() {
-  const [dietPlan, setDietPlan] = useState<GenerateDietPlanOutput | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { activeProfile, dietPlan, setDietPlan, isLoading: isProfileLoading } = useProfile();
+  const [isGenerating, setIsGenerating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
   const pdfRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  const [userName, setUserName] = useState<string>("User");
-
 
   useEffect(() => {
-    try {
-        const storedPlan = localStorage.getItem("dietPlan");
-        if (storedPlan) {
-            setDietPlan(JSON.parse(storedPlan));
+    if (!isProfileLoading && activeProfile) {
+        if (dietPlan) {
+            setShowForm(false);
         } else {
-            setShowForm(true); // If no plan, show form
+            setShowForm(true);
         }
-
-        const userProfile = localStorage.getItem("userProfile");
-        if (userProfile) {
-            const profile = JSON.parse(userProfile);
-            if (profile.fullName) {
-                setUserName(profile.fullName);
-            }
-        }
-    } catch (e) {
-        console.error("Failed to parse data from localStorage", e);
-        setShowForm(true); // Show form on error
-        localStorage.removeItem("dietPlan");
-    } finally {
-        setIsLoading(false); // Stop loading after check
     }
-  }, []);
+  }, [dietPlan, activeProfile, isProfileLoading]);
+
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      gender: "male",
-      age: 30,
-      units: "imperial",
-      weight: 185,
-      activityLevel: "sedentary",
-      weightGoal: "lose_fat",
-      weeklyVariety: "2",
-      recipeComplexity: "2",
-      dailyMeals: ["breakfast", "lunch", "dinner", "snacks"],
-      dietType: "anything",
-      budget: "$",
       healthRequirements: "Standard healthy diet. Low sodium, low sugar.",
       preferences: "No specific allergies or strong dislikes.",
+      meals: ["breakfast", "lunch", "dinner", "snacks"],
     },
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    setIsLoading(true);
+    if (!activeProfile) {
+        toast({ variant: "destructive", title: "No active profile", description: "Please select a profile first."});
+        return;
+    }
+    setIsGenerating(true);
     setDietPlan(null);
 
     const healthRequirements = `
       - Health Context: ${data.healthRequirements}
-      - Activity Level: ${data.activityLevel}
-      - Weight Goal: ${data.weightGoal.replace('_', ' ')}
+      - Kidney Condition: ${activeProfile.kidneyCondition?.replace(/_/g, ' ') || 'Not specified'}
+      - Other Health Conditions: ${activeProfile.otherHealthConditions?.join(', ').replace(/_/g, ' ') || 'None'}
+      - Daily Fluid Goal: ${activeProfile.fluidGoal || 'Not specified'} ml
+      - Daily Sodium Goal: ${activeProfile.sodiumGoal || 'Not specified'} mg
+      - Daily Potassium Goal: ${activeProfile.potassiumGoal || 'Not specified'} mg
+      - Daily Phosphorus Goal: ${activeProfile.phosphorusGoal || 'Not specified'} mg
+      - Daily Calorie Goal: ${activeProfile.calorieGoal || 'Not specified'} kcal
+      - Daily Protein Goal: ${activeProfile.proteinGoal || 'Not specified'} g
     `;
     const preferences = `
       - User Preferences: ${data.preferences}
-      - Gender: ${data.gender}
-      - Age: ${data.age}
-      - Weight: ${data.weight} ${data.units === 'imperial' ? 'lbs' : 'kg'}
-      - Height: ${data.units === 'imperial' ? `${data.heightFt}ft ${data.heightIn}in` : `${data.heightCm}cm`}
-      - Desired weekly variety: ${data.weeklyVariety}
-      - Max recipe complexity: ${data.recipeComplexity}
-      - Diet type: ${data.dietType}
-      - Budget: ${data.budget}
+      - Name: ${activeProfile.fullName}
+      - Age: ${activeProfile.age || 'Not specified'}
+      - Gender: ${activeProfile.gender || 'Not specified'}
+      - Height: ${activeProfile.height || 'Not specified'} cm
+      - Weight: ${activeProfile.weight || 'Not specified'} kg
+      - Target Weight: ${activeProfile.targetWeight || 'Not specified'} kg
+      - Diet Type: ${activeProfile.dietType || 'Not specified'}
+      - Preferred Cuisine: ${activeProfile.preferredCuisine || 'Not specified'}
+      - Food Likes: ${activeProfile.likes || 'Not specified'}
+      - Food Dislikes: ${activeProfile.dislikes || 'Not specified'}
+      - Allergies: ${activeProfile.allergies || 'Not specified'}
     `;
 
     try {
       const result = await generateDietPlan({ 
         healthRequirements, 
         preferences,
-        meals: data.dailyMeals.join(', ')
+        meals: data.meals.join(', ')
       });
       setDietPlan(result);
-      localStorage.setItem("dietPlan", JSON.stringify(result));
       setShowForm(false);
     } catch (error) {
       console.error(error);
@@ -167,14 +141,14 @@ export default function DietPlanPage() {
         description: "Failed to generate diet plan. Please try again.",
       });
     } finally {
-      setIsLoading(false);
+      setIsGenerating(false);
     }
   };
 
   const handleExportPdf = () => {
     const input = pdfRef.current;
-    if (input) {
-      const fileName = `${userName.replace(/\s+/g, '-')}-diet-plan.pdf`;
+    if (input && activeProfile) {
+      const fileName = `${activeProfile.fullName.replace(/\s+/g, '-')}-diet-plan.pdf`;
       html2canvas(input, { 
         useCORS: true,
       }).then((canvas) => {
@@ -210,143 +184,79 @@ export default function DietPlanPage() {
     }
   }
 
-  const units = form.watch("units");
 
   const renderForm = () => (
     <Card>
       <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
           <CardHeader>
-              <CardTitle>Your Details</CardTitle>
+              <CardTitle>Generate New Diet Plan for {activeProfile?.fullName}</CardTitle>
               <CardDescription>
-              Provide your details to generate a personalized diet plan.
+                Confirm details to generate a personalized diet plan. The form is pre-filled with general info, but the plan will use {activeProfile?.fullName}'s specific health profile.
               </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <FormField control={form.control} name="gender" render={({ field }) => (
-                      <FormItem><FormLabel>Gender</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select gender" /></SelectTrigger></FormControl><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                  )}/>
-                  <FormField control={form.control} name="age" render={({ field }) => (
-                      <FormItem><FormLabel>Age</FormLabel><FormControl><Input type="number" placeholder="30" {...field} /></FormControl><FormMessage /></FormItem>
-                  )}/>
-                  <FormField control={form.control} name="units" render={({ field }) => (
-                      <FormItem><FormLabel>Units</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select units" /></SelectTrigger></FormControl><SelectContent><SelectItem value="imperial">Imperial</SelectItem><SelectItem value="metric">Metric</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                  )}/>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                      <FormLabel>Height</FormLabel>
-                      {units === 'imperial' ? (
-                          <div className="flex gap-2">
-                              <FormField control={form.control} name="heightFt" render={({ field }) => (
-                                  <FormItem className="flex-1"><FormControl><Input type="number" placeholder="5" {...field} endAdornment="ft" /></FormControl><FormMessage /></FormItem>
-                              )}/>
-                              <FormField control={form.control} name="heightIn" render={({ field }) => (
-                                  <FormItem className="flex-1"><FormControl><Input type="number" placeholder="8" {...field} endAdornment="in" /></FormControl><FormMessage /></FormItem>
-                              )}/>
-                          </div>
-                      ) : (
-                          <FormField control={form.control} name="heightCm" render={({ field }) => (
-                              <FormItem><FormControl><Input type="number" placeholder="173" {...field} endAdornment="cm" /></FormControl><FormMessage /></FormItem>
-                          )}/>
-                      )}
-                  </div>
-                  <FormField control={form.control} name="weight" render={({ field }) => (
-                      <FormItem><FormLabel>Weight</FormLabel><FormControl><Input type="number" placeholder="185" {...field} endAdornment={units === 'imperial' ? 'lbs' : 'kg'} /></FormControl><FormMessage /></FormItem>
-                  )}/>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
-                  <FormField control={form.control} name="activityLevel" render={({ field }) => (
-                      <FormItem><FormLabel>Activity level</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select level" /></SelectTrigger></FormControl><SelectContent><SelectItem value="sedentary">Sedentary</SelectItem><SelectItem value="lightly_active">Lightly Active</SelectItem><SelectItem value="moderately_active">Moderately Active</SelectItem><SelectItem value="very_active">Very Active</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                  )}/>
-                  <div className="flex gap-2 items-center">
-                      <FormField control={form.control} name="weightGoal" render={({ field }) => (
-                          <FormItem className="flex-1"><FormLabel>Weight goal</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select goal" /></SelectTrigger></FormControl><SelectContent><SelectItem value="lose_fat">Lose fat</SelectItem><SelectItem value="maintain">Maintain</SelectItem><SelectItem value="gain_muscle">Gain muscle</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                      )}/>
-                      <TooltipProvider>
-                          <Tooltip><TooltipTrigger asChild><Button type="button" variant="ghost" size="icon" className="mb-1"><Info className="h-4 w-4 text-muted-foreground"/></Button></TooltipTrigger><TooltipContent><p>Select your primary weight goal.</p></TooltipContent></Tooltip>
-                      </TooltipProvider>
-                  </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField control={form.control} name="weeklyVariety" render={({ field }) => (
-                      <FormItem><FormLabel>Weekly variety</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select variety" /></SelectTrigger></FormControl><SelectContent>{[...Array(5)].map((_, i) => <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>
-                  )}/>
-                  <FormField control={form.control} name="recipeComplexity" render={({ field }) => (
-                      <FormItem><FormLabel>Max recipe complexity</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select complexity" /></SelectTrigger></FormControl><SelectContent>{[...Array(5)].map((_, i) => <SelectItem key={i+1} value={String(i+1)}>{i+1}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>
-                  )}/>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <FormField
-                      control={form.control}
-                      name="dailyMeals"
-                      render={() => (
-                          <FormItem>
-                            <FormLabel>Daily meals</FormLabel>
-                            <div className="flex flex-col space-y-2 pt-2">
-                            {dailyMealOptions.map((item) => (
-                              <FormField
-                                key={item}
-                                control={form.control}
-                                name="dailyMeals"
-                                render={({ field }) => {
-                                  return (
-                                    <FormItem
-                                      key={item}
-                                      className="flex flex-row items-start space-x-3 space-y-0"
-                                    >
-                                      <FormControl>
-                                        <Checkbox
-                                          checked={field.value?.includes(item)}
-                                          onCheckedChange={(checked) => {
-                                            return checked
-                                              ? field.onChange([...(field.value || []), item])
-                                              : field.onChange(
-                                                  field.value?.filter(
-                                                    (value) => value !== item
-                                                  )
-                                                )
-                                          }}
-                                        />
-                                      </FormControl>
-                                      <FormLabel className="font-normal capitalize">
-                                        {item}
-                                      </FormLabel>
-                                    </FormItem>
-                                  )
-                                }}
-                              />
-                            ))}
-                            </div>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                  />
-                  <FormField control={form.control} name="dietType" render={({ field }) => (
-                      <FormItem><FormLabel>Diet type</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select diet type" /></SelectTrigger></FormControl><SelectContent><SelectItem value="anything">Anything</SelectItem><SelectItem value="vegetarian">Vegetarian</SelectItem><SelectItem value="vegan">Vegan</SelectItem><SelectItem value="pescatarian">Pescatarian</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                  )}/>
-                  <FormField control={form.control} name="budget" render={({ field }) => (
-                      <FormItem><FormLabel>Budget</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select budget" /></SelectTrigger></FormControl><SelectContent><SelectItem value="$">$</SelectItem><SelectItem value="$$">$$</SelectItem><SelectItem value="$$$">$$$</SelectItem></SelectContent></Select><FormMessage /></FormItem>
-                  )}/>
-              </div>
+              <FormField
+                  control={form.control}
+                  name="meals"
+                  render={() => (
+                      <FormItem>
+                        <FormLabel>Daily meals to include</FormLabel>
+                        <div className="flex flex-row space-x-4 pt-2">
+                        {dailyMealOptions.map((item) => (
+                          <FormField
+                            key={item}
+                            control={form.control}
+                            name="meals"
+                            render={({ field }) => {
+                              return (
+                                <FormItem
+                                  key={item}
+                                  className="flex flex-row items-start space-x-3 space-y-0"
+                                >
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes(item)}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange([...(field.value || []), item])
+                                          : field.onChange(
+                                              field.value?.filter(
+                                                (value) => value !== item
+                                              )
+                                            )
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="font-normal capitalize">
+                                    {item}
+                                  </FormLabel>
+                                </FormItem>
+                              )
+                            }}
+                          />
+                        ))}
+                        </div>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+              />
               
               <FormField
               control={form.control}
               name="healthRequirements"
               render={({ field }) => (
                   <FormItem>
-                  <FormLabel>Health Requirements</FormLabel>
+                  <FormLabel>Additional Health Requirements or Adjustments</FormLabel>
                   <FormControl>
                       <Textarea
-                      placeholder="e.g., Low potassium, 2000mg sodium limit, fluid restriction of 1.5L..."
+                      placeholder="e.g., Prefers smaller lunches, needs extra low-potassium snacks..."
                       className="resize-none"
                       {...field}
                       />
                   </FormControl>
                   <FormDescription>
-                      List any specific dietary restrictions or health goals.
+                      List any specific dietary adjustments needed for this plan. Profile defaults will be used.
                   </FormDescription>
                   <FormMessage />
                   </FormItem>
@@ -357,7 +267,7 @@ export default function DietPlanPage() {
               name="preferences"
               render={({ field }) => (
                   <FormItem>
-                  <FormLabel>Food Preferences & Allergies</FormLabel>
+                  <FormLabel>Additional Food Preferences or Allergies</FormLabel>
                   <FormControl>
                       <Textarea
                       placeholder="e.g., love chicken and fish, dislike spicy food, allergic to nuts..."
@@ -366,7 +276,7 @@ export default function DietPlanPage() {
                       />
                   </FormControl>
                   <FormDescription>
-                      Tell us about the foods you enjoy, want to avoid, or are allergic to.
+                      List any specific food preferences for this plan. Profile defaults will be used.
                   </FormDescription>
                   <FormMessage />
                   </FormItem>
@@ -374,8 +284,8 @@ export default function DietPlanPage() {
               />
           </CardContent>
           <CardFooter>
-              <Button type="submit" disabled={isLoading} size="lg">
-              {isLoading && (
+              <Button type="submit" disabled={isGenerating} size="lg">
+              {isGenerating && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
               Generate Diet Plan!
@@ -392,7 +302,7 @@ export default function DietPlanPage() {
           <div>
               <CardTitle>Your 7-Day Diet Plan</CardTitle>
               <CardDescription>
-                  Review your plan, flip meals you don't like, and export when you're ready.
+                  Review your plan for {activeProfile?.fullName}, flip meals, and export when ready.
               </CardDescription>
           </div>
         <div className="flex gap-2">
@@ -455,8 +365,8 @@ export default function DietPlanPage() {
              <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', borderBottom: '2px solid #eee', paddingBottom: '1rem' }}>
                 <Image src="/welcome-image.png" alt="Logo" width={60} height={60} />
                 <div style={{ marginLeft: '1rem'}}>
-                    <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>Your Weekly Diet Plan</h1>
-                    <p style={{ fontSize: '1rem', color: '#555' }}>Hello {userName}, here is your diet plan for the week.</p>
+                    <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>Weekly Diet Plan for {activeProfile?.fullName}</h1>
+                    <p style={{ fontSize: '1rem', color: '#555' }}>Here is the personalized diet plan.</p>
                 </div>
              </div>
              <div>
@@ -511,14 +421,33 @@ export default function DietPlanPage() {
     </Card>
   );
 
+  if (isProfileLoading || (!activeProfile && !isProfileLoading)) {
+      return (
+        <div className="flex flex-col w-full">
+            <Header
+                title="Personalized Diet Plan"
+                description="Generate a 7-day diet plan based on your needs."
+            />
+            <main className="flex-1 p-4 md:p-8">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>No Profile Selected</CardTitle>
+                        <CardDescription>Please create or select a profile to manage diet plans.</CardDescription>
+                    </CardHeader>
+                </Card>
+            </main>
+        </div>
+      )
+  }
+
   return (
     <div className="flex flex-col w-full">
       <Header
         title="Personalized Diet Plan"
-        description="Generate a 7-day diet plan based on your needs."
+        description={`Manage the diet plan for ${activeProfile?.fullName}`}
       />
       <div className="p-4 md:p-8 grid gap-8">
-        {isLoading
+        {isGenerating
           ? renderLoading()
           : (showForm || !dietPlan)
           ? renderForm()

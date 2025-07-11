@@ -1,9 +1,8 @@
 
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts"
-import { format, subDays } from "date-fns"
 import type { DailyLog } from "@/app/my-meal-tracker/page"
 
 import {
@@ -12,6 +11,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart"
+import { useProfile } from "@/context/profile-context"
 
 const chartConfig = {
   calories: {
@@ -33,48 +33,25 @@ type WeeklyProgressChartProps = {
 };
 
 export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) {
+    const { activeProfile, getProfileLogs } = useProfile();
     const [chartData, setChartData] = useState<any[]>([]);
     
     useEffect(() => {
-        const today = new Date();
-        const data = [];
-        const daysToFetch = view === 'weekly' ? 7 : 30;
-
-        for (let i = daysToFetch - 1; i >= 0; i--) {
-            const date = subDays(today, i);
-            const logKey = `mealLog-${format(date, 'yyyy-MM-dd')}`;
-            const storedLog = localStorage.getItem(logKey);
-
-            let totals = { calories: 0, protein: 0, fat: 0 };
-
-            if (storedLog) {
-                try {
-                    const parsedLog: DailyLog = JSON.parse(storedLog);
-                    if (parsedLog && parsedLog.meals) {
-                        const allMeals = Object.values(parsedLog.meals).flat();
-                        if (Array.isArray(allMeals)) {
-                            allMeals.forEach(item => {
-                                totals.calories += item.calories || 0;
-                                totals.protein += item.protein || 0;
-                                totals.fat += item.fat || 0;
-                            });
-                        }
-                    }
-                } catch (e) {
-                    console.error("Failed to parse log for chart", e);
-                }
-            }
-
-            data.push({
-                date: format(date, 'E dd'), // e.g., "Mon 15"
-                calories: Math.round(totals.calories),
-                protein: parseFloat(totals.protein.toFixed(1)),
-                fat: parseFloat(totals.fat.toFixed(1)),
-            });
+        if (activeProfile) {
+            const daysToFetch = view === 'weekly' ? 7 : 30;
+            const logs = getProfileLogs(activeProfile.id, daysToFetch);
+            
+            const data = logs.map(log => ({
+                date: log.date,
+                calories: Math.round(log.totals.calories),
+                protein: parseFloat(log.totals.protein.toFixed(1)),
+                fat: parseFloat(log.totals.fat.toFixed(1)),
+            }));
+            setChartData(data);
         }
-        setChartData(data);
-    }, [view]);
+    }, [view, activeProfile, getProfileLogs]);
 
+    if (!activeProfile) return <div className="h-[350px] w-full flex items-center justify-center text-muted-foreground">Select a profile to see progress.</div>;
 
   return (
     <div className="h-[350px] w-full">

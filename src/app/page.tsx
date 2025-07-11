@@ -11,7 +11,7 @@ export default function WelcomePage() {
     title: "Welcome to Flip & Toss",
     description: "Your smart meal companion for kidney health.",
     cardTitle: "Take Control of Your Kidney Health",
-    cardDescription: "KidneyWise Diet helps you manage your diet with personalized meal plans, tracking, and smart food suggestions. Let's get started by setting up your profile.",
+    cardDescription: "Manage diet with personalized meal plans, tracking, and smart food suggestions for multiple users. Let's get started by setting up your first profile.",
     getStartedButton: "Let's get started"
   };
 
@@ -41,7 +41,7 @@ export default function WelcomePage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Link href="/my-profile">
+                        <Link href="/profiles">
                             <Button size="lg">
                                 {t.getStartedButton}
                                 <ArrowRight className="ml-2 h-5 w-5" />

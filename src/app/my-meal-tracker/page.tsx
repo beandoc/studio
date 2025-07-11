@@ -26,6 +26,7 @@ import { Progress } from "@/components/ui/progress";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
+import { useProfile } from "@/context/profile-context";
 
 
 // Types
@@ -72,62 +73,37 @@ const getInitialLog = (): DailyLog => ({
 });
 
 export default function MyMealTrackerPage() {
+  const { activeProfile, updateDailyLog, getDailyLog } = useProfile();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [dailyLog, setDailyLog] = useState<DailyLog>(getInitialLog());
   const [isAddMealOpen, setIsAddMealOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState<MealCategory>("Breakfast");
-  const [goals, setGoals] = useState<Goals>({
-    calories: 2200,
-    protein: 80,
-    fat: 70,
-    carbs: 300,
-    fluid: 2000,
-  });
+  
+  const goals = useMemo<Goals>(() => ({
+    calories: activeProfile?.calorieGoal || 2200,
+    protein: activeProfile?.proteinGoal || 80,
+    fat: 70, // not in profile yet
+    carbs: 300, // not in profile yet
+    fluid: activeProfile?.fluidGoal || 2000,
+  }), [activeProfile]);
 
 
-  const getLogKey = (date: Date) => `mealLog-${format(date, 'yyyy-MM-dd')}`;
-
-  // Load from localStorage on date change
+  // Load from context/storage on date or profile change
   useEffect(() => {
-    try {
-        // Load goals from profile
-        const profileRaw = localStorage.getItem("userProfile");
-        if(profileRaw) {
-            const profile = JSON.parse(profileRaw);
-            setGoals(prev => ({
-                ...prev,
-                calories: profile.calorieGoal || 2200,
-                protein: profile.proteinGoal || 80,
-                fluid: profile.fluidGoal || 2000
-            }));
-        }
-
-      const logKey = getLogKey(currentDate);
-      const storedLog = localStorage.getItem(logKey);
-      if (storedLog) {
-        const parsedLog = JSON.parse(storedLog);
-        const initialLog = getInitialLog();
-        if (parsedLog.meals && MEAL_CATEGORIES.every(cat => Array.isArray(parsedLog.meals[cat]))) {
-            initialLog.meals = parsedLog.meals;
-        }
-        if (Array.isArray(parsedLog.fluids)) {
-            initialLog.fluids = parsedLog.fluids;
-        }
-        setDailyLog(initialLog);
-      } else {
+    if (activeProfile) {
+        const log = getDailyLog(activeProfile.id, currentDate) || getInitialLog();
+        setDailyLog(log);
+    } else {
         setDailyLog(getInitialLog());
-      }
-    } catch (error) {
-      console.error("Failed to parse daily log from localStorage", error);
-      setDailyLog(getInitialLog());
     }
-  }, [currentDate]);
+  }, [currentDate, activeProfile, getDailyLog]);
 
-  // Save to localStorage whenever dailyLog changes
+  // Save to context/storage whenever dailyLog changes
   useEffect(() => {
-    const logKey = getLogKey(currentDate);
-    localStorage.setItem(logKey, JSON.stringify(dailyLog));
-  }, [dailyLog, currentDate]);
+    if (activeProfile) {
+        updateDailyLog(activeProfile.id, currentDate, dailyLog);
+    }
+  }, [dailyLog, currentDate, activeProfile, updateDailyLog]);
   
 
   const handleOpenAddItem = (category: MealCategory) => {
@@ -205,6 +181,25 @@ export default function MyMealTrackerPage() {
     { name: 'Fat', value: totals.fat * 9, color: '#f59e0b' },     // 9 calories per gram
     { name: 'Protein', value: totals.protein * 4, color: '#ef4444' }, // 4 calories per gram
   ].filter(item => item.value > 0);
+  
+  if (!activeProfile) {
+    return (
+       <div className="flex flex-col w-full">
+        <Header
+          title="My Meal & Fluid Tracker"
+          description="Log your daily intake to track your nutritional progress."
+        />
+        <main className="flex-1 p-4 md:p-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle>No Profile Selected</CardTitle>
+                    <CardDescription>Please create or select a profile to log meals and fluids.</CardDescription>
+                </CardHeader>
+            </Card>
+        </main>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -217,8 +212,8 @@ export default function MyMealTrackerPage() {
       />
       <div className="flex flex-col w-full">
         <Header
-          title="My Meal & Fluid Tracker"
-          description="Log your daily intake to track your nutritional progress."
+          title={`Meal & Fluid Tracker for ${activeProfile.fullName}`}
+          description="Log daily intake to track nutritional progress."
         />
         <main className="flex-1 p-4 md:p-8 space-y-8">
           {/* Top Control Bar */}
