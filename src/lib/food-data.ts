@@ -65,6 +65,39 @@ export type FoodItem = {
 
 export const foodDatabase: FoodItem[] = [
     {
+        slug: 'palak-paneer',
+        name: 'Palak Paneer',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1/2 pack (150 g)',
+            calories: 180,
+            totalFat: { value: 13, percent: 17 },
+            saturatedFat: { value: 6, percent: 30 },
+            transFat: { value: 0 },
+            cholesterol: { value: 20, percent: 7 },
+            sodium: { value: 550, percent: 24 },
+            totalCarbohydrate: { value: 9, percent: 3 },
+            dietaryFiber: { value: 1, percent: 4 },
+            sugars: { value: 2 },
+            protein: { value: 6 },
+            potassium: { value: 0, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 180,
+            fat: '13g',
+            carbs: '9g',
+            protein: '6g',
+            summaryText: 'A classic Indian dish with spinach and paneer cheese.',
+            breakdown: '66% fat, 20% carbs, 14% protein.',
+        },
+        servingSizes: [
+            { size: '1/2 pack (150 g)', calories: 180 },
+            { size: '1 cup', calories: 240 },
+        ],
+    },
+    {
         slug: 'dal-tadka',
         name: 'Dal Tadka',
         cuisine: 'North Indian',
@@ -1621,7 +1654,7 @@ export const foodDatabase: FoodItem[] = [
             sugars: { value: 3.06 },
             protein: { value: 10.6 },
             calcium: { value: 181, percent: 14 },
-            iron: { value: 1.6, percent: 9 },
+            iron: { value: 1.6, percent: 10 },
             potassium: { value: 138, percent: 3 },
             vitaminA: { value: 68, percent: 8 },
             vitaminC: { value: 0.3, percent: 0 },
@@ -3355,5 +3388,6 @@ export const foodDatabase: FoodItem[] = [
         },
     }
 ];
+
 
 
