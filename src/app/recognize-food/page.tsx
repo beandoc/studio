@@ -104,14 +104,16 @@ export default function RecognizeFoodPage() {
     }
     
     const today = new Date();
-    const currentLog = getDailyLog(activeProfile.id, today) || { meals: { Breakfast: [], Lunch: [], Dinner: [], Snacks: [] }, fluids: [] };
+    const currentLog = getDailyLog(activeProfile.id, today) || { meals: { Breakfast: [], Lunch: [], Dinner: [], "Morning Snack": [], "Afternoon Snack": [], "Evening Snack": [] }, fluids: [] };
     
     // Simple logic to guess meal category based on time
     const hour = today.getHours();
     let category: MealCategory = "Snacks";
     if (hour >= 5 && hour < 11) category = "Breakfast";
-    else if (hour >= 11 && hour < 16) category = "Lunch";
-    else if (hour >= 16 && hour < 22) category = "Dinner";
+    else if (hour >= 11 && hour < 14) category = "Lunch";
+    else if (hour >= 14 && hour < 17) category = "Afternoon Snack";
+    else if (hour >= 17 && hour < 22) category = "Dinner";
+    else category = "Evening Snack";
 
     const newMeals = analysisResult.items.map(item => ({
         ...item,

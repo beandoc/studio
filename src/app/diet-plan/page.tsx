@@ -61,7 +61,7 @@ type MealDetails = { name: string; calories: number; description: string; };
 type Meal = { type: string; details: MealDetails; };
 type DayPlan = { day: string; meals: Meal[]; notes?: string; };
 
-const dailyMealOptions = ["breakfast", "lunch", "dinner", "snacks"];
+const dailyMealOptions = ["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"];
 
 export default function DietPlanPage() {
   const { activeProfile, dietPlan, setDietPlan, isLoading: isProfileLoading } = useProfile();
@@ -87,7 +87,7 @@ export default function DietPlanPage() {
     defaultValues: {
       healthRequirements: "Standard healthy diet. Low sodium, low sugar.",
       preferences: "No specific allergies or strong dislikes.",
-      meals: ["breakfast", "lunch", "dinner", "snacks"],
+      meals: ["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"],
     },
   });
 
@@ -202,7 +202,7 @@ export default function DietPlanPage() {
                   render={() => (
                       <FormItem>
                         <FormLabel>Daily meals to include</FormLabel>
-                        <div className="flex flex-row space-x-4 pt-2">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-x-4 gap-y-2 pt-2">
                         {dailyMealOptions.map((item) => (
                           <FormField
                             key={item}
@@ -212,7 +212,7 @@ export default function DietPlanPage() {
                               return (
                                 <FormItem
                                   key={item}
-                                  className="flex flex-row items-start space-x-3 space-y-0"
+                                  className="flex flex-row items-start space-x-2 space-y-0"
                                 >
                                   <FormControl>
                                     <Checkbox
@@ -325,10 +325,10 @@ export default function DietPlanPage() {
                   <AccordionTrigger className="text-xl font-bold capitalize">{dayPlan.day}</AccordionTrigger>
                   <AccordionContent>
                     <div className="space-y-6">
-                      {(dayPlan.meals || []).map((meal: Meal) => {
+                      {(dayPlan.meals || []).map((meal: Meal, index: number) => {
                         if (meal && meal.details && meal.details.name) {
                           return (
-                            <div key={`${meal.type}-${meal.details.name}`}>
+                            <div key={`${meal.type}-${meal.details.name}-${index}`}>
                               <h4 className="font-semibold capitalize text-lg mb-2">{meal.type}</h4>
                               <Card className="flex justify-between items-center p-4">
                                 <div>
@@ -377,10 +377,10 @@ export default function DietPlanPage() {
                       <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', textTransform: 'capitalize', borderBottom: '1px solid #ccc', paddingBottom: '0.5rem', marginBottom: '1rem' }}>{dayPlan.day}</h2>
                       <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                         <tbody>
-                          {(dayPlan.meals || []).map((meal: Meal) => {
+                          {(dayPlan.meals || []).map((meal: Meal, index: number) => {
                               if (!meal || !meal.details || !meal.details.name) return null;
                               return (
-                                <tr key={meal.type} style={{ borderBottom: '1px solid #eee'}}>
+                                <tr key={`${meal.type}-${index}`} style={{ borderBottom: '1px solid #eee'}}>
                                   <td style={{ width: '120px', padding: '0.75rem', fontWeight: 'bold', textTransform: 'capitalize' }}>{meal.type}</td>
                                   <td style={{ padding: '0.75rem' }}>
                                     <p style={{ fontWeight: 'bold', color: '#0070f3' }}>{meal.details.name}</p>

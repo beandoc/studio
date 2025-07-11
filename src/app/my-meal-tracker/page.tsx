@@ -30,7 +30,7 @@ import { useProfile } from "@/context/profile-context";
 
 
 // Types
-export type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Snacks";
+export type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Morning Snack" | "Afternoon Snack" | "Evening Snack";
 export type LoggedItem = {
   id: string;
   name: string;
@@ -55,7 +55,7 @@ export type Goals = {
   fluid: number;
 };
 
-const MEAL_CATEGORIES: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Snacks"];
+const MEAL_CATEGORIES: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Morning Snack", "Afternoon Snack", "Evening Snack"];
 const FLUID_OPTIONS = [
     { name: "Cup", amount: 240 },
     { name: "Glass", amount: 350 },
@@ -67,7 +67,9 @@ const getInitialLog = (): DailyLog => ({
     Breakfast: [],
     Lunch: [],
     Dinner: [],
-    Snacks: [],
+    "Morning Snack": [],
+    "Afternoon Snack": [],
+    "Evening Snack": [],
   },
   fluids: [],
 });

@@ -29,6 +29,8 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
 
   const frequentItems = useMemo(() => {
     const allItemsInCategory = dailyLog.meals[category];
+    if (!allItemsInCategory) return [];
+    
     const itemCounts: Record<string, number> = {};
     allItemsInCategory.forEach(item => {
       const baseName = item.name.replace(/ \(.*/, ''); // remove quantity specifier

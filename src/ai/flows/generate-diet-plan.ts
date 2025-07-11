@@ -19,7 +19,7 @@ const GenerateDietPlanInputSchema = z.object({
   preferences: z
     .string()
     .describe('Dietary preferences of the user, e.g., vegetarian, low-sodium, favorite foods, foods to avoid.'),
-  meals: z.string().describe("Comma-separated list of meals to generate, e.g., 'breakfast, lunch, dinner, snacks'"),
+  meals: z.string().describe("Comma-separated list of meals to generate, e.g., 'breakfast, lunch, dinner, morning snack, afternoon snack, evening snack'"),
 });
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
@@ -32,7 +32,7 @@ const MealSchema = z.object({
 const DailyPlanSchema = z.object({
     day: z.string().describe("The day of the week (e.g., 'Monday', 'Tuesday')."),
     meals: z.array(z.object({
-        type: z.enum(["breakfast", "lunch", "dinner", "snacks"]).describe("The type of the meal."),
+        type: z.enum(["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"]).describe("The type of the meal."),
         details: MealSchema,
     })).describe("An array of meals for the day."),
     notes: z.string().optional().describe("Any specific notes or tips for the day's meals."),
