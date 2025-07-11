@@ -20,6 +20,7 @@ import {
 import {
   ChartContainer,
   ChartTooltipContent,
+  type ChartConfig
 } from "@/components/ui/chart";
 import AddMealDialog from "@/components/add-meal-dialog";
 import { Progress } from "@/components/ui/progress";
@@ -73,6 +74,13 @@ export const getInitialLog = (): DailyLog => ({
   },
   fluids: [],
 });
+
+const chartConfig = {
+    carbs: { label: "Carbs" },
+    fat: { label: "Fat" },
+    protein: { label: "Protein" },
+} satisfies ChartConfig;
+
 
 export default function MyMealTrackerPage() {
   const { activeProfile, updateDailyLog, getDailyLog } = useProfile();
@@ -170,9 +178,9 @@ export default function MyMealTrackerPage() {
   }, [dailyLog]);
 
   const calorieBreakdownData = [
-    { name: 'Carbs', value: totals.carbs * 4, color: '#34d399' }, // 4 calories per gram
-    { name: 'Fat', value: totals.fat * 9, color: '#f59e0b' },     // 9 calories per gram
-    { name: 'Protein', value: totals.protein * 4, color: '#ef4444' }, // 4 calories per gram
+    { name: 'Carbs', value: totals.carbs * 4, fill: 'var(--color-carbs)' }, // 4 calories per gram
+    { name: 'Fat', value: totals.fat * 9, fill: 'var(--color-fat)' },     // 9 calories per gram
+    { name: 'Protein', value: totals.protein * 4, fill: 'var(--color-protein)' }, // 4 calories per gram
   ].filter(item => item.value > 0);
   
   if (!activeProfile) {
@@ -396,38 +404,40 @@ export default function MyMealTrackerPage() {
 
               {/* Right side: Pie Chart */}
               <div className="h-64">
-                  <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                          <RechartsTooltip content={<ChartTooltipContent hideLabel />} />
-                          <Pie
-                              data={calorieBreakdownData}
-                              dataKey="value"
-                              nameKey="name"
-                              cx="50%"
-                              cy="50%"
-                              innerRadius={60}
-                              outerRadius={80}
-                              fill="#8884d8"
-                              labelLine={false}
-                              label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-                                  const RADIAN = Math.PI / 180;
-                                  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-                                  const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                                  const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                                  return (
-                                  <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-                                      {`${(percent * 100).toFixed(0)}%`}
-                                  </text>
-                                  );
-                              }}
-                          >
-                              {calorieBreakdownData.map((entry, index) => (
-                                  <Cell key={`cell-${index}`} fill={entry.color} />
-                              ))}
-                          </Pie>
-                          <Legend />
-                      </PieChart>
-                  </ResponsiveContainer>
+                <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                            <RechartsTooltip content={<ChartTooltipContent hideLabel />} />
+                            <Pie
+                                data={calorieBreakdownData}
+                                dataKey="value"
+                                nameKey="name"
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={60}
+                                outerRadius={80}
+                                fill="#8884d8"
+                                labelLine={false}
+                                label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+                                    const RADIAN = Math.PI / 180;
+                                    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+                                    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+                                    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+                                    return (
+                                    <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+                                        {`${(percent * 100).toFixed(0)}%`}
+                                    </text>
+                                    );
+                                }}
+                            >
+                                {calorieBreakdownData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                                ))}
+                            </Pie>
+                            <Legend />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </ChartContainer>
               </div>
             </CardContent>
             <CardFooter className="text-sm text-muted-foreground">
@@ -439,3 +449,4 @@ export default function MyMealTrackerPage() {
     </>
   );
 }
+
