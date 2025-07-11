@@ -14,7 +14,7 @@ import { Camera, Loader2, Sparkles, Utensils, CheckCircle2, Upload, CalendarIcon
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { useProfile } from "@/context/profile-context";
-import { MealCategory } from "../my-meal-tracker/page";
+import { MealCategory, getInitialLog } from "../my-meal-tracker/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -144,27 +144,28 @@ export default function RecognizeFoodPage() {
 
 
   const handleLogMeal = () => {
-    if (!analysisResult) return;
-
-    if (!activeProfile) {
-      toast({
-        title: "No Profile Selected",
-        description: "Please select or create a profile to log this meal.",
-        action: (
-          <Button onClick={() => router.push('/profiles')}>Go to Profiles</Button>
-        ),
-      });
+    if (!analysisResult || !activeProfile) {
+      if (!activeProfile) {
+          toast({
+              variant: "destructive",
+              title: "No Profile Selected",
+              description: "Please select or create a profile to log this meal.",
+              action: (
+              <Button onClick={() => router.push('/profiles')}>Go to Profiles</Button>
+              ),
+          });
+      }
       return;
     }
     
-    const currentLog = getDailyLog(activeProfile.id, logDate) || { meals: { Breakfast: [], Lunch: [], Dinner: [], "Morning Snack": [], "Afternoon Snack": [], "Evening Snack": [] }, fluids: [] };
-    
-    // The AI doesn't return carbs, so we'll need to calculate it.
+    // Ensure we have a log object to work with, creating one if it doesn't exist.
+    const updatedLog = getDailyLog(activeProfile.id, logDate) || getInitialLog();
+
+    // The AI doesn't return carbs, so we calculate it.
     // Calorie breakdown: 1g Protein = 4 cal, 1g Fat = 9 cal
-    const caloriesFromProtein = analysisResult.totalProtein * 4;
-    const caloriesFromFat = analysisResult.totalFat * 9;
-    const remainingCalories = analysisResult.totalCalories - caloriesFromProtein - caloriesFromFat;
-    const carbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
+    const caloriesFromProteinAndFat = (analysisResult.totalProtein * 4) + (analysisResult.totalFat * 9);
+    const remainingCalories = analysisResult.totalCalories - caloriesFromProteinAndFat;
+    const calculatedCarbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
 
     const newMeal = {
         id: new Date().toISOString() + Math.random(),
@@ -173,16 +174,13 @@ export default function RecognizeFoodPage() {
         calories: analysisResult.totalCalories,
         protein: analysisResult.totalProtein,
         fat: analysisResult.totalFat,
-        carbs: carbs
+        carbs: calculatedCarbs,
     };
     
-    const updatedLog = { ...currentLog };
+    // Add the new meal to the correct category in our log object.
+    updatedLog.meals[mealCategory].push(newMeal);
     
-    if (!updatedLog.meals[mealCategory]) {
-      updatedLog.meals[mealCategory] = [];
-    }
-    updatedLog.meals[mealCategory] = [...updatedLog.meals[mealCategory], newMeal];
-    
+    // Save the updated log back to the context/storage.
     updateDailyLog(activeProfile.id, logDate, updatedLog);
 
     toast({

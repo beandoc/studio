@@ -62,11 +62,11 @@ const FLUID_OPTIONS = [
     { name: "Bowl", amount: 300 },
 ];
 
-const getInitialLog = (): DailyLog => ({
+export const getInitialLog = (): DailyLog => ({
   meals: {
-    Breakfast: [],
-    Lunch: [],
-    Dinner: [],
+    "Breakfast": [],
+    "Lunch": [],
+    "Dinner": [],
     "Morning Snack": [],
     "Afternoon Snack": [],
     "Evening Snack": [],
