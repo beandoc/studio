@@ -93,10 +93,26 @@ export default function RecognizeFoodPage() {
     }
   };
 
+  const handleLogMeal = () => {
+    if (!analysisResult) return;
+
+    // This is where you would get the current date's log from localStorage
+    // and add the items to it.
+    // For now, we'll just log to console and navigate.
+    console.log("Logging meal:", analysisResult);
+
+    toast({
+      title: "Meal Logged!",
+      description: `${analysisResult.mealName} has been added to your tracker.`,
+    });
+
+    router.push('/my-meal-tracker');
+  };
+
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="Recognize Food with AI"
+        title="FoodLens (AI enabled scanning)"
         description="Point your camera at a meal to identify items and estimate nutrition."
       />
       <main className="flex-1 p-4 md:p-8">
@@ -200,6 +216,9 @@ export default function RecognizeFoodPage() {
                              ))}
                          </div>
                     </div>
+                    <Button onClick={handleLogMeal} className="w-full">
+                        <Utensils className="mr-2 h-4 w-4" /> Log this meal
+                    </Button>
                 </CardContent>
               </Card>
             )}
