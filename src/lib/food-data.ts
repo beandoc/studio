@@ -398,6 +398,195 @@ export const foodDatabase: FoodItem[] = [
         ],
     },
     {
+        slug: 'indian-chicken',
+        name: 'Indian Chicken',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Meat',
+        nutritionFacts: {
+            servingSize: '2 cups',
+            calories: 340,
+            totalFat: { value: 13.00, percent: 17 },
+            saturatedFat: { value: 6.000, percent: 30 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 250, percent: 11 },
+            totalCarbohydrate: { value: 12.00, percent: 4 },
+            dietaryFiber: { value: 3.0, percent: 11 },
+            protein: { value: 44.00 },
+            potassium: { value: 0, percent: 0 }
+        },
+        nutritionSummary: {
+            calories: 340,
+            fat: '13g',
+            carbs: '12g',
+            protein: '44g',
+            summaryText: 'There are 340 calories in 2 cups of Indian Chicken.',
+            breakdown: '34% fat, 14% carbs, 52% protein.'
+        },
+        servingSizes: [
+            { size: '2 cups', calories: 340 }
+        ]
+    },
+    {
+        slug: 'pav-bhaji',
+        name: 'Pav Bhaji',
+        cuisine: 'North Indian',
+        mealCategory: 'Lunch',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1/2 pack (150 g)',
+            calories: 120,
+            totalFat: { value: 4.50, percent: 6 },
+            saturatedFat: { value: 3.000, percent: 15 },
+            transFat: { value: 0 },
+            cholesterol: { value: 10, percent: 3 },
+            sodium: { value: 700, percent: 30 },
+            totalCarbohydrate: { value: 17.00, percent: 6 },
+            dietaryFiber: { value: 2.0, percent: 7 },
+            sugars: { value: 1.00 },
+            protein: { value: 2.00 },
+            potassium: { value: 0, percent: 0 }
+        },
+        nutritionSummary: {
+            calories: 120,
+            fat: '4.5g',
+            carbs: '17g',
+            protein: '2g',
+            summaryText: 'A popular Indian street food dish with a spicy vegetable mash.',
+            breakdown: '35% fat, 58% carbs, 7% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 pack (150 g)', calories: 120 }
+        ]
+    },
+    {
+        slug: 'aloo-matar',
+        name: 'Aloo Matar',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Vegetables',
+        nutritionFacts: {
+            servingSize: '1/2 pack (150 g)',
+            calories: 150,
+            totalFat: { value: 7.00, percent: 9 },
+            saturatedFat: { value: 2.000, percent: 10 },
+            transFat: { value: 0 },
+            cholesterol: { value: 5, percent: 2 },
+            sodium: { value: 650, percent: 28 },
+            totalCarbohydrate: { value: 19.00, percent: 7 },
+            dietaryFiber: { value: 2.0, percent: 7 },
+            sugars: { value: 0 },
+            protein: { value: 4.00 },
+            potassium: { value: 0, percent: 0 }
+        },
+        nutritionSummary: {
+            calories: 150,
+            fat: '7g',
+            carbs: '19g',
+            protein: '4g',
+            summaryText: 'A North Indian curry made with potatoes (aloo) and peas (matar).',
+            breakdown: '41% fat, 49% carbs, 10% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 pack (150 g)', calories: 150 }
+        ]
+    },
+    {
+        slug: 'shahi-rajma',
+        name: 'Shahi Rajma',
+        cuisine: 'North Indian',
+        mealCategory: 'Lunch',
+        foodGroup: 'Beans & Legumes',
+        nutritionFacts: {
+            servingSize: '1/2 pack (150 g)',
+            calories: 230,
+            totalFat: { value: 10.00, percent: 13 },
+            saturatedFat: { value: 3.500, percent: 18 },
+            transFat: { value: 0 },
+            cholesterol: { value: 5, percent: 2 },
+            sodium: { value: 720, percent: 31 },
+            totalCarbohydrate: { value: 26.00, percent: 9 },
+            dietaryFiber: { value: 3.0, percent: 11 },
+            sugars: { value: 0 },
+            protein: { value: 9.00 },
+            potassium: { value: 0, percent: 0 }
+        },
+        nutritionSummary: {
+            calories: 230,
+            fat: '10g',
+            carbs: '26g',
+            protein: '9g',
+            summaryText: 'A creamy and rich kidney bean curry.',
+            breakdown: '39% fat, 45% carbs, 16% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 pack (150 g)', calories: 230 }
+        ]
+    },
+    {
+        slug: 'dal-makhani',
+        name: 'Dal Makhani',
+        cuisine: 'North Indian',
+        mealCategory: 'Dinner',
+        foodGroup: 'Beans & Legumes',
+        nutritionFacts: {
+            servingSize: '1/2 package',
+            calories: 180,
+            totalFat: { value: 8.00, percent: 10 },
+            saturatedFat: { value: 3, percent: 15 },
+            cholesterol: { value: 10, percent: 3 },
+            sodium: { value: 810, percent: 35 },
+            totalCarbohydrate: { value: 20.00, percent: 7 },
+            dietaryFiber: { value: 3.0, percent: 11 },
+            sugars: { value: 0 },
+            protein: { value: 7.00 },
+            potassium: { value: 0, percent: 0 }
+        },
+        nutritionSummary: {
+            calories: 180,
+            fat: '8g',
+            carbs: '20g',
+            protein: '7g',
+            summaryText: 'A classic Punjabi lentil dish made with whole black lentils and red kidney beans.',
+            breakdown: '40% fat, 44% carbs, 16% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 package', calories: 180 }
+        ]
+    },
+    {
+        slug: 'punjabi-chatpate-choley',
+        name: 'Punjabi Chatpate Choley',
+        cuisine: 'North Indian',
+        mealCategory: 'Lunch',
+        foodGroup: 'Beans & Legumes',
+        nutritionFacts: {
+            servingSize: '1/2 cup (110 g)',
+            calories: 150,
+            totalFat: { value: 6.00, percent: 8 },
+            saturatedFat: { value: 1.500, percent: 8 },
+            transFat: { value: 0 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 520, percent: 23 },
+            totalCarbohydrate: { value: 18.00, percent: 7 },
+            dietaryFiber: { value: 2.0, percent: 7 },
+            sugars: { value: 0 },
+            protein: { value: 5.00 },
+            potassium: { value: 0, percent: 0 }
+        },
+        nutritionSummary: {
+            calories: 150,
+            fat: '6g',
+            carbs: '18g',
+            protein: '5g',
+            summaryText: 'A spicy and tangy chickpea curry from the Punjab region.',
+            breakdown: '37% fat, 49% carbs, 14% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 cup (110 g)', calories: 150 }
+        ]
+    },
+    {
         slug: 'veggie-burger',
         name: 'Veggie Burger',
         cuisine: 'Generic',
@@ -408,6 +597,7 @@ export const foodDatabase: FoodItem[] = [
             calories: 124,
             totalFat: { value: 4.41, percent: 6 },
             saturatedFat: { value: 0, percent: 0 },
+            transFat: { value: 0 },
             cholesterol: { value: 4, percent: 1 },
             sodium: { value: 398, percent: 17 },
             totalCarbohydrate: { value: 9.99, percent: 4 },
@@ -3388,6 +3578,7 @@ export const foodDatabase: FoodItem[] = [
         },
     }
 ];
+
 
 
 
