@@ -143,78 +143,6 @@ export default function DietPlanPage() {
       setIsGenerating(false);
     }
   };
-
-  const handleExportPdf = () => {
-    if (!dietPlan || !activeProfile) return;
-  
-    const doc = new jsPDF();
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const margin = 15;
-  
-    // Add Header
-    doc.setFontSize(22);
-    doc.setTextColor(40);
-    doc.text(`7-Day Diet Plan for ${activeProfile.fullName}`, margin, 20);
-    
-    doc.setFontSize(12);
-    doc.setTextColor(100);
-    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, margin, 28);
-    
-    doc.setLineWidth(0.5);
-    doc.line(margin, 32, pageWidth - margin, 32);
-  
-    let yPos = 40;
-  
-    dietPlan.plan.forEach((dayPlan, dayIndex) => {
-      const dayHeader = `${dayPlan.day}`;
-      const dayHeaderHeight = 10;
-  
-      // Check if we need a new page
-      const dayContentHeight = dayPlan.meals.length * 20 + 20; // Estimate
-      if (yPos + dayContentHeight > pageHeight - margin) {
-        doc.addPage();
-        yPos = 20;
-      }
-      
-      // Day Header
-      doc.setFontSize(16);
-      doc.setTextColor(45, 125, 75); // Primary color
-      doc.text(dayHeader, margin, yPos);
-      yPos += dayHeaderHeight;
-  
-      const tableBody = dayPlan.meals.map(meal => [
-        { content: meal.type, styles: { fontStyle: 'bold', valign: 'middle', cellWidth: 40 } },
-        { content: `${meal.details.name}\n${meal.details.description}`, styles: { valign: 'middle', cellWidth: 90 } },
-        { content: `${meal.details.calories} kcal`, styles: { valign: 'middle', halign: 'right' } }
-      ]);
-  
-      (doc as any).autoTable({
-        startY: yPos,
-        head: [['Meal', 'Details', 'Calories']],
-        body: tableBody,
-        theme: 'grid',
-        headStyles: { fillColor: [167, 217, 163] },
-        didDrawPage: (data: any) => {
-          yPos = data.cursor.y + 10;
-        }
-      });
-
-      if(dayPlan.notes) {
-        doc.setFontSize(10);
-        doc.setTextColor(100);
-        doc.setFont('helvetica', 'italic');
-        const notesText = `Notes: ${dayPlan.notes}`;
-        const splitNotes = doc.splitTextToSize(notesText, pageWidth - (margin * 2));
-        doc.text(splitNotes, margin, yPos);
-        yPos += (splitNotes.length * 5) + 5;
-      }
-
-    });
-  
-    doc.save(`${activeProfile.fullName.replace(/\s+/g, '-')}-diet-plan.pdf`);
-  };
-  
   
   const handleFlipMeal = (day: string, mealType: string) => {
     const dayPlan = dietPlan?.plan.find(d => d.day.toLowerCase() === day.toLowerCase());
@@ -357,10 +285,6 @@ export default function DietPlanPage() {
           </div>
         <div className="flex gap-2">
           <Button onClick={() => setShowForm(true)} variant="secondary">Regenerate</Button>
-          <Button onClick={handleExportPdf} variant="outline" size="sm">
-              <Download className="mr-2 h-4 w-4" />
-              Export as PDF
-          </Button>
         </div>
       </CardHeader>
       <CardContent>
@@ -427,7 +351,7 @@ export default function DietPlanPage() {
       return (
         <div className="flex flex-col w-full">
             <Header
-                title="Personalized Diet Plan"
+                title="Personalize Your Diet- Flip your options"
                 description="Generate a 7-day diet plan based on your needs."
             />
             <main className="flex-1 p-4 md:p-8">
@@ -445,7 +369,7 @@ export default function DietPlanPage() {
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="Personalized Diet Plan"
+        title="Personalize Your Diet- Flip your options"
         description={`Manage the diet plan for ${activeProfile?.fullName}`}
       />
       <div className="p-4 md:p-8 grid gap-8">
@@ -458,5 +382,7 @@ export default function DietPlanPage() {
     </div>
   );
 }
+
+    
 
     
