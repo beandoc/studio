@@ -30,7 +30,7 @@ import { Button } from "@/components/ui/button";
 import { Download, Loader2, Info, Replace } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import "jspdf-autotable";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -68,7 +68,6 @@ export default function DietPlanPage() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
-  const pdfRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -146,25 +145,76 @@ export default function DietPlanPage() {
   };
 
   const handleExportPdf = () => {
-    const input = pdfRef.current;
-    if (input && activeProfile) {
-      const fileName = `${activeProfile.fullName.replace(/\s+/g, '-')}-diet-plan.pdf`;
-      html2canvas(input, { 
-        useCORS: true,
-      }).then((canvas) => {
-        const imgData = canvas.toDataURL("image/png");
-        const pdf = new jsPDF({ orientation: "p", unit: "px", format: "a4" });
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const canvasWidth = canvas.width;
-        const canvasHeight = canvas.height;
-        const ratio = canvasWidth / pdfWidth;
-        const pdfHeight = canvasHeight / ratio;
-        
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save(fileName);
+    if (!dietPlan || !activeProfile) return;
+  
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 15;
+  
+    // Add Header
+    doc.setFontSize(22);
+    doc.setTextColor(40);
+    doc.text(`7-Day Diet Plan for ${activeProfile.fullName}`, margin, 20);
+    
+    doc.setFontSize(12);
+    doc.setTextColor(100);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, margin, 28);
+    
+    doc.setLineWidth(0.5);
+    doc.line(margin, 32, pageWidth - margin, 32);
+  
+    let yPos = 40;
+  
+    dietPlan.plan.forEach((dayPlan, dayIndex) => {
+      const dayHeader = `${dayPlan.day}`;
+      const dayHeaderHeight = 10;
+  
+      // Check if we need a new page
+      const dayContentHeight = dayPlan.meals.length * 20 + 20; // Estimate
+      if (yPos + dayContentHeight > pageHeight - margin) {
+        doc.addPage();
+        yPos = 20;
+      }
+      
+      // Day Header
+      doc.setFontSize(16);
+      doc.setTextColor(45, 125, 75); // Primary color
+      doc.text(dayHeader, margin, yPos);
+      yPos += dayHeaderHeight;
+  
+      const tableBody = dayPlan.meals.map(meal => [
+        { content: meal.type, styles: { fontStyle: 'bold', valign: 'middle', cellWidth: 40 } },
+        { content: `${meal.details.name}\n${meal.details.description}`, styles: { valign: 'middle', cellWidth: 90 } },
+        { content: `${meal.details.calories} kcal`, styles: { valign: 'middle', halign: 'right' } }
+      ]);
+  
+      (doc as any).autoTable({
+        startY: yPos,
+        head: [['Meal', 'Details', 'Calories']],
+        body: tableBody,
+        theme: 'grid',
+        headStyles: { fillColor: [167, 217, 163] },
+        didDrawPage: (data: any) => {
+          yPos = data.cursor.y + 10;
+        }
       });
-    }
+
+      if(dayPlan.notes) {
+        doc.setFontSize(10);
+        doc.setTextColor(100);
+        doc.setFont('helvetica', 'italic');
+        const notesText = `Notes: ${dayPlan.notes}`;
+        const splitNotes = doc.splitTextToSize(notesText, pageWidth - (margin * 2));
+        doc.text(splitNotes, margin, yPos);
+        yPos += (splitNotes.length * 5) + 5;
+      }
+
+    });
+  
+    doc.save(`${activeProfile.fullName.replace(/\s+/g, '-')}-diet-plan.pdf`);
   };
+  
   
   const handleFlipMeal = (day: string, mealType: string) => {
     const dayPlan = dietPlan?.plan.find(d => d.day.toLowerCase() === day.toLowerCase());
@@ -314,7 +364,6 @@ export default function DietPlanPage() {
         </div>
       </CardHeader>
       <CardContent>
-        {/* Visible Accordion */}
         <div className="p-4 border rounded-md">
           <Accordion type="multiple" defaultValue={["monday"]} className="w-full">
             {(dietPlan!.plan || []).map((dayPlan: DayPlan) => {
@@ -358,53 +407,6 @@ export default function DietPlanPage() {
             })}
           </Accordion>
         </div>
-
-        {/* Hidden Div for PDF Export */}
-        <div className="absolute -left-full -top-full" style={{ left: '-9999px', top: '-9999px'}}>
-          <div ref={pdfRef} style={{ width: '800px', padding: '40px', backgroundColor: 'white', color: 'black' }}>
-             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '2rem', borderBottom: '2px solid #eee', paddingBottom: '1rem' }}>
-                <Image src="/welcome-image.png" alt="Logo" width={60} height={60} />
-                <div style={{ marginLeft: '1rem'}}>
-                    <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>Weekly Diet Plan for {activeProfile?.fullName}</h1>
-                    <p style={{ fontSize: '1rem', color: '#555' }}>Here is the personalized diet plan.</p>
-                </div>
-             </div>
-             <div>
-                {(dietPlan!.plan || []).map((dayPlan: DayPlan) => {
-                  if (!dayPlan || !dayPlan.day) return null;
-                  return (
-                    <div key={dayPlan.day} style={{ marginBottom: '2rem', pageBreakInside: 'avoid' }}>
-                      <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', textTransform: 'capitalize', borderBottom: '1px solid #ccc', paddingBottom: '0.5rem', marginBottom: '1rem' }}>{dayPlan.day}</h2>
-                      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                        <tbody>
-                          {(dayPlan.meals || []).map((meal: Meal, index: number) => {
-                              if (!meal || !meal.details || !meal.details.name) return null;
-                              return (
-                                <tr key={`${meal.type}-${index}`} style={{ borderBottom: '1px solid #eee'}}>
-                                  <td style={{ width: '120px', padding: '0.75rem', fontWeight: 'bold', textTransform: 'capitalize' }}>{meal.type}</td>
-                                  <td style={{ padding: '0.75rem' }}>
-                                    <p style={{ fontWeight: 'bold', color: '#0070f3' }}>{meal.details.name}</p>
-                                    <p style={{ fontSize: '0.9rem', color: '#333' }}>{meal.details.description}</p>
-                                    <p style={{ fontSize: '0.8rem', color: '#777' }}>{meal.details.calories} kcal</p>
-                                  </td>
-                                </tr>
-                              )
-                          })}
-                        </tbody>
-                      </table>
-                      {dayPlan.notes && (
-                        <div style={{ marginTop: '1rem', padding: '1rem', backgroundColor: '#fffbe6', border: '1px solid #ffe58f', borderRadius: '4px' }}>
-                          <h4 style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>Notes for {dayPlan.day}:</h4>
-                          <p style={{ fontStyle: 'italic', color: '#555'}}>{dayPlan.notes}</p>
-                        </div>
-                      )}
-                    </div>
-                  )
-                })}
-             </div>
-          </div>
-        </div>
-
       </CardContent>
     </Card>
   );
@@ -456,3 +458,5 @@ export default function DietPlanPage() {
     </div>
   );
 }
+
+    
