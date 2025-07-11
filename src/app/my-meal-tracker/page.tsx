@@ -163,17 +163,26 @@ export default function MyMealTrackerPage() {
 
   const totals = useMemo(() => {
     let calories = 0, protein = 0, fat = 0, carbs = 0;
-    Object.values(dailyLog.meals).flat().forEach(item => {
-      calories += item.calories;
-      protein += item.protein;
-      fat += item.fat;
-      carbs += item.carbs;
-    });
+    
+    if (dailyLog && dailyLog.meals) {
+        for (const category of MEAL_CATEGORIES) {
+            if (dailyLog.meals[category]) {
+                dailyLog.meals[category].forEach(item => {
+                    calories += item.calories || 0;
+                    protein += item.protein || 0;
+                    fat += item.fat || 0;
+                    carbs += item.carbs || 0;
+                });
+            }
+        }
+    }
     
     let fluid = 0;
-    dailyLog.fluids.forEach(item => {
-        fluid += item.amount;
-    });
+    if (dailyLog && dailyLog.fluids) {
+        dailyLog.fluids.forEach(item => {
+            fluid += item.amount || 0;
+        });
+    }
 
     return { calories, protein, fat, carbs, fluid };
   }, [dailyLog]);

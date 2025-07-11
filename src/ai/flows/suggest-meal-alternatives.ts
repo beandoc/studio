@@ -3,8 +3,7 @@
 
 /**
  * @fileOverview Provides meal alternatives based on a food database.
- * The logic finds meals of the same cuisine and category with protein and carbs within a 20% range.
- * If no matches are found, it broadens the search to all cuisines.
+ * The logic finds meals with protein and carbs within a 20% range, relaxing constraints if no initial matches are found.
  *
  * - suggestMealAlternatives - A function that suggests meal alternatives based on user input.
  * - SuggestMealAlternativesInput - The input type for the suggestMealAlternatives function.
@@ -40,8 +39,8 @@ export async function suggestMealAlternatives(input: SuggestMealAlternativesInpu
 }
 
 // Helper function to find alternatives
-const findAlternatives = (originalMeal: FoodItem, searchInAllCuisines: boolean): FoodItem[] => {
-    // 2. Extract nutrition targets from the original meal
+const findAlternatives = (originalMeal: FoodItem): FoodItem[] => {
+    // 1. Extract nutrition targets from the original meal
     const originalProtein = originalMeal.nutritionFacts.protein.value;
     const originalCarbs = originalMeal.nutritionFacts.totalCarbohydrate.value;
     const proteinMin = originalProtein * 0.8;
@@ -49,27 +48,10 @@ const findAlternatives = (originalMeal: FoodItem, searchInAllCuisines: boolean):
     const carbsMin = originalCarbs * 0.8;
     const carbsMax = originalCarbs * 1.2;
 
-    const allowedMealCategories: ('Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Beverages' | 'Other' | 'Soups'| 'Sweets, Candy & Desserts' | 'Lunch/Dinner')[] = [originalMeal.mealCategory];
-    if (originalMeal.mealCategory === 'Lunch') {
-        allowedMealCategories.push('Lunch/Dinner');
-    } else if (originalMeal.mealCategory === 'Lunch/Dinner') {
-        allowedMealCategories.push('Lunch');
-    }
-
-    // 3. Filter the database for suitable alternatives
+    // 2. Filter the database for suitable alternatives based on nutrition
     const suitableAlternatives = foodDatabase.filter(meal => {
         // Must not be the same meal
         if (meal.slug === originalMeal.slug) return false;
-
-        // Cuisine matching logic
-        if (!searchInAllCuisines && meal.cuisine !== originalMeal.cuisine) {
-            return false;
-        }
-
-        // Must match meal category (with flexibility for Lunch/Dinner)
-        if (!allowedMealCategories.includes(meal.mealCategory)) {
-            return false;
-        }
 
         // Must be within the 20% protein and carb range
         const protein = meal.nutritionFacts.protein.value;
@@ -99,15 +81,10 @@ const suggestMealAlternativesFlow = ai.defineFlow(
       throw new Error(`Meal with slug "${input.mealSlug}" not found in the database.`);
     }
 
-    // First, try to find alternatives in the same cuisine
-    let suitableAlternatives = findAlternatives(originalMeal, false);
-
-    // If no alternatives are found, broaden the search to all cuisines
-    if (suitableAlternatives.length === 0) {
-        suitableAlternatives = findAlternatives(originalMeal, true);
-    }
+    // Find alternatives based purely on nutritional similarity
+    let suitableAlternatives = findAlternatives(originalMeal);
     
-    // 4. Format the output
+    // 3. Format the output
     // Take the first two suitable alternatives found
     const alternatives = suitableAlternatives.slice(0, 2).map(alt => ({
         name: alt.name,

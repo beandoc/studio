@@ -14,7 +14,7 @@ import { Camera, Loader2, Sparkles, Utensils, CheckCircle2, Upload, CalendarIcon
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { useProfile } from "@/context/profile-context";
-import { MealCategory, getInitialLog } from "../my-meal-tracker/page";
+import { MealCategory, getInitialLog, type LoggedMeal } from "../my-meal-tracker/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,7 +23,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
+type AiFoodItem = RecognizeFoodImageOutput['items'][0];
 
 const MEAL_CATEGORIES: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Morning Snack", "Afternoon Snack", "Evening Snack"];
 
@@ -36,6 +38,7 @@ export default function RecognizeFoodPage() {
   
   const [logDate, setLogDate] = useState<Date>(new Date());
   const [mealCategory, setMealCategory] = useState<MealCategory>("Lunch");
+  const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>({});
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -92,6 +95,11 @@ export default function RecognizeFoodPage() {
       const result = await recognizeFoodImage({ photoDataUri });
       if (result.isFood) {
         setAnalysisResult(result);
+        const initialSelection: Record<string, boolean> = {};
+        result.items.forEach(item => {
+            initialSelection[item.name] = true; // Select all items by default
+        });
+        setSelectedItems(initialSelection);
         toast({
           title: "Meal Identified!",
           description: `We found ${result.items.length} item(s) in your meal.`,
@@ -158,38 +166,63 @@ export default function RecognizeFoodPage() {
       return;
     }
     
-    // Ensure we have a log object to work with, creating one if it doesn't exist.
     const updatedLog = getDailyLog(activeProfile.id, logDate) || getInitialLog();
 
-    // The AI doesn't return carbs, so we calculate it.
-    // Calorie breakdown: 1g Protein = 4 cal, 1g Fat = 9 cal
-    const caloriesFromProteinAndFat = (analysisResult.totalProtein * 4) + (analysisResult.totalFat * 9);
-    const remainingCalories = analysisResult.totalCalories - caloriesFromProteinAndFat;
-    const calculatedCarbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
+    const itemsToLog = analysisResult.items.filter(item => selectedItems[item.name]);
 
-    const newMeal = {
-        id: new Date().toISOString() + Math.random(),
-        category: mealCategory,
-        name: analysisResult.mealName,
-        calories: analysisResult.totalCalories,
-        protein: analysisResult.totalProtein,
-        fat: analysisResult.totalFat,
-        carbs: calculatedCarbs,
-    };
+    if(itemsToLog.length === 0) {
+        toast({
+            variant: "destructive",
+            title: "No Items Selected",
+            description: "Please select at least one food item to log.",
+        });
+        return;
+    }
+
+    itemsToLog.forEach(item => {
+        const caloriesFromProteinAndFat = (item.protein * 4) + (item.fat * 9);
+        const remainingCalories = item.calories - caloriesFromProteinAndFat;
+        const calculatedCarbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
+        
+        const newMeal: Omit<LoggedMeal, 'id'> = {
+            category: mealCategory,
+            name: item.name,
+            calories: item.calories,
+            protein: item.protein,
+            fat: item.fat,
+            carbs: calculatedCarbs,
+        };
+
+        updatedLog.meals[mealCategory].push({ ...newMeal, id: new Date().toISOString() + Math.random() });
+    });
     
-    // Add the new meal to the correct category in our log object.
-    updatedLog.meals[mealCategory].push(newMeal);
-    
-    // Save the updated log back to the context/storage.
     updateDailyLog(activeProfile.id, logDate, updatedLog);
 
     toast({
       title: "Meal Logged!",
-      description: `${analysisResult.mealName} has been added to ${activeProfile.fullName}'s tracker for ${format(logDate, 'PPP')}.`,
+      description: `${itemsToLog.length} item(s) have been added to ${activeProfile.fullName}'s tracker for ${format(logDate, 'PPP')}.`,
     });
 
     router.push('/my-meal-tracker');
   };
+
+  const handleToggleItem = (itemName: string) => {
+    setSelectedItems(prev => ({ ...prev, [itemName]: !prev[itemName] }));
+  };
+
+  const calculatedTotals = analysisResult?.items.reduce((acc, item) => {
+    if (selectedItems[item.name]) {
+        const caloriesFromProteinAndFat = (item.protein * 4) + (item.fat * 9);
+        const remainingCalories = item.calories - caloriesFromProteinAndFat;
+        const calculatedCarbs = remainingCalories > 0 ? remainingCalories / 4 : 0;
+
+        acc.calories += item.calories;
+        acc.protein += item.protein;
+        acc.fat += item.fat;
+        acc.carbs += calculatedCarbs;
+    }
+    return acc;
+  }, { calories: 0, protein: 0, fat: 0, carbs: 0 });
 
   return (
     <div className="flex flex-col w-full">
@@ -297,47 +330,60 @@ export default function RecognizeFoodPage() {
                             <CheckCircle2 /> Meal Analysis Complete
                         </CardTitle>
                         <CardDescription className="text-green-800">
-                            Here's the nutritional breakdown of your meal: <span className="font-bold">{analysisResult.mealName}</span>
+                            We've identified the items in your meal: <span className="font-bold">{analysisResult.mealName}</span>. Select the items you want to log.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <div className="bg-white/60 p-4 rounded-lg">
-                            <h4 className="font-bold text-lg mb-2 text-center text-green-900">Meal Totals</h4>
-                            <div className="grid grid-cols-3 gap-2 text-center">
-                                <div>
-                                    <p className="text-sm text-muted-foreground">Calories</p>
-                                    <p className="font-bold text-xl">{Math.round(analysisResult.totalCalories)}</p>
-                                </div>
-                                <div>
-                                    <p className="text-sm text-muted-foreground">Protein</p>
-                                    <p className="font-bold text-xl">{analysisResult.totalProtein.toFixed(1)}g</p>
-                                </div>
-                                <div>
-                                    <p className="text-sm text-muted-foreground">Fat</p>
-                                    <p className="font-bold text-xl">{analysisResult.totalFat.toFixed(1)}g</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <h4 className="font-semibold text-md mb-2 text-green-900">Identified Items</h4>
+                         <div>
+                            <h4 className="font-semibold text-md mb-2 text-green-900">Select Items to Log</h4>
                             <div className="space-y-2">
                                 {analysisResult.items.map((item, index) => (
-                                    <div key={index} className="p-3 rounded-md bg-white/80 flex justify-between items-center">
-                                    <div>
-                                        <p className="font-semibold">{item.name}</p>
-                                        <p className="text-right text-xs text-muted-foreground">
-                                            {Math.round(item.calories)} kcal | P: {item.protein.toFixed(1)}g, F: {item.fat.toFixed(1)}g
-                                        </p>
-                                    </div>
-                                    <div className="text-right text-xs">
-                                        <p className="font-medium text-muted-foreground">Confidence</p>
-                                        <p className="font-bold" style={{ color: `hsl(120, ${item.confidenceScore * 100}%, 35%)`}}>
-                                            {(item.confidenceScore * 100).toFixed(0)}%
-                                        </p>
-                                    </div>
+                                    <div key={index} className="p-3 rounded-md bg-white/80 flex items-center gap-4">
+                                        <Checkbox
+                                            id={`item-${index}`}
+                                            checked={selectedItems[item.name]}
+                                            onCheckedChange={() => handleToggleItem(item.name)}
+                                        />
+                                        <label htmlFor={`item-${index}`} className="flex-grow flex justify-between items-center cursor-pointer">
+                                            <div>
+                                                <p className="font-semibold">{item.name}</p>
+                                                <p className="text-right text-xs text-muted-foreground">
+                                                    {Math.round(item.calories)} kcal | P: {item.protein.toFixed(1)}g, F: {item.fat.toFixed(1)}g
+                                                </p>
+                                            </div>
+                                            <div className="text-right text-xs">
+                                                <p className="font-medium text-muted-foreground">Confidence</p>
+                                                <p className="font-bold" style={{ color: `hsl(120, ${item.confidenceScore * 100}%, 35%)`}}>
+                                                    {(item.confidenceScore * 100).toFixed(0)}%
+                                                </p>
+                                            </div>
+                                        </label>
                                     </div>
                                 ))}
                             </div>
+                        </div>
+                        <div className="bg-white/60 p-4 rounded-lg">
+                            <h4 className="font-bold text-lg mb-2 text-center text-green-900">Selected Totals</h4>
+                            {calculatedTotals ? (
+                                <div className="grid grid-cols-4 gap-2 text-center">
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">Calories</p>
+                                        <p className="font-bold text-xl">{Math.round(calculatedTotals.calories)}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">Protein</p>
+                                        <p className="font-bold text-xl">{calculatedTotals.protein.toFixed(1)}g</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">Fat</p>
+                                        <p className="font-bold text-xl">{calculatedTotals.fat.toFixed(1)}g</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-sm text-muted-foreground">Carbs</p>
+                                        <p className="font-bold text-xl">{calculatedTotals.carbs.toFixed(1)}g</p>
+                                    </div>
+                                </div>
+                            ) : <p className="text-center text-muted-foreground">No items selected.</p>}
                         </div>
                     </CardContent>
                     <CardFooter className="flex-col sm:flex-row gap-4 items-stretch">
