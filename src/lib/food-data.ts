@@ -23,7 +23,7 @@ export type FoodItem = {
     slug: string;
     name: string;
     cuisine: 'Maharashtrian' | 'Gujarati' | 'North Indian' | 'Generic' | 'South Indian';
-    mealCategory: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Beverages' | 'Other';
+    mealCategory: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Beverages' | 'Other' | 'Soups';
     foodGroup: FoodGroup;
     nutritionFacts: {
         servingSize: string;
@@ -1321,6 +1321,112 @@ export const foodDatabase: FoodItem[] = [
         },
         servingSizes: [
             { size: '1 cup', calories: 15 }
+        ]
+    },
+    {
+        slug: 'tomato-soup',
+        name: 'Tomato Soup',
+        cuisine: 'Generic',
+        mealCategory: 'Soups',
+        foodGroup: 'Soups',
+        nutritionFacts: {
+            servingSize: '1/2 cup',
+            calories: 90,
+            totalFat: { value: 0.00, percent: 0 },
+            saturatedFat: { value: 0.000, percent: 0 },
+            cholesterol: { value: 0, percent: 0 },
+            sodium: { value: 480, percent: 21 },
+            totalCarbohydrate: { value: 21.00, percent: 8 },
+            dietaryFiber: { value: 1.0, percent: 4 },
+            sugars: { value: 12.00 },
+            protein: { value: 2.00 },
+            potassium: { value: 0, percent: 0 }
+        },
+        nutritionSummary: {
+            calories: 90,
+            fat: '0g',
+            carbs: '21g',
+            protein: '2g',
+            summaryText: 'A classic tomato soup, often served hot.',
+            breakdown: '0% fat, 91% carbs, 9% protein.'
+        },
+        servingSizes: [
+            { size: '1/2 cup', calories: 90 }
+        ]
+    },
+    {
+        slug: 'chicken-soup',
+        name: 'Chicken Soup',
+        cuisine: 'Generic',
+        mealCategory: 'Soups',
+        foodGroup: 'Soups',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 75,
+            totalFat: { value: 2.46, percent: 3 },
+            saturatedFat: { value: 0.651, percent: 3 },
+            polyunsaturatedFat: { value: 0.554 },
+            monounsaturatedFat: { value: 1.109 },
+            cholesterol: { value: 7, percent: 2 },
+            sodium: { value: 1106, percent: 48 },
+            totalCarbohydrate: { value: 9.35, percent: 3 },
+            dietaryFiber: { value: 0.7, percent: 3 },
+            sugars: { value: 0.27 },
+            protein: { value: 4.05 },
+            calcium: { value: 17, percent: 1 },
+            iron: { value: 0.77, percent: 4 },
+            potassium: { value: 55, percent: 1 },
+            vitaminA: { value: 36, percent: 4 },
+            vitaminC: { value: 0.2, percent: 0 },
+        },
+        nutritionSummary: {
+            calories: 75,
+            fat: '2.46g',
+            carbs: '9.35g',
+            protein: '4.05g',
+            summaryText: 'Comforting soup made with chicken broth and pieces.',
+            breakdown: '29% fat, 49% carbs, 21% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup', calories: 75 },
+            { size: '100 g', calories: 31 },
+        ]
+    },
+    {
+        slug: 'baked-beans',
+        name: 'Baked Beans',
+        cuisine: 'Generic',
+        mealCategory: 'Other',
+        foodGroup: 'Beans & Legumes',
+        nutritionFacts: {
+            servingSize: '1 cup',
+            calories: 382,
+            totalFat: { value: 13.03, percent: 17 },
+            saturatedFat: { value: 4.928, percent: 25 },
+            polyunsaturatedFat: { value: 1.872 },
+            monounsaturatedFat: { value: 5.396 },
+            cholesterol: { value: 13, percent: 4 },
+            sodium: { value: 1068, percent: 46 },
+            totalCarbohydrate: { value: 54.12, percent: 20 },
+            dietaryFiber: { value: 13.9, percent: 50 },
+            protein: { value: 14.02 },
+            calcium: { value: 154, percent: 12 },
+            iron: { value: 5.03, percent: 28 },
+            potassium: { value: 906, percent: 19 },
+            vitaminA: { value: 0, percent: 0 },
+            vitaminC: { value: 2.8, percent: 3 },
+        },
+        nutritionSummary: {
+            calories: 382,
+            fat: '13.03g',
+            carbs: '54.12g',
+            protein: '14.02g',
+            summaryText: 'Haricot beans stewed in a sweet tomato sauce.',
+            breakdown: '30% fat, 56% carbs, 14% protein.'
+        },
+        servingSizes: [
+            { size: '1 cup', calories: 382 },
+            { size: '100 g', calories: 151 },
         ]
     }
 ];
