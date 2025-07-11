@@ -2,7 +2,8 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useSearchParams, useRouter } from 'next-intl/client';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next-intl/client';
 import type { SuggestMealAlternativesOutput } from "@/ai/flows/suggest-meal-alternatives";
 import { suggestMealAlternatives } from "@/ai/flows/suggest-meal-alternatives";
 import { useToast } from "@/hooks/use-toast";

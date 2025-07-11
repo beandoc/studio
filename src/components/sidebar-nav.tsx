@@ -1,7 +1,7 @@
 
 "use client";
 
-import { usePathname } from "next/navigation";
+import { usePathname } from "next-intl/client";
 import { Link } from "next-intl";
 import {
   BookUser,
@@ -69,8 +69,8 @@ export default function SidebarNav() {
 
   // A simple way to check for active links that accounts for locales
   const checkActive = (href: string) => {
-    if (href === '/') return pathname.split('/').length <= 2; // Home is active for root locale paths
-    return pathname.includes(href);
+    if (href === '/') return pathname === '/';
+    return pathname.startsWith(href);
   }
 
   return (

@@ -98,10 +98,12 @@ export default function Dashboard() {
         if (storedLog) {
             try {
                 const parsedLog: DailyLog = JSON.parse(storedLog);
-                Object.values(parsedLog.meals).flat().forEach(item => {
-                    totalProtein += item.protein;
-                    totalCarbs += item.carbs;
-                });
+                if(parsedLog && parsedLog.meals){
+                  Object.values(parsedLog.meals).flat().forEach(item => {
+                      totalProtein += item.protein;
+                      totalCarbs += item.carbs;
+                  });
+                }
             } catch (e) {
                 console.error("Failed to parse log for dashboard averages", e);
             }
