@@ -3,7 +3,7 @@
 
 /**
  * @fileOverview Provides meal alternatives based on a food database.
- * The logic finds meals with protein and carbs within a 20% range, relaxing constraints if no initial matches are found.
+ * The logic finds the two most nutritionally similar meals based on a scoring system.
  *
  * - suggestMealAlternatives - A function that suggests meal alternatives based on user input.
  * - SuggestMealAlternativesInput - The input type for the suggestMealAlternatives function.
@@ -38,55 +38,24 @@ export async function suggestMealAlternatives(input: SuggestMealAlternativesInpu
   return suggestMealAlternativesFlow(input);
 }
 
-// Helper function to find alternatives
-const findAlternatives = (originalMeal: FoodItem, sameCuisineOnly: boolean): FoodItem[] => {
-    // 1. Extract nutrition targets from the original meal
-    const originalProtein = originalMeal.nutritionFacts.protein.value;
-    const originalCarbs = originalMeal.nutritionFacts.totalCarbohydrate.value;
-    const proteinMin = originalProtein * 0.8;
-    const proteinMax = originalProtein * 1.2;
-    const carbsMin = originalCarbs * 0.8;
-    const carbsMax = originalCarbs * 1.2;
 
-    // 2. Filter the database for suitable alternatives based on nutrition
-    const suitableAlternatives = foodDatabase.filter(meal => {
-        // Must not be the same meal
-        if (meal.slug === originalMeal.slug) return false;
+// Helper function to calculate a similarity score
+const calculateSimilarityScore = (original: FoodItem, alternative: FoodItem): number => {
+    const originalProtein = original.nutritionFacts.protein.value;
+    const originalCarbs = original.nutritionFacts.totalCarbohydrate.value;
 
-        // Cuisine check (optional)
-        if (sameCuisineOnly && meal.cuisine !== originalMeal.cuisine) {
-            return false;
-        }
+    const altProtein = alternative.nutritionFacts.protein.value;
+    const altCarbs = alternative.nutritionFacts.totalCarbohydrate.value;
+    
+    // Calculate percentage difference for protein and carbs
+    const proteinDiff = originalProtein > 0 ? Math.abs(originalProtein - altProtein) / originalProtein : (altProtein > 0 ? 1 : 0);
+    const carbsDiff = originalCarbs > 0 ? Math.abs(originalCarbs - altCarbs) / originalCarbs : (altCarbs > 0 ? 1 : 0);
 
-        // Relaxed meal category check for Lunch/Dinner
-        const originalCategory = originalMeal.mealCategory;
-        const alternativeCategory = meal.mealCategory;
-        const lunchDinnerCategories = ['Lunch', 'Dinner', 'Lunch/Dinner'];
-
-        let isCategoryMatch = false;
-        if (lunchDinnerCategories.includes(originalCategory) && lunchDinnerCategories.includes(alternativeCategory)) {
-            isCategoryMatch = true;
-        } else {
-            isCategoryMatch = originalCategory === alternativeCategory;
-        }
-
-        if (!isCategoryMatch) {
-            return false;
-        }
-
-
-        // Must be within the 20% protein and carb range
-        const protein = meal.nutritionFacts.protein.value;
-        const carbs = meal.nutritionFacts.totalCarbohydrate.value;
-
-        const isProteinMatch = protein >= proteinMin && protein <= proteinMax;
-        const isCarbsMatch = carbs >= carbsMin && carbs <= carbsMax;
-        
-        return isProteinMatch && isCarbsMatch;
-    });
-
-    return suitableAlternatives;
+    // Combine differences into a single score. Lower is better.
+    // We can weigh them if one is more important than the other. Here they are weighted equally.
+    return proteinDiff + carbsDiff;
 }
+
 
 // Main flow definition
 const suggestMealAlternativesFlow = ai.defineFlow(
@@ -103,17 +72,18 @@ const suggestMealAlternativesFlow = ai.defineFlow(
       throw new Error(`Meal with slug "${input.mealSlug}" not found in the database.`);
     }
 
-    // First pass: Prioritize same cuisine
-    let suitableAlternatives = findAlternatives(originalMeal, true);
+    // 2. Calculate similarity scores for all other meals
+    const scoredAlternatives = foodDatabase
+        .filter(meal => meal.slug !== originalMeal.slug) // Exclude the original meal
+        .map(meal => ({
+            ...meal,
+            similarityScore: calculateSimilarityScore(originalMeal, meal)
+        }))
+        .sort((a, b) => a.similarityScore - b.similarityScore); // Sort by best score (lowest)
+
     
-    // Second pass: If no matches, broaden search to all cuisines
-    if (suitableAlternatives.length === 0) {
-      suitableAlternatives = findAlternatives(originalMeal, false);
-    }
-    
-    // 3. Format the output
-    // Take the first two suitable alternatives found
-    const alternatives = suitableAlternatives.slice(0, 2).map(alt => ({
+    // 3. Format the output with the top 2 alternatives
+    const alternatives = scoredAlternatives.slice(0, 2).map(alt => ({
         name: alt.name,
         description: alt.nutritionSummary.summaryText,
         nutrientInformation: `Protein: ${alt.nutritionFacts.protein.value}g, Carbs: ${alt.nutritionFacts.totalCarbohydrate.value}g, Sodium: ${alt.nutritionFacts.sodium.value}mg`,
