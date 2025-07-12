@@ -1095,6 +1095,7 @@
     {
         "slug": "chapati-1-no",
         "name": "Chapati (1 no.)",
+        "aliases": ["Roti"],
         "cuisine": "Indian",
         "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Breads & Cereals",
@@ -1252,7 +1253,7 @@
         "slug": "plain-paratha-1-no",
         "name": "Plain paratha (1 no.)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "1 serving",

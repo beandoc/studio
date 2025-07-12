@@ -50,8 +50,10 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
 
   useEffect(() => {
     if (searchTerm.length > 1) {
+      const lowercasedTerm = searchTerm.toLowerCase();
       const results = foodDatabase.filter(food =>
-        food.name.toLowerCase().includes(searchTerm.toLowerCase())
+        food.name.toLowerCase().includes(lowercasedTerm) ||
+        (food.aliases && food.aliases.some(alias => alias.toLowerCase().includes(lowercasedTerm)))
       );
       setSearchResults(results);
     } else {
