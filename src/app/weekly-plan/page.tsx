@@ -196,8 +196,6 @@ export default function WeeklyPlanPage() {
             const dailyTotals = dayPlan.meals.reduce((totals, meal) => {
                 meal.items.forEach(item => {
                     totals.calories += item.calories;
-                    // Note: Protein data is not in MealItem, so can't calculate here.
-                    // This would require a bigger change to pull from food DB.
                 });
                 return totals;
             }, { calories: 0 });
@@ -242,3 +240,5 @@ export default function WeeklyPlanPage() {
     </div>
   );
 }
+
+    

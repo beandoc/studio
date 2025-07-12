@@ -36,7 +36,7 @@ const AiMealItemSchema = z.object({
 const AiDailyPlanSchema = z.object({
     day: z.string().describe("The day of the week (e.g., 'Monday', 'Tuesday')."),
     meals: z.array(z.object({
-        type: z.enum(["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"]).describe("The type of the meal."),
+        type: z.enum(["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"]),
         items: z.array(AiMealItemSchema).describe("An array of food items for this meal. Major meals like lunch and dinner should be a combination of multiple items (e.g., a grain, a protein source, a vegetable). Snacks are usually single items."),
     })).describe("An array of meals for the day."),
     notes: z.string().optional().describe("Any specific notes or tips for the day's meals."),
@@ -85,7 +85,6 @@ const mealCategoryMap: { [key: string]: MealCategory[] } = {
   'morning snack': ['Snack'],
   'afternoon snack': ['Snack'],
   'evening snack': ['Snack'],
-  'snacks': ['Snack'],
 };
 
 
@@ -145,7 +144,7 @@ const generateDietPlanFlow = ai.defineFlow(
 
       **CRITICAL INSTRUCTIONS:**
       1.  **Strict Food Selection:** For each meal type, you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists.
-      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like Roti/Rice, a protein like Dal, a vegetable side). Snacks can be single items.
+      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like Roti/Chapati (1 no.), a protein like Plain dal (1 Katori), a vegetable side). Snacks can be single items.
       3.  **Meet Nutritional Goals:** The combination of all meals for each day should come as close as possible to the user's daily nutritional targets.
       4.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema. Do not include calorie counts or descriptions in your output.
       5.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: ${input.meals.join(', ')}.
@@ -211,3 +210,5 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
+
+    

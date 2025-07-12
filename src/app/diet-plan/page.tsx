@@ -127,7 +127,7 @@ export default function DietPlanPage() {
       const result = await generateDietPlan({ 
         healthRequirements, 
         preferences,
-        meals: data.meals.join(', '),
+        meals: data.meals,
         dailyCalorieGoal: activeProfile.calorieGoal,
         dailyProteinGoal: activeProfile.proteinGoal,
       });
@@ -395,3 +395,5 @@ export default function DietPlanPage() {
     </div>
   );
 }
+
+    
