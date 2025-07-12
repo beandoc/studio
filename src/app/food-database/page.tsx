@@ -58,16 +58,19 @@ export default function FoodDatabasePage() {
 
     const stats: Stats = useMemo(() => {
         const byFoodGroup = foodDatabase.reduce((acc, food) => {
+            if (!food.foodGroup) return acc;
             acc[food.foodGroup] = (acc[food.foodGroup] || 0) + 1;
             return acc;
         }, {} as Record<string, number>);
 
         const byMealCategory = foodDatabase.reduce((acc, food) => {
+             if (!food.mealCategory) return acc;
             acc[food.mealCategory] = (acc[food.mealCategory] || 0) + 1;
             return acc;
         }, {} as Record<string, number>);
 
         const byCuisine = foodDatabase.reduce((acc, food) => {
+            if (!food.cuisine) return acc;
             acc[food.cuisine] = (acc[food.cuisine] || 0) + 1;
             return acc;
         }, {} as Record<string, number>);
@@ -101,8 +104,10 @@ export default function FoodDatabasePage() {
                     <Database className="h-6 w-6 text-primary"/>
                     Database At a Glance
                 </CardTitle>
-                <CardDescription>
+                <CardDescription asChild>
+                  <div className="text-sm text-muted-foreground">
                     We currently have <Badge variant="secondary">{stats.total}</Badge> food items in our database.
+                  </div>
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -204,13 +209,13 @@ export default function FoodDatabasePage() {
                 <CardContent className="p-6 flex-grow">
                     <h3 className="font-bold text-lg text-primary">{food.name}</h3>
                     <div className="text-xs text-muted-foreground mt-2 space-x-2 flex flex-wrap gap-1">
-                        <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{food.foodGroup}</span>
-                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">{food.cuisine}</span>
-                        <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">{food.mealCategory}</span>
+                        {food.foodGroup && <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{food.foodGroup}</span>}
+                        {food.cuisine && <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">{food.cuisine}</span>}
+                        {food.mealCategory && <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">{food.mealCategory}</span>}
                     </div>
-                     <p className="text-sm mt-4">
+                     {food.nutritionSummary && <p className="text-sm mt-4">
                         {food.nutritionSummary.summaryText}
-                    </p>
+                    </p>}
                 </CardContent>
                 <CardFooter>
                     <Button asChild variant="outline" size="sm" className="w-full">
@@ -231,4 +236,3 @@ export default function FoodDatabasePage() {
     </div>
   );
 }
-
