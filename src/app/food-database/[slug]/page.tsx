@@ -1,8 +1,8 @@
-
 "use client";
 
-import { foodDatabase, type FoodItem } from "@/lib/food-data";
-import { notFound, useParams } from "next/navigation";
+import { foodService } from "@/services/food-service";
+import type { FoodItem } from "@/lib/food-data";
+import { notFound } from "next/navigation";
 import Header from "@/components/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -148,9 +148,8 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
 }
 
 
-export default function FoodDetailPage() {
-  const params = useParams() as { slug: string };
-  const food = foodDatabase.find((item) => item.slug === params.slug);
+export default function FoodDetailPage({ params }: { params: { slug: string } }) {
+  const food = foodService.findFoodBySlug(params.slug);
 
   if (!food) {
     notFound();

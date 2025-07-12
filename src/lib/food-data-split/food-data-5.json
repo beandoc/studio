@@ -1,0 +1,2863 @@
+
+[
+    {
+        "slug": "jaggery-cane",
+        "name": "JAGGERY (cane)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Sweets, Candy & Desserts",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 383,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 95
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 80
+            },
+            "iron": {
+                "value": 3
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 383,
+            "fat": "0.0g",
+            "carbs": "95.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for JAGGERY (cane) per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 383
+            }
+        ]
+    },
+    {
+        "slug": "jaggery-coconut-palm",
+        "name": "JAGGERY (coconut palm)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Sweets, Candy & Desserts",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 340,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 83
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 1638
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 340,
+            "fat": "0.0g",
+            "carbs": "83.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for JAGGERY (coconut palm) per 100g.",
+            "breakdown": "0% fat, 99% carbs, 1% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 340
+            }
+        ]
+    },
+    {
+        "slug": "jaggery-date-palm",
+        "name": "JAGGERY (date palm)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Sweets, Candy & Desserts",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 353,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 86
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 363
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 353,
+            "fat": "0.0g",
+            "carbs": "86.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for JAGGERY (date palm) per 100g.",
+            "breakdown": "0% fat, 99% carbs, 1% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 353
+            }
+        ]
+    },
+    {
+        "slug": "jaggery-fan-palm",
+        "name": "JAGGERY (fan palm)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Sweets, Candy & Desserts",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 359,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 98
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 225
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 359,
+            "fat": "0.0g",
+            "carbs": "98.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for JAGGERY (fan palm) per 100g.",
+            "breakdown": "0% fat, 99% carbs, 1% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 359
+            }
+        ]
+    },
+    {
+        "slug": "jaggery-sago-palm",
+        "name": "JAGGERY (sago palm)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Sweets, Candy & Desserts",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 349,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 85
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 1252
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 349,
+            "fat": "0.0g",
+            "carbs": "85.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for JAGGERY (sago palm) per 100g.",
+            "breakdown": "0% fat, 98% carbs, 2% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 349
+            }
+        ]
+    },
+    {
+        "slug": "sago",
+        "name": "SAGO",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 351,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 87
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 351,
+            "fat": "0.0g",
+            "carbs": "87.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for SAGO per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 351
+            }
+        ]
+    },
+    {
+        "slug": "sugar-cane-juice",
+        "name": "SUGAR CANE JUICE",
+        "cuisine": "Indian",
+        "mealCategory": "Beverages",
+        "foodGroup": "Beverages",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 39,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 9
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 39,
+            "fat": "0.0g",
+            "carbs": "9.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for SUGAR CANE JUICE per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 39
+            }
+        ]
+    },
+    {
+        "slug": "coconut-oil",
+        "name": "COCONUT OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 0,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 88
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 8
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 0,
+            "fat": "0.0g",
+            "carbs": "88.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for COCONUT OIL per 100g.",
+            "breakdown": "0% fat, 98% carbs, 2% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 0
+            }
+        ]
+    },
+    {
+        "slug": "corn-oil",
+        "name": "CORN OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 11,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 13
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 25
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 11,
+            "fat": "0.0g",
+            "carbs": "13.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for CORN OIL per 100g.",
+            "breakdown": "0% fat, 87% carbs, 13% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 11
+            }
+        ]
+    },
+    {
+        "slug": "cotton-seed-oil",
+        "name": "COTTON SEED OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 24,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 26
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 23
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 24,
+            "fat": "0.0g",
+            "carbs": "26.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for COTTON SEED OIL per 100g.",
+            "breakdown": "0% fat, 96% carbs, 4% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 24
+            }
+        ]
+    },
+    {
+        "slug": "groundnut-oil",
+        "name": "GROUNDNUT OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 13,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 21
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 48
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 13,
+            "fat": "1.0g",
+            "carbs": "21.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for GROUNDNUT OIL per 100g.",
+            "breakdown": "7% fat, 88% carbs, 5% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 13
+            }
+        ]
+    },
+    {
+        "slug": "mustard-or-rapeseed-oil",
+        "name": "MUSTARD or RAPESEED OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 3,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 11
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 7
+            },
+            "calcium": {
+                "value": 9
+            },
+            "iron": {
+                "value": 14
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 3,
+            "fat": "1.0g",
+            "carbs": "11.0g",
+            "protein": "7.0g",
+            "summaryText": "Nutritional facts for MUSTARD or RAPESEED OIL per 100g.",
+            "breakdown": "33% fat, 39% carbs, 28% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 3
+            }
+        ]
+    },
+    {
+        "slug": "olive-oil",
+        "name": "OLIVE OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 11,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 14
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 71
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 11,
+            "fat": "0.0g",
+            "carbs": "14.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for OLIVE OIL per 100g.",
+            "breakdown": "0% fat, 88% carbs, 12% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 11
+            }
+        ]
+    },
+    {
+        "slug": "palm-oil",
+        "name": "PALM OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 42,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 48
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 4
+            },
+            "calcium": {
+                "value": 38
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 42,
+            "fat": "0.0g",
+            "carbs": "48.0g",
+            "protein": "4.0g",
+            "summaryText": "Nutritional facts for PALM OIL per 100g.",
+            "breakdown": "0% fat, 92% carbs, 8% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 42
+            }
+        ]
+    },
+    {
+        "slug": "palmolein",
+        "name": "PALMOLEIN",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 42,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 48
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 3
+            },
+            "calcium": {
+                "value": 41
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 42,
+            "fat": "0.0g",
+            "carbs": "48.0g",
+            "protein": "3.0g",
+            "summaryText": "Nutritional facts for PALMOLEIN per 100g.",
+            "breakdown": "0% fat, 93% carbs, 7% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 42
+            }
+        ]
+    },
+    {
+        "slug": "rice-bran-oil",
+        "name": "RICE BRAN OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 16,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 19
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 39
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 16,
+            "fat": "0.0g",
+            "carbs": "19.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for RICE BRAN OIL per 100g.",
+            "breakdown": "0% fat, 90% carbs, 10% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 16
+            }
+        ]
+    },
+    {
+        "slug": "saflower-oil",
+        "name": "SAFLOWER OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 8,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 11
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 18
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 8,
+            "fat": "0.0g",
+            "carbs": "11.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for SAFLOWER OIL per 100g.",
+            "breakdown": "0% fat, 85% carbs, 15% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 8
+            }
+        ]
+    },
+    {
+        "slug": "sesame-oil",
+        "name": "SESAME OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 10,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 13
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 3
+            },
+            "calcium": {
+                "value": 41
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 10,
+            "fat": "0.0g",
+            "carbs": "13.0g",
+            "protein": "3.0g",
+            "summaryText": "Nutritional facts for SESAME OIL per 100g.",
+            "breakdown": "0% fat, 81% carbs, 19% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 10
+            }
+        ]
+    },
+    {
+        "slug": "soyabean-oil",
+        "name": "SOYABEAN OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 10,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 13
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 29
+            },
+            "iron": {
+                "value": 6
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 10,
+            "fat": "0.0g",
+            "carbs": "13.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for SOYABEAN OIL per 100g.",
+            "breakdown": "0% fat, 87% carbs, 13% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 10
+            }
+        ]
+    },
+    {
+        "slug": "sunflower-oil",
+        "name": "SUNFLOWER OIL",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 6,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 9
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 25
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 6,
+            "fat": "0.0g",
+            "carbs": "9.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for SUNFLOWER OIL per 100g.",
+            "breakdown": "0% fat, 82% carbs, 18% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 6
+            }
+        ]
+    },
+    {
+        "slug": "butter-oil",
+        "name": "BUTTER oil",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 21,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 50
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 10
+            },
+            "calcium": {
+                "value": 20
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 21,
+            "fat": "0.0g",
+            "carbs": "50.0g",
+            "protein": "10.0g",
+            "summaryText": "Nutritional facts for BUTTER oil per 100g.",
+            "breakdown": "0% fat, 83% carbs, 17% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 21
+            }
+        ]
+    },
+    {
+        "slug": "chapati-1-no",
+        "name": "Chapati (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 147,
+            "totalFat": {
+                "value": 5.5
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 21
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 3.6
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 147,
+            "fat": "5.5g",
+            "carbs": "21.0g",
+            "protein": "3.6g",
+            "summaryText": "Nutritional facts for Chapati (1 no.) per serving.",
+            "breakdown": "34% fat, 57% carbs, 9% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 147
+            }
+        ]
+    },
+    {
+        "slug": "phulkas-1-no",
+        "name": "Phulkas (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 51,
+            "totalFat": {
+                "value": 0.3
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10
+            },
+            "dietaryFiber": {
+                "value": 0.5
+            },
+            "protein": {
+                "value": 1.8
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 51,
+            "fat": "0.3g",
+            "carbs": "10.0g",
+            "protein": "1.8g",
+            "summaryText": "Nutritional facts for Phulkas (1 no.) per serving.",
+            "breakdown": "5% fat, 78% carbs, 17% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 51
+            }
+        ]
+    },
+    {
+        "slug": "puri-1-no",
+        "name": "Puri (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 69,
+            "totalFat": {
+                "value": 5.1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 5
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0.8
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 69,
+            "fat": "5.1g",
+            "carbs": "5.0g",
+            "protein": "0.8g",
+            "summaryText": "Nutritional facts for Puri (1 no.) per serving.",
+            "breakdown": "67% fat, 29% carbs, 4% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 69
+            }
+        ]
+    },
+    {
+        "slug": "plain-paratha-1-no",
+        "name": "Plain paratha (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 141,
+            "totalFat": {
+                "value": 10.25
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10
+            },
+            "dietaryFiber": {
+                "value": 0.5
+            },
+            "protein": {
+                "value": 1.8
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 141,
+            "fat": "10.3g",
+            "carbs": "10.0g",
+            "protein": "1.8g",
+            "summaryText": "Nutritional facts for Plain paratha (1 no.) per serving.",
+            "breakdown": "65% fat, 28% carbs, 7% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 141
+            }
+        ]
+    },
+    {
+        "slug": "stuffed-paratha-1-no",
+        "name": "Stuffed paratha (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 175,
+            "totalFat": {
+                "value": 10.25
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 21
+            },
+            "dietaryFiber": {
+                "value": 0.5
+            },
+            "protein": {
+                "value": 2.4
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 175,
+            "fat": "10.3g",
+            "carbs": "21.0g",
+            "protein": "2.4g",
+            "summaryText": "Nutritional facts for Stuffed paratha (1 no.) per serving.",
+            "breakdown": "53% fat, 48% carbs, -1% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 175
+            }
+        ]
+    },
+    {
+        "slug": "bajra-bhakri-1-no",
+        "name": "Bajra bhakri (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 108,
+            "totalFat": {
+                "value": 1.5
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 20
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 3.5
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 108,
+            "fat": "1.5g",
+            "carbs": "20.0g",
+            "protein": "3.5g",
+            "summaryText": "Nutritional facts for Bajra bhakri (1 no.) per serving.",
+            "breakdown": "12% fat, 74% carbs, 14% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 108
+            }
+        ]
+    },
+    {
+        "slug": "jowar-bhakri-1-no",
+        "name": "Jowar bhakri (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 105,
+            "totalFat": {
+                "value": 0.6
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 22
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 3.1
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 105,
+            "fat": "0.6g",
+            "carbs": "22.0g",
+            "protein": "3.1g",
+            "summaryText": "Nutritional facts for Jowar bhakri (1 no.) per serving.",
+            "breakdown": "5% fat, 84% carbs, 11% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 105
+            }
+        ]
+    },
+    {
+        "slug": "khakhra-1-no",
+        "name": "Khakhra (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 51,
+            "totalFat": {
+                "value": 0.3
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10
+            },
+            "dietaryFiber": {
+                "value": 0.5
+            },
+            "protein": {
+                "value": 1.8
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 51,
+            "fat": "0.3g",
+            "carbs": "10.0g",
+            "protein": "1.8g",
+            "summaryText": "Nutritional facts for Khakhra (1 no.) per serving.",
+            "breakdown": "5% fat, 78% carbs, 17% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 51
+            }
+        ]
+    },
+    {
+        "slug": "potato-bhaji-1-katori",
+        "name": "Potato bhaji (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 179,
+            "totalFat": {
+                "value": 5.1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 31
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 2.2
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 179,
+            "fat": "5.1g",
+            "carbs": "31.0g",
+            "protein": "2.2g",
+            "summaryText": "Nutritional facts for Potato bhaji (1 katori) per serving.",
+            "breakdown": "26% fat, 69% carbs, 5% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 179
+            }
+        ]
+    },
+    {
+        "slug": "potato-wafers-1-katori",
+        "name": "Potato wafers (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 106,
+            "totalFat": {
+                "value": 8
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0.6
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 106,
+            "fat": "8.0g",
+            "carbs": "10.0g",
+            "protein": "0.6g",
+            "summaryText": "Nutritional facts for Potato wafers (1 katori) per serving.",
+            "breakdown": "68% fat, 38% carbs, -6% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 106
+            }
+        ]
+    },
+    {
+        "slug": "potato-tikki-shallow-fried-1-no",
+        "name": "Potato tikki (shallow fried) (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 23,
+            "totalFat": {
+                "value": 2.5
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3.4
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0.2
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 23,
+            "fat": "2.5g",
+            "carbs": "3.4g",
+            "protein": "0.2g",
+            "summaryText": "Nutritional facts for Potato tikki (shallow fried) (1 no.) per serving.",
+            "breakdown": "98% fat, 59% carbs, -57% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 23
+            }
+        ]
+    },
+    {
+        "slug": "potato-tikki-deep-fried-1-no",
+        "name": "Potato tikki (deep fried) (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 60,
+            "totalFat": {
+                "value": 5
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3.4
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0.2
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 60,
+            "fat": "5.0g",
+            "carbs": "3.4g",
+            "protein": "0.2g",
+            "summaryText": "Nutritional facts for Potato tikki (deep fried) (1 no.) per serving.",
+            "breakdown": "75% fat, 23% carbs, 2% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 60
+            }
+        ]
+    },
+    {
+        "slug": "cooked-rice-1-katori",
+        "name": "Cooked rice (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Pasta, Rice & Noodles",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 104,
+            "totalFat": {
+                "value": 0.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 23
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 104,
+            "fat": "0.2g",
+            "carbs": "23.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for Cooked rice (1 katori) per serving.",
+            "breakdown": "2% fat, 89% carbs, 9% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 104
+            }
+        ]
+    },
+    {
+        "slug": "khichadi-1-katori",
+        "name": "Khichadi (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Pasta, Rice & Noodles",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 104,
+            "totalFat": {
+                "value": 0.3
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 20
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 4.7
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 104,
+            "fat": "0.3g",
+            "carbs": "20.0g",
+            "protein": "4.7g",
+            "summaryText": "Nutritional facts for Khichadi (1 katori) per serving.",
+            "breakdown": "3% fat, 77% carbs, 20% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 104
+            }
+        ]
+    },
+    {
+        "slug": "plain-dal-1-katori",
+        "name": "Plain dal (1 Katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Soups",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 101,
+            "totalFat": {
+                "value": 0.5
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 17
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 6.7
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 101,
+            "fat": "0.5g",
+            "carbs": "17.0g",
+            "protein": "6.7g",
+            "summaryText": "Nutritional facts for Plain dal (1 Katori) per serving.",
+            "breakdown": "4% fat, 67% carbs, 29% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 101
+            }
+        ]
+    },
+    {
+        "slug": "dal-with-vaghar-1-katori",
+        "name": "Dal with vaghar (1 Katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Soups",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 146,
+            "totalFat": {
+                "value": 5.5
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 17
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 6.7
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 146,
+            "fat": "5.5g",
+            "carbs": "17.0g",
+            "protein": "6.7g",
+            "summaryText": "Nutritional facts for Dal with vaghar (1 Katori) per serving.",
+            "breakdown": "34% fat, 47% carbs, 19% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 146
+            }
+        ]
+    },
+    {
+        "slug": "mung-ki-dal-1-katori",
+        "name": "Mung ki dal (1 Katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Soups",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 104,
+            "totalFat": {
+                "value": 0.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 18
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 7.4
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 104,
+            "fat": "0.2g",
+            "carbs": "18.0g",
+            "protein": "7.4g",
+            "summaryText": "Nutritional facts for Mung ki dal (1 Katori) per serving.",
+            "breakdown": "2% fat, 69% carbs, 29% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 104
+            }
+        ]
+    },
+    {
+        "slug": "mung-ki-dal-with-voghar-1-katori",
+        "name": "Mung ki dal with Voghar (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Soups",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 149,
+            "totalFat": {
+                "value": 5.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 18
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 7.4
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 149,
+            "fat": "5.2g",
+            "carbs": "18.0g",
+            "protein": "7.4g",
+            "summaryText": "Nutritional facts for Mung ki dal with Voghar (1 katori) per serving.",
+            "breakdown": "31% fat, 48% carbs, 21% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 149
+            }
+        ]
+    },
+    {
+        "slug": "masoor-ki-dal-1-katori",
+        "name": "Masoor ki dal (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Soups",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 149,
+            "totalFat": {
+                "value": 5.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 18
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 7.6
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 149,
+            "fat": "5.2g",
+            "carbs": "18.0g",
+            "protein": "7.6g",
+            "summaryText": "Nutritional facts for Masoor ki dal (1 katori) per serving.",
+            "breakdown": "31% fat, 48% carbs, 21% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 149
+            }
+        ]
+    },
+    {
+        "slug": "samosa-1-no",
+        "name": "Samosa (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 248,
+            "totalFat": {
+                "value": 18.1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 21
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2.3
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 248,
+            "fat": "18.1g",
+            "carbs": "21.0g",
+            "protein": "2.3g",
+            "summaryText": "Nutritional facts for Samosa (1 no.) per serving.",
+            "breakdown": "66% fat, 32% carbs, 2% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 248
+            }
+        ]
+    },
+    {
+        "slug": "sev-1-katori",
+        "name": "Sev (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 374,
+            "totalFat": {
+                "value": 27.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 24
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 8.3
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 374,
+            "fat": "27.2g",
+            "carbs": "24.0g",
+            "protein": "8.3g",
+            "summaryText": "Nutritional facts for Sev (1 katori) per serving.",
+            "breakdown": "65% fat, 26% carbs, 9% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 374
+            }
+        ]
+    },
+    {
+        "slug": "methi-muthia-8-no",
+        "name": "Methi muthia (8 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 188,
+            "totalFat": {
+                "value": 13.8
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10.4
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 3.7
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 188,
+            "fat": "13.8g",
+            "carbs": "10.4g",
+            "protein": "3.7g",
+            "summaryText": "Nutritional facts for Methi muthia (8 no.) per serving.",
+            "breakdown": "66% fat, 22% carbs, 12% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 188
+            }
+        ]
+    },
+    {
+        "slug": "potato-wada-1-no",
+        "name": "Potato wada (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 118,
+            "totalFat": {
+                "value": 3.7
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 22
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 3.1
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 118,
+            "fat": "3.7g",
+            "carbs": "22.0g",
+            "protein": "3.1g",
+            "summaryText": "Nutritional facts for Potato wada (1 no.) per serving.",
+            "breakdown": "28% fat, 74% carbs, -1% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 118
+            }
+        ]
+    },
+    {
+        "slug": "french-fries-8-9-no",
+        "name": "French fries (8-9 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 140,
+            "totalFat": {
+                "value": 8.1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 16
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 1.1
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 140,
+            "fat": "8.1g",
+            "carbs": "16.0g",
+            "protein": "1.1g",
+            "summaryText": "Nutritional facts for French fries (8-9 no.) per serving.",
+            "breakdown": "52% fat, 46% carbs, 2% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 140
+            }
+        ]
+    },
+    {
+        "slug": "bread-slices-2-no",
+        "name": "Bread slices (2 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 98,
+            "totalFat": {
+                "value": 0.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 20.7
+            },
+            "dietaryFiber": {
+                "value": 0.08
+            },
+            "protein": {
+                "value": 3.1
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 98,
+            "fat": "0.2g",
+            "carbs": "20.7g",
+            "protein": "3.1g",
+            "summaryText": "Nutritional facts for Bread slices (2 no.) per serving.",
+            "breakdown": "2% fat, 85% carbs, 13% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 98
+            }
+        ]
+    },
+    {
+        "slug": "vegetable-sandwich-1-no",
+        "name": "Vegetable -Sandwich (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 179,
+            "totalFat": {
+                "value": 5.5
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 30
+            },
+            "dietaryFiber": {
+                "value": 0.2
+            },
+            "protein": {
+                "value": 3.7
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 179,
+            "fat": "5.5g",
+            "carbs": "30.0g",
+            "protein": "3.7g",
+            "summaryText": "Nutritional facts for Vegetable -Sandwich (1 no.) per serving.",
+            "breakdown": "28% fat, 67% carbs, 5% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 179
+            }
+        ]
+    },
+    {
+        "slug": "idli-1-no",
+        "name": "Idli (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 69,
+            "totalFat": {
+                "value": 0.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 15
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 1.2
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 69,
+            "fat": "0.2g",
+            "carbs": "15.0g",
+            "protein": "1.2g",
+            "summaryText": "Nutritional facts for Idli (1 no.) per serving.",
+            "breakdown": "3% fat, 87% carbs, 10% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 69
+            }
+        ]
+    },
+    {
+        "slug": "dosa-1-no",
+        "name": "Dosa (1 no.)",
+        "cuisine": "Indian",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 145,
+            "totalFat": {
+                "value": 5.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 21.5
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2.8
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 145,
+            "fat": "5.2g",
+            "carbs": "21.5g",
+            "protein": "2.8g",
+            "summaryText": "Nutritional facts for Dosa (1 no.) per serving.",
+            "breakdown": "32% fat, 59% carbs, 9% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 145
+            }
+        ]
+    },
+    {
+        "slug": "green-chutney-1-tb-sp",
+        "name": "Green chutney (1 Tb sp)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Sauces, Spices & Spreads",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 34,
+            "totalFat": {
+                "value": 1.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 5.7
+            },
+            "dietaryFiber": {
+                "value": 0.2
+            },
+            "protein": {
+                "value": 0.2
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 34,
+            "fat": "1.2g",
+            "carbs": "5.7g",
+            "protein": "0.2g",
+            "summaryText": "Nutritional facts for Green chutney (1 Tb sp) per serving.",
+            "breakdown": "32% fat, 67% carbs, 1% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 34
+            }
+        ]
+    },
+    {
+        "slug": "sambhaar-1-katori",
+        "name": "Sambhaar (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Soups",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 200,
+            "totalFat": {
+                "value": 5.9
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 27.2
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 8.9
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 200,
+            "fat": "5.9g",
+            "carbs": "27.2g",
+            "protein": "8.9g",
+            "summaryText": "Nutritional facts for Sambhaar (1 katori) per serving.",
+            "breakdown": "27% fat, 54% carbs, 19% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 200
+            }
+        ]
+    },
+    {
+        "slug": "upma-1-katori",
+        "name": "Upma (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 129,
+            "totalFat": {
+                "value": 5.2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 18
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2.4
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 129,
+            "fat": "5.2g",
+            "carbs": "18.0g",
+            "protein": "2.4g",
+            "summaryText": "Nutritional facts for Upma (1 katori) per serving.",
+            "breakdown": "36% fat, 56% carbs, 8% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 129
+            }
+        ]
+    },
+    {
+        "slug": "pohe-1-katori",
+        "name": "Pohe (1 katori)",
+        "cuisine": "Indian",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 164,
+            "totalFat": {
+                "value": 5.4
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 26
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2.4
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 164,
+            "fat": "5.4g",
+            "carbs": "26.0g",
+            "protein": "2.4g",
+            "summaryText": "Nutritional facts for Pohe (1 katori) per serving.",
+            "breakdown": "30% fat, 63% carbs, 7% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 164
+            }
+        ]
+    },
+    {
+        "slug": "khatta-dhokla-1-serving",
+        "name": "Khatta dhokla (1 serving)",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Snacks",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 217,
+            "totalFat": {
+                "value": 6.1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 31
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 6.3
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 217,
+            "fat": "6.1g",
+            "carbs": "31.0g",
+            "protein": "6.3g",
+            "summaryText": "Nutritional facts for Khatta dhokla (1 serving) per serving.",
+            "breakdown": "25% fat, 57% carbs, 18% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 217
+            }
+        ]
+    },
+    {
+        "slug": "curd-1-bowl",
+        "name": "Curd (1 bowl)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "1 serving",
+            "calories": 234,
+            "totalFat": {
+                "value": 13
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 8.6
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 234,
+            "fat": "13.0g",
+            "carbs": "10.0g",
+            "protein": "8.6g",
+            "summaryText": "Nutritional facts for Curd (1 bowl) per serving.",
+            "breakdown": "50% fat, 17% carbs, 33% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "1 serving",
+                "calories": 234
+            }
+        ]
+    }
+]

@@ -1,8 +1,8 @@
-
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
-import { foodDatabase, type FoodItem } from '@/lib/food-data';
+import { foodService } from '@/services/food-service';
+import type { FoodItem } from '@/lib/food-data';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -26,6 +26,8 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedServing, setSelectedServing] = useState<string>("");
+  
+  const foodDatabase = useMemo(() => foodService.getFoodDatabase(), []);
 
   const frequentItems = useMemo(() => {
     const allItemsInCategory = dailyLog.meals[category];
@@ -43,7 +45,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
       .filter((item): item is FoodItem => !!item);
       
     return sortedItems.slice(0, 5);
-  }, [dailyLog, category]);
+  }, [dailyLog, category, foodDatabase]);
 
 
   useEffect(() => {
@@ -55,7 +57,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     } else {
       setSearchResults([]);
     }
-  }, [searchTerm]);
+  }, [searchTerm, foodDatabase]);
   
   const handleSelectFood = (food: FoodItem) => {
     setSelectedFood(food);

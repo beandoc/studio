@@ -1,6 +1,4 @@
 
-import foodData from './food-data.json';
-
 export type FoodGroup = 
     | 'Beans & Legumes'
     | 'Beverages'
@@ -65,5 +63,3 @@ export type FoodItem = {
         [key: string]: string[];
     }
 };
-
-export const foodDatabase: FoodItem[] = foodData;

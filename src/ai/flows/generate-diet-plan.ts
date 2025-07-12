@@ -11,7 +11,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
-import { foodDatabase } from '@/lib/food-data';
+import { foodService } from '@/services/food-service';
 
 const GenerateDietPlanInputSchema = z.object({
   healthRequirements: z
@@ -46,18 +46,25 @@ const GenerateDietPlanOutputSchema = z.object({
 export type GenerateDietPlanOutput = z.infer<typeof GenerateDietPlanOutputSchema>;
 
 export async function generateDietPlan(input: Omit<GenerateDietPlanInput, 'foodList'>): Promise<GenerateDietPlanOutput> {
+  const foodDatabase = foodService.getFoodDatabase();
   
-  // Filter food database based on user preferences (e.g., vegetarian)
-  // A simple implementation for now. This could be expanded.
   const isVegetarian = input.preferences.toLowerCase().includes('vegetarian');
   const isNonVegetarian = input.preferences.toLowerCase().includes('non-vegetarian');
+  const isVegan = input.preferences.toLowerCase().includes('vegan');
 
   let relevantFoods = foodDatabase;
-  if (isVegetarian && !isNonVegetarian) {
+
+  if(isVegan) {
+    relevantFoods = foodDatabase.filter(food => 
+        food.foodGroup !== 'Meat' && 
+        food.foodGroup !== 'Fish & Seafood' && 
+        food.foodGroup !== 'Eggs' &&
+        food.foodGroup !== 'Cheese, Milk & Dairy'
+    );
+  } else if (isVegetarian && !isNonVegetarian) {
       relevantFoods = foodDatabase.filter(food => 
           food.foodGroup !== 'Meat' && 
-          food.foodGroup !== 'Fish & Seafood' && 
-          food.foodGroup !== 'Eggs'
+          food.foodGroup !== 'Fish & Seafood'
       );
   }
 
@@ -100,11 +107,9 @@ const generateDietPlanFlow = ai.defineFlow(
     outputSchema: GenerateDietPlanOutputSchema,
   },
   async input => {
-    // Before calling the prompt, find the calorie and description details for the meals.
-    // This is a simplified approach. A more advanced version could do this after the LLM selects the meals.
+    const foodDatabase = foodService.getFoodDatabase();
     const {output} = await prompt(input);
 
-    // Post-processing to ensure calorie counts and descriptions are accurate based on the database
     if (output && output.plan) {
         output.plan.forEach(day => {
             day.meals.forEach(meal => {
@@ -120,3 +125,4 @@ const generateDietPlanFlow = ai.defineFlow(
     return output!;
   }
 );
+    

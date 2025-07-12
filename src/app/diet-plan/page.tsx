@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -41,7 +40,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useRouter } from "next/navigation";
-import { foodDatabase } from "@/lib/food-data";
+import { foodService } from "@/services/food-service";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { useProfile } from "@/context/profile-context";
@@ -149,6 +148,7 @@ export default function DietPlanPage() {
     const meal = dayPlan?.meals.find(m => m.type.toLowerCase() === mealType.toLowerCase())?.details;
 
     if (meal && meal.name) {
+        const foodDatabase = foodService.getFoodDatabase();
         const mealToFlip = foodDatabase.find(food => food.name === meal.name);
         if (mealToFlip) {
             router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}&day=${day}&mealType=${mealType}`);
@@ -382,7 +382,4 @@ export default function DietPlanPage() {
     </div>
   );
 }
-
-    
-
     

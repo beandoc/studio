@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
@@ -17,7 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Zap, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { foodDatabase, type FoodItem } from "@/lib/food-data";
+import { foodService } from "@/services/food-service";
+import type { FoodItem } from "@/lib/food-data";
 import Link from "next/link";
 import { useProfile } from "@/context/profile-context";
 
@@ -44,7 +44,7 @@ function MealAlternativesContent() {
       return;
     }
 
-    const foundOriginalMeal = foodDatabase.find(meal => meal.slug === mealSlug);
+    const foundOriginalMeal = foodService.findFoodBySlug(mealSlug);
     if (!foundOriginalMeal) {
       toast({
         variant: "destructive",
@@ -92,7 +92,8 @@ function MealAlternativesContent() {
         toast({ variant: "destructive", title: "Error", description: "Could not find profile, diet plan, or meal details to perform the swap." });
         return;
     }
-
+    
+    const foodDatabase = foodService.getFoodDatabase();
     const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
     if (!newMealData) {
         toast({ variant: "destructive", title: "Error", description: "Could not find new meal data for the swap." });

@@ -1,0 +1,1303 @@
+
+[
+    {
+        "slug": "snake-gourd",
+        "name": "SNAKE GOURD",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 18,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 26
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 18,
+            "fat": "0.0g",
+            "carbs": "3.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for SNAKE GOURD per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 18
+            }
+        ]
+    },
+    {
+        "slug": "sundakai-dry",
+        "name": "SUNDAKAI, dry",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 269,
+            "totalFat": {
+                "value": 2
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 55
+            },
+            "dietaryFiber": {
+                "value": 18
+            },
+            "protein": {
+                "value": 8
+            },
+            "calcium": {
+                "value": 390
+            },
+            "iron": {
+                "value": 22
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 269,
+            "fat": "2.0g",
+            "carbs": "55.0g",
+            "protein": "8.0g",
+            "summaryText": "Nutritional facts for SUNDAKAI, dry per 100g.",
+            "breakdown": "7% fat, 82% carbs, 11% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 269
+            }
+        ]
+    },
+    {
+        "slug": "sword-beans",
+        "name": "SWORD BEANS",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Beans & Legumes",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 44,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 8
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 3
+            },
+            "calcium": {
+                "value": 60
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 44,
+            "fat": "0.0g",
+            "carbs": "8.0g",
+            "protein": "3.0g",
+            "summaryText": "Nutritional facts for SWORD BEANS per 100g.",
+            "breakdown": "0% fat, 73% carbs, 27% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 44
+            }
+        ]
+    },
+    {
+        "slug": "tinda-tender",
+        "name": "TINDA, tender",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 21,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 25
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 21,
+            "fat": "0.0g",
+            "carbs": "3.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for TINDA, tender per 100g.",
+            "breakdown": "0% fat, 57% carbs, 43% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 21
+            }
+        ]
+    },
+    {
+        "slug": "tomato-green",
+        "name": "TOMATO, green",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 23,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 4
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 20
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 23,
+            "fat": "1.0g",
+            "carbs": "4.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for TOMATO, green per 100g.",
+            "breakdown": "39% fat, 42% carbs, 19% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 23
+            }
+        ]
+    },
+    {
+        "slug": "tomatillo",
+        "name": "TOMATILLO",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 31,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 6
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 7
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 31,
+            "fat": "1.0g",
+            "carbs": "6.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for TOMATILLO per 100g.",
+            "breakdown": "29% fat, 58% carbs, 13% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 31
+            }
+        ]
+    },
+    {
+        "slug": "tree-tomato",
+        "name": "TREE TOMATO",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 35,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 7
+            },
+            "dietaryFiber": {
+                "value": 4
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 12
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 35,
+            "fat": "0.0g",
+            "carbs": "7.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for TREE TOMATO per 100g.",
+            "breakdown": "0% fat, 87% carbs, 13% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 35
+            }
+        ]
+    },
+    {
+        "slug": "wood-apple",
+        "name": "WOOD APPLE",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 134,
+            "totalFat": {
+                "value": 4
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 18
+            },
+            "dietaryFiber": {
+                "value": 5
+            },
+            "protein": {
+                "value": 7
+            },
+            "calcium": {
+                "value": 130
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 134,
+            "fat": "4.0g",
+            "carbs": "18.0g",
+            "protein": "7.0g",
+            "summaryText": "Nutritional facts for WOOD APPLE per 100g.",
+            "breakdown": "27% fat, 54% carbs, 19% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 134
+            }
+        ]
+    },
+    {
+        "slug": "zizyphus",
+        "name": "ZIZYPHUS",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 74,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 17
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 4
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 74,
+            "fat": "0.0g",
+            "carbs": "17.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for ZIZYPHUS per 100g.",
+            "breakdown": "0% fat, 94% carbs, 6% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 74
+            }
+        ]
+    },
+    {
+        "slug": "milk-cows",
+        "name": "MILK cow's",
+        "cuisine": "Indian",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 67,
+            "totalFat": {
+                "value": 4
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 4
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 3
+            },
+            "calcium": {
+                "value": 120
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 67,
+            "fat": "4.0g",
+            "carbs": "4.0g",
+            "protein": "3.0g",
+            "summaryText": "Nutritional facts for MILK cow's per 100g.",
+            "breakdown": "54% fat, 24% carbs, 22% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 67
+            }
+        ]
+    },
+    {
+        "slug": "curds",
+        "name": "CURDS",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 60,
+            "totalFat": {
+                "value": 4
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 3
+            },
+            "calcium": {
+                "value": 149
+            },
+            "iron": {
+            "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 60,
+            "fat": "4.0g",
+            "carbs": "3.0g",
+            "protein": "3.0g",
+            "summaryText": "Nutritional facts for CURDS per 100g.",
+            "breakdown": "60% fat, 20% carbs, 20% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 60
+            }
+        ]
+    },
+    {
+        "slug": "butter-milk",
+        "name": "BUTTER MILK",
+        "cuisine": "Indian",
+        "mealCategory": "Beverages",
+        "foodGroup": "Beverages",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 15,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 0
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 30
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 15,
+            "fat": "1.0g",
+            "carbs": "0.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for BUTTER MILK per 100g.",
+            "breakdown": "60% fat, 0% carbs, 40% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 15
+            }
+        ]
+    },
+    {
+        "slug": "skimmed-milk-liquid",
+        "name": "SKIMMED MILK, liquid",
+        "cuisine": "Indian",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 29,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 5
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 120
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 29,
+            "fat": "0.0g",
+            "carbs": "5.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for SKIMMED MILK, liquid per 100g.",
+            "breakdown": "0% fat, 71% carbs, 29% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 29
+            }
+        ]
+    },
+    {
+        "slug": "channa",
+        "name": "CHANNA",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Beans & Legumes",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 265,
+            "totalFat": {
+                "value": 21
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 1
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 18
+            },
+            "calcium": {
+                "value": 208
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 265,
+            "fat": "21.0g",
+            "carbs": "1.0g",
+            "protein": "18.0g",
+            "summaryText": "Nutritional facts for CHANNA per 100g.",
+            "breakdown": "72% fat, 1% carbs, 27% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 265
+            }
+        ]
+    },
+    {
+        "slug": "cheese",
+        "name": "CHEESE",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 348,
+            "totalFat": {
+                "value": 25
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 6
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 24
+            },
+            "calcium": {
+                "value": 790
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 348,
+            "fat": "25.0g",
+            "carbs": "6.0g",
+            "protein": "24.0g",
+            "summaryText": "Nutritional facts for CHEESE per 100g.",
+            "breakdown": "65% fat, 7% carbs, 28% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 348
+            }
+        ]
+    },
+    {
+        "slug": "khoa-whole-cow-milk",
+        "name": "KHOA (whole cow milk)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 413,
+            "totalFat": {
+                "value": 26
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 25
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 20
+            },
+            "calcium": {
+                "value": 956
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 413,
+            "fat": "26.0g",
+            "carbs": "25.0g",
+            "protein": "20.0g",
+            "summaryText": "Nutritional facts for KHOA (whole cow milk) per 100g.",
+            "breakdown": "57% fat, 24% carbs, 19% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 413
+            }
+        ]
+    },
+    {
+        "slug": "khoa-whole-buffalo",
+        "name": "KHOA (whole buffalo)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 421,
+            "totalFat": {
+                "value": 31
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 20
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 15
+            },
+            "calcium": {
+                "value": 650
+            },
+            "iron": {
+                "value": 6
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 421,
+            "fat": "31.0g",
+            "carbs": "20.0g",
+            "protein": "15.0g",
+            "summaryText": "Nutritional facts for KHOA (whole buffalo) per 100g.",
+            "breakdown": "66% fat, 19% carbs, 15% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 421
+            }
+        ]
+    },
+    {
+        "slug": "whole-milk-powder-cows",
+        "name": "WHOLE MILK POWDER (cow's)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 496,
+            "totalFat": {
+                "value": 27
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 38
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 26
+            },
+            "calcium": {
+                "value": 950
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 496,
+            "fat": "27.0g",
+            "carbs": "38.0g",
+            "protein": "26.0g",
+            "summaryText": "Nutritional facts for WHOLE MILK POWDER (cow's) per 100g.",
+            "breakdown": "49% fat, 31% carbs, 20% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 496
+            }
+        ]
+    },
+    {
+        "slug": "skimmed-milk-powder-cows",
+        "name": "SKIMMED MILK POWDER (cow's)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 357,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 51
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 38
+            },
+            "calcium": {
+                "value": 1370
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 357,
+            "fat": "0.0g",
+            "carbs": "51.0g",
+            "protein": "38.0g",
+            "summaryText": "Nutritional facts for SKIMMED MILK POWDER (cow's) per 100g.",
+            "breakdown": "0% fat, 57% carbs, 43% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 357
+            }
+        ]
+    },
+    {
+        "slug": "butter",
+        "name": "BUTTER",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 729,
+            "totalFat": {
+                "value": 81
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 0
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 729,
+            "fat": "81.0g",
+            "carbs": "0.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for BUTTER per 100g.",
+            "breakdown": "100% fat, 0% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 729
+            }
+        ]
+    },
+    {
+        "slug": "ghee-cow",
+        "name": "GHEE (cow)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 900,
+            "totalFat": {
+                "value": 100
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 0
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 900,
+            "fat": "100.0g",
+            "carbs": "0.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for GHEE (cow) per 100g.",
+            "breakdown": "100% fat, 0% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 900
+            }
+        ]
+    },
+    {
+        "slug": "hydrogenated-oil-fortified",
+        "name": "HYDROGENATED OIL (fortified)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 900,
+            "totalFat": {
+                "value": 100
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 0
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 900,
+            "fat": "100.0g",
+            "carbs": "0.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for HYDROGENATED OIL (fortified) per 100g.",
+            "breakdown": "100% fat, 0% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 900
+            }
+        ]
+    },
+    {
+        "slug": "cooking-oil-groundnut-gingelly-palmolein-mustard-coconut-etc",
+        "name": "COOKING OIL (Groundnut, Gingelly, Palmolein, Mustard, Coconut, etc.)",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 900,
+            "totalFat": {
+                "value": 100
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 0
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 0
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 900,
+            "fat": "100.0g",
+            "carbs": "0.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for COOKING OIL (Groundnut, Gingelly, Palmolein, Mustard, Coconut, etc.) per 100g.",
+            "breakdown": "100% fat, 0% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 900
+            }
+        ]
+    },
+    {
+        "slug": "sugar-cane",
+        "name": "SUGAR CANE",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 398,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 99
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 12
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 398,
+            "fat": "0.0g",
+            "carbs": "99.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for SUGAR CANE per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 398
+            }
+        ]
+    },
+    {
+        "slug": "honey",
+        "name": "HONEY",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Other",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 319,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 79
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 5
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 319,
+            "fat": "0.0g",
+            "carbs": "79.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for HONEY per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 319
+            }
+        ]
+    }
+]

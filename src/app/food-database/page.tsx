@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useMemo } from "react";
@@ -7,8 +6,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { foodDatabase } from "@/lib/food-data";
-import type { FoodGroup } from "@/lib/food-data";
+import { foodService } from "@/services/food-service";
+import type { FoodGroup, FoodItem } from "@/lib/food-data";
 import { ArrowRight, Search, Database } from "lucide-react";
 import {
   Select,
@@ -56,6 +55,8 @@ export default function FoodDatabasePage() {
     const [cuisineFilter, setCuisineFilter] = useState("All");
     const [mealCategoryFilter, setMealCategoryFilter] = useState("All");
     const [foodGroupFilter, setFoodGroupFilter] = useState<"All" | FoodGroup>("All");
+    
+    const foodDatabase = useMemo(() => foodService.getFoodDatabase(), []);
 
     const stats: Stats = useMemo(() => {
         const byFoodGroup = foodDatabase.reduce((acc, food) => {
@@ -82,7 +83,7 @@ export default function FoodDatabasePage() {
             byMealCategory: Object.fromEntries(Object.entries(byMealCategory).sort(([,a],[,b]) => b-a)),
             byCuisine: Object.fromEntries(Object.entries(byCuisine).sort(([,a],[,b]) => b-a)),
         }
-    }, []);
+    }, [foodDatabase]);
 
     const filteredFoods = foodDatabase.filter(food => {
         const matchesSearch = food.name.toLowerCase().includes(searchTerm.toLowerCase());
@@ -237,4 +238,3 @@ export default function FoodDatabasePage() {
     </div>
   );
 }
-

@@ -1,0 +1,1563 @@
+
+[
+    {
+        "slug": "cucumber",
+        "name": "CUCUMBER",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Salads",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 13,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 2
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 13,
+            "fat": "0.0g",
+            "carbs": "2.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for CUCUMBER per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 13
+            }
+        ]
+    },
+    {
+        "slug": "doble-beans",
+        "name": "DOBLE BEANS",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Beans & Legumes",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 85,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 12
+            },
+            "dietaryFiber": {
+                "value": 4
+            },
+            "protein": {
+                "value": 8
+            },
+            "calcium": {
+                "value": 40
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 85,
+            "fat": "0.0g",
+            "carbs": "12.0g",
+            "protein": "8.0g",
+            "summaryText": "Nutritional facts for DOBLE BEANS per 100g.",
+            "breakdown": "0% fat, 56% carbs, 44% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 85
+            }
+        ]
+    },
+    {
+        "slug": "drumstick",
+        "name": "DRUMSTICK",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 26,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 4
+            },
+            "dietaryFiber": {
+                "value": 5
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 30
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 26,
+            "fat": "0.0g",
+            "carbs": "4.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for DRUMSTICK per 100g.",
+            "breakdown": "0% fat, 67% carbs, 33% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 26
+            }
+        ]
+    },
+    {
+        "slug": "drumstick-flowers",
+        "name": "DRUMSTICK flowers",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 50,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 7
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 4
+            },
+            "calcium": {
+                "value": 51
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 50,
+            "fat": "1.0g",
+            "carbs": "7.0g",
+            "protein": "4.0g",
+            "summaryText": "Nutritional facts for DRUMSTICK flowers per 100g.",
+            "breakdown": "18% fat, 52% carbs, 30% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 50
+            }
+        ]
+    },
+    {
+        "slug": "field-beans-tender",
+        "name": "FIELD BEANS, tender",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Beans & Legumes",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 48,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 7
+            },
+            "dietaryFiber": {
+                "value": 2
+            },
+            "protein": {
+                "value": 4
+            },
+            "calcium": {
+                "value": 210
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 48,
+            "fat": "1.0g",
+            "carbs": "7.0g",
+            "protein": "4.0g",
+            "summaryText": "Nutritional facts for FIELD BEANS, tender per 100g.",
+            "breakdown": "19% fat, 58% carbs, 23% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 48
+            }
+        ]
+    },
+    {
+        "slug": "figs-red-ficus-cunia",
+        "name": "FIGS, red (Ficus cunia)",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 53,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 11
+            },
+            "dietaryFiber": {
+                "value": 6
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 187
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 53,
+            "fat": "1.0g",
+            "carbs": "11.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for FIGS, red (Ficus cunia) per 100g.",
+            "breakdown": "17% fat, 83% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 53
+            }
+        ]
+    },
+    {
+        "slug": "french-beans",
+        "name": "FRENCH BEANS",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Beans & Legumes",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 26,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 4
+            },
+            "dietaryFiber": {
+                "value": 2
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 50
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 26,
+            "fat": "0.0g",
+            "carbs": "4.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for FRENCH BEANS per 100g.",
+            "breakdown": "0% fat, 62% carbs, 38% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 26
+            }
+        ]
+    },
+    {
+        "slug": "ghosala",
+        "name": "GHOSALA",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 18,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3
+            },
+            "dietaryFiber": {
+                "value": 2
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 36
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 18,
+            "fat": "0.0g",
+            "carbs": "3.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for GHOSALA per 100g.",
+            "breakdown": "0% fat, 67% carbs, 33% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 18
+            }
+        ]
+    },
+    {
+        "slug": "giant-chillies-capsicum",
+        "name": "GIANT CHILLIES (capsicum)",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 24,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 4
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 24,
+            "fat": "0.0g",
+            "carbs": "4.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for GIANT CHILLIES (capsicum) per 100g.",
+            "breakdown": "0% fat, 80% carbs, 20% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 24
+            }
+        ]
+    },
+    {
+        "slug": "jack-tender",
+        "name": "JACK, tender",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 51,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 9
+            },
+            "dietaryFiber": {
+                "value": 3
+            },
+            "protein": {
+                "value": 3
+            },
+            "calcium": {
+                "value": 30
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 51,
+            "fat": "0.0g",
+            "carbs": "9.0g",
+            "protein": "3.0g",
+            "summaryText": "Nutritional facts for JACK, tender per 100g.",
+            "breakdown": "0% fat, 75% carbs, 25% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 51
+            }
+        ]
+    },
+    {
+        "slug": "jack-fruit-seeds",
+        "name": "JACK FRUIT, seeds",
+        "cuisine": "Indian",
+        "mealCategory": "Snack",
+        "foodGroup": "Nuts & Seeds",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 133,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 26
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 7
+            },
+            "calcium": {
+                "value": 50
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 133,
+            "fat": "0.0g",
+            "carbs": "26.0g",
+            "protein": "7.0g",
+            "summaryText": "Nutritional facts for JACK FRUIT, seeds per 100g.",
+            "breakdown": "0% fat, 78% carbs, 22% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 133
+            }
+        ]
+    },
+    {
+        "slug": "kankoda",
+        "name": "KANKODA",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 52,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 8
+            },
+            "dietaryFiber": {
+                "value": 3
+            },
+            "protein": {
+                "value": 3
+            },
+            "calcium": {
+                "value": 33
+            },
+            "iron": {
+                "value": 5
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 52,
+            "fat": "1.0g",
+            "carbs": "8.0g",
+            "protein": "3.0g",
+            "summaryText": "Nutritional facts for KANKODA per 100g.",
+            "breakdown": "17% fat, 62% carbs, 21% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 52
+            }
+        ]
+    },
+    {
+        "slug": "karonda-fresh",
+        "name": "KARONDA fresh",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 42,
+            "totalFat": {
+                "value": 3
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 21
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 42,
+            "fat": "3.0g",
+            "carbs": "3.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for KARONDA fresh per 100g.",
+            "breakdown": "64% fat, 29% carbs, 7% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 42
+            }
+        ]
+    },
+    {
+        "slug": "karonda-dry",
+        "name": "KARONDA dry",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 364,
+            "totalFat": {
+                "value": 10
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 67
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 160
+            },
+            "iron": {
+                "value": 39
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 364,
+            "fat": "10.0g",
+            "carbs": "67.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for KARONDA dry per 100g.",
+            "breakdown": "25% fat, 73% carbs, 2% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 364
+            }
+        ]
+    },
+    {
+        "slug": "kovai",
+        "name": "KOVAI",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 18,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3
+            },
+            "dietaryFiber": {
+                "value": 2
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 40
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 18,
+            "fat": "0.0g",
+            "carbs": "3.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for KOVAI per 100g.",
+            "breakdown": "0% fat, 67% carbs, 33% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 18
+            }
+        ]
+    },
+    {
+        "slug": "knol-khol",
+        "name": "KNOL-KHOL",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 21,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 4
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 20
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 21,
+            "fat": "0.0g",
+            "carbs": "4.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for KNOL-KHOL per 100g.",
+            "breakdown": "0% fat, 76% carbs, 24% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 21
+            }
+        ]
+    },
+    {
+        "slug": "ladies-fingers",
+        "name": "LADIES FINGERS",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 35,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 6
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 66
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 35,
+            "fat": "0.0g",
+            "carbs": "6.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for LADIES FINGERS per 100g.",
+            "breakdown": "0% fat, 67% carbs, 33% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 35
+            }
+        ]
+    },
+    {
+        "slug": "lakuch-raw",
+        "name": "LAKUCH, raw",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 73,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 14
+            },
+            "dietaryFiber": {
+                "value": 2
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 50
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 73,
+            "fat": "1.0g",
+            "carbs": "14.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for LAKUCH, raw per 100g.",
+            "breakdown": "12% fat, 77% carbs, 11% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 73
+            }
+        ]
+    },
+    {
+        "slug": "leeks",
+        "name": "LEEKS",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 77,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 17
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 50
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 77,
+            "fat": "0.0g",
+            "carbs": "17.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for LEEKS per 100g.",
+            "breakdown": "0% fat, 89% carbs, 11% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 77
+            }
+        ]
+    },
+    {
+        "slug": "lotus-stem-dry",
+        "name": "LOTUS STEM, dry",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 234,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 51
+            },
+            "dietaryFiber": {
+                "value": 25
+            },
+            "protein": {
+                "value": 4
+            },
+            "calcium": {
+                "value": 405
+            },
+            "iron": {
+                "value": 60
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 234,
+            "fat": "1.0g",
+            "carbs": "51.0g",
+            "protein": "4.0g",
+            "summaryText": "Nutritional facts for LOTUS STEM, dry per 100g.",
+            "breakdown": "4% fat, 87% carbs, 9% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 234
+            }
+        ]
+    },
+    {
+        "slug": "mango-green",
+        "name": "MANGO, green",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 44,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 44,
+            "fat": "0.0g",
+            "carbs": "10.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for MANGO, green per 100g.",
+            "breakdown": "0% fat, 91% carbs, 9% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 44
+            }
+        ]
+    },
+    {
+        "slug": "papaya-green",
+        "name": "PAPAYA, green",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 27,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 6
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 28
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 27,
+            "fat": "0.0g",
+            "carbs": "6.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for PAPAYA, green per 100g.",
+            "breakdown": "0% fat, 86% carbs, 14% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 27
+            }
+        ]
+    },
+    {
+        "slug": "parwar",
+        "name": "PARWAR",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 20,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 2
+            },
+            "dietaryFiber": {
+                "value": 3
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 30
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 20,
+            "fat": "0.0g",
+            "carbs": "2.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for PARWAR per 100g.",
+            "breakdown": "0% fat, 40% carbs, 60% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 20
+            }
+        ]
+    },
+    {
+        "slug": "pink-beans",
+        "name": "PINK BEANS",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Beans & Legumes",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 44,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 7
+            },
+            "dietaryFiber": {
+                "value": 2
+            },
+            "protein": {
+                "value": 3
+            },
+            "calcium": {
+                "value": 54
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 44,
+            "fat": "0.0g",
+            "carbs": "7.0g",
+            "protein": "3.0g",
+            "summaryText": "Nutritional facts for PINK BEANS per 100g.",
+            "breakdown": "0% fat, 58% carbs, 42% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 44
+            }
+        ]
+    },
+    {
+        "slug": "plantain-flower",
+        "name": "PLANTAIN flower",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 34,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 5
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 32
+            },
+            "iron": {
+                "value": 2
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 34,
+            "fat": "1.0g",
+            "carbs": "5.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for PLANTAIN flower per 100g.",
+            "breakdown": "26% fat, 59% carbs, 15% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 34
+            }
+        ]
+    },
+    {
+        "slug": "plantain-green",
+        "name": "PLANTAIN green",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 64,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 14
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 6
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 64,
+            "fat": "0.0g",
+            "carbs": "14.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for PLANTAIN green per 100g.",
+            "breakdown": "0% fat, 87% carbs, 13% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 64
+            }
+        ]
+    },
+    {
+        "slug": "plantain-stem",
+        "name": "PLANTAIN stem",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 42,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 42,
+            "fat": "0.0g",
+            "carbs": "10.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for PLANTAIN stem per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 42
+            }
+        ]
+    },
+    {
+        "slug": "pumpkin-fruit",
+        "name": "PUMPKIN fruit",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 25,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 5
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 25,
+            "fat": "0.0g",
+            "carbs": "5.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for PUMPKIN fruit per 100g.",
+            "breakdown": "0% fat, 83% carbs, 17% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 25
+            }
+        ]
+    },
+    {
+        "slug": "pumpkin-flowers",
+        "name": "PUMPKIN flowers",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 39,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 6
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 120
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 39,
+            "fat": "1.0g",
+            "carbs": "6.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for PUMPKIN flowers per 100g.",
+            "breakdown": "23% fat, 62% carbs, 15% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 39
+            }
+        ]
+    },
+    {
+        "slug": "rigde-gourd",
+        "name": "RIGDE GOURD",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 17,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 0
+            },
+            "calcium": {
+                "value": 18
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 17,
+            "fat": "0.0g",
+            "carbs": "3.0g",
+            "protein": "0.0g",
+            "summaryText": "Nutritional facts for RIGDE GOURD per 100g.",
+            "breakdown": "0% fat, 100% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 17
+            }
+        ]
+    }
+]
