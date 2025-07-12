@@ -10,7 +10,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ChefHat } from "lucide-react";
-import React from 'react';
+import React, { use } from 'react';
 import Image from "next/image";
 
 type NutrientRowProps = {
@@ -176,7 +176,8 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
 
 
 export default function FoodDetailPage({ params }: { params: { slug: string } }) {
-  const food = foodService.findFoodBySlug(params.slug);
+  const resolvedParams = use(Promise.resolve(params));
+  const food = foodService.findFoodBySlug(resolvedParams.slug);
 
   if (!food) {
     notFound();
