@@ -3,7 +3,7 @@
 
 /**
  * @fileOverview Generates a personalized 7-day diet plan based on user's health requirements, preferences, and the available food database.
- * The AI's role is strictly to select appropriate meal names from the database. The code then populates all nutritional details.
+ * The AI's role is to select appropriate meal names from the database to form realistic, multi-item meals that meet nutritional goals.
  *
  * - generateDietPlan - A function that generates the diet plan.
  * - GenerateDietPlanInput - The input type for the generateDietPlan function.
@@ -13,7 +13,6 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 import { foodService } from '@/services/food-service';
-import type { FoodItem } from '@/lib/food-data';
 
 const GenerateDietPlanInputSchema = z.object({
   healthRequirements: z
@@ -23,19 +22,21 @@ const GenerateDietPlanInputSchema = z.object({
     .string()
     .describe('Dietary preferences of the user, e.g., vegetarian, low-sodium, favorite foods, foods to avoid.'),
   meals: z.string().describe("Comma-separated list of meals to generate, e.g., 'breakfast, lunch, dinner, morning snack, afternoon snack, evening snack'"),
-  foodList: z.string().describe("A comma-separated list of available food items to choose from for creating the diet plan.")
+  foodList: z.string().describe("A comma-separated list of available food items to choose from for creating the diet plan."),
+  dailyCalorieGoal: z.number().optional().describe("User's daily calorie goal in kcal."),
+  dailyProteinGoal: z.number().optional().describe("User's daily protein goal in grams."),
 });
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
-const AiMealSchema = z.object({
-    name: z.string().describe("Name of the meal. This MUST be a name chosen directly from the provided food list."),
+const AiMealItemSchema = z.object({
+    name: z.string().describe("Name of the food item. This MUST be a name chosen directly from the provided food list."),
 });
 
 const AiDailyPlanSchema = z.object({
     day: z.string().describe("The day of the week (e.g., 'Monday', 'Tuesday')."),
     meals: z.array(z.object({
         type: z.enum(["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"]).describe("The type of the meal."),
-        details: AiMealSchema,
+        items: z.array(AiMealItemSchema).describe("An array of food items for this meal. Major meals like lunch and dinner should be a combination of multiple items (e.g., a grain, a protein source, a vegetable). Snacks are usually single items."),
     })).describe("An array of meals for the day."),
     notes: z.string().optional().describe("Any specific notes or tips for the day's meals."),
 });
@@ -55,7 +56,7 @@ const MealDetailsSchema = z.object({
 
 const MealSchema = z.object({
     type: z.enum(["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"]),
-    details: MealDetailsSchema,
+    items: z.array(MealDetailsSchema), // Changed from 'details' to 'items' and made it an array
 });
 
 const DailyPlanSchema = z.object({
@@ -93,7 +94,7 @@ export async function generateDietPlan(input: Omit<GenerateDietPlanInput, 'foodL
       );
   }
 
-  const foodList = relevantFoods.map(food => food.name).join(', ');
+  const foodList = relevantFoods.map(food => `${food.name} (Cals: ${food.nutritionFacts.calories}, Protein: ${food.nutritionFacts.protein.value}g)`).join(', ');
 
   const flowInput: GenerateDietPlanInput = {
     ...input,
@@ -107,18 +108,22 @@ const prompt = ai.definePrompt({
   name: 'generateDietPlanPrompt',
   input: {schema: GenerateDietPlanInputSchema},
   output: {schema: AiResponseSchema},
-  prompt: `You are an expert dietitian creating a 7-day diet plan. Your ONLY task is to select appropriate meal names from a given list.
+  prompt: `You are an expert dietitian creating a realistic 7-day diet plan.
 
-  **CRITICAL RULE: You MUST select meal names *exclusively* from the following list of available foods:**
+  **CRITICAL RULE: You MUST select food items *exclusively* from the following list. Each item includes its calorie and protein content to help you:**
   {{{foodList}}}
 
-  Do NOT invent any food items. Do not provide descriptions or calorie counts. Your entire response must strictly adhere to the provided JSON schema.
-
-  For each day of the week, provide a plan. For each meal slot (e.g., {{{meals}}}), select ONE suitable meal name from the list above.
+  **IMPORTANT INSTRUCTIONS:**
+  1.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like Roti/Rice, a protein like Dal, a vegetable side). Snacks can be single items.
+  2.  **Meet Nutritional Goals:** The combination of all meals for each day should come as close as possible to the user's daily targets:
+      - Daily Calorie Goal: ~{{{dailyCalorieGoal}}} kcal
+      - Daily Protein Goal: ~{{{dailyProteinGoal}}} g
+  3.  **Use the Provided List ONLY:** Do NOT invent any food items. Do not provide descriptions or calorie counts in your output. Your entire response must strictly adhere to the provided JSON schema.
+  4.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: {{{meals}}}.
   
   Base your selections on the user's profile:
-  Health Requirements: {{{healthRequirements}}}
-  Preferences: {{{preferences}}}
+  - Health Requirements: {{{healthRequirements}}}
+  - Preferences: {{{preferences}}}
   `,
 });
 
@@ -143,23 +148,34 @@ const generateDietPlanFlow = ai.defineFlow(
       plan: aiOutput.plan.map(aiDay => {
         const verifiedMeals = aiDay.meals
           .map(aiMeal => {
-            // Find the corresponding food item in our actual database.
-            const dbEntry = foodDatabase.find(food => food.name === aiMeal.details.name);
 
-            // If the AI hallucinated a meal not in our DB, we skip it.
-            if (!dbEntry) {
-              console.warn(`AI recommended meal "${aiMeal.details.name}" not found in database. Skipping.`);
-              return null;
+            const verifiedItems = aiMeal.items
+              .map(aiItem => {
+                // Find the corresponding food item in our actual database.
+                const dbEntry = foodDatabase.find(food => food.name === aiItem.name);
+
+                // If the AI hallucinated a meal not in our DB, we skip it.
+                if (!dbEntry) {
+                  console.warn(`AI recommended meal "${aiItem.name}" not found in database. Skipping.`);
+                  return null;
+                }
+
+                // Construct the meal details with VERIFIED data from our database.
+                return {
+                  name: dbEntry.name,
+                  calories: dbEntry.nutritionFacts.calories,
+                  description: dbEntry.nutritionSummary.summaryText,
+                };
+              })
+              .filter((item): item is z.infer<typeof MealDetailsSchema> => item !== null); // Filter out any nulls
+
+            if (verifiedItems.length === 0) {
+                return null;
             }
 
-            // Construct the meal details with VERIFIED data from our database.
             return {
               type: aiMeal.type,
-              details: {
-                name: dbEntry.name,
-                calories: dbEntry.nutritionFacts.calories,
-                description: dbEntry.nutritionSummary.summaryText,
-              },
+              items: verifiedItems,
             };
           })
           .filter((meal): meal is z.infer<typeof MealSchema> => meal !== null); // Filter out any nulls

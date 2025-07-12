@@ -19,13 +19,15 @@ import { useProfile } from "@/context/profile-context";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
+type MealItem = {
+    name: string;
+    calories: number;
+    description: string;
+};
+
 type Meal = {
     type: string;
-    details: {
-        name: string;
-        calories: number;
-        description: string;
-    };
+    items: MealItem[];
 };
 
 type DayPlan = {
@@ -69,13 +71,23 @@ export default function WeeklyPlanPage() {
     dietPlan.plan.forEach((dayPlan: DayPlan) => {
       const dayHeader = `${dayPlan.day}`;
       const dayHeaderHeight = 10;
-  
-      const tableBody = dayPlan.meals.map(meal => [
-        { content: meal.type.charAt(0).toUpperCase() + meal.type.slice(1), styles: { fontStyle: 'bold', valign: 'middle', cellWidth: 40 } },
-        { content: meal.details.name, styles: { valign: 'middle', cellWidth: 90 } },
-        { content: `${meal.details.calories} kcal`, styles: { valign: 'middle', halign: 'right' } }
-      ]);
-  
+      
+      const tableBody = dayPlan.meals.flatMap(meal => 
+        meal.items.map((item, index) => 
+            index === 0
+                ? [
+                    { content: meal.type.charAt(0).toUpperCase() + meal.type.slice(1), rowSpan: meal.items.length, styles: { fontStyle: 'bold', valign: 'middle', cellWidth: 40 } },
+                    { content: item.name, styles: { valign: 'middle' } },
+                    { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } }
+                  ]
+                : [
+                    // empty cell for row-spanned column
+                    { content: item.name, styles: { valign: 'middle' } },
+                    { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } }
+                  ]
+        )
+      );
+
       const tableHeight = tableBody.length * 10 + 20;
       if (yPos + tableHeight + dayHeaderHeight > doc.internal.pageSize.getHeight() - margin) {
         doc.addPage();
@@ -190,15 +202,18 @@ export default function WeeklyPlanPage() {
                 <CardContent className="flex-grow space-y-3">
                   {(dayPlan.meals || []).map((meal: Meal, index: number) => {
                     const Icon = mealIcons[meal.type.toLowerCase()] || Utensils;
-                     if (!meal || !meal.details || !meal.details.name) return null;
+                     if (!meal || !meal.items || meal.items.length === 0) return null;
                     return (
-                      <div key={`${meal.type}-${meal.details.name}-${index}`} className="flex items-start gap-4 p-3 rounded-md bg-background/60 shadow-sm">
-                        <Icon className="h-5 w-5 mt-1 text-muted-foreground" />
-                        <div>
-                            <p className="font-semibold capitalize text-muted-foreground text-sm">{meal.type}</p>
-                            <p className="font-medium text-card-foreground">
-                                {meal.details.name}
-                            </p>
+                      <div key={`${meal.type}-${index}`}>
+                        <h4 className="font-semibold capitalize text-muted-foreground text-sm flex items-center gap-2 mb-1"><Icon className="h-4 w-4" /> {meal.type}</h4>
+                        <div className="pl-6 border-l-2 border-primary/20 space-y-1">
+                          {meal.items.map((item, itemIndex) => (
+                             <div key={`${item.name}-${itemIndex}`} className="flex items-start gap-4 p-2 rounded-md bg-background/60">
+                                <p className="font-medium text-card-foreground text-sm">
+                                    {item.name}
+                                </p>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     );

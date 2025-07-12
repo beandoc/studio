@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -26,7 +27,7 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Download, Loader2, Info, Replace } from "lucide-react";
+import { Download, Loader2, Info, Replace, Utensils } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
@@ -57,8 +58,8 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-type MealDetails = { name: string; calories: number; description: string; };
-type Meal = { type: string; details: MealDetails; };
+type MealItem = { name: string; calories: number; description: string; };
+type Meal = { type: string; items: MealItem[]; };
 type DayPlan = { day: string; meals: Meal[]; notes?: string; };
 
 const dailyMealOptions = ["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"];
@@ -106,8 +107,6 @@ export default function DietPlanPage() {
       - Daily Sodium Goal: ${activeProfile.sodiumGoal || 'Not specified'} mg
       - Daily Potassium Goal: ${activeProfile.potassiumGoal || 'Not specified'} mg
       - Daily Phosphorus Goal: ${activeProfile.phosphorusGoal || 'Not specified'} mg
-      - Daily Calorie Goal: ${activeProfile.calorieGoal || 'Not specified'} kcal
-      - Daily Protein Goal: ${activeProfile.proteinGoal || 'Not specified'} g
     `;
     const preferences = `
       - User Preferences: ${data.preferences}
@@ -128,7 +127,9 @@ export default function DietPlanPage() {
       const result = await generateDietPlan({ 
         healthRequirements, 
         preferences,
-        meals: data.meals.join(', ')
+        meals: data.meals.join(', '),
+        dailyCalorieGoal: activeProfile.calorieGoal,
+        dailyProteinGoal: activeProfile.proteinGoal,
       });
       setDietPlan(result);
       setShowForm(false);
@@ -144,22 +145,18 @@ export default function DietPlanPage() {
     }
   };
   
-  const handleFlipMeal = (day: string, mealType: string) => {
-    const dayPlan = dietPlan?.plan.find(d => d.day.toLowerCase() === day.toLowerCase());
-    const meal = dayPlan?.meals.find(m => m.type.toLowerCase() === mealType.toLowerCase())?.details;
-
-    if (meal && meal.name) {
-        const foodDatabase = foodService.getFoodDatabase();
-        const mealToFlip = foodDatabase.find(food => food.name === meal.name);
-        if (mealToFlip) {
-            router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}&day=${day}&mealType=${mealType}`);
-        } else {
-            toast({
-                variant: "destructive",
-                title: "Meal not found",
-                description: `Could not find "${meal.name}" in the database to get alternatives.`
-            })
-        }
+  const handleFlipMeal = (day: string, mealType: string, mealItemName: string) => {
+    const foodDatabase = foodService.getFoodDatabase();
+    const mealToFlip = foodDatabase.find(food => food.name === mealItemName);
+    
+    if (mealToFlip) {
+        router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}&day=${day}&mealType=${mealType}&originalMealName=${encodeURIComponent(mealItemName)}`);
+    } else {
+        toast({
+            variant: "destructive",
+            title: "Meal not found",
+            description: `Could not find "${mealItemName}" in the database to get alternatives.`
+        });
     }
   }
 
@@ -281,7 +278,7 @@ export default function DietPlanPage() {
           <div>
               <CardTitle>Your 7-Day Diet Plan</CardTitle>
               <CardDescription>
-                  Review your plan for {activeProfile?.fullName}, flip meals, and export when ready.
+                  Review your plan for {activeProfile?.fullName}, flip meal items, and export when ready.
               </CardDescription>
           </div>
         <div className="flex gap-2">
@@ -300,31 +297,37 @@ export default function DietPlanPage() {
                   <AccordionContent>
                     <div className="space-y-6">
                       {(dayPlan.meals || []).map((meal: Meal, index: number) => {
-                        if (!meal || !meal.details || !meal.details.name) return null;
+                        if (!meal || !meal.items || meal.items.length === 0) return null;
                         
-                        const foodDatabase = foodService.getFoodDatabase();
-                        const foodItem = foodDatabase.find(food => food.name === meal.details.name);
-                        const slug = foodItem?.slug;
-
                         return (
-                          <div key={`${meal.type}-${meal.details.name}-${index}`}>
-                            <h4 className="font-semibold capitalize text-lg mb-2">{meal.type}</h4>
-                            <Card className="flex justify-between items-center p-4">
-                              <div>
-                                {slug ? (
-                                  <Link href={`/food-database/${slug}`} className="hover:underline">
-                                    <p className="font-semibold text-primary">{meal.details.name}</p>
-                                  </Link>
-                                ) : (
-                                  <p className="font-semibold text-primary">{meal.details.name}</p>
-                                )}
-                                <p className="text-sm text-muted-foreground mt-1">{meal.details.description}</p>
-                                <p className="text-xs text-muted-foreground mt-2">{meal.details.calories} kcal</p>
-                              </div>
-                              <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type)}>
-                                <Replace className="mr-2 h-4 w-4" /> Flip Meal
-                              </Button>
-                            </Card>
+                          <div key={`${meal.type}-${index}`}>
+                            <h4 className="font-semibold capitalize text-lg mb-2 flex items-center gap-2"><Utensils className="h-5 w-5 text-primary" />{meal.type}</h4>
+                            <div className="space-y-2">
+                            {meal.items.map((item: MealItem, itemIndex: number) => {
+                                const foodDatabase = foodService.getFoodDatabase();
+                                const foodItem = foodDatabase.find(food => food.name === item.name);
+                                const slug = foodItem?.slug;
+
+                                return (
+                                <Card key={`${item.name}-${itemIndex}`} className="flex justify-between items-center p-4">
+                                  <div>
+                                    {slug ? (
+                                      <Link href={`/food-database/${slug}`} className="hover:underline">
+                                        <p className="font-semibold text-primary">{item.name}</p>
+                                      </Link>
+                                    ) : (
+                                      <p className="font-semibold text-primary">{item.name}</p>
+                                    )}
+                                    <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                                    <p className="text-xs text-muted-foreground mt-2">{item.calories} kcal</p>
+                                  </div>
+                                  <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type, item.name)}>
+                                    <Replace className="mr-2 h-4 w-4" /> Flip
+                                  </Button>
+                                </Card>
+                                );
+                            })}
+                            </div>
                           </div>
                         );
                       })}
@@ -392,4 +395,3 @@ export default function DietPlanPage() {
     </div>
   );
 }
-    

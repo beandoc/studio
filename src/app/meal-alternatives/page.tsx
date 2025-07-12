@@ -27,6 +27,7 @@ function MealAlternativesContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const mealSlug = searchParams.get('mealSlug');
+  const originalMealName = searchParams.get('originalMealName');
   const { activeProfile, dietPlan, setDietPlan } = useProfile();
   
   const [originalMeal, setOriginalMeal] = useState<FoodItem | null>(null);
@@ -89,7 +90,7 @@ function MealAlternativesContent() {
     const dayToReplace = searchParams.get('day');
     const mealTypeToReplace = searchParams.get('mealType');
 
-    if (!activeProfile || !dietPlan || !dayToReplace || !mealTypeToReplace) {
+    if (!activeProfile || !dietPlan || !dayToReplace || !mealTypeToReplace || !originalMealName) {
         toast({ variant: "destructive", title: "Error", description: "Could not find profile, diet plan, or meal details to perform the swap." });
         return;
     }
@@ -108,18 +109,24 @@ function MealAlternativesContent() {
         const mealIndex = updatedPlan.plan[dayIndex].meals.findIndex((m: any) => m.type.toLowerCase() === mealTypeToReplace.toLowerCase());
         
         if (mealIndex !== -1) {
-            updatedPlan.plan[dayIndex].meals[mealIndex].details = {
-                name: newMealData.name,
-                calories: newMealData.nutritionFacts.calories,
-                description: newMealData.nutritionSummary.summaryText,
-            };
+            const itemIndex = updatedPlan.plan[dayIndex].meals[mealIndex].items.findIndex((i: any) => i.name === originalMealName);
 
-            setDietPlan(updatedPlan); // Update context
-            toast({
-                title: "Meal Swapped!",
-                description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
-            });
-            router.push('/diet-plan');
+            if(itemIndex !== -1) {
+              updatedPlan.plan[dayIndex].meals[mealIndex].items[itemIndex] = {
+                  name: newMealData.name,
+                  calories: newMealData.nutritionFacts.calories,
+                  description: newMealData.nutritionSummary.summaryText,
+              };
+
+              setDietPlan(updatedPlan); // Update context
+              toast({
+                  title: "Meal Swapped!",
+                  description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
+              });
+              router.push('/diet-plan');
+            } else {
+               toast({ variant: "destructive", title: "Error", description: `Could not find meal item "${originalMealName}" to swap.` });
+            }
         } else {
             toast({ variant: "destructive", title: "Error", description: `Could not find meal type "${mealTypeToReplace}" to swap.` });
         }
