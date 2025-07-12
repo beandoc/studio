@@ -9,8 +9,9 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChefHat } from "lucide-react";
 import React from 'react';
+import Image from "next/image";
 
 type NutrientRowProps = {
     label: string;
@@ -49,12 +50,24 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
                     </Link>
                 </Button>
             </div>
+            
+            <div className="relative w-full h-64 rounded-xl overflow-hidden mb-8 shadow-lg">
+                <Image 
+                    src={food.imageUrl || "https://placehold.co/800x400.png"}
+                    alt={`Image of ${food.name}`}
+                    layout="fill"
+                    objectFit="cover"
+                    data-ai-hint="food meal"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"/>
+                <h1 className="absolute bottom-4 left-4 text-4xl font-bold text-white z-10">
+                    {food.name}
+                </h1>
+            </div>
 
-            <h1 className="text-3xl font-bold text-primary border-b-4 border-primary pb-2 mb-8 inline-block">
-                {food.name}
-            </h1>
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                <div className="lg:col-span-1">
+                <div className="lg:col-span-1 space-y-8">
                     <Card>
                         <CardHeader>
                             <CardTitle className="text-2xl">Nutrition Facts</CardTitle>
@@ -122,6 +135,20 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
                              <p className="mt-2 text-muted-foreground text-center">Calorie breakdown: {food.nutritionSummary.breakdown}</p>
                         </CardContent>
                     </Card>
+
+                    {food.cookingInstructions && (
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <ChefHat />
+                                    Cooking Instructions
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-muted-foreground whitespace-pre-wrap">{food.cookingInstructions}</p>
+                            </CardContent>
+                        </Card>
+                    )}
 
                     {food.servingSizes && food.servingSizes.length > 0 && <Card>
                         <CardHeader><CardTitle>Common Serving Sizes</CardTitle></CardHeader>

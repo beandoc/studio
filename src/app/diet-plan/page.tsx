@@ -44,6 +44,7 @@ import { foodService } from "@/services/food-service";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { useProfile } from "@/context/profile-context";
+import Link from "next/link";
 
 
 const FormSchema = z.object({
@@ -299,24 +300,33 @@ export default function DietPlanPage() {
                   <AccordionContent>
                     <div className="space-y-6">
                       {(dayPlan.meals || []).map((meal: Meal, index: number) => {
-                        if (meal && meal.details && meal.details.name) {
-                          return (
-                            <div key={`${meal.type}-${meal.details.name}-${index}`}>
-                              <h4 className="font-semibold capitalize text-lg mb-2">{meal.type}</h4>
-                              <Card className="flex justify-between items-center p-4">
-                                <div>
+                        if (!meal || !meal.details || !meal.details.name) return null;
+                        
+                        const foodDatabase = foodService.getFoodDatabase();
+                        const foodItem = foodDatabase.find(food => food.name === meal.details.name);
+                        const slug = foodItem?.slug;
+
+                        return (
+                          <div key={`${meal.type}-${meal.details.name}-${index}`}>
+                            <h4 className="font-semibold capitalize text-lg mb-2">{meal.type}</h4>
+                            <Card className="flex justify-between items-center p-4">
+                              <div>
+                                {slug ? (
+                                  <Link href={`/food-database/${slug}`} className="hover:underline">
+                                    <p className="font-semibold text-primary">{meal.details.name}</p>
+                                  </Link>
+                                ) : (
                                   <p className="font-semibold text-primary">{meal.details.name}</p>
-                                  <p className="text-sm text-muted-foreground mt-1">{meal.details.description}</p>
-                                  <p className="text-xs text-muted-foreground mt-2">{meal.details.calories} kcal</p>
-                                </div>
-                                <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type)}>
-                                  <Replace className="mr-2 h-4 w-4" /> Flip Meal
-                                </Button>
-                              </Card>
-                            </div>
-                          );
-                        }
-                        return null;
+                                )}
+                                <p className="text-sm text-muted-foreground mt-1">{meal.details.description}</p>
+                                <p className="text-xs text-muted-foreground mt-2">{meal.details.calories} kcal</p>
+                              </div>
+                              <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type)}>
+                                <Replace className="mr-2 h-4 w-4" /> Flip Meal
+                              </Button>
+                            </Card>
+                          </div>
+                        );
                       })}
                       {dayPlan.notes && (
                           <div key="notes">

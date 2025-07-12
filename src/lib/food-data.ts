@@ -61,5 +61,8 @@ export type FoodItem = {
     }[];
     relatedTypes?: {
         [key: string]: string[];
-    }
+    };
+    aliases?: string[];
+    imageUrl?: string;
+    cookingInstructions?: string;
 };
