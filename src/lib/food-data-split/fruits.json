@@ -1,0 +1,419 @@
+
+[
+    {
+        "slug": "figs-red-ficus-cunia",
+        "name": "FIGS, red (Ficus cunia)",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 53,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 11
+            },
+            "dietaryFiber": {
+                "value": 6
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 187
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 53,
+            "fat": "1.0g",
+            "carbs": "11.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for FIGS, red (Ficus cunia) per 100g.",
+            "breakdown": "17% fat, 83% carbs, 0% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 53
+            }
+        ]
+    },
+    {
+        "slug": "karonda-fresh",
+        "name": "KARONDA fresh",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 42,
+            "totalFat": {
+                "value": 3
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 3
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 21
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 42,
+            "fat": "3.0g",
+            "carbs": "3.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for KARONDA fresh per 100g.",
+            "breakdown": "64% fat, 29% carbs, 7% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 42
+            }
+        ]
+    },
+    {
+        "slug": "karonda-dry",
+        "name": "KARONDA dry",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 364,
+            "totalFat": {
+                "value": 10
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 67
+            },
+            "dietaryFiber": {
+                "value": 0
+            },
+            "protein": {
+                "value": 2
+            },
+            "calcium": {
+                "value": 160
+            },
+            "iron": {
+                "value": 39
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 364,
+            "fat": "10.0g",
+            "carbs": "67.0g",
+            "protein": "2.0g",
+            "summaryText": "Nutritional facts for KARONDA dry per 100g.",
+            "breakdown": "25% fat, 73% carbs, 2% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 364
+            }
+        ]
+    },
+    {
+        "slug": "lakuch-raw",
+        "name": "LAKUCH, raw",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 73,
+            "totalFat": {
+                "value": 1
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 14
+            },
+            "dietaryFiber": {
+                "value": 2
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 50
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 73,
+            "fat": "1.0g",
+            "carbs": "14.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for LAKUCH, raw per 100g.",
+            "breakdown": "12% fat, 77% carbs, 11% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 73
+            }
+        ]
+    },
+    {
+        "slug": "mango-green",
+        "name": "MANGO, green",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 44,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 10
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 44,
+            "fat": "0.0g",
+            "carbs": "10.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for MANGO, green per 100g.",
+            "breakdown": "0% fat, 91% carbs, 9% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 44
+            }
+        ]
+    },
+    {
+        "slug": "papaya-green",
+        "name": "PAPAYA, green",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 27,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 6
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 28
+            },
+            "iron": {
+                "value": 1
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 27,
+            "fat": "0.0g",
+            "carbs": "6.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for PAPAYA, green per 100g.",
+            "breakdown": "0% fat, 86% carbs, 14% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 27
+            }
+        ]
+    },
+    {
+        "slug": "pumpkin-fruit",
+        "name": "PUMPKIN fruit",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 25,
+            "totalFat": {
+                "value": 0
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 5
+            },
+            "dietaryFiber": {
+                "value": 1
+            },
+            "protein": {
+                "value": 1
+            },
+            "calcium": {
+                "value": 10
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 25,
+            "fat": "0.0g",
+            "carbs": "5.0g",
+            "protein": "1.0g",
+            "summaryText": "Nutritional facts for PUMPKIN fruit per 100g.",
+            "breakdown": "0% fat, 83% carbs, 17% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 25
+            }
+        ]
+    },
+    {
+        "slug": "wood-apple",
+        "name": "WOOD APPLE",
+        "cuisine": "Indian",
+        "mealCategory": "Fruit",
+        "foodGroup": "Fruit",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 134,
+            "totalFat": {
+                "value": 4
+            },
+            "cholesterol": {
+                "value": 0
+            },
+            "sodium": {
+                "value": 0
+            },
+            "totalCarbohydrate": {
+                "value": 18
+            },
+            "dietaryFiber": {
+                "value": 5
+            },
+            "protein": {
+                "value": 7
+            },
+            "calcium": {
+                "value": 130
+            },
+            "iron": {
+                "value": 0
+            },
+            "potassium": {
+                "value": 0
+            }
+        },
+        "nutritionSummary": {
+            "calories": 134,
+            "fat": "4.0g",
+            "carbs": "18.0g",
+            "protein": "7.0g",
+            "summaryText": "Nutritional facts for WOOD APPLE per 100g.",
+            "breakdown": "27% fat, 54% carbs, 19% protein."
+        },
+        "servingSizes": [
+            {
+                "size": "100 g",
+                "calories": 134
+            }
+        ]
+    }
+]
