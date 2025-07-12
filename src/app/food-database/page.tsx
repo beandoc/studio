@@ -7,7 +7,8 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { foodDatabase, type FoodGroup } from "@/lib/food-data";
+import { foodDatabase } from "@/lib/food-data";
+import type { FoodGroup } from "@/lib/food-data";
 import { ArrowRight, Search, Database } from "lucide-react";
 import {
   Select,
@@ -236,3 +237,4 @@ export default function FoodDatabasePage() {
     </div>
   );
 }
+

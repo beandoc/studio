@@ -1,6 +1,8 @@
 
+"use client";
+
 import { foodDatabase, type FoodItem } from "@/lib/food-data";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import Header from "@/components/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -8,6 +10,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import React from 'react';
 
 type NutrientRowProps = {
     label: string;
@@ -145,7 +148,8 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
 }
 
 
-export default function FoodDetailPage({ params }: { params: { slug: string } }) {
+export default function FoodDetailPage() {
+  const params = useParams() as { slug: string };
   const food = foodDatabase.find((item) => item.slug === params.slug);
 
   if (!food) {

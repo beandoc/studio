@@ -12,7 +12,8 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import { foodDatabase, type FoodItem } from '@/lib/food-data';
+import { foodDatabase } from '@/lib/food-data';
+import type { FoodItem } from '@/lib/food-data';
 
 const SuggestMealAlternativesInputSchema = z.object({
   mealSlug: z.string().describe('The slug of the meal to find alternatives for.'),
