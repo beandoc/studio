@@ -19,11 +19,14 @@ export type FoodGroup =
     | 'Vegetables'
     | 'Other';
 
+export type MealCategory = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Beverages' | 'Other' | 'Soups'| 'Sweets, Candy & Desserts' | 'Lunch/Dinner' | 'Fruit';
+
+
 export type FoodItem = {
     slug: string;
     name: string;
     cuisine: 'Maharashtrian' | 'Gujarati' | 'North Indian' | 'Generic' | 'South Indian' | 'Punjabi' | 'Bengali' | 'Jain' | 'Indian';
-    mealCategory: 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Beverages' | 'Other' | 'Soups'| 'Sweets, Candy & Desserts' | 'Lunch/Dinner';
+    mealCategory: MealCategory;
     foodGroup: FoodGroup;
     nutritionFacts: {
         servingSize: string;
@@ -39,11 +42,11 @@ export type FoodItem = {
         dietaryFiber?: { value: number; percent?: number };
         sugars?: { value: number };
         protein: { value: number };
-        vitaminD?: { value: number; percent: number };
+        vitaminD?: { value: number; percent?: number };
         calcium?: { value: number; percent?: number };
         iron?: { value: number; percent?: number };
         potassium?: { value: number; percent?: number };
-        vitaminA?: { value: number; percent: number };
+        vitaminA?: { value: number; percent?: number };
         vitaminC?: { value: number; percent?: number };
         folate?: { value: number; };
     };

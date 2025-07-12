@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useProfile } from "@/context/profile-context";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import { Badge } from "@/components/ui/badge";
 
 type MealItem = {
     name: string;
@@ -192,12 +193,26 @@ export default function WeeklyPlanPage() {
           {dietPlan.plan.map((dayPlan: DayPlan) => {
             if (!dayPlan || !dayPlan.day) return null;
 
+            const dailyTotals = dayPlan.meals.reduce((totals, meal) => {
+                meal.items.forEach(item => {
+                    totals.calories += item.calories;
+                    // Note: Protein data is not in MealItem, so can't calculate here.
+                    // This would require a bigger change to pull from food DB.
+                });
+                return totals;
+            }, { calories: 0 });
+
             return (
               <Card key={dayPlan.day} className="flex flex-col min-w-[320px] md:min-w-[350px] flex-shrink-0">
                 <CardHeader>
-                  <CardTitle className="text-xl text-primary">
-                    {dayPlan.day}
-                  </CardTitle>
+                  <div className="flex justify-between items-baseline">
+                    <CardTitle className="text-xl text-primary">
+                      {dayPlan.day}
+                    </CardTitle>
+                     <Badge variant="secondary" className="font-normal">
+                        ~{Math.round(dailyTotals.calories)} kcal
+                      </Badge>
+                  </div>
                 </CardHeader>
                 <CardContent className="flex-grow space-y-3">
                   {(dayPlan.meals || []).map((meal: Meal, index: number) => {
