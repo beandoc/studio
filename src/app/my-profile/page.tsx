@@ -123,6 +123,7 @@ export default function MyProfilePage() {
   const height = watch("height");
   const weight = watch("weight");
   const kidneyCondition = watch("kidneyCondition");
+  const otherHealthConditions = watch("otherHealthConditions");
 
   useEffect(() => {
     if (height && weight) {
@@ -155,6 +156,12 @@ export default function MyProfilePage() {
         }
     }
   }, [kidneyCondition, weight, setValue]);
+  
+  useEffect(() => {
+    if (otherHealthConditions?.includes("diabetes")) {
+      setValue("calorieGoal", 1800);
+    }
+  }, [otherHealthConditions, setValue]);
 
 
   const handleNext = async () => {
