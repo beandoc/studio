@@ -9,7 +9,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { foodService } from "@/services/food-service";
 import type { FoodGroup, FoodItem } from "@/lib/food-data";
-import { ArrowRight, Search, Database } from "lucide-react";
+import { ArrowRight, Search, Database, ChefHat } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -20,7 +20,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 const cuisineOptions = ['All', 'Maharashtrian', 'Gujarati', 'North Indian', 'South Indian', 'Generic', 'Punjabi', 'Bengali', 'Jain', 'Indian'];
-const mealCategoryOptions = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner'];
+const mealCategoryOptions = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner', 'Fruit'];
 const foodGroupOptions: ('All' | FoodGroup)[] = [
     'All',
     'Beans & Legumes',
@@ -67,8 +67,11 @@ export default function FoodDatabasePage() {
         }, {} as Record<string, number>);
 
         const byMealCategory = foodDatabase.reduce((acc, food) => {
-             if (!food.mealCategory) return acc;
-            acc[food.mealCategory] = (acc[food.mealCategory] || 0) + 1;
+            if (!food.mealCategory) return acc;
+            const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
+            categories.forEach(cat => {
+                acc[cat] = (acc[cat] || 0) + 1;
+            });
             return acc;
         }, {} as Record<string, number>);
 
@@ -89,7 +92,10 @@ export default function FoodDatabasePage() {
     const filteredFoods = foodDatabase.filter(food => {
         const matchesSearch = food.name.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesCuisine = cuisineFilter === "All" || food.cuisine === cuisineFilter;
-        const matchesMealCategory = mealCategoryFilter === "All" || food.mealCategory === mealCategoryFilter;
+        
+        const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
+        const matchesMealCategory = mealCategoryFilter === "All" || categories.includes(mealCategoryFilter as any);
+
         const matchesFoodGroup = foodGroupFilter === "All" || food.foodGroup === foodGroupFilter;
         return matchesSearch && matchesCuisine && matchesMealCategory && matchesFoodGroup;
     });
@@ -118,7 +124,7 @@ export default function FoodDatabasePage() {
                     <div>
                         <h4 className="font-bold mb-2">By Food Group</h4>
                         <div className="flex flex-wrap gap-2">
-                            {Object.entries(stats.byFoodGroup).map(([group, count]) => (
+                            {Object.entries(stats.byFoodGroup).slice(0,10).map(([group, count]) => (
                                 <Badge key={group} variant="outline" className="font-normal">
                                     {group}: <span className="font-semibold ml-1">{count}</span>
                                 </Badge>
@@ -129,7 +135,7 @@ export default function FoodDatabasePage() {
                         <h4 className="font-bold mb-2">By Meal Category</h4>
                          <div className="flex flex-wrap gap-2">
                             {Object.entries(stats.byMealCategory).map(([group, count]) => (
-                                <Badge key={group} variant="outline" className="font-normal">
+                                <Badge key={group} variant="outline" className="font-normal capitalize">
                                     {group}: <span className="font-semibold ml-1">{count}</span>
                                 </Badge>
                             ))}
@@ -166,7 +172,7 @@ export default function FoodDatabasePage() {
                         />
                     </div>
                     <div className="lg:col-span-1">
-                         <Select value={foodGroupFilter} onValueChange={setFoodGroupFilter}>
+                         <Select value={foodGroupFilter} onValueChange={(value) => setFoodGroupFilter(value as any)}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Filter by Food Group" />
                             </SelectTrigger>
@@ -196,7 +202,7 @@ export default function FoodDatabasePage() {
                             </SelectTrigger>
                             <SelectContent>
                                 {mealCategoryOptions.map(option => (
-                                    <SelectItem key={option} value={option}>{option}</SelectItem>
+                                    <SelectItem key={option} value={option} className="capitalize">{option}</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
@@ -207,28 +213,39 @@ export default function FoodDatabasePage() {
 
         {filteredFoods.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredFoods.map((food) => (
-                <Card key={food.slug} className="flex flex-col hover:shadow-lg transition-shadow">
-                <CardContent className="p-6 flex-grow">
-                    <h3 className="font-bold text-lg text-primary">{food.name}</h3>
-                    <div className="text-xs text-muted-foreground mt-2 space-x-2 flex flex-wrap gap-1">
-                        {food.foodGroup && <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{food.foodGroup}</span>}
-                        {food.cuisine && <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">{food.cuisine}</span>}
-                        {food.mealCategory && <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full">{food.mealCategory}</span>}
-                    </div>
-                     {food.nutritionSummary && <p className="text-sm mt-4">
-                        {food.nutritionSummary.summaryText}
-                    </p>}
-                </CardContent>
-                <CardFooter>
-                    <Button asChild variant="outline" size="sm" className="w-full">
-                        <Link href={`/food-database/${food.slug}`}>
-                            View Details <ArrowRight className="ml-2 h-4 w-4" />
-                        </Link>
-                    </Button>
-                </CardFooter>
-                </Card>
-            ))}
+            {filteredFoods.map((food) => {
+                const mealCategories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
+                return (
+                    <Card key={food.slug} className="flex flex-col hover:shadow-lg transition-shadow">
+                    <CardContent className="p-6 flex-grow">
+                        <h3 className="font-bold text-lg text-primary">{food.name}</h3>
+                        <div className="text-xs text-muted-foreground mt-2 space-x-2 flex flex-wrap gap-1">
+                            {food.foodGroup && <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{food.foodGroup}</span>}
+                            {food.cuisine && <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">{food.cuisine}</span>}
+                            {mealCategories.map(cat => (
+                                <span key={cat} className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full capitalize">{cat}</span>
+                            ))}
+                        </div>
+                        {food.nutritionSummary && <p className="text-sm mt-4 text-muted-foreground">
+                            {food.nutritionSummary.summaryText}
+                        </p>}
+                        {food.cookingInstructions && (
+                            <div className="mt-4 text-xs text-muted-foreground/80 flex gap-2">
+                                <ChefHat className="h-4 w-4 shrink-0 mt-0.5" />
+                                <p className="truncate">{food.cookingInstructions}</p>
+                            </div>
+                        )}
+                    </CardContent>
+                    <CardFooter>
+                        <Button asChild variant="outline" size="sm" className="w-full">
+                            <Link href={`/food-database/${food.slug}`}>
+                                View Details <ArrowRight className="ml-2 h-4 w-4" />
+                            </Link>
+                        </Button>
+                    </CardFooter>
+                    </Card>
+                );
+            })}
             </div>
         ) : (
             <div className="text-center py-16 text-muted-foreground">

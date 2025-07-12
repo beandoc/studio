@@ -107,16 +107,18 @@ const generateDietPlanFlow = ai.defineFlow(
 
     // 2. Build food lists for each specific meal type requested by the user
     const foodListsForPrompt = input.meals.map(mealType => {
-      const mealTypeNormalized = mealType.toLowerCase() as MealCategory;
+      const mealTypeNormalized = mealType.toLowerCase().replace(" ", "") as MealCategory;
 
       const mealSpecificFoods = relevantFoods
         .filter(food => {
           if (Array.isArray(food.mealCategory)) {
-            return food.mealCategory.includes(mealTypeNormalized);
+            // Check if any of the categories match
+            return food.mealCategory.some(cat => cat.toLowerCase().replace(" ", "") === mealTypeNormalized);
           }
-          return food.mealCategory.toLowerCase() === mealTypeNormalized;
+          // Handle single category string
+          return food.mealCategory.toLowerCase().replace(" ", "") === mealTypeNormalized;
         })
-        .map(food => `${food.name} (Cals: ${food.nutritionFacts.calories}, Protein: ${food.nutritionFacts.protein.value}g)`);
+        .map(food => `${food.name}`);
 
       if (mealSpecificFoods.length === 0) {
         return `For the meal type "${mealType}", there are no available food items based on the user's dietary profile. Do not generate a meal for this slot.`;
@@ -139,10 +141,10 @@ const generateDietPlanFlow = ai.defineFlow(
       - Daily Protein Goal: ~${input.dailyProteinGoal} g
 
       **CRITICAL INSTRUCTIONS:**
-      1.  **Strict Food Selection:** For each meal type, you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists.
-      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like Roti/Chapati (1 no.), a protein like Plain dal (1 Katori), a vegetable side). Snacks can be single items.
+      1.  **Strict Food Selection:** For each meal type (e.g., breakfast, lunch), you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists. This is a strict rule.
+      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like 'Chapati (1 no.)', a protein like 'Plain dal (1 Katori)', a vegetable side). Snacks can be single items.
       3.  **Meet Nutritional Goals:** The combination of all meals for each day should come as close as possible to the user's daily nutritional targets.
-      4.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema. Do not include calorie counts or descriptions in your output.
+      4.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema. Do not include calorie counts or descriptions in your output. Your only job is to provide the 'name' of the food item from the list.
       5.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: ${input.meals.join(', ')}.
 
       **--- AVAILABLE FOODS PER MEAL TYPE ---**
