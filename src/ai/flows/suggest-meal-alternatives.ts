@@ -67,17 +67,18 @@ const suggestMealAlternativesFlow = ai.defineFlow(
     outputSchema: SuggestMealAlternativesOutputSchema,
   },
   async (input) => {
-    const foodDatabase = foodService.getFoodDatabase();
+    // We must instantiate foodService inside the flow to get user-specific data
+    const foodDb = foodService.getFoodDatabase();
     
     // 1. Find the original meal in the database
-    const originalMeal = foodDatabase.find(meal => meal.slug === input.mealSlug);
+    const originalMeal = foodDb.find(meal => meal.slug === input.mealSlug);
 
     if (!originalMeal) {
       throw new Error(`Meal with slug "${input.mealSlug}" not found in the database.`);
     }
 
     // 2. Calculate similarity scores for all other meals in the database
-    const scoredAlternatives = foodDatabase
+    const scoredAlternatives = foodDb
         .filter(meal => meal.slug !== originalMeal.slug) // Exclude the original meal itself
         .map(meal => ({
             ...meal,

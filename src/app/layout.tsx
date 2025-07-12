@@ -6,6 +6,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { ProfileProvider } from "@/context/profile-context";
+import { FoodDataProvider } from "@/context/food-context";
 
 export const metadata: Metadata = {
   title: "Flip and Toss",
@@ -23,12 +24,14 @@ export default function RootLayout({
       <head />
       <body className={cn("min-h-screen bg-background font-sans antialiased")}>
         <ProfileProvider>
-          <SidebarProvider>
-            <AppSidebar />
-            <SidebarInset>
-              {children}
-            </SidebarInset>
-          </SidebarProvider>
+          <FoodDataProvider>
+            <SidebarProvider>
+              <AppSidebar />
+              <SidebarInset>
+                {children}
+              </SidebarInset>
+            </SidebarProvider>
+          </FoodDataProvider>
         </ProfileProvider>
         <Toaster />
       </body>

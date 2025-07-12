@@ -1,8 +1,7 @@
+
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
-import { foodService } from '@/services/food-service';
-import type { FoodItem } from '@/lib/food-data';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -11,6 +10,8 @@ import { Plus, ArrowLeft, Minus } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import type { DailyLog, MealCategory, LoggedMeal } from '@/app/my-meal-tracker/page';
+import { useFoodData } from '@/context/food-context';
+import type { FoodItem } from '@/lib/food-data';
 
 type AddMealDialogProps = {
   isOpen: boolean;
@@ -21,13 +22,12 @@ type AddMealDialogProps = {
 };
 
 export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, dailyLog }: AddMealDialogProps) {
+  const { foodDatabase } = useFoodData();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedServing, setSelectedServing] = useState<string>("");
-  
-  const foodDatabase = useMemo(() => foodService.getFoodDatabase(), []);
 
   const frequentItems = useMemo(() => {
     const allItemsInCategory = dailyLog.meals[category];

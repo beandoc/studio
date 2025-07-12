@@ -17,15 +17,16 @@ import {
 import { Button } from "@/components/ui/button";
 import { Zap, ArrowLeft, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import { foodService } from "@/services/food-service";
 import type { FoodItem } from "@/lib/food-data";
 import Link from "next/link";
 import { useProfile } from "@/context/profile-context";
+import { useFoodData } from "@/context/food-context";
 
 
 function MealAlternativesContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { foodDatabase, findFoodBySlug } = useFoodData();
   const mealSlug = searchParams.get('mealSlug');
   const originalMealName = searchParams.get('originalMealName');
   const { activeProfile, dietPlan, setDietPlan } = useProfile();
@@ -46,7 +47,7 @@ function MealAlternativesContent() {
       return;
     }
 
-    const foundOriginalMeal = foodService.findFoodBySlug(mealSlug);
+    const foundOriginalMeal = findFoodBySlug(mealSlug);
     if (!foundOriginalMeal) {
       toast({
         variant: "destructive",
@@ -84,7 +85,7 @@ function MealAlternativesContent() {
     };
 
     fetchAlternatives();
-  }, [mealSlug, toast]);
+  }, [mealSlug, toast, findFoodBySlug]);
 
   const handleSwap = (alternativeName: string) => {
     const dayToReplace = searchParams.get('day');
@@ -95,7 +96,6 @@ function MealAlternativesContent() {
         return;
     }
     
-    const foodDatabase = foodService.getFoodDatabase();
     const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
     if (!newMealData) {
         toast({ variant: "destructive", title: "Error", description: "Could not find new meal data for the swap." });

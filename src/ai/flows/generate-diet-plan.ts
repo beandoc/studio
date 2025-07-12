@@ -83,6 +83,7 @@ const generateDietPlanFlow = ai.defineFlow(
     outputSchema: GenerateDietPlanOutputSchema,
   },
   async (input) => {
+    // Use the foodService to get the potentially customized database
     const foodDatabase = foodService.getFoodDatabase();
     
     // 1. Determine base dietary filter (vegetarian, vegan, etc.)
@@ -107,16 +108,15 @@ const generateDietPlanFlow = ai.defineFlow(
 
     // 2. Build food lists for each specific meal type requested by the user
     const foodListsForPrompt = input.meals.map(mealType => {
-      const mealTypeNormalized = mealType.toLowerCase().replace(" ", "") as MealCategory;
+      const mealTypeNormalized = mealType.toLowerCase() as MealCategory;
 
       const mealSpecificFoods = relevantFoods
         .filter(food => {
-          if (Array.isArray(food.mealCategory)) {
-            // Check if any of the categories match
-            return food.mealCategory.some(cat => cat.toLowerCase().replace(" ", "") === mealTypeNormalized);
-          }
-          // Handle single category string
-          return food.mealCategory.toLowerCase().replace(" ", "") === mealTypeNormalized;
+          if (!food.mealCategory) return false;
+          const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
+          // Normalize categories from the database for comparison
+          const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/ /g, ""));
+          return normalizedCategories.includes(mealTypeNormalized.replace(/ /g, ""));
         })
         .map(food => `${food.name}`);
 

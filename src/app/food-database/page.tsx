@@ -7,8 +7,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { foodService } from "@/services/food-service";
-import type { FoodGroup, FoodItem } from "@/lib/food-data";
+import type { FoodGroup, FoodItem, MealCategory } from "@/lib/food-data";
 import { ArrowRight, Search, Database, ChefHat } from "lucide-react";
 import {
   Select,
@@ -18,9 +17,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { useFoodData } from "@/context/food-context";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 const cuisineOptions = ['All', 'Maharashtrian', 'Gujarati', 'North Indian', 'South Indian', 'Generic', 'Punjabi', 'Bengali', 'Jain', 'Indian'];
-const mealCategoryOptions = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner', 'Fruit'];
+const mealCategoryOptions: (MealCategory | 'All')[] = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner', 'Fruit'];
 const foodGroupOptions: ('All' | FoodGroup)[] = [
     'All',
     'Beans & Legumes',
@@ -52,13 +58,12 @@ type Stats = {
 
 
 export default function FoodDatabasePage() {
+    const { foodDatabase, updateMealCategories } = useFoodData();
     const [searchTerm, setSearchTerm] = useState("");
     const [cuisineFilter, setCuisineFilter] = useState("All");
-    const [mealCategoryFilter, setMealCategoryFilter] = useState("All");
+    const [mealCategoryFilter, setMealCategoryFilter] = useState<MealCategory | 'All'>("All");
     const [foodGroupFilter, setFoodGroupFilter] = useState<"All" | FoodGroup>("All");
     
-    const foodDatabase = useMemo(() => foodService.getFoodDatabase(), []);
-
     const stats: Stats = useMemo(() => {
         const byFoodGroup = foodDatabase.reduce((acc, food) => {
             if (!food.foodGroup) return acc;
@@ -67,9 +72,9 @@ export default function FoodDatabasePage() {
         }, {} as Record<string, number>);
 
         const byMealCategory = foodDatabase.reduce((acc, food) => {
-            if (!food.mealCategory) return acc;
             const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
             categories.forEach(cat => {
+                if(!cat) return;
                 acc[cat] = (acc[cat] || 0) + 1;
             });
             return acc;
@@ -93,12 +98,29 @@ export default function FoodDatabasePage() {
         const matchesSearch = food.name.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesCuisine = cuisineFilter === "All" || food.cuisine === cuisineFilter;
         
-        const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
+        const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory].filter(Boolean);
         const matchesMealCategory = mealCategoryFilter === "All" || categories.includes(mealCategoryFilter as any);
 
         const matchesFoodGroup = foodGroupFilter === "All" || food.foodGroup === foodGroupFilter;
         return matchesSearch && matchesCuisine && matchesMealCategory && matchesFoodGroup;
     });
+
+  const handleCategoryChange = (slug: string, category: MealCategory, isChecked: boolean) => {
+    const food = foodDatabase.find(f => f.slug === slug);
+    if (!food) return;
+
+    let currentCategories = Array.isArray(food.mealCategory) ? [...food.mealCategory] : (food.mealCategory ? [food.mealCategory] : []);
+
+    if (isChecked) {
+        if (!currentCategories.includes(category)) {
+            currentCategories.push(category);
+        }
+    } else {
+        currentCategories = currentCategories.filter(c => c !== category);
+    }
+    updateMealCategories(slug, currentCategories);
+  };
+
 
   return (
     <div className="flex flex-col w-full">
@@ -214,18 +236,38 @@ export default function FoodDatabasePage() {
         {filteredFoods.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {filteredFoods.map((food) => {
-                const mealCategories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
+                const currentCategories = Array.isArray(food.mealCategory) ? food.mealCategory : (food.mealCategory ? [food.mealCategory] : []);
+                const availableCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Snack"];
                 return (
                     <Card key={food.slug} className="flex flex-col hover:shadow-lg transition-shadow">
                     <CardContent className="p-6 flex-grow">
                         <h3 className="font-bold text-lg text-primary">{food.name}</h3>
-                        <div className="text-xs text-muted-foreground mt-2 space-x-2 flex flex-wrap gap-1">
-                            {food.foodGroup && <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{food.foodGroup}</span>}
-                            {food.cuisine && <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full">{food.cuisine}</span>}
-                            {mealCategories.map(cat => (
-                                <span key={cat} className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full capitalize">{cat}</span>
-                            ))}
+                         <div className="text-xs text-muted-foreground mt-2 space-x-2">
+                            {food.foodGroup && <Badge variant="secondary" className="font-normal">{food.foodGroup}</Badge>}
+                            {food.cuisine && <Badge variant="secondary" className="font-normal">{food.cuisine}</Badge>}
                         </div>
+
+                        <div className="mt-4">
+                            <Label className="text-xs font-bold text-muted-foreground">Meal Categories</Label>
+                            <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2">
+                                {availableCategories.map(cat => (
+                                    <div key={cat} className="flex items-center space-x-2">
+                                        <Checkbox 
+                                            id={`${food.slug}-${cat}`}
+                                            checked={currentCategories.includes(cat)}
+                                            onCheckedChange={(checked) => handleCategoryChange(food.slug, cat, !!checked)}
+                                        />
+                                        <label
+                                            htmlFor={`${food.slug}-${cat}`}
+                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
+                                        >
+                                            {cat}
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
                         {food.nutritionSummary && <p className="text-sm mt-4 text-muted-foreground">
                             {food.nutritionSummary.summaryText}
                         </p>}

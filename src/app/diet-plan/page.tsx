@@ -41,11 +41,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useRouter } from "next/navigation";
-import { foodService } from "@/services/food-service";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
 import { useProfile } from "@/context/profile-context";
 import Link from "next/link";
+import { useFoodData } from "@/context/food-context";
 
 
 const FormSchema = z.object({
@@ -66,6 +66,7 @@ const dailyMealOptions = ["breakfast", "lunch", "dinner", "morning snack", "afte
 
 export default function DietPlanPage() {
   const { activeProfile, dietPlan, setDietPlan, isLoading: isProfileLoading } = useProfile();
+  const { foodDatabase, findFoodBySlug } = useFoodData();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
@@ -146,7 +147,6 @@ export default function DietPlanPage() {
   };
   
   const handleFlipMeal = (day: string, mealType: string, mealItemName: string) => {
-    const foodDatabase = foodService.getFoodDatabase();
     const mealToFlip = foodDatabase.find(food => food.name === mealItemName);
     
     if (mealToFlip) {
@@ -304,7 +304,6 @@ export default function DietPlanPage() {
                             <h4 className="font-semibold capitalize text-lg mb-2 flex items-center gap-2"><Utensils className="h-5 w-5 text-primary" />{meal.type}</h4>
                             <div className="space-y-2">
                             {meal.items.map((item: MealItem, itemIndex: number) => {
-                                const foodDatabase = foodService.getFoodDatabase();
                                 const foodItem = foodDatabase.find(food => food.name === item.name);
                                 const slug = foodItem?.slug;
 
@@ -395,5 +394,3 @@ export default function DietPlanPage() {
     </div>
   );
 }
-
-    

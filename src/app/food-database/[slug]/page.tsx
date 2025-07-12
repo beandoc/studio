@@ -1,6 +1,6 @@
+
 "use client";
 
-import { foodService } from "@/services/food-service";
 import type { FoodItem } from "@/lib/food-data";
 import { notFound } from "next/navigation";
 import Header from "@/components/header";
@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ChefHat } from "lucide-react";
 import React, { use } from 'react';
 import Image from "next/image";
+import { useFoodData } from "@/context/food-context";
 
 type NutrientRowProps = {
     label: string;
@@ -176,8 +177,9 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
 
 
 export default function FoodDetailPage({ params }: { params: { slug: string } }) {
+  const { findFoodBySlug } = useFoodData();
   const resolvedParams = use(Promise.resolve(params));
-  const food = foodService.findFoodBySlug(resolvedParams.slug);
+  const food = findFoodBySlug(resolvedParams.slug);
 
   if (!food) {
     notFound();
