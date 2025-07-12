@@ -26,7 +26,7 @@ export type FoodItem = {
     slug: string;
     name: string;
     cuisine: 'Maharashtrian' | 'Gujarati' | 'North Indian' | 'Generic' | 'South Indian' | 'Punjabi' | 'Bengali' | 'Jain' | 'Indian';
-    mealCategory: MealCategory;
+    mealCategory: MealCategory | MealCategory[];
     foodGroup: FoodGroup;
     nutritionFacts: {
         servingSize: string;

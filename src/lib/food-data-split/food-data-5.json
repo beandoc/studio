@@ -1096,7 +1096,7 @@
         "slug": "chapati-1-no",
         "name": "Chapati (1 no.)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "1 serving",
@@ -1148,7 +1148,7 @@
         "slug": "phulkas-1-no",
         "name": "Phulkas (1 no.)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "1 serving",
@@ -1824,7 +1824,7 @@
         "slug": "plain-dal-1-katori",
         "name": "Plain dal (1 Katori)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Soups",
         "nutritionFacts": {
             "servingSize": "1 serving",
@@ -1876,7 +1876,7 @@
         "slug": "dal-with-vaghar-1-katori",
         "name": "Dal with vaghar (1 Katori)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Soups",
         "nutritionFacts": {
             "servingSize": "1 serving",
@@ -1928,7 +1928,7 @@
         "slug": "mung-ki-dal-1-katori",
         "name": "Mung ki dal (1 Katori)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Soups",
         "nutritionFacts": {
             "servingSize": "1 serving",
@@ -1980,7 +1980,7 @@
         "slug": "mung-ki-dal-with-voghar-1-katori",
         "name": "Mung ki dal with Voghar (1 katori)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Soups",
         "nutritionFacts": {
             "servingSize": "1 serving",
@@ -2032,7 +2032,7 @@
         "slug": "masoor-ki-dal-1-katori",
         "name": "Masoor ki dal (1 katori)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Soups",
         "nutritionFacts": {
             "servingSize": "1 serving",
@@ -2396,7 +2396,7 @@
         "slug": "vegetable-sandwich-1-no",
         "name": "Vegetable -Sandwich (1 no.)",
         "cuisine": "Indian",
-        "mealCategory": "Breakfast",
+        "mealCategory": ["Breakfast", "Snack"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "1 serving",
@@ -2604,7 +2604,7 @@
         "slug": "sambhaar-1-katori",
         "name": "Sambhaar (1 katori)",
         "cuisine": "Indian",
-        "mealCategory": "Lunch/Dinner",
+        "mealCategory": ["Lunch", "Dinner"],
         "foodGroup": "Soups",
         "nutritionFacts": {
             "servingSize": "1 serving",

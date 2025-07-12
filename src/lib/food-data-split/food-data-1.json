@@ -699,7 +699,7 @@
         "slug": "cheese-and-chilli-sandwich",
         "name": "Cheese and chilli sandwich ",
         "cuisine": "Generic",
-        "mealCategory": "Breakfast",
+        "mealCategory": ["Breakfast", "Snack"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "100 g",
@@ -732,7 +732,7 @@
         "slug": "egg-sandwich-ande-ka-sandwich",
         "name": "Egg sandwich (Ande ka sandwich)",
         "cuisine": "Generic",
-        "mealCategory": "Breakfast",
+        "mealCategory": ["Breakfast", "Snack"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "100 g",
@@ -765,7 +765,7 @@
         "slug": "cucumber-sandwich-kheere-ka-sandwich",
         "name": "Cucumber sandwich (Kheere ka sandwich)",
         "cuisine": "Generic",
-        "mealCategory": "Breakfast",
+        "mealCategory": ["Breakfast", "Snack"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "100 g",
@@ -798,7 +798,7 @@
         "slug": "cheese-and-pineapple-sandwich-cheese-aur-ananas-ka-sandwich",
         "name": "Cheese and pineapple sandwich (Cheese aur ananas ka sandwich)",
         "cuisine": "Generic",
-        "mealCategory": "Breakfast",
+        "mealCategory": ["Breakfast", "Snack"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "100 g",
@@ -831,7 +831,7 @@
         "slug": "cheese-and-tomato-sandwich-cheese-aur-tamatar-ke-sandwich",
         "name": "Cheese and tomato sandwich (Cheese aur tamatar ke sandwich)",
         "cuisine": "Generic",
-        "mealCategory": "Breakfast",
+        "mealCategory": ["Breakfast", "Snack"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "100 g",
@@ -864,7 +864,7 @@
         "slug": "chicken-sandwich",
         "name": "Chicken sandwich",
         "cuisine": "Generic",
-        "mealCategory": "Breakfast",
+        "mealCategory": ["Breakfast", "Lunch"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "100 g",
@@ -1300,7 +1300,7 @@
         "slug": "rice-flakes",
         "name": "RICE, flakes",
         "cuisine": "Indian",
-        "mealCategory": "Breakfast",
+        "mealCategory": ["Breakfast", "Snack"],
         "foodGroup": "Breads & Cereals",
         "nutritionFacts": {
             "servingSize": "100 g",

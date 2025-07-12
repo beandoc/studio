@@ -76,18 +76,6 @@ export async function generateDietPlan(input: GenerateDietPlanInput): Promise<Ge
   return generateDietPlanFlow(input);
 }
 
-
-// Define a mapping from our meal types to the MealCategory type
-const mealCategoryMap: { [key: string]: MealCategory[] } = {
-  'breakfast': ['Breakfast'],
-  'lunch': ['Lunch', 'Lunch/Dinner'],
-  'dinner': ['Dinner', 'Lunch/Dinner'],
-  'morning snack': ['Snack'],
-  'afternoon snack': ['Snack'],
-  'evening snack': ['Snack'],
-};
-
-
 const generateDietPlanFlow = ai.defineFlow(
   {
     name: 'generateDietPlanFlow',
@@ -119,13 +107,21 @@ const generateDietPlanFlow = ai.defineFlow(
 
     // 2. Build food lists for each specific meal type requested by the user
     const foodListsForPrompt = input.meals.map(mealType => {
-      const validCategories = mealCategoryMap[mealType.toLowerCase()];
-      if (!validCategories) return `For ${mealType}, no categories found.`;
+      const mealTypeNormalized = mealType.toLowerCase() as MealCategory;
 
       const mealSpecificFoods = relevantFoods
-        .filter(food => validCategories.includes(food.mealCategory))
+        .filter(food => {
+          if (Array.isArray(food.mealCategory)) {
+            return food.mealCategory.includes(mealTypeNormalized);
+          }
+          return food.mealCategory.toLowerCase() === mealTypeNormalized;
+        })
         .map(food => `${food.name} (Cals: ${food.nutritionFacts.calories}, Protein: ${food.nutritionFacts.protein.value}g)`);
 
+      if (mealSpecificFoods.length === 0) {
+        return `For the meal type "${mealType}", there are no available food items based on the user's dietary profile. Do not generate a meal for this slot.`;
+      }
+      
       return `For the meal type "${mealType}", you MUST choose from this list ONLY: [${mealSpecificFoods.join(', ')}]`;
     }).join('\n\n');
     
@@ -210,5 +206,3 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
-
-    
