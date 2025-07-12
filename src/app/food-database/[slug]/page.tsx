@@ -1,7 +1,5 @@
 
-"use client";
-
-import { foodDatabase } from "@/lib/food-data";
+import { foodDatabase, type FoodItem } from "@/lib/food-data";
 import { notFound } from "next/navigation";
 import Header from "@/components/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -29,13 +27,7 @@ const NutrientRow = ({ label, value, unit, percent, bold = false, indent = false
     </div>
 );
 
-export default function FoodDetailPage({ params }: { params: { slug: string } }) {
-  const food = foodDatabase.find((item) => item.slug === params.slug);
-
-  if (!food) {
-    notFound();
-  }
-  
+function FoodDetailClient({ food }: { food: FoodItem }) {
   const servingSize = food.nutritionFacts.servingSize;
 
   return (
@@ -150,4 +142,15 @@ export default function FoodDetailPage({ params }: { params: { slug: string } })
       </main>
     </div>
   );
+}
+
+
+export default function FoodDetailPage({ params }: { params: { slug: string } }) {
+  const food = foodDatabase.find((item) => item.slug === params.slug);
+
+  if (!food) {
+    notFound();
+  }
+  
+  return <FoodDetailClient food={food} />;
 }
