@@ -7,6 +7,7 @@ import data3 from '@/lib/food-data-split/food-data-3.json';
 import data4 from '@/lib/food-data-split/food-data-4.json';
 import data5 from '@/lib/food-data-split/food-data-5.json';
 import dairyAndEggsData from '@/lib/food-data-split/dairy-and-eggs.json';
+import nutsAndSeedsData from '@/lib/food-data-split/nuts-and-seeds.json';
 
 class FoodService {
   private static instance: FoodService;
@@ -21,6 +22,7 @@ class FoodService {
         ...(data4 as FoodItem[]),
         ...(data5 as FoodItem[]),
         ...(dairyAndEggsData as FoodItem[]),
+        ...(nutsAndSeedsData as FoodItem[]),
     ];
   }
 

@@ -521,58 +521,6 @@
         ]
     },
     {
-        "slug": "jack-fruit-seeds",
-        "name": "JACK FRUIT, seeds",
-        "cuisine": "Indian",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 133,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 26
-            },
-            "dietaryFiber": {
-                "value": 1
-            },
-            "protein": {
-                "value": 7
-            },
-            "calcium": {
-                "value": 50
-            },
-            "iron": {
-                "value": 1
-            },
-            "potassium": {
-                "value": 0
-            }
-        },
-        "nutritionSummary": {
-            "calories": 133,
-            "fat": "0.0g",
-            "carbs": "26.0g",
-            "protein": "7.0g",
-            "summaryText": "Nutritional facts for JACK FRUIT, seeds per 100g.",
-            "breakdown": "0% fat, 78% carbs, 22% protein."
-        },
-        "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 133
-            }
-        ]
-    },
-    {
         "slug": "kankoda",
         "name": "KANKODA",
         "cuisine": "Indian",
