@@ -13670,6 +13670,3 @@ export const foodDatabase: FoodItem[] = [
         ]
     }
 ]
-
-
-
