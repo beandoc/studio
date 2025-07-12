@@ -2,7 +2,7 @@
 'use server';
 
 /**
- * @fileOverview Generates a personalized 7-day diet plan based on user's health requirements and preferences.
+ * @fileOverview Generates a personalized 7-day diet plan based on user's health requirements, preferences, and the available food database.
  *
  * - generateDietPlan - A function that generates the diet plan.
  * - GenerateDietPlanInput - The input type for the generateDietPlan function.
@@ -11,6 +11,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
+import { foodDatabase } from '@/lib/food-data';
 
 const GenerateDietPlanInputSchema = z.object({
   healthRequirements: z
@@ -20,6 +21,7 @@ const GenerateDietPlanInputSchema = z.object({
     .string()
     .describe('Dietary preferences of the user, e.g., vegetarian, low-sodium, favorite foods, foods to avoid.'),
   meals: z.string().describe("Comma-separated list of meals to generate, e.g., 'breakfast, lunch, dinner, morning snack, afternoon snack, evening snack'"),
+  foodList: z.string().describe("A comma-separated list of available food items to choose from for creating the diet plan.")
 });
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
@@ -43,8 +45,30 @@ const GenerateDietPlanOutputSchema = z.object({
 });
 export type GenerateDietPlanOutput = z.infer<typeof GenerateDietPlanOutputSchema>;
 
-export async function generateDietPlan(input: GenerateDietPlanInput): Promise<GenerateDietPlanOutput> {
-  return generateDietPlanFlow(input);
+export async function generateDietPlan(input: Omit<GenerateDietPlanInput, 'foodList'>): Promise<GenerateDietPlanOutput> {
+  
+  // Filter food database based on user preferences (e.g., vegetarian)
+  // A simple implementation for now. This could be expanded.
+  const isVegetarian = input.preferences.toLowerCase().includes('vegetarian');
+  const isNonVegetarian = input.preferences.toLowerCase().includes('non-vegetarian');
+
+  let relevantFoods = foodDatabase;
+  if (isVegetarian && !isNonVegetarian) {
+      relevantFoods = foodDatabase.filter(food => 
+          food.foodGroup !== 'Meat' && 
+          food.foodGroup !== 'Fish & Seafood' && 
+          food.foodGroup !== 'Eggs'
+      );
+  }
+
+  const foodList = relevantFoods.map(food => food.name).join(', ');
+
+  const flowInput: GenerateDietPlanInput = {
+    ...input,
+    foodList,
+  };
+
+  return generateDietPlanFlow(flowInput);
 }
 
 const prompt = ai.definePrompt({
@@ -53,10 +77,14 @@ const prompt = ai.definePrompt({
   output: {schema: GenerateDietPlanOutputSchema},
   prompt: `You are an expert dietitian specializing in creating personalized diet plans.
 
-  Based on the user's health requirements and preferences, generate a personalized 7-day diet plan as a list of daily plans.
+  Based on the user's health requirements and preferences, generate a personalized 7-day diet plan.
+
+  IMPORTANT: You MUST select meals exclusively from the following list of available foods:
+  {{{foodList}}}
+
   For each day, provide the day name, a list of meals, and optional daily notes.
   Each meal in the list should have a 'type' (one of: {{{meals}}}) and 'details' containing the name, description, and calorie count.
-  The meal name MUST be concise, containing a maximum of three words.
+  The meal name MUST exactly match an item from the provided food list.
   The meal description MUST be brief, containing a maximum of 15 words.
   Ensure the generated plan strictly adheres to the provided health requirements.
 
@@ -72,7 +100,23 @@ const generateDietPlanFlow = ai.defineFlow(
     outputSchema: GenerateDietPlanOutputSchema,
   },
   async input => {
+    // Before calling the prompt, find the calorie and description details for the meals.
+    // This is a simplified approach. A more advanced version could do this after the LLM selects the meals.
     const {output} = await prompt(input);
+
+    // Post-processing to ensure calorie counts and descriptions are accurate based on the database
+    if (output && output.plan) {
+        output.plan.forEach(day => {
+            day.meals.forEach(meal => {
+                const dbEntry = foodDatabase.find(food => food.name === meal.details.name);
+                if (dbEntry) {
+                    meal.details.calories = dbEntry.nutritionFacts.calories;
+                    meal.details.description = dbEntry.nutritionSummary.summaryText;
+                }
+            });
+        });
+    }
+
     return output!;
   }
 );
