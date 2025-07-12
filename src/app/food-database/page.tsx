@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { FoodGroup, FoodItem, MealCategory } from "@/lib/food-data";
-import { ArrowRight, Search, Database, ChefHat } from "lucide-react";
+import { ArrowRight, Search, Database, ChefHat, Plus } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -56,13 +56,13 @@ type Stats = {
     byCuisine: Record<string, number>;
 }
 
-
 export default function FoodDatabasePage() {
-    const { foodDatabase, updateMealCategories } = useFoodData();
+    const { foodDatabase, updateMealCategories, updateAliases } = useFoodData();
     const [searchTerm, setSearchTerm] = useState("");
     const [cuisineFilter, setCuisineFilter] = useState("All");
     const [mealCategoryFilter, setMealCategoryFilter] = useState<MealCategory | 'All'>("All");
     const [foodGroupFilter, setFoodGroupFilter] = useState<"All" | FoodGroup>("All");
+    const [aliasInputs, setAliasInputs] = useState<Record<string, string>>({});
     
     const stats: Stats = useMemo(() => {
         const byFoodGroup = foodDatabase.reduce((acc, food) => {
@@ -95,7 +95,10 @@ export default function FoodDatabasePage() {
     }, [foodDatabase]);
 
     const filteredFoods = foodDatabase.filter(food => {
-        const matchesSearch = food.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const searchLower = searchTerm.toLowerCase();
+        const matchesSearch = food.name.toLowerCase().includes(searchLower) ||
+                              (food.aliases && food.aliases.some(a => a.toLowerCase().includes(searchLower)));
+
         const matchesCuisine = cuisineFilter === "All" || food.cuisine === cuisineFilter;
         
         const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory].filter(Boolean);
@@ -120,7 +123,18 @@ export default function FoodDatabasePage() {
     }
     updateMealCategories(slug, currentCategories);
   };
+  
+  const handleAliasChange = (slug: string, value: string) => {
+    setAliasInputs(prev => ({...prev, [slug]: value}));
+  };
 
+  const handleSaveAliases = (slug: string) => {
+    const newAliases = (aliasInputs[slug] || "")
+      .split(',')
+      .map(a => a.trim())
+      .filter(a => a); // remove any empty strings
+    updateAliases(slug, newAliases);
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -187,7 +201,7 @@ export default function FoodDatabasePage() {
                     <div className="relative md:col-span-1 lg:col-span-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                         <Input 
-                            placeholder="Search for a food..."
+                            placeholder="Search by name or alias..."
                             className="pl-10"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -268,15 +282,22 @@ export default function FoodDatabasePage() {
                             </div>
                         </div>
 
-                        {food.nutritionSummary && <p className="text-sm mt-4 text-muted-foreground">
-                            {food.nutritionSummary.summaryText}
-                        </p>}
-                        {food.cookingInstructions && (
-                            <div className="mt-4 text-xs text-muted-foreground/80 flex gap-2">
-                                <ChefHat className="h-4 w-4 shrink-0 mt-0.5" />
-                                <p className="truncate">{food.cookingInstructions}</p>
+                        <div className="mt-4">
+                            <Label htmlFor={`alias-${food.slug}`} className="text-xs font-bold text-muted-foreground">Aliases (comma-separated)</Label>
+                            {food.aliases && food.aliases.length > 0 && <p className="text-xs text-muted-foreground">Current: {food.aliases.join(', ')}</p>}
+                            <div className="flex items-center gap-2 mt-1">
+                                <Input 
+                                    id={`alias-${food.slug}`}
+                                    placeholder="e.g. Roti, Phulka"
+                                    value={aliasInputs[food.slug] ?? ''}
+                                    onChange={(e) => handleAliasChange(food.slug, e.target.value)}
+                                    className="h-9"
+                                />
+                                <Button size="sm" variant="outline" onClick={() => handleSaveAliases(food.slug)} className="h-9">
+                                    <Plus className="h-4 w-4"/>
+                                </Button>
                             </div>
-                        )}
+                        </div>
                     </CardContent>
                     <CardFooter>
                         <Button asChild variant="outline" size="sm" className="w-full">

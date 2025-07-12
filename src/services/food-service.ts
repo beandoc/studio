@@ -13,14 +13,13 @@ import fruitsData from '@/lib/food-data-split/fruits.json';
 class FoodService {
   private static instance: FoodService;
   private foodDatabase: FoodItem[];
-  private categoryOverrides: Record<string, MealCategory[]> = {};
 
   private constructor() {
     this.foodDatabase = this.loadInitialData();
   }
 
   private loadInitialData(): FoodItem[] {
-    return [
+    const allData = [
         ...(data1 as FoodItem[]),
         ...(data2 as FoodItem[]),
         ...(data3 as FoodItem[]),
@@ -30,6 +29,9 @@ class FoodService {
         ...(nutsAndSeedsData as FoodItem[]),
         ...(fruitsData as FoodItem[]),
     ];
+    // This removes duplicates by slug, preferring the last one found.
+    const uniqueData = Array.from(new Map(allData.map(item => [item.slug, item])).values());
+    return uniqueData;
   }
 
   public static getInstance(): FoodService {
@@ -40,25 +42,10 @@ class FoodService {
   }
 
   public getFoodDatabase(): FoodItem[] {
-    // Apply overrides to the base data
-    return this.foodDatabase.map(item => {
-        if (this.categoryOverrides[item.slug]) {
-            return {
-                ...item,
-                mealCategory: this.categoryOverrides[item.slug],
-            };
-        }
-        return item;
-    });
+    return this.foodDatabase;
   }
   
-  public setCategoryOverrides(overrides: Record<string, MealCategory[]>) {
-    this.categoryOverrides = overrides;
-    // No need to reload the whole database, just apply overrides on get
-  }
-
   public findFoodBySlug(slug: string): FoodItem | undefined {
-    // Important: get the database with overrides applied
     return this.getFoodDatabase().find(item => item.slug === slug);
   }
 }

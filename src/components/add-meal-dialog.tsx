@@ -64,31 +64,32 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
   const handleSelectFood = (food: FoodItem) => {
     setSelectedFood(food);
     // Set default serving size to the primary one
-    setSelectedServing(food.nutritionFacts.servingSize);
+    if (food.servingSizes && food.servingSizes.length > 0) {
+      setSelectedServing(food.servingSizes[0].size);
+    } else {
+      setSelectedServing(food.nutritionFacts.servingSize);
+    }
     setQuantity(1);
   };
 
   const handleAddMealClick = () => {
     if (!selectedFood) return;
 
-    const servingSizeData = selectedFood.servingSizes.find(s => s.size === selectedServing);
-    const primaryServingSize = selectedFood.servingSizes[0] || { size: selectedFood.nutritionFacts.servingSize, calories: selectedFood.nutritionFacts.calories};
+    const servingSizeData = selectedFood.servingSizes?.find(s => s.size === selectedServing);
+    const primaryServingSize = selectedFood.servingSizes?.[0] || { size: selectedFood.nutritionFacts.servingSize, calories: selectedFood.nutritionFacts.calories};
     const primaryNutrients = selectedFood.nutritionFacts;
 
     let baseCalories, baseProtein, baseFat, baseCarbs;
 
-    // Use primary serving size as the base for ratio calculation
     const baseNutrientCalories = primaryServingSize.calories;
     
     if(servingSizeData && baseNutrientCalories > 0) {
-        // Calculate based on selected serving size
         const ratio = servingSizeData.calories / baseNutrientCalories;
         baseCalories = servingSizeData.calories;
         baseProtein = primaryNutrients.protein.value * ratio;
         baseFat = primaryNutrients.totalFat.value * ratio;
         baseCarbs = primaryNutrients.totalCarbohydrate.value * ratio;
     } else {
-        // Fallback to primary nutrients if something goes wrong or calories are 0
         baseCalories = primaryNutrients.calories;
         baseProtein = primaryNutrients.protein.value;
         baseFat = primaryNutrients.totalFat.value;
@@ -205,7 +206,7 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
                     <SelectValue placeholder="Select a serving" />
                 </SelectTrigger>
                 <SelectContent>
-                    {selectedFood.servingSizes.map(serving => (
+                    {selectedFood.servingSizes?.map(serving => (
                         <SelectItem key={serving.size} value={serving.size}>
                             {serving.size} ({Math.round(serving.calories)} kcal)
                         </SelectItem>
