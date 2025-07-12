@@ -39,7 +39,7 @@ export async function suggestMealAlternatives(input: SuggestMealAlternativesInpu
 }
 
 
-// Helper function to calculate a similarity score
+// Helper function to calculate a similarity score. A lower score means a better match.
 const calculateSimilarityScore = (original: FoodItem, alternative: FoodItem): number => {
     const originalProtein = original.nutritionFacts.protein.value;
     const originalCarbs = original.nutritionFacts.totalCarbohydrate.value;
@@ -47,7 +47,8 @@ const calculateSimilarityScore = (original: FoodItem, alternative: FoodItem): nu
     const altProtein = alternative.nutritionFacts.protein.value;
     const altCarbs = alternative.nutritionFacts.totalCarbohydrate.value;
     
-    // Calculate percentage difference for protein and carbs
+    // Calculate percentage difference for protein and carbs.
+    // This normalizes the differences so one nutrient doesn't overpower the other.
     const proteinDiff = originalProtein > 0 ? Math.abs(originalProtein - altProtein) / originalProtein : (altProtein > 0 ? 1 : 0);
     const carbsDiff = originalCarbs > 0 ? Math.abs(originalCarbs - altCarbs) / originalCarbs : (altCarbs > 0 ? 1 : 0);
 
@@ -72,17 +73,19 @@ const suggestMealAlternativesFlow = ai.defineFlow(
       throw new Error(`Meal with slug "${input.mealSlug}" not found in the database.`);
     }
 
-    // 2. Calculate similarity scores for all other meals
+    // 2. Calculate similarity scores for all other meals in the database
     const scoredAlternatives = foodDatabase
-        .filter(meal => meal.slug !== originalMeal.slug) // Exclude the original meal
+        .filter(meal => meal.slug !== originalMeal.slug) // Exclude the original meal itself
         .map(meal => ({
             ...meal,
-            similarityScore: calculateSimilarityScore(originalMeal, meal)
+            // Calculate a score for each potential alternative
+            similarityScore: calculateSimilarityScore(originalMeal, meal) 
         }))
-        .sort((a, b) => a.similarityScore - b.similarityScore); // Sort by best score (lowest)
+        // Sort by the similarity score in ascending order (lowest score is the best match)
+        .sort((a, b) => a.similarityScore - b.similarityScore); 
 
     
-    // 3. Format the output with the top 2 alternatives
+    // 3. Format the output with the top 2 best-scoring alternatives
     const alternatives = scoredAlternatives.slice(0, 2).map(alt => ({
         name: alt.name,
         description: alt.nutritionSummary.summaryText,
