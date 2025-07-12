@@ -18,9 +18,6 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useFoodData } from "@/context/food-context";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -129,11 +126,13 @@ export default function FoodDatabasePage() {
   };
 
   const handleSaveAliases = (slug: string) => {
-    const newAliases = (aliasInputs[slug] || "")
+    const newAliases = (aliasInputs[slug] ?? "")
       .split(',')
       .map(a => a.trim())
       .filter(a => a); // remove any empty strings
     updateAliases(slug, newAliases);
+    // Clear the input field for that card after saving
+    setAliasInputs(prev => ({...prev, [slug]: ''}));
   };
 
   return (
@@ -149,10 +148,8 @@ export default function FoodDatabasePage() {
                     <Database className="h-6 w-6 text-primary"/>
                     Database At a Glance
                 </CardTitle>
-                <CardDescription asChild>
-                  <div className="text-sm text-muted-foreground">
-                    We currently have <Badge variant="secondary">{stats.total}</Badge> food items in our database.
-                  </div>
+                <CardDescription>
+                  We currently have <Badge variant="secondary">{stats.total}</Badge> food items in our database.
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -232,7 +229,7 @@ export default function FoodDatabasePage() {
                         </Select>
                     </div>
                      <div className="lg:col-span-1">
-                         <Select value={mealCategoryFilter} onValueChange={setMealCategoryFilter}>
+                         <Select value={mealCategoryFilter} onValueChange={(value) => setMealCategoryFilter(value as MealCategory | 'All')}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Filter by Meal Type" />
                             </SelectTrigger>
@@ -254,58 +251,67 @@ export default function FoodDatabasePage() {
                 const availableCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Snack"];
                 return (
                     <Card key={food.slug} className="flex flex-col hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6 flex-grow">
-                        <h3 className="font-bold text-lg text-primary">{food.name}</h3>
-                         <div className="text-xs text-muted-foreground mt-2 space-x-2">
-                            {food.foodGroup && <Badge variant="secondary" className="font-normal">{food.foodGroup}</Badge>}
-                            {food.cuisine && <Badge variant="secondary" className="font-normal">{food.cuisine}</Badge>}
-                        </div>
-
-                        <div className="mt-4">
-                            <Label className="text-xs font-bold text-muted-foreground">Meal Categories</Label>
-                            <div className="flex flex-wrap gap-x-4 gap-y-2 mt-2">
-                                {availableCategories.map(cat => (
-                                    <div key={cat} className="flex items-center space-x-2">
-                                        <Checkbox 
-                                            id={`${food.slug}-${cat}`}
-                                            checked={currentCategories.includes(cat)}
-                                            onCheckedChange={(checked) => handleCategoryChange(food.slug, cat, !!checked)}
-                                        />
-                                        <label
-                                            htmlFor={`${food.slug}-${cat}`}
-                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
-                                        >
-                                            {cat}
-                                        </label>
-                                    </div>
-                                ))}
+                        <CardContent className="p-4 flex-grow space-y-4">
+                            <div>
+                                <h3 className="font-bold text-lg text-primary">{food.name}</h3>
+                                <div className="text-xs text-muted-foreground mt-2 flex flex-wrap gap-1">
+                                    {food.foodGroup && <Badge variant="secondary" className="font-normal">{food.foodGroup}</Badge>}
+                                    {food.cuisine && <Badge variant="secondary" className="font-normal">{food.cuisine}</Badge>}
+                                </div>
                             </div>
-                        </div>
+                            
+                            {food.cookingInstructions && (
+                                <p className="text-xs text-muted-foreground italic border-l-2 pl-2">
+                                    <ChefHat className="inline-block h-3 w-3 mr-1" />
+                                    {food.cookingInstructions}
+                                </p>
+                            )}
 
-                        <div className="mt-4">
-                            <Label htmlFor={`alias-${food.slug}`} className="text-xs font-bold text-muted-foreground">Aliases (comma-separated)</Label>
-                            {food.aliases && food.aliases.length > 0 && <p className="text-xs text-muted-foreground">Current: {food.aliases.join(', ')}</p>}
-                            <div className="flex items-center gap-2 mt-1">
-                                <Input 
-                                    id={`alias-${food.slug}`}
-                                    placeholder="e.g. Roti, Phulka"
-                                    value={aliasInputs[food.slug] ?? ''}
-                                    onChange={(e) => handleAliasChange(food.slug, e.target.value)}
-                                    className="h-9"
-                                />
-                                <Button size="sm" variant="outline" onClick={() => handleSaveAliases(food.slug)} className="h-9">
-                                    <Plus className="h-4 w-4"/>
-                                </Button>
+                            <div>
+                                <Label className="text-xs font-bold text-muted-foreground">Meal Categories</Label>
+                                <div className="flex flex-wrap gap-x-4 gap-y-2 mt-1">
+                                    {availableCategories.map(cat => (
+                                        <div key={cat} className="flex items-center space-x-2">
+                                            <Checkbox 
+                                                id={`${food.slug}-${cat}`}
+                                                checked={currentCategories.includes(cat)}
+                                                onCheckedChange={(checked) => handleCategoryChange(food.slug, cat, !!checked)}
+                                            />
+                                            <label
+                                                htmlFor={`${food.slug}-${cat}`}
+                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
+                                            >
+                                                {cat}
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    </CardContent>
-                    <CardFooter>
-                        <Button asChild variant="outline" size="sm" className="w-full">
-                            <Link href={`/food-database/${food.slug}`}>
-                                View Details <ArrowRight className="ml-2 h-4 w-4" />
-                            </Link>
-                        </Button>
-                    </CardFooter>
+
+                            <div>
+                                <Label htmlFor={`alias-${food.slug}`} className="text-xs font-bold text-muted-foreground">Aliases</Label>
+                                {food.aliases && food.aliases.length > 0 && <p className="text-xs text-muted-foreground">Current: {food.aliases.join(', ')}</p>}
+                                <div className="flex items-center gap-2 mt-1">
+                                    <Input 
+                                        id={`alias-${food.slug}`}
+                                        placeholder="Add comma-separated aliases"
+                                        value={aliasInputs[food.slug] ?? ''}
+                                        onChange={(e) => handleAliasChange(food.slug, e.target.value)}
+                                        className="h-9"
+                                    />
+                                    <Button size="sm" variant="outline" onClick={() => handleSaveAliases(food.slug)} className="h-9 px-2">
+                                        <Plus className="h-4 w-4"/>
+                                    </Button>
+                                </div>
+                            </div>
+                        </CardContent>
+                        <CardFooter className="p-2 pt-0">
+                            <Button asChild variant="outline" size="sm" className="w-full">
+                                <Link href={`/food-database/${food.slug}`}>
+                                    View Details <ArrowRight className="ml-2 h-4 w-4" />
+                                </Link>
+                            </Button>
+                        </CardFooter>
                     </Card>
                 );
             })}
