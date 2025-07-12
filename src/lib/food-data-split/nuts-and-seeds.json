@@ -924,57 +924,5 @@
             "breakdown": "83% fat, 8% carbs, 9% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 654 }, { "size": "1 oz (28g)", "calories": 185 }]
-    },
-    {
-        "slug": "butter-oil",
-        "name": "BUTTER oil",
-        "cuisine": "Indian",
-        "mealCategory": "Other",
-        "foodGroup": "Other",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 21,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 50
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 10
-            },
-            "calcium": {
-                "value": 20
-            },
-            "iron": {
-                "value": 0
-            },
-            "potassium": {
-                "value": 0
-            }
-        },
-        "nutritionSummary": {
-            "calories": 21,
-            "fat": "0.0g",
-            "carbs": "50.0g",
-            "protein": "10.0g",
-            "summaryText": "Nutritional facts for BUTTER oil per 100g.",
-            "breakdown": "0% fat, 83% carbs, 17% protein."
-        },
-        "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 21
-            }
-        ]
     }
 ]
