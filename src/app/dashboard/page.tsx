@@ -12,7 +12,7 @@ import type { DailyLog, Goals, LoggedMeal } from "@/app/my-meal-tracker/page";
 
 type NutrientAverage = {
   protein: number;
-  carbs: number;
+  calories: number;
 };
 
 export default function Dashboard() {
@@ -38,28 +38,28 @@ export default function Dashboard() {
   }), [activeProfile]);
 
   const averages = useMemo<NutrientAverage>(() => {
-    if (!dailyLogs || dailyLogs.length === 0) return { protein: 0, carbs: 0 };
+    if (!dailyLogs || dailyLogs.length === 0) return { protein: 0, calories: 0 };
     
     let totalProtein = 0;
-    let totalCarbs = 0;
+    let totalCalories = 0;
     
     const allMeals = dailyLogs.flatMap(log => Object.values(log.meals).flat());
 
     allMeals.forEach(item => {
         totalProtein += item.protein || 0;
-        totalCarbs += item.carbs || 0;
+        totalCalories += item.calories || 0;
     });
 
     const daysWithLogs = dailyLogs.length > 0 ? dailyLogs.length : 1;
 
     return {
       protein: totalProtein / daysWithLogs,
-      carbs: totalCarbs / daysWithLogs,
+      calories: totalCalories / daysWithLogs,
     };
   }, [dailyLogs]);
 
   const proteinPercentage = goals.protein > 0 ? (averages.protein / goals.protein) * 100 : 0;
-  const carbsPercentage = goals.carbs > 0 ? (averages.carbs / goals.carbs) * 100 : 0;
+  const caloriesPercentage = goals.calories > 0 ? (averages.calories / goals.calories) * 100 : 0;
 
   if (!activeProfile) {
     return (
@@ -105,15 +105,15 @@ export default function Dashboard() {
              </Card>
              <Card>
                 <CardHeader>
-                    <CardTitle>Average Weekly Carbs</CardTitle>
-                    <CardDescription>Your average daily carb intake vs. your goal of {goals.carbs}g.</CardDescription>
+                    <CardTitle>Average Weekly Calories</CardTitle>
+                    <CardDescription>Your average daily calorie intake vs. your goal of {goals.calories} kcal.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex justify-between items-baseline">
-                        <p className="text-3xl font-bold">{averages.carbs.toFixed(1)}g</p>
-                        <p className="text-lg font-semibold text-primary">{carbsPercentage.toFixed(0)}% of Goal</p>
+                        <p className="text-3xl font-bold">{averages.calories.toFixed(0)}</p>
+                        <p className="text-lg font-semibold text-primary">{caloriesPercentage.toFixed(0)}% of Goal</p>
                     </div>
-                    <Progress value={carbsPercentage} className="mt-2 h-3 [&>div]:bg-green-500" />
+                    <Progress value={caloriesPercentage} className="mt-2 h-3 [&>div]:bg-green-500" />
                 </CardContent>
              </Card>
           </div>
