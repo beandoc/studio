@@ -1,0 +1,2184 @@
+
+[
+    {
+        "slug": "butter-almond",
+        "name": "Butter Almond",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Nuts & Seeds",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 614,
+            "totalFat": { "value": 55.5 },
+            "saturatedFat": { "value": 4.152 },
+            "monounsaturatedFat": { "value": 32.445 },
+            "polyunsaturatedFat": { "value": 13.613 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 7 },
+            "totalCarbohydrate": { "value": 18.82 },
+            "dietaryFiber": { "value": 10.3 },
+            "sugars": { "value": 4.63 },
+            "protein": { "value": 20.96 },
+            "calcium": { "value": 347 },
+            "iron": { "value": 3.49 },
+            "potassium": { "value": 748 },
+            "vitaminA": { "value": 1, "percent": 0 },
+            "vitaminE": { "value": 24.21 },
+            "vitaminB1": { "value": 0.041 },
+            "vitaminB2": { "value": 0.939 },
+            "vitaminB3": { "value": 3.155 },
+            "vitaminB6": { "value": 0.103 },
+            "folate": { "value": 53 }
+        },
+        "nutritionSummary": {
+            "calories": 614,
+            "fat": "55.5g",
+            "carbs": "18.8g",
+            "protein": "21.0g",
+            "summaryText": "High in healthy fats, protein, and fiber.",
+            "breakdown": "70% fat, 10% carbs, 20% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 614 },
+            { "size": "1 tbsp (16g)", "calories": 98 }
+        ]
+    },
+    {
+        "slug": "butter-cashew",
+        "name": "Butter Cashew",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Nuts & Seeds",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 587,
+            "totalFat": { "value": 49.41 },
+            "saturatedFat": { "value": 9.763 },
+            "monounsaturatedFat": { "value": 29.122 },
+            "polyunsaturatedFat": { "value": 8.354 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 15 },
+            "totalCarbohydrate": { "value": 27.57 },
+            "dietaryFiber": { "value": 2 },
+            "sugars": { "value": 5.01 },
+            "protein": { "value": 17.56 },
+            "calcium": { "value": 43 },
+            "iron": { "value": 5.03 },
+            "potassium": { "value": 546 },
+            "vitaminE": { "value": 0 },
+            "vitaminK": { "value": 0 }
+        },
+        "nutritionSummary": {
+            "calories": 587,
+            "fat": "49.4g",
+            "carbs": "27.6g",
+            "protein": "17.6g",
+            "summaryText": "Creamy, rich in healthy fats and minerals.",
+            "breakdown": "66% fat, 17% carbs, 17% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 587 },
+            { "size": "1 tbsp (16g)", "calories": 94 }
+        ]
+    },
+    {
+        "slug": "butter-clarified",
+        "name": "Butter Clarified",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 876,
+            "totalFat": { "value": 99.48 },
+            "saturatedFat": { "value": 61.924 },
+            "monounsaturatedFat": { "value": 28.732 },
+            "polyunsaturatedFat": { "value": 3.694 },
+            "cholesterol": { "value": 256 },
+            "sodium": { "value": 2 },
+            "totalCarbohydrate": { "value": 0 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0 },
+            "protein": { "value": 0.28 },
+            "calcium": { "value": 4 },
+            "iron": { "value": 0 },
+            "potassium": { "value": 5 },
+            "vitaminA": { "value": 840, "percent": 93 },
+            "vitaminD": { "value": 0 },
+            "vitaminE": { "value": 2.8 },
+            "vitaminK": { "value": 8.6 }
+        },
+        "nutritionSummary": {
+            "calories": 876,
+            "fat": "99.5g",
+            "carbs": "0.0g",
+            "protein": "0.3g",
+            "summaryText": "Also known as Ghee. Pure butterfat.",
+            "breakdown": "100% fat, 0% carbs, 0% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 876 },
+            { "size": "1 tbsp (14g)", "calories": 123 }
+        ]
+    },
+    {
+        "slug": "butter-oil",
+        "name": "Butter Oil",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 876,
+            "totalFat": { "value": 99.48 },
+            "saturatedFat": { "value": 61.924 },
+            "monounsaturatedFat": { "value": 28.732 },
+            "polyunsaturatedFat": { "value": 3.694 },
+            "cholesterol": { "value": 256 },
+            "sodium": { "value": 2 },
+            "totalCarbohydrate": { "value": 0 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0 },
+            "protein": { "value": 0.28 },
+            "calcium": { "value": 4 },
+            "iron": { "value": 0 },
+            "potassium": { "value": 5 },
+            "vitaminA": { "value": 840, "percent": 93 },
+            "vitaminD": { "value": 0 },
+            "vitaminE": { "value": 2.8 },
+            "vitaminK": { "value": 8.6 }
+        },
+        "nutritionSummary": {
+            "calories": 876,
+            "fat": "99.5g",
+            "carbs": "0.0g",
+            "protein": "0.3g",
+            "summaryText": "Anhydrous milkfat, similar to ghee.",
+            "breakdown": "100% fat, 0% carbs, 0% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 876 },
+            { "size": "1 cup (205g)", "calories": 1796 }
+        ]
+    },
+    {
+        "slug": "buttermilk",
+        "name": "Buttermilk",
+        "cuisine": "Generic",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 62,
+            "totalFat": { "value": 3.31 },
+            "saturatedFat": { "value": 1.899 },
+            "monounsaturatedFat": { "value": 0.827 },
+            "polyunsaturatedFat": { "value": 0.198 },
+            "cholesterol": { "value": 13 },
+            "sodium": { "value": 105 },
+            "totalCarbohydrate": { "value": 4.88 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 4.88 },
+            "protein": { "value": 3.21 },
+            "calcium": { "value": 115 },
+            "iron": { "value": 0.03 },
+            "potassium": { "value": 135 },
+            "vitaminA": { "value": 47, "percent": 5 },
+            "vitaminB12": { "value": 0.46 },
+            "vitaminD": { "value": 1.3 }
+        },
+        "nutritionSummary": {
+            "calories": 62,
+            "fat": "3.3g",
+            "carbs": "4.9g",
+            "protein": "3.2g",
+            "summaryText": "Cultured low-fat milk, good source of calcium.",
+            "breakdown": "44% fat, 29% carbs, 27% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 62 },
+            { "size": "1 cup (245g)", "calories": 152 }
+        ]
+    },
+    {
+        "slug": "cheese-blue",
+        "name": "Cheese Blue",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 353,
+            "totalFat": { "value": 28.74 },
+            "saturatedFat": { "value": 18.669 },
+            "monounsaturatedFat": { "value": 7.778 },
+            "polyunsaturatedFat": { "value": 0.8 },
+            "cholesterol": { "value": 75 },
+            "sodium": { "value": 1146 },
+            "totalCarbohydrate": { "value": 2.34 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.5 },
+            "protein": { "value": 21.4 },
+            "calcium": { "value": 528 },
+            "iron": { "value": 0.31 },
+            "potassium": { "value": 256 },
+            "vitaminA": { "value": 198, "percent": 22 },
+            "vitaminD": { "value": 0.5 },
+            "selenium": { "value": 14.5 }
+        },
+        "nutritionSummary": {
+            "calories": 353,
+            "fat": "28.7g",
+            "carbs": "2.3g",
+            "protein": "21.4g",
+            "summaryText": "Strong-flavored cheese with blue or green veins.",
+            "breakdown": "70% fat, 2% carbs, 28% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 353 },
+            { "size": "1 oz (28g)", "calories": 100 }
+        ]
+    },
+    {
+        "slug": "cheese-brick",
+        "name": "Cheese Brick",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 371,
+            "totalFat": { "value": 29.68 },
+            "saturatedFat": { "value": 18.764 },
+            "monounsaturatedFat": { "value": 8.598 },
+            "polyunsaturatedFat": { "value": 0.784 },
+            "cholesterol": { "value": 92 },
+            "sodium": { "value": 560 },
+            "totalCarbohydrate": { "value": 2.79 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.52 },
+            "protein": { "value": 23.24 },
+            "calcium": { "value": 674 },
+            "iron": { "value": 0.43 },
+            "potassium": { "value": 136 },
+            "vitaminA": { "value": 292, "percent": 32 },
+            "vitaminB12": { "value": 1.26 },
+            "zinc": { "value": 2.6 }
+        },
+        "nutritionSummary": {
+            "calories": 371,
+            "fat": "29.7g",
+            "carbs": "2.8g",
+            "protein": "23.2g",
+            "summaryText": "American cheese with a mild, sweet flavor.",
+            "breakdown": "70% fat, 3% carbs, 27% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 371 },
+            { "size": "1 oz (28g)", "calories": 105 }
+        ]
+    },
+    {
+        "slug": "cheese-brie",
+        "name": "Cheese Brie",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 334,
+            "totalFat": { "value": 27.68 },
+            "saturatedFat": { "value": 17.41 },
+            "monounsaturatedFat": { "value": 8.013 },
+            "polyunsaturatedFat": { "value": 0.826 },
+            "cholesterol": { "value": 100 },
+            "sodium": { "value": 629 },
+            "totalCarbohydrate": { "value": 0.45 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.45 },
+            "protein": { "value": 20.75 },
+            "calcium": { "value": 184 },
+            "iron": { "value": 0.5 },
+            "potassium": { "value": 152 },
+            "vitaminA": { "value": 174, "percent": 19 },
+            "vitaminB12": { "value": 1.65 },
+            "vitaminB6": { "value": 0.235 }
+        },
+        "nutritionSummary": {
+            "calories": 334,
+            "fat": "27.7g",
+            "carbs": "0.5g",
+            "protein": "20.8g",
+            "summaryText": "Soft cow's-milk cheese with a mild, buttery flavor.",
+            "breakdown": "72% fat, 0% carbs, 28% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 334 },
+            { "size": "1 oz (28g)", "calories": 95 }
+        ]
+    },
+    {
+        "slug": "cheese-camembert",
+        "name": "Cheese Camembert",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 300,
+            "totalFat": { "value": 24.26 },
+            "saturatedFat": { "value": 15.259 },
+            "monounsaturatedFat": { "value": 7.023 },
+            "polyunsaturatedFat": { "value": 0.724 },
+            "cholesterol": { "value": 72 },
+            "sodium": { "value": 842 },
+            "totalCarbohydrate": { "value": 0.46 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.46 },
+            "protein": { "value": 19.8 },
+            "calcium": { "value": 388 },
+            "iron": { "value": 0.33 },
+            "potassium": { "value": 187 },
+            "vitaminA": { "value": 241, "percent": 27 },
+            "vitaminB12": { "value": 1.3 },
+            "riboflavin": { "value": 0.488 }
+        },
+        "nutritionSummary": {
+            "calories": 300,
+            "fat": "24.3g",
+            "carbs": "0.5g",
+            "protein": "19.8g",
+            "summaryText": "Moist, soft, creamy, surface-ripened cow's milk cheese.",
+            "breakdown": "71% fat, 1% carbs, 28% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 300 },
+            { "size": "1 oz (28g)", "calories": 85 }
+        ]
+    },
+    {
+        "slug": "cheese-caraway",
+        "name": "Cheese Caraway",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 376,
+            "totalFat": { "value": 29.2 },
+            "saturatedFat": { "value": 18.584 },
+            "monounsaturatedFat": { "value": 8.275 },
+            "polyunsaturatedFat": { "value": 0.83 },
+            "cholesterol": { "value": 93 },
+            "sodium": { "value": 690 },
+            "totalCarbohydrate": { "value": 3.06 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0 },
+            "protein": { "value": 25.18 },
+            "calcium": { "value": 673 },
+            "iron": { "value": 0.64 },
+            "potassium": { "value": 93 },
+            "vitaminA": { "value": 271, "percent": 30 },
+            "vitaminB12": { "value": 0.27 }
+        },
+        "nutritionSummary": {
+            "calories": 376,
+            "fat": "29.2g",
+            "carbs": "3.1g",
+            "protein": "25.2g",
+            "summaryText": "Semi-soft cheese flavored with caraway seeds.",
+            "breakdown": "68% fat, 3% carbs, 29% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 376 },
+            { "size": "1 oz (28g)", "calories": 106 }
+        ]
+    },
+    {
+        "slug": "cheese-cheddar",
+        "name": "Cheese Cheddar",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 403,
+            "totalFat": { "value": 33.31 },
+            "saturatedFat": { "value": 18.867 },
+            "monounsaturatedFat": { "value": 9.391 },
+            "polyunsaturatedFat": { "value": 0.942 },
+            "cholesterol": { "value": 99 },
+            "sodium": { "value": 653 },
+            "totalCarbohydrate": { "value": 3.37 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.52 },
+            "protein": { "value": 22.87 },
+            "calcium": { "value": 710 },
+            "iron": { "value": 0.14 },
+            "potassium": { "value": 76 },
+            "vitaminA": { "value": 337, "percent": 37 },
+            "vitaminB12": { "value": 1.1 },
+            "zinc": { "value": 3.64 }
+        },
+        "nutritionSummary": {
+            "calories": 403,
+            "fat": "33.3g",
+            "carbs": "3.4g",
+            "protein": "22.9g",
+            "summaryText": "A hard, sharp-tasting natural cheese.",
+            "breakdown": "72% fat, 3% carbs, 25% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 403 },
+            { "size": "1 slice (28g)", "calories": 114 }
+        ]
+    },
+    {
+        "slug": "cheese-cheshire",
+        "name": "Cheese Cheshire",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 387,
+            "totalFat": { "value": 30.6 },
+            "saturatedFat": { "value": 19.475 },
+            "monounsaturatedFat": { "value": 8.671 },
+            "polyunsaturatedFat": { "value": 0.87 },
+            "cholesterol": { "value": 103 },
+            "sodium": { "value": 700 },
+            "totalCarbohydrate": { "value": 4.78 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.1 },
+            "protein": { "value": 23.37 },
+            "calcium": { "value": 643 },
+            "iron": { "value": 0.21 },
+            "potassium": { "value": 95 },
+            "vitaminA": { "value": 233, "percent": 26 },
+            "vitaminB12": { "value": 0.83 }
+        },
+        "nutritionSummary": {
+            "calories": 387,
+            "fat": "30.6g",
+            "carbs": "4.8g",
+            "protein": "23.4g",
+            "summaryText": "Dense and crumbly cheese from Cheshire, England.",
+            "breakdown": "70% fat, 5% carbs, 25% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 387 },
+            { "size": "1 oz (28g)", "calories": 110 }
+        ]
+    },
+    {
+        "slug": "cheese-colby",
+        "name": "Cheese Colby",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 394,
+            "totalFat": { "value": 32.11 },
+            "saturatedFat": { "value": 20.218 },
+            "monounsaturatedFat": { "value": 9.28 },
+            "polyunsaturatedFat": { "value": 0.953 },
+            "cholesterol": { "value": 95 },
+            "sodium": { "value": 604 },
+            "totalCarbohydrate": { "value": 2.57 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.52 },
+            "protein": { "value": 23.76 },
+            "calcium": { "value": 685 },
+            "iron": { "value": 0.76 },
+            "potassium": { "value": 127 },
+            "vitaminA": { "value": 264, "percent": 29 },
+            "vitaminB12": { "value": 0.83 },
+            "zinc": { "value": 3.07 }
+        },
+        "nutritionSummary": {
+            "calories": 394,
+            "fat": "32.1g",
+            "carbs": "2.6g",
+            "protein": "23.8g",
+            "summaryText": "Mild, semi-hard cheese similar to Cheddar.",
+            "breakdown": "71% fat, 3% carbs, 26% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 394 },
+            { "size": "1 oz (28g)", "calories": 112 }
+        ]
+    },
+    {
+        "slug": "cheese-cottage-creamed",
+        "name": "Cheese Cottage Creamed",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 98,
+            "totalFat": { "value": 4.3 },
+            "saturatedFat": { "value": 1.718 },
+            "monounsaturatedFat": { "value": 0.778 },
+            "polyunsaturatedFat": { "value": 0.123 },
+            "cholesterol": { "value": 17 },
+            "sodium": { "value": 315 },
+            "totalCarbohydrate": { "value": 3.38 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 2.67 },
+            "protein": { "value": 11.12 },
+            "calcium": { "value": 83 },
+            "iron": { "value": 0.07 },
+            "potassium": { "value": 104 },
+            "vitaminA": { "value": 37, "percent": 4 },
+            "vitaminB12": { "value": 0.43 },
+            "selenium": { "value": 9.7 }
+        },
+        "nutritionSummary": {
+            "calories": 98,
+            "fat": "4.3g",
+            "carbs": "3.4g",
+            "protein": "11.1g",
+            "summaryText": "Fresh cheese curd product with a mild flavor.",
+            "breakdown": "38% fat, 13% carbs, 49% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 98 },
+            { "size": "1 cup (210g)", "calories": 206 }
+        ]
+    },
+    {
+        "slug": "cheese-cream",
+        "name": "Cheese Cream",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 350,
+            "totalFat": { "value": 34.44 },
+            "saturatedFat": { "value": 20.213 },
+            "monounsaturatedFat": { "value": 8.907 },
+            "polyunsaturatedFat": { "value": 1.483 },
+            "cholesterol": { "value": 101 },
+            "sodium": { "value": 314 },
+            "totalCarbohydrate": { "value": 5.52 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 3.76 },
+            "protein": { "value": 6.15 },
+            "calcium": { "value": 97 },
+            "iron": { "value": 0.11 },
+            "potassium": { "value": 132 },
+            "vitaminA": { "value": 308, "percent": 34 },
+            "vitaminE": { "value": 0.86 },
+            "vitaminK": { "value": 10.8 }
+        },
+        "nutritionSummary": {
+            "calories": 350,
+            "fat": "34.4g",
+            "carbs": "5.5g",
+            "protein": "6.2g",
+            "summaryText": "Soft, mild-tasting fresh cheese made from milk and cream.",
+            "breakdown": "84% fat, 6% carbs, 10% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 350 },
+            { "size": "1 oz (28g)", "calories": 99 }
+        ]
+    },
+    {
+        "slug": "cheese-edam",
+        "name": "Cheese Edam",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 357,
+            "totalFat": { "value": 28.57 },
+            "saturatedFat": { "value": 18.67 },
+            "monounsaturatedFat": { "value": 8.125 },
+            "polyunsaturatedFat": { "value": 0.665 },
+            "cholesterol": { "value": 89 },
+            "sodium": { "value": 973 },
+            "totalCarbohydrate": { "value": 1.43 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 1.43 },
+            "protein": { "value": 24.99 },
+            "calcium": { "value": 731 },
+            "iron": { "value": 0.44 },
+            "potassium": { "value": 188 },
+            "vitaminA": { "value": 243, "percent": 27 },
+            "vitaminB12": { "value": 1.54 },
+            "zinc": { "value": 3.75 }
+        },
+        "nutritionSummary": {
+            "calories": 357,
+            "fat": "28.6g",
+            "carbs": "1.4g",
+            "protein": "25.0g",
+            "summaryText": "Semi-hard cheese with a mild, salty, nutty flavor.",
+            "breakdown": "69% fat, 1% carbs, 30% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 357 },
+            { "size": "1 oz (28g)", "calories": 101 }
+        ]
+    },
+    {
+        "slug": "cheese-feta",
+        "name": "Cheese Feta",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 265,
+            "totalFat": { "value": 21.49 },
+            "saturatedFat": { "value": 13.3 },
+            "monounsaturatedFat": { "value": 4.623 },
+            "polyunsaturatedFat": { "value": 0.591 },
+            "cholesterol": { "value": 89 },
+            "sodium": { "value": 1139 },
+            "totalCarbohydrate": { "value": 3.88 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 3.88 },
+            "protein": { "value": 14.21 },
+            "calcium": { "value": 493 },
+            "iron": { "value": 0.65 },
+            "potassium": { "value": 62 },
+            "vitaminA": { "value": 125, "percent": 14 },
+            "vitaminB6": { "value": 0.424 },
+            "vitaminB12": { "value": 1.69 }
+        },
+        "nutritionSummary": {
+            "calories": 265,
+            "fat": "21.5g",
+            "carbs": "3.9g",
+            "protein": "14.2g",
+            "summaryText": "Brined curd cheese with a salty and tangy taste.",
+            "breakdown": "70% fat, 5% carbs, 25% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 265 },
+            { "size": "1 oz (28g)", "calories": 75 }
+        ]
+    },
+    {
+        "slug": "cheese-fontina",
+        "name": "Cheese Fontina",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 389,
+            "totalFat": { "value": 31.14 },
+            "saturatedFat": { "value": 19.196 },
+            "monounsaturatedFat": { "value": 8.687 },
+            "polyunsaturatedFat": { "value": 1.654 },
+            "cholesterol": { "value": 116 },
+            "sodium": { "value": 800 },
+            "totalCarbohydrate": { "value": 1.55 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 1.55 },
+            "protein": { "value": 25.6 },
+            "calcium": { "value": 550 },
+            "iron": { "value": 0.23 },
+            "potassium": { "value": 64 },
+            "vitaminA": { "value": 261, "percent": 29 },
+            "vitaminB12": { "value": 1.68 }
+        },
+        "nutritionSummary": {
+            "calories": 389,
+            "fat": "31.1g",
+            "carbs": "1.6g",
+            "protein": "25.6g",
+            "summaryText": "Semi-soft cow's milk cheese with a nutty flavor.",
+            "breakdown": "70% fat, 1% carbs, 29% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 389 },
+            { "size": "1 oz (28g)", "calories": 110 }
+        ]
+    },
+    {
+        "slug": "cheese-gjetost",
+        "name": "Cheese Gjetost",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 373,
+            "totalFat": { "value": 30.28 },
+            "saturatedFat": { "value": 19.066 },
+            "monounsaturatedFat": { "value": 8.751 },
+            "polyunsaturatedFat": { "value": 0.899 },
+            "cholesterol": { "value": 94 },
+            "sodium": { "value": 600 },
+            "totalCarbohydrate": { "value": 0.68 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.68 },
+            "protein": { "value": 24.48 },
+            "calcium": { "value": 746 },
+            "iron": { "value": 0.72 },
+            "potassium": { "value": 81 },
+            "vitaminA": { "value": 198, "percent": 22 },
+            "vitaminB12": { "value": 0.83 },
+            "riboflavin": { "value": 0.39 }
+        },
+        "nutritionSummary": {
+            "calories": 373,
+            "fat": "30.3g",
+            "carbs": "0.7g",
+            "protein": "24.5g",
+            "summaryText": "Norwegian brown cheese with a sweet, caramel-like flavor.",
+            "breakdown": "70% fat, 1% carbs, 29% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 373 },
+            { "size": "1 oz (28g)", "calories": 105 }
+        ]
+    },
+    {
+        "slug": "cheese-goat-hard",
+        "name": "Cheese Goat Hard",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 452,
+            "totalFat": { "value": 35.59 },
+            "saturatedFat": { "value": 24.609 },
+            "monounsaturatedFat": { "value": 8.117 },
+            "polyunsaturatedFat": { "value": 0.845 },
+            "cholesterol": { "value": 115 },
+            "sodium": { "value": 423 },
+            "totalCarbohydrate": { "value": 2.17 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 2.17 },
+            "protein": { "value": 30.52 },
+            "calcium": { "value": 895 },
+            "iron": { "value": 1.88 },
+            "potassium": { "value": 48 },
+            "vitaminA": { "value": 486, "percent": 54 },
+            "vitaminB12": { "value": 0.12 },
+            "riboflavin": { "value": 1.19 }
+        },
+        "nutritionSummary": {
+            "calories": 452,
+            "fat": "35.6g",
+            "carbs": "2.2g",
+            "protein": "30.5g",
+            "summaryText": "Firm goat's milk cheese, often tangy.",
+            "breakdown": "68% fat, 2% carbs, 30% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 452 },
+            { "size": "1 oz (28g)", "calories": 128 }
+        ]
+    },
+    {
+        "slug": "cheese-goat-semisoft",
+        "name": "Cheese Goat Semisoft",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 364,
+            "totalFat": { "value": 29.84 },
+            "saturatedFat": { "value": 20.639 },
+            "monounsaturatedFat": { "value": 6.808 },
+            "polyunsaturatedFat": { "value": 0.709 },
+            "cholesterol": { "value": 86 },
+            "sodium": { "value": 415 },
+            "totalCarbohydrate": { "value": 0.12 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.12 },
+            "protein": { "value": 21.58 },
+            "calcium": { "value": 298 },
+            "iron": { "value": 1.62 },
+            "potassium": { "value": 158 },
+            "vitaminA": { "value": 407, "percent": 45 },
+            "vitaminB12": { "value": 0.22 },
+            "riboflavin": { "value": 0.676 }
+        },
+        "nutritionSummary": {
+            "calories": 364,
+            "fat": "29.8g",
+            "carbs": "0.1g",
+            "protein": "21.6g",
+            "summaryText": "A creamy, slightly tangy goat's milk cheese.",
+            "breakdown": "72% fat, 0% carbs, 28% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 364 },
+            { "size": "1 oz (28g)", "calories": 103 }
+        ]
+    },
+    {
+        "slug": "cheese-goat-soft",
+        "name": "Cheese Goat Soft",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 264,
+            "totalFat": { "value": 21.08 },
+            "saturatedFat": { "value": 14.575 },
+            "monounsaturatedFat": { "value": 4.807 },
+            "polyunsaturatedFat": { "value": 0.501 },
+            "cholesterol": { "value": 46 },
+            "sodium": { "value": 459 },
+            "totalCarbohydrate": { "value": 0 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0 },
+            "protein": { "value": 18.52 },
+            "calcium": { "value": 140 },
+            "iron": { "value": 1.9 },
+            "potassium": { "value": 26 },
+            "vitaminA": { "value": 288, "percent": 32 },
+            "vitaminB12": { "value": 0.19 },
+            "copper": { "value": 0.732 }
+        },
+        "nutritionSummary": {
+            "calories": 264,
+            "fat": "21.1g",
+            "carbs": "0.0g",
+            "protein": "18.5g",
+            "summaryText": "Fresh, soft, and spreadable goat's milk cheese.",
+            "breakdown": "70% fat, 0% carbs, 30% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 264 },
+            { "size": "1 oz (28g)", "calories": 75 }
+        ]
+    },
+    {
+        "slug": "cheese-gouda",
+        "name": "Cheese Gouda",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 356,
+            "totalFat": { "value": 27.44 },
+            "saturatedFat": { "value": 17.614 },
+            "monounsaturatedFat": { "value": 7.747 },
+            "polyunsaturatedFat": { "value": 0.657 },
+            "cholesterol": { "value": 114 },
+            "sodium": { "value": 819 },
+            "totalCarbohydrate": { "value": 2.22 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 2.22 },
+            "protein": { "value": 24.94 },
+            "calcium": { "value": 700 },
+            "iron": { "value": 0.24 },
+            "potassium": { "value": 121 },
+            "vitaminA": { "value": 165, "percent": 18 },
+            "vitaminB12": { "value": 1.54 },
+            "zinc": { "value": 3.9 }
+        },
+        "nutritionSummary": {
+            "calories": 356,
+            "fat": "27.4g",
+            "carbs": "2.2g",
+            "protein": "24.9g",
+            "summaryText": "Mild, yellow Dutch cheese.",
+            "breakdown": "67% fat, 2% carbs, 31% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 356 },
+            { "size": "1 oz (28g)", "calories": 101 }
+        ]
+    },
+    {
+        "slug": "cheese-gruyere",
+        "name": "Cheese Gruyere",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 413,
+            "totalFat": { "value": 32.34 },
+            "saturatedFat": { "value": 18.913 },
+            "monounsaturatedFat": { "value": 10.043 },
+            "polyunsaturatedFat": { "value": 1.733 },
+            "cholesterol": { "value": 110 },
+            "sodium": { "value": 714 },
+            "totalCarbohydrate": { "value": 0.36 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.36 },
+            "protein": { "value": 29.81 },
+            "calcium": { "value": 1011 },
+            "iron": { "value": 0.17 },
+            "potassium": { "value": 81 },
+            "vitaminA": { "value": 271, "percent": 30 },
+            "vitaminB12": { "value": 1.6 },
+            "zinc": { "value": 3.9 }
+        },
+        "nutritionSummary": {
+            "calories": 413,
+            "fat": "32.3g",
+            "carbs": "0.4g",
+            "protein": "29.8g",
+            "summaryText": "Hard yellow Swiss cheese.",
+            "breakdown": "69% fat, 0% carbs, 31% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 413 },
+            { "size": "1 oz (28g)", "calories": 117 }
+        ]
+    },
+    {
+        "slug": "cheese-limburger",
+        "name": "Cheese Limburger",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 327,
+            "totalFat": { "value": 27.25 },
+            "saturatedFat": { "value": 16.746 },
+            "monounsaturatedFat": { "value": 8.606 },
+            "polyunsaturatedFat": { "value": 0.495 },
+            "cholesterol": { "value": 90 },
+            "sodium": { "value": 800 },
+            "totalCarbohydrate": { "value": 0.49 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.49 },
+            "protein": { "value": 20.05 },
+            "calcium": { "value": 497 },
+            "iron": { "value": 0.13 },
+            "potassium": { "value": 128 },
+            "vitaminA": { "value": 340, "percent": 38 },
+            "vitaminB12": { "value": 1.04 },
+            "folate": { "value": 58 }
+        },
+        "nutritionSummary": {
+            "calories": 327,
+            "fat": "27.2g",
+            "carbs": "0.5g",
+            "protein": "20.1g",
+            "summaryText": "Cheese with a strong aroma from Belgium.",
+            "breakdown": "73% fat, 1% carbs, 26% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 327 },
+            { "size": "1 oz (28g)", "calories": 93 }
+        ]
+    },
+    {
+        "slug": "cheese-mexican-anejo",
+        "name": "Cheese Mexican Anejo",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 373,
+            "totalFat": { "value": 29.98 },
+            "saturatedFat": { "value": 19.033 },
+            "monounsaturatedFat": { "value": 8.528 },
+            "polyunsaturatedFat": { "value": 0.901 },
+            "cholesterol": { "value": 74 },
+            "sodium": { "value": 1131 },
+            "totalCarbohydrate": { "value": 4.63 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.52 },
+            "protein": { "value": 21.44 },
+            "calcium": { "value": 680 },
+            "iron": { "value": 0.47 },
+            "potassium": { "value": 87 },
+            "vitaminA": { "value": 64, "percent": 7 },
+            "vitaminB12": { "value": 1.38 },
+            "zinc": { "value": 2.94 }
+        },
+        "nutritionSummary": {
+            "calories": 373,
+            "fat": "30.0g",
+            "carbs": "4.6g",
+            "protein": "21.4g",
+            "summaryText": "Aged, firm Mexican cheese.",
+            "breakdown": "70% fat, 5% carbs, 25% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 373 },
+            { "size": "1 oz (28g)", "calories": 106 }
+        ]
+    },
+    {
+        "slug": "cheese-mexican-asadero",
+        "name": "Cheese Mexican Asadero",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 356,
+            "totalFat": { "value": 25 },
+            "saturatedFat": { "value": 14.85 },
+            "monounsaturatedFat": { "value": 8.038 },
+            "polyunsaturatedFat": { "value": 0.85 },
+            "cholesterol": { "value": 62 },
+            "sodium": { "value": 607 },
+            "totalCarbohydrate": { "value": 4.13 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.52 },
+            "protein": { "value": 22.6 },
+            "calcium": { "value": 661 },
+            "iron": { "value": 0.51 },
+            "potassium": { "value": 86 },
+            "vitaminA": { "value": 55, "percent": 6 },
+            "vitaminB12": { "value": 1 },
+            "zinc": { "value": 3.02 }
+        },
+        "nutritionSummary": {
+            "calories": 356,
+            "fat": "25.0g",
+            "carbs": "4.1g",
+            "protein": "22.6g",
+            "summaryText": "Melting cheese used in Mexican cuisine.",
+            "breakdown": "61% fat, 5% carbs, 34% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 356 },
+            { "size": "1 oz (28g)", "calories": 101 }
+        ]
+    },
+    {
+        "slug": "cheese-mexican-chihuahua",
+        "name": "Cheese Mexican Chihuahua",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 374,
+            "totalFat": { "value": 29.68 },
+            "saturatedFat": { "value": 18.843 },
+            "monounsaturatedFat": { "value": 8.443 },
+            "polyunsaturatedFat": { "value": 0.892 },
+            "cholesterol": { "value": 65 },
+            "sodium": { "value": 617 },
+            "totalCarbohydrate": { "value": 5.56 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.52 },
+            "protein": { "value": 21.56 },
+            "calcium": { "value": 651 },
+            "iron": { "value": 0.47 },
+            "potassium": { "value": 52 },
+            "vitaminA": { "value": 56, "percent": 6 },
+            "vitaminB12": { "value": 1.03 },
+            "zinc": { "value": 3.5 }
+        },
+        "nutritionSummary": {
+            "calories": 374,
+            "fat": "29.7g",
+            "carbs": "5.6g",
+            "protein": "21.6g",
+            "summaryText": "Semi-hard Mexican cheese, similar to mild cheddar.",
+            "breakdown": "69% fat, 6% carbs, 25% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 374 },
+            { "size": "1 oz (28g)", "calories": 106 }
+        ]
+    },
+    {
+        "slug": "cheese-monterey",
+        "name": "Cheese Monterey",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 373,
+            "totalFat": { "value": 30.28 },
+            "saturatedFat": { "value": 19.066 },
+            "monounsaturatedFat": { "value": 8.751 },
+            "polyunsaturatedFat": { "value": 0.899 },
+            "cholesterol": { "value": 88 },
+            "sodium": { "value": 600 },
+            "totalCarbohydrate": { "value": 0.68 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.51 },
+            "protein": { "value": 24.48 },
+            "calcium": { "value": 746 },
+            "iron": { "value": 0.72 },
+            "potassium": { "value": 81 },
+            "vitaminA": { "value": 198, "percent": 22 },
+            "vitaminB12": { "value": 0.83 },
+            "selenium": { "value": 14.5 }
+        },
+        "nutritionSummary": {
+            "calories": 373,
+            "fat": "30.3g",
+            "carbs": "0.7g",
+            "protein": "24.5g",
+            "summaryText": "Semi-hard American cheese with a mild flavor.",
+            "breakdown": "70% fat, 1% carbs, 29% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 373 },
+            { "size": "1 oz (28g)", "calories": 106 }
+        ]
+    },
+    {
+        "slug": "cheese-mozzarella",
+        "name": "Cheese Mozzarella",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 299,
+            "totalFat": { "value": 22.14 },
+            "saturatedFat": { "value": 13.9 },
+            "monounsaturatedFat": { "value": 6.573 },
+            "polyunsaturatedFat": { "value": 0.765 },
+            "cholesterol": { "value": 79 },
+            "sodium": { "value": 486 },
+            "totalCarbohydrate": { "value": 2.4 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 1.03 },
+            "protein": { "value": 22.17 },
+            "calcium": { "value": 505 },
+            "iron": { "value": 0.44 },
+            "potassium": { "value": 76 },
+            "vitaminA": { "value": 179, "percent": 20 },
+            "vitaminB12": { "value": 2.28 },
+            "zinc": { "value": 2.92 }
+        },
+        "nutritionSummary": {
+            "calories": 299,
+            "fat": "22.1g",
+            "carbs": "2.4g",
+            "protein": "22.2g",
+            "summaryText": "Mild, white cheese, commonly used on pizza.",
+            "breakdown": "65% fat, 3% carbs, 32% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 299 },
+            { "size": "1 oz (28g)", "calories": 85 }
+        ]
+    },
+    {
+        "slug": "cheese-muenster",
+        "name": "Cheese Muenster",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 368,
+            "totalFat": { "value": 30.04 },
+            "saturatedFat": { "value": 19.113 },
+            "monounsaturatedFat": { "value": 8.711 },
+            "polyunsaturatedFat": { "value": 0.661 },
+            "cholesterol": { "value": 96 },
+            "sodium": { "value": 628 },
+            "totalCarbohydrate": { "value": 1.12 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 1.12 },
+            "protein": { "value": 23.41 },
+            "calcium": { "value": 717 },
+            "iron": { "value": 0.41 },
+            "potassium": { "value": 134 },
+            "vitaminA": { "value": 298, "percent": 33 },
+            "vitaminB12": { "value": 1.47 },
+            "zinc": { "value": 2.81 }
+        },
+        "nutritionSummary": {
+            "calories": 368,
+            "fat": "30.0g",
+            "carbs": "1.1g",
+            "protein": "23.4g",
+            "summaryText": "Semi-soft cheese with a mild flavor and orange rind.",
+            "breakdown": "72% fat, 1% carbs, 27% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 368 },
+            { "size": "1 oz (28g)", "calories": 104 }
+        ]
+    },
+    {
+        "slug": "cheese-neufchatel",
+        "name": "Cheese Neufchatel",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 253,
+            "totalFat": { "value": 22.78 },
+            "saturatedFat": { "value": 12.79 },
+            "monounsaturatedFat": { "value": 5.784 },
+            "polyunsaturatedFat": { "value": 0.97 },
+            "cholesterol": { "value": 74 },
+            "sodium": { "value": 334 },
+            "totalCarbohydrate": { "value": 3.59 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 2.87 },
+            "protein": { "value": 9.15 },
+            "calcium": { "value": 117 },
+            "iron": { "value": 0.13 },
+            "potassium": { "value": 152 },
+            "vitaminA": { "value": 241, "percent": 27 },
+            "vitaminB12": { "value": 0.3 }
+        },
+        "nutritionSummary": {
+            "calories": 253,
+            "fat": "22.8g",
+            "carbs": "3.6g",
+            "protein": "9.2g",
+            "summaryText": "Soft, slightly crumbly cheese, similar to cream cheese.",
+            "breakdown": "78% fat, 5% carbs, 17% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 253 },
+            { "size": "1 oz (28g)", "calories": 72 }
+        ]
+    },
+    {
+        "slug": "cheese-parmesan-hard",
+        "name": "Cheese Parmesan Hard",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 392,
+            "totalFat": { "value": 25 },
+            "saturatedFat": { "value": 14.85 },
+            "monounsaturatedFat": { "value": 7.515 },
+            "polyunsaturatedFat": { "value": 0.569 },
+            "cholesterol": { "value": 68 },
+            "sodium": { "value": 1175 },
+            "totalCarbohydrate": { "value": 3.22 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0 },
+            "protein": { "value": 35.75 },
+            "calcium": { "value": 1184 },
+            "iron": { "value": 0.82 },
+            "potassium": { "value": 92 },
+            "vitaminA": { "value": 207, "percent": 23 },
+            "vitaminB12": { "value": 1.2 },
+            "selenium": { "value": 22.5 }
+        },
+        "nutritionSummary": {
+            "calories": 392,
+            "fat": "25.0g",
+            "carbs": "3.2g",
+            "protein": "35.8g",
+            "summaryText": "Hard, granular cheese with a sharp, nutty flavor.",
+            "breakdown": "56% fat, 3% carbs, 41% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 392 },
+            { "size": "1 tbsp (5g)", "calories": 20 }
+        ]
+    },
+    {
+        "slug": "cheese-port-salut",
+        "name": "Cheese Port Salut",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 352,
+            "totalFat": { "value": 28.2 },
+            "saturatedFat": { "value": 16.691 },
+            "monounsaturatedFat": { "value": 9.338 },
+            "polyunsaturatedFat": { "value": 0.729 },
+            "cholesterol": { "value": 96 },
+            "sodium": { "value": 534 },
+            "totalCarbohydrate": { "value": 0.57 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.57 },
+            "protein": { "value": 23.78 },
+            "calcium": { "value": 650 },
+            "iron": { "value": 0.43 },
+            "potassium": { "value": 136 },
+            "vitaminA": { "value": 315, "percent": 35 },
+            "vitaminB12": { "value": 1.5 }
+        },
+        "nutritionSummary": {
+            "calories": 352,
+            "fat": "28.2g",
+            "carbs": "0.6g",
+            "protein": "23.8g",
+            "summaryText": "Semi-soft cow's milk cheese from France with a mild flavor.",
+            "breakdown": "70% fat, 1% carbs, 29% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 352 },
+            { "size": "1 oz (28g)", "calories": 100 }
+        ]
+    },
+    {
+        "slug": "cheese-provolone",
+        "name": "Cheese Provolone",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 351,
+            "totalFat": { "value": 26.62 },
+            "saturatedFat": { "value": 17.078 },
+            "monounsaturatedFat": { "value": 7.393 },
+            "polyunsaturatedFat": { "value": 0.769 },
+            "cholesterol": { "value": 69 },
+            "sodium": { "value": 727 },
+            "totalCarbohydrate": { "value": 2.14 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.56 },
+            "protein": { "value": 25.58 },
+            "calcium": { "value": 756 },
+            "iron": { "value": 0.52 },
+            "potassium": { "value": 138 },
+            "vitaminA": { "value": 236, "percent": 26 },
+            "vitaminB12": { "value": 1.46 },
+            "zinc": { "value": 3.23 }
+        },
+        "nutritionSummary": {
+            "calories": 351,
+            "fat": "26.6g",
+            "carbs": "2.1g",
+            "protein": "25.6g",
+            "summaryText": "Italian semi-hard cheese with a smooth texture.",
+            "breakdown": "67% fat, 2% carbs, 31% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 351 },
+            { "size": "1 oz (28g)", "calories": 99 }
+        ]
+    },
+    {
+        "slug": "cheese-ricotta",
+        "name": "Cheese Ricotta",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 150,
+            "totalFat": { "value": 10.18 },
+            "saturatedFat": { "value": 6.42 },
+            "monounsaturatedFat": { "value": 2.659 },
+            "polyunsaturatedFat": { "value": 0.445 },
+            "cholesterol": { "value": 43 },
+            "sodium": { "value": 110 },
+            "totalCarbohydrate": { "value": 7.27 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 6.36 },
+            "protein": { "value": 7.54 },
+            "calcium": { "value": 206 },
+            "iron": { "value": 0.13 },
+            "potassium": { "value": 219 },
+            "vitaminA": { "value": 120, "percent": 13 },
+            "vitaminB12": { "value": 0.85 },
+            "selenium": { "value": 5.9 }
+        },
+        "nutritionSummary": {
+            "calories": 150,
+            "fat": "10.2g",
+            "carbs": "7.3g",
+            "protein": "7.5g",
+            "summaryText": "Italian whey cheese, creamy and slightly sweet.",
+            "breakdown": "59% fat, 19% carbs, 22% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 150 },
+            { "size": "1 cup (246g)", "calories": 369 }
+        ]
+    },
+    {
+        "slug": "cheese-romano",
+        "name": "Cheese Romano",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 387,
+            "totalFat": { "value": 26.94 },
+            "saturatedFat": { "value": 17.115 },
+            "monounsaturatedFat": { "value": 7.838 },
+            "polyunsaturatedFat": { "value": 0.593 },
+            "cholesterol": { "value": 100 },
+            "sodium": { "value": 1433 },
+            "totalCarbohydrate": { "value": 3.63 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.07 },
+            "protein": { "value": 31.8 },
+            "calcium": { "value": 1064 },
+            "iron": { "value": 0.77 },
+            "potassium": { "value": 86 },
+            "vitaminA": { "value": 96, "percent": 11 },
+            "vitaminB12": { "value": 1.12 },
+            "zinc": { "value": 2.58 }
+        },
+        "nutritionSummary": {
+            "calories": 387,
+            "fat": "26.9g",
+            "carbs": "3.6g",
+            "protein": "31.8g",
+            "summaryText": "Hard, salty Italian cheese suitable for grating.",
+            "breakdown": "61% fat, 4% carbs, 35% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 387 },
+            { "size": "1 oz (28g)", "calories": 110 }
+        ]
+    },
+    {
+        "slug": "cheese-roquefort",
+        "name": "Cheese Roquefort",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 369,
+            "totalFat": { "value": 30.64 },
+            "saturatedFat": { "value": 19.263 },
+            "monounsaturatedFat": { "value": 8.474 },
+            "polyunsaturatedFat": { "value": 1.32 },
+            "cholesterol": { "value": 90 },
+            "sodium": { "value": 1809 },
+            "totalCarbohydrate": { "value": 2 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0 },
+            "protein": { "value": 21.54 },
+            "calcium": { "value": 662 },
+            "iron": { "value": 0.56 },
+            "potassium": { "value": 91 },
+            "vitaminA": { "value": 294, "percent": 33 },
+            "vitaminB12": { "value": 0.64 },
+            "folate": { "value": 49 }
+        },
+        "nutritionSummary": {
+            "calories": 369,
+            "fat": "30.6g",
+            "carbs": "2.0g",
+            "protein": "21.5g",
+            "summaryText": "Sheep milk cheese from Southern France.",
+            "breakdown": "72% fat, 2% carbs, 26% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 369 },
+            { "size": "1 oz (28g)", "calories": 105 }
+        ]
+    },
+    {
+        "slug": "cheese-swiss",
+        "name": "Cheese Swiss",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 393,
+            "totalFat": { "value": 30.99 },
+            "saturatedFat": { "value": 18.227 },
+            "monounsaturatedFat": { "value": 8.046 },
+            "polyunsaturatedFat": { "value": 1.341 },
+            "cholesterol": { "value": 100 },
+            "sodium": { "value": 187 },
+            "totalCarbohydrate": { "value": 1.44 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0 },
+            "protein": { "value": 26.96 },
+            "calcium": { "value": 890 },
+            "iron": { "value": 0.13 },
+            "potassium": { "value": 72 },
+            "vitaminA": { "value": 288, "percent": 32 },
+            "vitaminB12": { "value": 3.06 },
+            "selenium": { "value": 30 }
+        },
+        "nutritionSummary": {
+            "calories": 393,
+            "fat": "31.0g",
+            "carbs": "1.4g",
+            "protein": "27.0g",
+            "summaryText": "Mild, sweet, nut-like flavor cheese with holes.",
+            "breakdown": "69% fat, 1% carbs, 30% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 393 },
+            { "size": "1 slice (28g)", "calories": 111 }
+        ]
+    },
+    {
+        "slug": "cheese-tilsit",
+        "name": "Cheese Tilsit",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 340,
+            "totalFat": { "value": 25.98 },
+            "saturatedFat": { "value": 16.775 },
+            "monounsaturatedFat": { "value": 7.136 },
+            "polyunsaturatedFat": { "value": 0.721 },
+            "cholesterol": { "value": 79 },
+            "sodium": { "value": 753 },
+            "totalCarbohydrate": { "value": 1.88 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 1.16 },
+            "protein": { "value": 24.41 },
+            "calcium": { "value": 700 },
+            "iron": { "value": 0.23 },
+            "potassium": { "value": 65 },
+            "vitaminA": { "value": 249, "percent": 28 },
+            "vitaminB12": { "value": 2.1 },
+            "riboflavin": { "value": 0.359 }
+        },
+        "nutritionSummary": {
+            "calories": 340,
+            "fat": "26.0g",
+            "carbs": "1.9g",
+            "protein": "24.4g",
+            "summaryText": "Semi-hard cheese with a pungent aroma.",
+            "breakdown": "67% fat, 2% carbs, 31% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 340 },
+            { "size": "1 oz (28g)", "calories": 96 }
+        ]
+    },
+    {
+        "slug": "egg-chicken",
+        "name": "Egg Chicken",
+        "cuisine": "Generic",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Eggs",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 143,
+            "totalFat": { "value": 9.51 },
+            "saturatedFat": { "value": 3.126 },
+            "monounsaturatedFat": { "value": 3.658 },
+            "polyunsaturatedFat": { "value": 1.911 },
+            "cholesterol": { "value": 372 },
+            "sodium": { "value": 142 },
+            "totalCarbohydrate": { "value": 0.72 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.37 },
+            "protein": { "value": 12.56 },
+            "calcium": { "value": 56 },
+            "iron": { "value": 1.75 },
+            "potassium": { "value": 138 },
+            "vitaminA": { "value": 160, "percent": 18 },
+            "vitaminD": { "value": 2 },
+            "vitaminB12": { "value": 0.89 },
+            "choline": { "value": 293.8 }
+        },
+        "nutritionSummary": {
+            "calories": 143,
+            "fat": "9.5g",
+            "carbs": "0.7g",
+            "protein": "12.6g",
+            "summaryText": "A whole large chicken egg.",
+            "breakdown": "58% fat, 2% carbs, 40% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 143 },
+            { "size": "1 large (50g)", "calories": 72 }
+        ]
+    },
+    {
+        "slug": "egg-duck",
+        "name": "Egg Duck",
+        "cuisine": "Generic",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Eggs",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 185,
+            "totalFat": { "value": 13.77 },
+            "saturatedFat": { "value": 3.681 },
+            "monounsaturatedFat": { "value": 6.525 },
+            "polyunsaturatedFat": { "value": 1.223 },
+            "cholesterol": { "value": 884 },
+            "sodium": { "value": 146 },
+            "totalCarbohydrate": { "value": 1.45 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0 },
+            "protein": { "value": 12.81 },
+            "calcium": { "value": 64 },
+            "iron": { "value": 3.85 },
+            "potassium": { "value": 222 },
+            "vitaminA": { "value": 194, "percent": 22 },
+            "vitaminD": { "value": 1.7 },
+            "vitaminB12": { "value": 5.4 }
+        },
+        "nutritionSummary": {
+            "calories": 185,
+            "fat": "13.8g",
+            "carbs": "1.5g",
+            "protein": "12.8g",
+            "summaryText": "Richer and larger than chicken eggs.",
+            "breakdown": "65% fat, 3% carbs, 32% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 185 },
+            { "size": "1 egg (70g)", "calories": 130 }
+        ]
+    },
+    {
+        "slug": "egg-goose",
+        "name": "Egg Goose",
+        "cuisine": "Generic",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Eggs",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 185,
+            "totalFat": { "value": 13.27 },
+            "saturatedFat": { "value": 3.595 },
+            "monounsaturatedFat": { "value": 5.747 },
+            "polyunsaturatedFat": { "value": 1.672 },
+            "cholesterol": { "value": 852 },
+            "sodium": { "value": 138 },
+            "totalCarbohydrate": { "value": 1.35 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 1.35 },
+            "protein": { "value": 13.87 },
+            "calcium": { "value": 60 },
+            "iron": { "value": 3.64 },
+            "potassium": { "value": 210 },
+            "vitaminA": { "value": 187, "percent": 21 },
+            "vitaminD": { "value": 1.7 },
+            "vitaminB12": { "value": 5.1 }
+        },
+        "nutritionSummary": {
+            "calories": 185,
+            "fat": "13.3g",
+            "carbs": "1.4g",
+            "protein": "13.9g",
+            "summaryText": "Very large egg with a rich flavor.",
+            "breakdown": "63% fat, 3% carbs, 34% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 185 },
+            { "size": "1 egg (144g)", "calories": 266 }
+        ]
+    },
+    {
+        "slug": "egg-quail",
+        "name": "Egg Quail",
+        "cuisine": "Generic",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Eggs",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 158,
+            "totalFat": { "value": 11.09 },
+            "saturatedFat": { "value": 3.557 },
+            "monounsaturatedFat": { "value": 4.324 },
+            "polyunsaturatedFat": { "value": 1.324 },
+            "cholesterol": { "value": 844 },
+            "sodium": { "value": 141 },
+            "totalCarbohydrate": { "value": 0.41 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 0.41 },
+            "protein": { "value": 13.05 },
+            "calcium": { "value": 64 },
+            "iron": { "value": 3.65 },
+            "potassium": { "value": 132 },
+            "vitaminA": { "value": 156, "percent": 17 },
+            "vitaminD": { "value": 1.4 },
+            "vitaminB12": { "value": 1.58 }
+        },
+        "nutritionSummary": {
+            "calories": 158,
+            "fat": "11.1g",
+            "carbs": "0.4g",
+            "protein": "13.1g",
+            "summaryText": "Small, spotted eggs with a taste similar to chicken eggs.",
+            "breakdown": "62% fat, 1% carbs, 37% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 158 },
+            { "size": "1 egg (9g)", "calories": 14 }
+        ]
+    },
+    {
+        "slug": "egg-turkey",
+        "name": "Egg Turkey",
+        "cuisine": "Generic",
+        "mealCategory": "Breakfast",
+        "foodGroup": "Eggs",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 171,
+            "totalFat": { "value": 11.88 },
+            "saturatedFat": { "value": 3.632 },
+            "monounsaturatedFat": { "value": 4.571 },
+            "polyunsaturatedFat": { "value": 1.658 },
+            "cholesterol": { "value": 933 },
+            "sodium": { "value": 151 },
+            "totalCarbohydrate": { "value": 1.15 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 1.15 },
+            "protein": { "value": 13.68 },
+            "calcium": { "value": 99 },
+            "iron": { "value": 4.1 },
+            "potassium": { "value": 142 },
+            "vitaminA": { "value": 166, "percent": 18 },
+            "vitaminD": { "value": 0 },
+            "vitaminB12": { "value": 1.69 },
+            "folate": { "value": 71 }
+        },
+        "nutritionSummary": {
+            "calories": 171,
+            "fat": "11.9g",
+            "carbs": "1.2g",
+            "protein": "13.7g",
+            "summaryText": "Larger than chicken eggs with a creamier taste.",
+            "breakdown": "61% fat, 3% carbs, 36% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 171 },
+            { "size": "1 egg (79g)", "calories": 135 }
+        ]
+    },
+    {
+        "slug": "kefir",
+        "name": "Kefir",
+        "cuisine": "Generic",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 52,
+            "totalFat": { "value": 0.92 },
+            "saturatedFat": { "value": 0.596 },
+            "monounsaturatedFat": { "value": 0.286 },
+            "polyunsaturatedFat": { "value": 0.047 },
+            "cholesterol": { "value": 5 },
+            "sodium": { "value": 38 },
+            "totalCarbohydrate": { "value": 7.34 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 7.34 },
+            "protein": { "value": 3.59 },
+            "calcium": { "value": 124 },
+            "iron": { "value": 0.04 },
+            "potassium": { "value": 159 },
+            "vitaminA": { "value": 174, "percent": 19 },
+            "vitaminD": { "value": 1 }
+        },
+        "nutritionSummary": {
+            "calories": 52,
+            "fat": "0.9g",
+            "carbs": "7.3g",
+            "protein": "3.6g",
+            "summaryText": "Fermented milk drink similar to a thin yogurt.",
+            "breakdown": "15% fat, 53% carbs, 32% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 52 },
+            { "size": "1 cup (243g)", "calories": 126 }
+        ]
+    },
+    {
+        "slug": "milk-cow",
+        "name": "Milk Cow",
+        "cuisine": "Generic",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 61,
+            "totalFat": { "value": 3.25 },
+            "saturatedFat": { "value": 1.865 },
+            "monounsaturatedFat": { "value": 0.812 },
+            "polyunsaturatedFat": { "value": 0.195 },
+            "cholesterol": { "value": 10 },
+            "sodium": { "value": 43 },
+            "totalCarbohydrate": { "value": 4.8 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 5.05 },
+            "protein": { "value": 3.15 },
+            "calcium": { "value": 113 },
+            "iron": { "value": 0.03 },
+            "potassium": { "value": 132 },
+            "vitaminA": { "value": 46, "percent": 5 },
+            "vitaminD": { "value": 1.3 },
+            "vitaminB12": { "value": 0.45 }
+        },
+        "nutritionSummary": {
+            "calories": 61,
+            "fat": "3.3g",
+            "carbs": "4.8g",
+            "protein": "3.2g",
+            "summaryText": "Whole cow's milk, a good source of calcium and protein.",
+            "breakdown": "47% fat, 31% carbs, 22% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 61 },
+            { "size": "1 cup (244g)", "calories": 149 }
+        ]
+    },
+    {
+        "slug": "milk-cow-lactose-free",
+        "name": "Milk Cow Lactose Free",
+        "cuisine": "Generic",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 61,
+            "totalFat": { "value": 3.25 },
+            "saturatedFat": { "value": 1.865 },
+            "monounsaturatedFat": { "value": 0.812 },
+            "polyunsaturatedFat": { "value": 0.195 },
+            "cholesterol": { "value": 10 },
+            "sodium": { "value": 43 },
+            "totalCarbohydrate": { "value": 4.8 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 5.05 },
+            "protein": { "value": 3.15 },
+            "calcium": { "value": 113 },
+            "iron": { "value": 0.03 },
+            "potassium": { "value": 132 },
+            "vitaminA": { "value": 46, "percent": 5 },
+            "vitaminD": { "value": 1.3 },
+            "vitaminB12": { "value": 0.45 }
+        },
+        "nutritionSummary": {
+            "calories": 61,
+            "fat": "3.3g",
+            "carbs": "4.8g",
+            "protein": "3.2g",
+            "summaryText": "Cow's milk with lactase enzyme added.",
+            "breakdown": "47% fat, 31% carbs, 22% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 61 },
+            { "size": "1 cup (244g)", "calories": 149 }
+        ]
+    },
+    {
+        "slug": "milk-goat",
+        "name": "Milk Goat",
+        "cuisine": "Generic",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 69,
+            "totalFat": { "value": 4.14 },
+            "saturatedFat": { "value": 2.667 },
+            "monounsaturatedFat": { "value": 1.109 },
+            "polyunsaturatedFat": { "value": 0.149 },
+            "cholesterol": { "value": 11 },
+            "sodium": { "value": 50 },
+            "totalCarbohydrate": { "value": 4.45 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 4.45 },
+            "protein": { "value": 3.56 },
+            "calcium": { "value": 134 },
+            "iron": { "value": 0.05 },
+            "potassium": { "value": 204 },
+            "vitaminA": { "value": 57, "percent": 6 },
+            "vitaminD": { "value": 1.3 },
+            "vitaminC": { "value": 1.3 }
+        },
+        "nutritionSummary": {
+            "calories": 69,
+            "fat": "4.1g",
+            "carbs": "4.5g",
+            "protein": "3.6g",
+            "summaryText": "Slightly sweet and salty, easier to digest for some.",
+            "breakdown": "52% fat, 25% carbs, 23% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 69 },
+            { "size": "1 cup (244g)", "calories": 168 }
+        ]
+    },
+    {
+        "slug": "milk-indian-buffalo",
+        "name": "Milk Indian Buffalo",
+        "cuisine": "Indian",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 97,
+            "totalFat": { "value": 6.89 },
+            "saturatedFat": { "value": 4.597 },
+            "monounsaturatedFat": { "value": 1.787 },
+            "polyunsaturatedFat": { "value": 0.146 },
+            "cholesterol": { "value": 19 },
+            "sodium": { "value": 52 },
+            "totalCarbohydrate": { "value": 5.18 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 5.18 },
+            "protein": { "value": 3.75 },
+            "calcium": { "value": 169 },
+            "iron": { "value": 0.12 },
+            "potassium": { "value": 178 },
+            "vitaminA": { "value": 53, "percent": 6 },
+            "vitaminB12": { "value": 0.36 },
+            "vitaminC": { "value": 2.3 }
+        },
+        "nutritionSummary": {
+            "calories": 97,
+            "fat": "6.9g",
+            "carbs": "5.2g",
+            "protein": "3.8g",
+            "summaryText": "Creamier and richer than cow's milk.",
+            "breakdown": "62% fat, 21% carbs, 17% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 97 },
+            { "size": "1 cup (244g)", "calories": 237 }
+        ]
+    },
+    {
+        "slug": "milk-sheep",
+        "name": "Milk Sheep",
+        "cuisine": "Generic",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 108,
+            "totalFat": { "value": 7 },
+            "saturatedFat": { "value": 4.603 },
+            "monounsaturatedFat": { "value": 1.724 },
+            "polyunsaturatedFat": { "value": 0.308 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 44 },
+            "totalCarbohydrate": { "value": 5.36 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 5.36 },
+            "protein": { "value": 5.98 },
+            "calcium": { "value": 193 },
+            "iron": { "value": 0.1 },
+            "potassium": { "value": 137 },
+            "vitaminA": { "value": 44, "percent": 5 },
+            "vitaminB12": { "value": 0.71 },
+            "vitaminC": { "value": 4.2 }
+        },
+        "nutritionSummary": {
+            "calories": 108,
+            "fat": "7.0g",
+            "carbs": "5.4g",
+            "protein": "6.0g",
+            "summaryText": "Creamy milk with high fat and protein content.",
+            "breakdown": "57% fat, 19% carbs, 24% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 108 },
+            { "size": "1 cup (245g)", "calories": 265 }
+        ]
+    },
+    {
+        "slug": "whey-acid",
+        "name": "Whey Acid",
+        "cuisine": "Generic",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 24,
+            "totalFat": { "value": 0.09 },
+            "saturatedFat": { "value": 0.057 },
+            "monounsaturatedFat": { "value": 0.025 },
+            "polyunsaturatedFat": { "value": 0.004 },
+            "cholesterol": { "value": 2 },
+            "sodium": { "value": 48 },
+            "totalCarbohydrate": { "value": 5.12 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 5.12 },
+            "protein": { "value": 0.76 },
+            "calcium": { "value": 103 },
+            "iron": { "value": 0.08 },
+            "potassium": { "value": 143 },
+            "vitaminB12": { "value": 0.18 },
+            "riboflavin": { "value": 0.14 }
+        },
+        "nutritionSummary": {
+            "calories": 24,
+            "fat": "0.1g",
+            "carbs": "5.1g",
+            "protein": "0.8g",
+            "summaryText": "Liquid remaining after milk has been curdled and strained.",
+            "breakdown": "3% fat, 82% carbs, 15% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 24 },
+            { "size": "1 cup (246g)", "calories": 59 }
+        ]
+    },
+    {
+        "slug": "whey-sweet",
+        "name": "Whey Sweet",
+        "cuisine": "Generic",
+        "mealCategory": "Beverages",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 27,
+            "totalFat": { "value": 0.36 },
+            "saturatedFat": { "value": 0.23 },
+            "monounsaturatedFat": { "value": 0.1 },
+            "polyunsaturatedFat": { "value": 0.011 },
+            "cholesterol": { "value": 3 },
+            "sodium": { "value": 54 },
+            "totalCarbohydrate": { "value": 5.14 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 5.14 },
+            "protein": { "value": 0.85 },
+            "calcium": { "value": 47 },
+            "iron": { "value": 0.06 },
+            "potassium": { "value": 161 },
+            "vitaminB12": { "value": 0.28 },
+            "riboflavin": { "value": 0.158 }
+        },
+        "nutritionSummary": {
+            "calories": 27,
+            "fat": "0.4g",
+            "carbs": "5.1g",
+            "protein": "0.9g",
+            "summaryText": "Byproduct of cheesemaking, often used in protein supplements.",
+            "breakdown": "11% fat, 74% carbs, 15% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 27 },
+            { "size": "1 cup (246g)", "calories": 66 }
+        ]
+    },
+    {
+        "slug": "yogurt",
+        "name": "Yogurt",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 61,
+            "totalFat": { "value": 3.25 },
+            "saturatedFat": { "value": 2.096 },
+            "monounsaturatedFat": { "value": 0.893 },
+            "polyunsaturatedFat": { "value": 0.092 },
+            "cholesterol": { "value": 13 },
+            "sodium": { "value": 46 },
+            "totalCarbohydrate": { "value": 4.66 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 4.66 },
+            "protein": { "value": 3.47 },
+            "calcium": { "value": 121 },
+            "iron": { "value": 0.05 },
+            "potassium": { "value": 155 },
+            "vitaminA": { "value": 27, "percent": 3 },
+            "vitaminB12": { "value": 0.37 },
+            "vitaminD": { "value": 0.1 }
+        },
+        "nutritionSummary": {
+            "calories": 61,
+            "fat": "3.3g",
+            "carbs": "4.7g",
+            "protein": "3.5g",
+            "summaryText": "Fermented milk product, rich in probiotics.",
+            "breakdown": "47% fat, 29% carbs, 24% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 61 },
+            { "size": "1 cup (245g)", "calories": 149 }
+        ]
+    },
+    {
+        "slug": "yogurt-greek",
+        "name": "Yogurt Greek",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 97,
+            "totalFat": { "value": 5 },
+            "saturatedFat": { "value": 2.395 },
+            "monounsaturatedFat": { "value": 2.136 },
+            "polyunsaturatedFat": { "value": 0.469 },
+            "cholesterol": { "value": 12 },
+            "sodium": { "value": 35 },
+            "totalCarbohydrate": { "value": 3.98 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 3.56 },
+            "protein": { "value": 9 },
+            "calcium": { "value": 100 },
+            "iron": { "value": 0 },
+            "potassium": { "value": 141 },
+            "vitaminA": { "value": 2, "percent": 0 },
+            "vitaminB12": { "value": 0.75 }
+        },
+        "nutritionSummary": {
+            "calories": 97,
+            "fat": "5.0g",
+            "carbs": "4.0g",
+            "protein": "9.0g",
+            "summaryText": "Thicker, creamier yogurt with more protein.",
+            "breakdown": "46% fat, 16% carbs, 38% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 97 },
+            { "size": "1 container (156g)", "calories": 151 }
+        ]
+    },
+    {
+        "slug": "yogurt-tofu",
+        "name": "Yogurt Tofu",
+        "cuisine": "Generic",
+        "mealCategory": "Other",
+        "foodGroup": "Vegetables",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 94,
+            "totalFat": { "value": 1.8 },
+            "saturatedFat": { "value": 0.259 },
+            "monounsaturatedFat": { "value": 0.4 },
+            "polyunsaturatedFat": { "value": 1.017 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 35 },
+            "totalCarbohydrate": { "value": 15.96 },
+            "dietaryFiber": { "value": 0.2 },
+            "sugars": { "value": 1.7 },
+            "protein": { "value": 3.5 },
+            "calcium": { "value": 118 },
+            "iron": { "value": 1.06 },
+            "potassium": { "value": 47 },
+            "vitaminA": { "value": 2, "percent": 0 },
+            "vitaminC": { "value": 2.5 }
+        },
+        "nutritionSummary": {
+            "calories": 94,
+            "fat": "1.8g",
+            "carbs": "16.0g",
+            "protein": "3.5g",
+            "summaryText": "Dairy-free yogurt alternative made from soy.",
+            "breakdown": "16% fat, 65% carbs, 19% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 94 },
+            { "size": "1 cup (250g)", "calories": 235 }
+        ]
+    }
+]
