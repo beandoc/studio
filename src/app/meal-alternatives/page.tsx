@@ -28,6 +28,7 @@ function MealAlternativesContent() {
   const router = useRouter();
   const { foodDatabase, findFoodBySlug } = useFoodData();
   const mealSlug = searchParams.get('mealSlug');
+  const mealType = searchParams.get('mealType');
   const originalMealName = searchParams.get('originalMealName');
   const { activeProfile, dietPlan, setDietPlan } = useProfile();
   
@@ -37,11 +38,11 @@ function MealAlternativesContent() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (!mealSlug) {
+    if (!mealSlug || !mealType) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "No meal was selected to find alternatives for.",
+        description: "No meal or meal type was selected to find alternatives for.",
       });
       setIsLoading(false);
       return;
@@ -63,12 +64,12 @@ function MealAlternativesContent() {
       setIsLoading(true);
       setAlternatives(null);
       try {
-        const result = await suggestMealAlternatives({ mealSlug });
+        const result = await suggestMealAlternatives({ mealSlug, mealType });
         if (result.alternatives.length === 0) {
           toast({
             variant: "default",
             title: "No Alternatives Found",
-            description: "We couldn't find any similar meals in our database. This could be because our database is small. Try another selection.",
+            description: "We couldn't find any similar meals in the same category. Try another selection.",
           });
         }
         setAlternatives(result.alternatives);
@@ -85,7 +86,7 @@ function MealAlternativesContent() {
     };
 
     fetchAlternatives();
-  }, [mealSlug, toast, findFoodBySlug]);
+  }, [mealSlug, mealType, toast, findFoodBySlug]);
 
   const handleSwap = (alternativeName: string) => {
     const dayToReplace = searchParams.get('day');
@@ -154,7 +155,7 @@ function MealAlternativesContent() {
                         <CardContent>
                             <p className="text-sm text-muted-foreground">{originalMeal.nutritionSummary.summaryText}</p>
                              <p className="text-sm font-medium mt-2">
-                                Protein: {originalMeal.nutritionFacts.protein.value}g, Carbs: {originalMeal.nutritionFacts.totalCarbohydrate.value}g
+                                Calories: {originalMeal.nutritionFacts.calories} kcal, Protein: {originalMeal.nutritionFacts.protein.value}g
                             </p>
                         </CardContent>
                     )}
@@ -192,13 +193,14 @@ function MealAlternativesContent() {
                     <h2 className="text-2xl font-bold tracking-tight mb-4">Suggested Alternatives</h2>
                     <div className="grid gap-6">
                       {alternatives.map((alt) => (
-                        <Card key={alt.name} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 gap-4">
+                        <Card key={alt.slug} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-6 gap-4">
                           <div className="flex-grow">
-                            <CardTitle className="flex items-center gap-2">
-                              <Zap className="h-5 w-5 text-primary" />
-                              {alt.name}
-                            </CardTitle>
-                            <CardDescription>{alt.calories} calories</CardDescription>
+                             <Link href={`/food-database/${alt.slug}`} className="hover:underline">
+                                <CardTitle className="flex items-center gap-2 text-primary">
+                                <Zap className="h-5 w-5" />
+                                {alt.name}
+                                </CardTitle>
+                            </Link>
                             <p className="text-sm text-muted-foreground mt-2 mb-2">{alt.description}</p>
                             <p className="text-sm font-medium">{alt.nutrientInformation}</p>
                           </div>
@@ -218,8 +220,8 @@ function MealAlternativesContent() {
                             <CardTitle>No Alternatives Found</CardTitle>
                         </CardHeader>
                         <CardContent>
-                            <p className="text-muted-foreground">We couldn't find a suitable alternative for "{originalMeal?.name}" that matched the required cuisine, meal type, and nutrient profile within a 20% variance.</p>
-                             <p className="text-muted-foreground mt-2">Our food database is still growing. Please try flipping a different meal!</p>
+                            <p className="text-muted-foreground">We couldn't find a suitable alternative for "{originalMeal?.name}" in the "{mealType}" category.</p>
+                             <p className="text-muted-foreground mt-2">Our food database might not have a close match. Please try flipping a different meal!</p>
                         </CardContent>
                     </Card>
                  )}

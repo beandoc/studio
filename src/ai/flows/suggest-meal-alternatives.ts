@@ -3,7 +3,8 @@
 
 /**
  * @fileOverview Provides meal alternatives based on a food database.
- * The logic finds the two most nutritionally similar meals based on a scoring system.
+ * The logic finds the two most nutritionally similar meals based on a scoring system
+ * that considers calories and protein, constrained by the meal category.
  *
  * - suggestMealAlternatives - A function that suggests meal alternatives based on user input.
  * - SuggestMealAlternativesInput - The input type for the suggestMealAlternatives function.
@@ -13,10 +14,11 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 import { foodService } from '@/services/food-service';
-import type { FoodItem } from '@/lib/food-data';
+import type { FoodItem, MealCategory } from '@/lib/food-data';
 
 const SuggestMealAlternativesInputSchema = z.object({
   mealSlug: z.string().describe('The slug of the meal to find alternatives for.'),
+  mealType: z.string().describe("The category of the meal (e.g., 'Breakfast', 'Lunch') to constrain the search."),
 });
 export type SuggestMealAlternativesInput = z.infer<typeof SuggestMealAlternativesInputSchema>;
 
@@ -24,10 +26,11 @@ const SuggestMealAlternativesOutputSchema = z.object({
   alternatives: z.array(
     z.object({
       name: z.string().describe('Name of the meal alternative.'),
+      slug: z.string().describe('The slug of the meal alternative.'),
       description: z.string().describe('A detailed description of the meal.'),
       nutrientInformation: z
         .string()
-        .describe('Key nutrient information (e.g., sodium, phosphorus, potassium content).'),
+        .describe('Key nutrient information (e.g., calories, protein content).'),
       calories: z.number().describe('The calorie count of the meal alternative.'),
     })
   ).describe('An array of up to two meal alternatives.'),
@@ -41,21 +44,24 @@ export async function suggestMealAlternatives(input: SuggestMealAlternativesInpu
 
 
 // Helper function to calculate a similarity score. A lower score means a better match.
+// This is like finding the "best fit" baggage based on multiple constraints (weight and size).
 const calculateSimilarityScore = (original: FoodItem, alternative: FoodItem): number => {
-    const originalProtein = original.nutritionFacts.protein.value;
-    const originalCarbs = original.nutritionFacts.totalCarbohydrate.value;
+    // Analogy: Calories are the "weight" of the baggage.
+    const originalCalories = original.nutritionFacts.calories;
+    const altCalories = alternative.nutritionFacts.calories;
 
+    // Analogy: Protein is the "size" of the baggage.
+    const originalProtein = original.nutritionFacts.protein.value;
     const altProtein = alternative.nutritionFacts.protein.value;
-    const altCarbs = alternative.nutritionFacts.totalCarbohydrate.value;
     
-    // Calculate percentage difference for protein and carbs.
-    // This normalizes the differences so one nutrient doesn't overpower the other.
+    // Calculate normalized percentage difference for calories and protein.
+    // This prevents one nutrient with a larger absolute value from dominating the score.
+    const calorieDiff = originalCalories > 0 ? Math.abs(originalCalories - altCalories) / originalCalories : (altCalories > 0 ? 1 : 0);
     const proteinDiff = originalProtein > 0 ? Math.abs(originalProtein - altProtein) / originalProtein : (altProtein > 0 ? 1 : 0);
-    const carbsDiff = originalCarbs > 0 ? Math.abs(originalCarbs - altCarbs) / originalCarbs : (altCarbs > 0 ? 1 : 0);
 
     // Combine differences into a single score. Lower is better.
-    // We can weigh them if one is more important than the other. Here they are weighted equally.
-    return proteinDiff + carbsDiff;
+    // We weigh them equally to find a balanced nutritional alternative.
+    return calorieDiff + proteinDiff;
 }
 
 
@@ -77,9 +83,16 @@ const suggestMealAlternativesFlow = ai.defineFlow(
       throw new Error(`Meal with slug "${input.mealSlug}" not found in the database.`);
     }
 
-    // 2. Calculate similarity scores for all other meals in the database
-    const scoredAlternatives = foodDb
-        .filter(meal => meal.slug !== originalMeal.slug) // Exclude the original meal itself
+    // 2. Filter the database to ONLY include items from the same meal category.
+    const potentialAlternatives = foodDb.filter(meal => {
+        if (meal.slug === originalMeal.slug) return false; // Exclude the original meal itself
+        
+        const mealCategories = Array.isArray(meal.mealCategory) ? meal.mealCategory : [meal.mealCategory];
+        return mealCategories.includes(input.mealType as MealCategory);
+    });
+
+    // 3. Calculate similarity scores for all potential alternatives.
+    const scoredAlternatives = potentialAlternatives
         .map(meal => ({
             ...meal,
             // Calculate a score for each potential alternative
@@ -89,11 +102,12 @@ const suggestMealAlternativesFlow = ai.defineFlow(
         .sort((a, b) => a.similarityScore - b.similarityScore); 
 
     
-    // 3. Format the output with the top 2 best-scoring alternatives
+    // 4. Format the output with the top 2 best-scoring alternatives
     const alternatives = scoredAlternatives.slice(0, 2).map(alt => ({
         name: alt.name,
+        slug: alt.slug,
         description: alt.nutritionSummary.summaryText,
-        nutrientInformation: `Protein: ${alt.nutritionFacts.protein.value}g, Carbs: ${alt.nutritionFacts.totalCarbohydrate.value}g, Sodium: ${alt.nutritionFacts.sodium.value}mg`,
+        nutrientInformation: `Calories: ${alt.nutritionFacts.calories} kcal, Protein: ${alt.nutritionFacts.protein.value}g`,
         calories: alt.nutritionFacts.calories,
     }));
     
