@@ -95,19 +95,35 @@ export async function chat(input: ChatInput): Promise<Message> {
   
   // Use Genkit's built-in conversational capabilities.
   // It will automatically handle tool requests and continue the conversation.
-  const { output } = await ai.generate({
+  const response = await ai.generate({
       model: 'googleai/gemini-pro',
       system: `${dietCoachSystemPrompt}\n\nHere is the user's profile: ${JSON.stringify(profile)}`,
       tools: [getFoodData],
       history: history, // Pass the entire conversation history
   });
 
-  if (!output) {
-    return {
-      role: 'model',
-      content: [{text: "I'm sorry, I couldn't generate a response. Please try again."}],
-    };
+  // Handle the different types of responses from the AI
+  if (response.output) {
+    // The AI provided a direct text response.
+    return response.output;
   }
   
-  return output;
+  // Check if the AI wants to call a tool
+  const toolRequest = response.toolRequest;
+  if (toolRequest) {
+    // Genkit automatically handles executing the tool and continuing the flow,
+    // so we can just return the result of continuing the generation.
+    // This is a recursive-like call that will eventually result in a text output.
+    const toolResponse = await ai.runTool(toolRequest);
+    return chat({
+        history: [...history, response.message, toolResponse],
+        profile,
+    });
+  }
+  
+  // If we get here, something went wrong, and the AI didn't provide a valid response.
+  return {
+    role: 'model',
+    content: [{text: "I'm sorry, I encountered an unexpected issue and couldn't generate a response. Please try again."}],
+  };
 }
