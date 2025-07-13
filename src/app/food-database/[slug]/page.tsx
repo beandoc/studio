@@ -9,10 +9,11 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChefHat } from "lucide-react";
+import { ArrowLeft, ChefHat, Star } from "lucide-react";
 import React, { use } from 'react';
 import Image from "next/image";
 import { useFoodData } from "@/context/food-context";
+import { useProfile } from "@/context/profile-context";
 
 type NutrientRowProps = {
     label: string;
@@ -33,7 +34,18 @@ const NutrientRow = ({ label, value, unit, percent, bold = false, indent = false
 );
 
 function FoodDetailClient({ food }: { food: FoodItem }) {
+  const { activeProfile, addFavorite, removeFavorite, isFavorite } = useProfile();
   const servingSize = food.nutritionFacts.servingSize;
+  const isFav = activeProfile ? isFavorite(activeProfile.id, food.slug) : false;
+
+  const handleToggleFavorite = () => {
+    if (!activeProfile) return;
+    if (isFav) {
+      removeFavorite(activeProfile.id, food.slug);
+    } else {
+      addFavorite(activeProfile.id, food.slug);
+    }
+  };
 
   return (
     <div className="flex flex-col w-full bg-muted/20">
@@ -43,13 +55,19 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
       />
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
-            <div className="mb-4">
+            <div className="mb-4 flex justify-between items-center">
                 <Button asChild variant="outline">
                     <Link href="/food-database">
                         <ArrowLeft className="mr-2 h-4 w-4" />
                         Back to Database
                     </Link>
                 </Button>
+                {activeProfile && (
+                     <Button variant={isFav ? "default" : "outline"} onClick={handleToggleFavorite}>
+                        <Star className={cn("mr-2 h-4 w-4", isFav && "fill-current text-yellow-400")} />
+                        {isFav ? 'Favorite' : 'Add to Favorites'}
+                    </Button>
+                )}
             </div>
             
             <div className="relative w-full h-64 rounded-xl overflow-hidden mb-8 shadow-lg">

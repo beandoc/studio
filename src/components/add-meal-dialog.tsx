@@ -6,23 +6,26 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Plus, ArrowLeft, Minus } from 'lucide-react';
+import { Plus, ArrowLeft, Minus, Star } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import type { DailyLog, MealCategory, LoggedMeal } from '@/app/my-meal-tracker/page';
 import { useFoodData } from '@/context/food-context';
 import type { FoodItem } from '@/lib/food-data';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useProfile } from '@/context/profile-context';
 
 type AddMealDialogProps = {
   isOpen: boolean;
   onClose: () => void;
   onAddMeal: (meal: Omit<LoggedMeal, 'id'>) => void;
   category: MealCategory;
-  dailyLog: DailyLog;
 };
 
-export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, dailyLog }: AddMealDialogProps) {
-  const { foodDatabase } = useFoodData();
+export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: AddMealDialogProps) {
+  const { foodDatabase, findFoodBySlug } = useFoodData();
+  const { activeProfile, isFavorite } = useProfile();
+
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
@@ -30,23 +33,16 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
   const [selectedServing, setSelectedServing] = useState<string>("");
 
   const frequentItems = useMemo(() => {
-    const allItemsInCategory = dailyLog.meals[category];
-    if (!allItemsInCategory) return [];
-    
-    const itemCounts: Record<string, number> = {};
-    allItemsInCategory.forEach(item => {
-      const baseName = item.name.replace(/ \(.*/, ''); // remove quantity specifier
-      itemCounts[baseName] = (itemCounts[baseName] || 0) + 1;
-    });
+    // For this demo, we'll just show some items. A real implementation would be more complex.
+    return foodDatabase.slice(0, 5);
+  }, [foodDatabase]);
 
-    const sortedItems = Object.entries(itemCounts)
-      .sort(([, a], [, b]) => b - a)
-      .map(([name]) => foodDatabase.find(food => food.name === name))
-      .filter((item): item is FoodItem => !!item);
-      
-    return sortedItems.slice(0, 5);
-  }, [dailyLog, category, foodDatabase]);
-
+  const favoriteItems = useMemo(() => {
+    if (!activeProfile) return [];
+    return (activeProfile.favorites || [])
+        .map(slug => findFoodBySlug(slug))
+        .filter((item): item is FoodItem => !!item);
+  }, [activeProfile, findFoodBySlug]);
 
   useEffect(() => {
     if (searchTerm.length > 1) {
@@ -109,57 +105,83 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category, da
     handleClose();
   };
 
-  const itemsToShow = searchTerm.length > 1 ? searchResults : frequentItems;
-
   const handleClose = () => {
     setSelectedFood(null);
     setSearchTerm('');
     onClose();
-  }
+  };
   
   const handleQuantityChange = (amount: number) => {
     setQuantity(prev => {
         const newValue = prev + amount;
         return newValue < 0.5 ? 0.5 : newValue;
     });
-  }
+  };
+
+  const FoodList = ({ items }: { items: FoodItem[] }) => (
+     <div className="pr-4 space-y-2">
+        {items.length > 0 ? (
+            items.map(food => (
+            <div key={food.slug} className="flex items-center justify-between p-2 rounded-md border">
+                <div>
+                    <p className="font-semibold">{food.name}</p>
+                    <p className="text-xs text-muted-foreground">{food.nutritionFacts.calories} kcal, {food.nutritionFacts.protein.value.toFixed(1)}g protein</p>
+                </div>
+                <Button size="sm" onClick={() => handleSelectFood(food)}>
+                    <Plus className="mr-2 h-4 w-4" /> Add
+                </Button>
+            </div>
+            ))
+        ) : (
+            <p className="text-center text-muted-foreground pt-8">
+                {searchTerm ? 'No results found.' : 'No items in this list.'}
+            </p>
+        )}
+    </div>
+  );
 
   const renderSearchStep = () => (
     <>
       <DialogHeader>
         <DialogTitle>Add to {category}</DialogTitle>
         <DialogDescription>
-          Search for a food item or select from your frequent items.
+          Select from favorites or search the database.
         </DialogDescription>
       </DialogHeader>
-      <div className="grid gap-4 py-4">
-        <Input
-          placeholder="Search for a food..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <ScrollArea className="h-72">
-          <div className="pr-4 space-y-2">
-              {itemsToShow.length > 0 ? (
-                   itemsToShow.map(food => (
-                      <div key={food.slug} className="flex items-center justify-between p-2 rounded-md border">
-                          <div>
-                              <p className="font-semibold">{food.name}</p>
-                              <p className="text-xs text-muted-foreground">{food.nutritionFacts.calories} kcal, {food.nutritionFacts.protein.value.toFixed(1)}g protein</p>
-                          </div>
-                          <Button size="sm" onClick={() => handleSelectFood(food)}>
-                              <Plus className="mr-2 h-4 w-4" /> Add
-                          </Button>
-                      </div>
-                  ))
-              ) : (
-                  <p className="text-center text-muted-foreground pt-8">
-                      {searchTerm ? 'No results found.' : 'No frequent items yet for this category.'}
-                  </p>
-              )}
-          </div>
+      <Tabs defaultValue="favorites" className="w-full">
+        <div className="flex justify-between items-center pr-1">
+             <TabsList>
+                <TabsTrigger value="favorites">
+                    <Star className="mr-2 h-4 w-4" /> Favorites
+                </TabsTrigger>
+                <TabsTrigger value="search">Search</TabsTrigger>
+            </TabsList>
+            <Input
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="max-w-[150px]"
+            />
+        </div>
+        <ScrollArea className="h-72 mt-2">
+            {searchTerm ? (
+                <FoodList items={searchResults} />
+            ) : (
+                <>
+                <TabsContent value="favorites">
+                    {favoriteItems.length > 0 ? (
+                        <FoodList items={favoriteItems} />
+                    ) : (
+                        <p className="text-center text-muted-foreground pt-8">No favorite items yet. Add some from the Food Database!</p>
+                    )}
+                </TabsContent>
+                <TabsContent value="search">
+                    <FoodList items={foodDatabase} />
+                </TabsContent>
+                </>
+            )}
         </ScrollArea>
-      </div>
+      </Tabs>
     </>
   );
   

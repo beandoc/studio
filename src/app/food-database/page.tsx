@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { FoodGroup, FoodItem, MealCategory } from "@/lib/food-data";
-import { ArrowRight, Search, Database, ChefHat, Plus } from "lucide-react";
+import { ArrowRight, Search, Database, ChefHat, Plus, Star } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -21,6 +21,7 @@ import { useFoodData } from "@/context/food-context";
 import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { useProfile } from "@/context/profile-context";
 
 const cuisineOptions = ['All', 'Maharashtrian', 'Gujarati', 'North Indian', 'South Indian', 'Generic', 'Punjabi', 'Bengali', 'Jain', 'Indian'];
 const mealCategoryOptions: (MealCategory | 'All')[] = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner', 'Fruit'];
@@ -55,6 +56,7 @@ type Stats = {
 
 export default function FoodDatabasePage() {
     const { foodDatabase, updateMealCategories, updateAliases } = useFoodData();
+    const { activeProfile, isFavorite, addFavorite, removeFavorite } = useProfile();
     const [searchTerm, setSearchTerm] = useState("");
     const [cuisineFilter, setCuisineFilter] = useState("All");
     const [mealCategoryFilter, setMealCategoryFilter] = useState<MealCategory | 'All'>("All");
@@ -136,6 +138,17 @@ export default function FoodDatabasePage() {
     // Clear the input field for that card after saving
     setAliasInputs(prev => ({...prev, [slug]: ''}));
   };
+  
+  const handleToggleFavorite = (e: React.MouseEvent, slug: string) => {
+    e.stopPropagation();
+    if (!activeProfile) return;
+    if (isFavorite(activeProfile.id, slug)) {
+        removeFavorite(activeProfile.id, slug);
+    } else {
+        addFavorite(activeProfile.id, slug);
+    }
+  }
+
 
   return (
     <div className="flex flex-col w-full">
@@ -251,17 +264,29 @@ export default function FoodDatabasePage() {
             {filteredFoods.map((food) => {
                 const currentCategories = Array.isArray(food.mealCategory) ? food.mealCategory : (food.mealCategory ? [food.mealCategory] : []);
                 const availableCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Snack"];
+                const isFav = activeProfile ? isFavorite(activeProfile.id, food.slug) : false;
                 return (
                     <Card key={food.slug} className="flex flex-col hover:shadow-lg transition-shadow">
-                        <CardContent className="p-4 flex-grow space-y-4">
-                            <div>
-                                <h3 className="font-bold text-lg text-primary">{food.name}</h3>
-                                <div className="text-xs text-muted-foreground mt-2 flex flex-wrap gap-1">
-                                    {food.foodGroup && <Badge variant="secondary" className="font-normal">{food.foodGroup}</Badge>}
-                                    {food.cuisine && <Badge variant="secondary" className="font-normal">{food.cuisine}</Badge>}
-                                </div>
+                        <CardHeader className="p-4 pb-0">
+                           <div className="flex justify-between items-start">
+                             <h3 className="font-bold text-lg text-primary flex-1 pr-2">{food.name}</h3>
+                             {activeProfile && (
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-8 w-8 -mt-1 -mr-1 flex-shrink-0"
+                                    onClick={(e) => handleToggleFavorite(e, food.slug)}
+                                >
+                                    <Star className={cn("h-5 w-5", isFav ? "fill-current text-yellow-400" : "text-muted-foreground")} />
+                                </Button>
+                             )}
+                           </div>
+                           <div className="text-xs text-muted-foreground mt-2 flex flex-wrap gap-1">
+                                {food.foodGroup && <Badge variant="secondary" className="font-normal">{food.foodGroup}</Badge>}
+                                {food.cuisine && <Badge variant="secondary" className="font-normal">{food.cuisine}</Badge>}
                             </div>
-                            
+                        </CardHeader>
+                        <CardContent className="p-4 flex-grow space-y-4">
                             {food.cookingInstructions && (
                                 <p className="text-xs text-muted-foreground italic border-l-2 pl-2">
                                     <ChefHat className="inline-block h-3 w-3 mr-1" />

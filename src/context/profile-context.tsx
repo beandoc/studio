@@ -25,6 +25,9 @@ type ProfileContextType = {
   getDailyLog: (profileId: string, date: Date) => DailyLog | null;
   getProfileLogs: (profileId: string, days: number) => { date: Date; totals: { calories: number; protein: number; fat: number; } }[];
   getRawProfileLogs: (profileId: string, days: number) => DailyLog[];
+  addFavorite: (profileId: string, foodSlug: string) => void;
+  removeFavorite: (profileId: string, foodSlug: string) => void;
+  isFavorite: (profileId: string, foodSlug: string) => boolean;
 };
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
@@ -61,16 +64,20 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
+  const saveProfiles = (updatedProfiles: ProfileWithId[]) => {
+    setProfiles(updatedProfiles);
+    localStorage.setItem('profiles', JSON.stringify(updatedProfiles));
+  }
+
   const setActiveProfileId = (id: string | null) => {
     setActiveProfileIdState(id);
     localStorage.setItem('activeProfileId', id || '');
   };
 
   const addProfile = (profileData: Profile) => {
-    const newProfile: ProfileWithId = { ...profileData, id: new Date().toISOString() };
+    const newProfile: ProfileWithId = { ...profileData, id: new Date().toISOString(), favorites: [] };
     const updatedProfiles = [...profiles, newProfile];
-    setProfiles(updatedProfiles);
-    localStorage.setItem('profiles', JSON.stringify(updatedProfiles));
+    saveProfiles(updatedProfiles);
     return newProfile.id;
   };
 
@@ -80,8 +87,7 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
 
     // Remove profile from state and localStorage
     const updatedProfiles = profiles.filter(p => p.id !== id);
-    setProfiles(updatedProfiles);
-    localStorage.setItem('profiles', JSON.stringify(updatedProfiles));
+    saveProfiles(updatedProfiles);
 
     // Remove associated diet plan and daily logs
     const newDietPlans = { ...dietPlans };
@@ -173,6 +179,37 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
     return logs;
   }, [getDailyLog]);
 
+  const addFavorite = useCallback((profileId: string, foodSlug: string) => {
+    const updatedProfiles = profiles.map(p => {
+        if (p.id === profileId) {
+            const favorites = p.favorites ? [...p.favorites] : [];
+            if (!favorites.includes(foodSlug)) {
+                favorites.push(foodSlug);
+            }
+            return { ...p, favorites };
+        }
+        return p;
+    });
+    saveProfiles(updatedProfiles);
+  }, [profiles]);
+
+  const removeFavorite = useCallback((profileId: string, foodSlug: string) => {
+    const updatedProfiles = profiles.map(p => {
+        if (p.id === profileId) {
+            const favorites = (p.favorites || []).filter(slug => slug !== foodSlug);
+            return { ...p, favorites };
+        }
+        return p;
+    });
+    saveProfiles(updatedProfiles);
+  }, [profiles]);
+
+  const isFavorite = useCallback((profileId: string, foodSlug: string): boolean => {
+    const profile = profiles.find(p => p.id === profileId);
+    return profile?.favorites?.includes(foodSlug) || false;
+  }, [profiles]);
+
+
   const activeProfile = profiles.find(p => p.id === activeProfileId) || null;
   const dietPlan = activeProfileId ? dietPlans[activeProfileId] : null;
 
@@ -191,6 +228,9 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
         getDailyLog,
         getProfileLogs,
         getRawProfileLogs,
+        addFavorite,
+        removeFavorite,
+        isFavorite
     }}>
       {children}
     </ProfileContext.Provider>

@@ -84,6 +84,7 @@ const formSchema = z.object({
   targetWeight: z.coerce.number().optional(),
   calorieGoal: z.coerce.number().optional(),
   proteinGoal: z.coerce.number().optional(),
+  favorites: z.array(z.string()).optional(), // Added for favorites
 });
 
 export type FormValues = z.infer<typeof formSchema>;
@@ -116,6 +117,7 @@ export default function MyProfilePage() {
       dietType: "vegetarian",
       preferredCuisine: "Maharashtrian",
       fluidGoal: 1000,
+      favorites: [],
     },
   });
 
@@ -218,7 +220,7 @@ export default function MyProfilePage() {
         title: "Generating Diet Plan...",
         description: `Creating a personalized plan for ${data.fullName}.`,
       });
-      const result = await generateDietPlan({ healthRequirements, preferences, meals: "breakfast, lunch, dinner, snacks" });
+      const result = await generateDietPlan({ healthRequirements, preferences, meals: ["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"] });
       setDietPlan(result, newProfileId);
       toast({
         title: "Profile Saved & Diet Plan Generated!",
