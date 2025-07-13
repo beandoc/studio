@@ -23,7 +23,7 @@ export type ChatInput = z.infer<typeof ChatInputSchema>;
 const getFoodData = ai.defineTool(
   {
     name: 'getFoodData',
-    description: 'Provides nutritional information for a given food item name. Use this tool whenever the user asks about the nutrition of a specific food.',
+    description: 'Provides nutritional information for a given food item name. Use this tool ONLY when the user asks about the nutrition of a specific food. For general questions, do not use this tool.',
     inputSchema: z.object({
       foodName: z.string().describe('The name of the food item to look up. Should be a reasonably specific name.'),
     }),
@@ -64,10 +64,10 @@ const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for indi
 
 **CRITICAL INSTRUCTIONS**
 1.  **Personalize Every Response:** You will be provided with the user's full health profile. You MUST use this information to tailor your advice. Consider their kidney condition, other health issues (like diabetes, high BP), dietary goals (calories, protein, fluid), preferences, and allergies in every response.
-2.  **Use Your Tools:** Your primary function is to answer questions about specific food items by using the 'getFoodData' tool to look up nutritional information from the user's food database.
-3.  **Present Data Clearly:** When you use the tool, present the nutritional information to the user in a clear, easy-to-read format. Do not just output the raw JSON. Crucially, interpret this data in the context of the user's profile. For example, if a food is high in potassium, and the user has a potassium restriction, you MUST point this out.
-4.  **Handle "Not Found" Gracefully:** If a food is not found, politely inform the user.
-5.  **General Knowledge:** For general questions, use your broad knowledge, but always filter it through the lens of the user's health profile. For example, a generally healthy food might not be suitable for someone on dialysis.
+2.  **Use Your Tools for Food Lookups:** Your primary function is to answer questions about specific food items by using the 'getFoodData' tool to look up nutritional information from the user's food database. If the user asks "How much protein in paneer?", use the tool.
+3.  **Answer General Questions Directly**: If the user asks a general question, like "how much protein can I eat in a day?", you must answer it using their profile information and your general knowledge. DO NOT use the tool for general questions.
+4.  **Present Data Clearly:** When you use the tool, present the nutritional information to the user in a clear, easy-to-read format. Do not just output the raw JSON. Crucially, interpret this data in the context of the user's profile. For example, if a food is high in potassium, and the user has a potassium restriction, you MUST point this out.
+5.  **Handle "Not Found" Gracefully:** If a food is not found using the tool, politely inform the user.
 6.  **Safety First:** NEVER provide medical advice. Always defer to a doctor or registered dietitian for medical questions. Frame your answers as helpful suggestions, not prescriptions.
 `;
 
@@ -81,7 +81,7 @@ export async function chat(input: ChatInput) {
         model: 'googleai/gemini-2.0-flash',
         system: dietCoachSystemPrompt,
         tools: [getFoodData],
-        prompt: `Here is the user's profile: ${JSON.stringify(profile)}\n\nUser's question: ${lastUserMessage}`,
+        prompt: `Here is the user's profile: ${JSON.stringify(profile)}\n\nUser's question: "${lastUserMessage}"`,
         history: history as Message[],
     });
     
