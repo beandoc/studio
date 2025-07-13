@@ -2,6 +2,7 @@
 "use client";
 
 import { useState, useRef, useEffect, FormEvent } from "react";
+import Link from "next/link";
 import { Bot, User, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -44,7 +45,7 @@ export default function DietCoachPage() {
   
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!input || isLoading) return;
+    if (!input || isLoading || !activeProfile) return;
 
     const userMessage: Message = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
@@ -78,16 +79,26 @@ export default function DietCoachPage() {
           <CardHeader>
             <CardTitle>Chat with your Coach</CardTitle>
             <CardDescription>
-              {activeProfile ? `Ask questions about nutrition for ${activeProfile.fullName}.` : 'Select a profile to get started.'}
+              {activeProfile ? `You are now chatting as ${activeProfile.fullName}.` : 'Select a profile to enable the chat.'}
             </CardDescription>
           </CardHeader>
           <CardContent className="flex-1 overflow-hidden">
             <ScrollArea className="h-full pr-4" ref={scrollAreaRef}>
+              {!activeProfile ? (
+                 <div className="text-center text-muted-foreground p-8 h-full flex flex-col items-center justify-center">
+                    <User className="mx-auto h-12 w-12" />
+                    <p className="mt-4 font-semibold">Please select a profile to activate the Diet Coach.</p>
+                    <p className="mt-1 text-sm">Krutrim needs an active profile to provide personalized advice.</p>
+                    <Button asChild className="mt-4">
+                      <Link href="/profiles">Select Profile</Link>
+                    </Button>
+                </div>
+              ) : (
               <div className="space-y-4">
                 {messages.length === 0 && (
                     <div className="text-center text-muted-foreground p-8">
                         <Bot className="mx-auto h-12 w-12" />
-                        <p className="mt-2">I'm your AI Diet Coach. Ask me questions like "How much protein is in paneer?" or "Is watermelon a good snack?".</p>
+                        <p className="mt-2">I'm Krutrim, your AI Diet Coach. Ask me questions like "How much protein is in paneer?" or "Is watermelon a good snack?".</p>
                     </div>
                 )}
                 {messages.map((message, index) => (
@@ -137,6 +148,7 @@ export default function DietCoachPage() {
                     </div>
                 )}
               </div>
+              )}
             </ScrollArea>
           </CardContent>
           <CardFooter className="pt-4 border-t">
@@ -144,7 +156,7 @@ export default function DietCoachPage() {
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about a food item..."
+                placeholder={activeProfile ? "Ask about a food item..." : "Select a profile to chat"}
                 disabled={isLoading || !activeProfile}
               />
               <Button type="submit" disabled={isLoading || !input || !activeProfile}>
