@@ -9,7 +9,6 @@ import { ai } from '@/ai/genkit';
 import { FoodService } from '@/lib/food-service';
 import { z } from 'zod';
 import type { Message } from "genkit/experimental/ai";
-import type { MealCategory } from '@/lib/food-data';
 
 
 const ChatInputSchema = z.object({
@@ -98,30 +97,43 @@ const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for indi
  * A robust chat function that uses a system prompt and tools to answer user questions.
  */
 export async function chat(input: ChatInput): Promise<Message> {
+  // Input Validation
+  if (!input || !input.profile || !input.history) {
+    console.error("Chat Error: Invalid input received.", input);
+    return {
+      role: 'model',
+      content: [{ text: "I'm sorry, but I couldn't get the required user profile information to provide a personalized answer. Please select a profile and try again." }],
+    };
+  }
 
-  // Pass the user's alias overrides to the tool config.
-  // This ensures that when the AI decides to call `getFoodData`, it will have the user's custom aliases.
-  const toolConfig = {
-    getFoodData: {
-      aliasOverrides: input.aliasOverrides
-    }
-  };
-
-  const response = await ai.generate({
+  try {
+    const response = await ai.generate({
       model: 'googleai/gemini-pro',
       system: `${dietCoachSystemPrompt}\n\nHere is the user's profile: ${JSON.stringify(input.profile)}`,
       tools: [getFoodData],
-      toolConfig: toolConfig, // Provide the user-specific config to the tool
+      toolConfig: {
+        getFoodData: {
+          aliasOverrides: input.aliasOverrides || {},
+        },
+      },
       history: input.history,
-  });
+    });
 
-  if (response.output) {
-    return response.output;
+    if (response.output) {
+      return response.output;
+    }
+
+    // This case handles if the AI for some reason doesn't return a message.
+    return {
+      role: 'model',
+      content: [{ text: "I'm sorry, I couldn't generate a response at this time. Please try asking in a different way." }],
+    };
+
+  } catch (error) {
+    console.error("An unexpected error occurred in the chat flow:", error);
+    return {
+      role: 'model',
+      content: [{ text: "I'm sorry, an unexpected error occurred while processing your request. Please try again later." }],
+    };
   }
-  
-  // If we get here, something went wrong, and the AI didn't provide a valid response.
-  return {
-    role: 'model',
-    content: [{text: "I'm sorry, I encountered an unexpected issue and couldn't generate a response. Please try again."}],
-  };
 }
