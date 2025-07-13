@@ -146,11 +146,12 @@ const generateDietPlanFlow = ai.defineFlow(
       - Daily Protein Goal: ~${input.dailyProteinGoal || 70} g
 
       **CRITICAL INSTRUCTIONS:**
-      1.  **Strict Food Selection:** For each meal type (e.g., breakfast, lunch), you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists. This is a strict rule.
-      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like 'Chapati (1 no.) (147 kcal, 3.6g protein)', a protein like 'Plain dal (1 Katori) (101 kcal, 6.7g protein)', a vegetable side). Snacks can be single items. Aim for variety throughout the week. A diet should not have the same meal every day.
-      3.  **Meet Nutritional Goals:** You are provided with the calorie and protein content for each food item. You MUST use this information to create a daily plan where the total calories and protein are as close as possible to the user's daily goals. A plan with only 600 calories when the goal is 2000 is not acceptable. Use snacks if needed to meet the calorie goal.
-      4.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema. In your output, you MUST provide the *exact* food name as it appears in the list (e.g., 'Chapati (1 no.) (147 kcal, 3.6g protein)'). Do NOT include calorie counts or other details in the output \`name\` field.
-      5.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: ${input.meals.join(', ')}.
+      1.  **Generate a Full 7-Day Plan:** You MUST create a complete diet plan for all seven days of the week: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, and Sunday.
+      2.  **Strict Food Selection:** For each meal type (e.g., breakfast, lunch), you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists. This is a strict rule.
+      3.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like 'Chapati (1 no.) (147 kcal, 3.6g protein)', a protein like 'Plain dal (1 Katori) (101 kcal, 6.7g protein)', a vegetable side). Snacks can be single items. Aim for variety throughout the week. A diet should not have the same meal every day.
+      4.  **Meet Nutritional Goals:** You are provided with the calorie and protein content for each food item. You MUST use this information to create a daily plan where the total calories and protein are as close as possible to the user's daily goals. A plan with only 600 calories when the goal is 2000 is not acceptable. Use snacks if needed to meet the calorie goal.
+      5.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema, which expects a 'plan' array containing 7 daily plans. In your output, you MUST provide the *exact* food name as it appears in the list (e.g., 'Chapati (1 no.) (147 kcal, 3.6g protein)'). Do NOT include calorie counts or other details in the output \`name\` field.
+      6.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: ${input.meals.join(', ')}.
 
       **--- AVAILABLE FOODS PER MEAL TYPE (WITH NUTRITIONAL DATA) ---**
       ${foodListsForPrompt}
