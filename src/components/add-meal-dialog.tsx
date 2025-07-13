@@ -9,7 +9,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Plus, ArrowLeft, Minus, Star } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
-import type { DailyLog, MealCategory, LoggedMeal } from '@/app/my-meal-tracker/page';
+import type { MealCategory, LoggedMeal } from '@/app/my-meal-tracker/page';
 import { useFoodData } from '@/context/food-context';
 import type { FoodItem } from '@/lib/food-data';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
