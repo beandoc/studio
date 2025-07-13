@@ -8,17 +8,26 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "@/components/header";
-import { chat, chatHistory } from "@/ai/flows/diet-coach-chat";
+import { chat } from "@/ai/flows/diet-coach-chat";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProfile } from "@/context/profile-context";
 import ReactMarkdown from 'react-markdown';
+import { z } from 'zod';
 
 
 type Message = {
   role: "user" | "model";
   content: string;
 };
+
+const chatHistory = z.array(
+  z.object({
+    role: z.enum(['user', 'model']),
+    content: z.string(),
+  })
+);
+
 
 export default function DietCoachPage() {
   const [messages, setMessages] = useState<Message[]>([]);

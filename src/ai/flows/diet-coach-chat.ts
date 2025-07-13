@@ -10,7 +10,7 @@ import { ai } from '@/ai/genkit';
 import { foodService } from '@/services/food-service';
 import { z } from 'zod';
 
-export const chatHistory = z.array(
+const chatHistory = z.array(
   z.object({
     role: z.enum(['user', 'model']),
     content: z.string(),
