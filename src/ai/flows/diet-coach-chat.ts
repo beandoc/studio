@@ -1,17 +1,16 @@
+
 'use server';
 /**
  * @fileOverview An AI Diet Coach that can answer user questions about food items using a food database tool, personalized to the user's health profile.
  *
  * - chat - The main chat function.
  * - ChatInput - The input schema for the chat function.
- * - chatHistory - A Zod schema for chat history.
  */
 import { ai } from '@/ai/genkit';
 import { foodService } from '@/services/food-service';
 import { z } from 'zod';
-import type { ProfileWithId } from '@/context/profile-context';
-import { chatHistory } from '@/app/diet-coach/page';
 import type { ChatHistory } from '@/app/diet-coach/page';
+import { chatHistory } from '@/app/diet-coach/page';
 
 
 const ChatInputSchema = z.object({
