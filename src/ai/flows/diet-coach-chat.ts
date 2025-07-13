@@ -37,19 +37,19 @@ const getFoodData = ai.defineTool(
     const searchTerm = input.foodName.toLowerCase().trim();
     
     // Improved search logic:
-    // 1. Look for an exact match first.
+    // 1. Look for an exact match first (case-insensitive).
     let foodItem = foodDb.find(food => food.name.toLowerCase() === searchTerm);
 
-    // 2. If no exact match, look for a whole word match in name or aliases.
+    // 2. If no exact match, look for a whole word match in name or aliases (case-insensitive).
     if (!foodItem) {
-        const searchRegex = new RegExp(`\\b${searchTerm}\\b`, 'i'); // \b is for word boundary
+        const searchRegex = new RegExp(`\\b${searchTerm}\\b`, 'i'); // \b is for word boundary, i is for case-insensitive
         foodItem = foodDb.find(food => 
             searchRegex.test(food.name) || 
             (food.aliases && food.aliases.some(a => searchRegex.test(a)))
         );
     }
     
-    // 3. As a last resort, check if the name includes the search term.
+    // 3. As a last resort, check if the name includes the search term (case-insensitive).
     if (!foodItem) {
         foodItem = foodDb.find(food => food.name.toLowerCase().includes(searchTerm));
     }
