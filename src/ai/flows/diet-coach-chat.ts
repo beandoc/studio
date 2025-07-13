@@ -101,6 +101,13 @@ export async function chat(input: ChatInput): Promise<Message> {
       tools: [getFoodData],
       history: history, // Pass the entire conversation history
   });
+
+  if (!output) {
+    return {
+      role: 'model',
+      content: [{text: "I'm sorry, I couldn't generate a response. Please try again."}],
+    };
+  }
   
   return output;
 }
