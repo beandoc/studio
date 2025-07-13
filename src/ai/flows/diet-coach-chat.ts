@@ -10,15 +10,8 @@ import { ai } from '@/ai/genkit';
 import { foodService } from '@/services/food-service';
 import { z } from 'zod';
 import type { ProfileWithId } from '@/context/profile-context';
-
-
-const chatHistory = z.array(
-  z.object({
-    role: z.enum(['user', 'model']),
-    content: z.string(),
-  })
-);
-export type ChatHistory = z.infer<typeof chatHistory>;
+import { chatHistory } from '@/app/diet-coach/page';
+import type { ChatHistory } from '@/app/diet-coach/page';
 
 
 const ChatInputSchema = z.object({

@@ -9,12 +9,21 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "@/components/header";
-import { chat, type ChatHistory, type ChatInput } from "@/ai/flows/diet-coach-chat";
+import { chat, type ChatInput } from "@/ai/flows/diet-coach-chat";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProfile } from "@/context/profile-context";
 import ReactMarkdown from 'react-markdown';
+import { z } from "zod";
 
+
+export const chatHistory = z.array(
+  z.object({
+    role: z.enum(['user', 'model']),
+    content: z.string(),
+  })
+);
+export type ChatHistory = z.infer<typeof chatHistory>;
 
 type Message = {
   role: "user" | "model";

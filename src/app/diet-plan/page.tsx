@@ -331,9 +331,11 @@ export default function DietPlanPage() {
                         );
                       })}
                       {dayPlan.notes && (
-                          <div key="notes">
-                          <h4 className="font-semibold capitalize text-lg mb-2">Notes</h4>
-                          <p className="text-sm text-muted-foreground italic p-4 bg-amber-50 rounded-md border border-amber-200">{dayPlan.notes}</p>
+                          <div>
+                            <h4 className="font-semibold capitalize text-lg mb-2">Notes</h4>
+                            <div className="text-sm text-muted-foreground italic p-4 bg-amber-50 rounded-md border border-amber-200">
+                                {dayPlan.notes}
+                            </div>
                           </div>
                       )}
                     </div>
