@@ -52,7 +52,7 @@ const getFoodData = ai.defineTool(
     if (!foodItem) {
         const searchRegex = new RegExp(`\\b${searchTerm}\\b`, 'i'); // \b is for word boundary, i is for case-insensitive
         foodItem = foodDb.find(food => 
-            searchRegex.test(food.name) || 
+            food.name.toLowerCase().includes(searchTerm) || // Keep simple include for names
             (food.aliases && food.aliases.some(a => searchRegex.test(a.toLowerCase())))
         );
     }
@@ -67,13 +67,13 @@ const getFoodData = ai.defineTool(
       // Return a simplified version of the food data as a JSON string
       const relevantData = {
         name: foodItem.name,
-        servingSize: foodItem.nutritionFacts.servingSize,
-        calories: foodItem.nutritionFacts.calories,
-        protein: `${foodItem.nutritionFacts.protein.value}g`,
-        fat: `${foodItem.nutritionFacts.totalFat.value}g`,
-        carbohydrates: `${foodItem.nutritionFacts.totalCarbohydrate.value}g`,
-        sodium: `${foodItem.nutritionFacts.sodium.value}mg`,
-        potassium: `${foodItem.nutritionFacts.potassium?.value || 'N/A'}mg`,
+        servingSize: food.nutritionFacts.servingSize,
+        calories: food.nutritionFacts.calories,
+        protein: `${food.nutritionFacts.protein.value}g`,
+        fat: `${food.nutritionFacts.totalFat.value}g`,
+        carbohydrates: `${food.nutritionFacts.totalCarbohydrate.value}g`,
+        sodium: `${food.nutritionFacts.sodium.value}mg`,
+        potassium: `${food.nutritionFacts.potassium?.value || 'N/A'}mg`,
         summary: foodItem.nutritionSummary.summaryText,
       };
       return JSON.stringify(relevantData);
