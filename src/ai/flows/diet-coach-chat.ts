@@ -96,5 +96,5 @@ export async function chat(input: ChatInput) {
         history: history as Message[],
     });
     
-    return llmResponse.output();
+    return llmResponse.output;
 }
