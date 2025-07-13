@@ -163,8 +163,10 @@ export default function FoodDatabasePage() {
                     <Database className="h-6 w-6 text-primary"/>
                     Database At a Glance
                 </CardTitle>
-                <CardDescription>
-                  We currently have <Badge variant="secondary">{stats.total}</Badge> food items in our database.
+                 <CardDescription asChild>
+                  <div className="text-sm text-muted-foreground">
+                    We currently have <Badge variant="secondary">{stats.total}</Badge> food items in our database.
+                  </div>
                 </CardDescription>
             </CardHeader>
             <CardContent>
