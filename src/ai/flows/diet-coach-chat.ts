@@ -15,7 +15,7 @@ const ChatInputSchema = z.object({
   history: z.array(z.custom<Message>()).describe("The history of the conversation, with the last message being the user's current query."),
   profile: z.any().describe("The user's full health profile object."),
   // User-specific overrides for the food database
-  aliasOverrides: z.record(z.array(z.string())).optional().describe("A map of food slugs to their user-defined aliases."),
+  aliasOverrides: z.record(z.array(z.string())).optional().describe("A map of food slugs to their user-defined aliases. This should be passed to the getFoodData tool if used."),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
 
@@ -86,7 +86,7 @@ const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for indi
 
 **CRITICAL INSTRUCTIONS**
 1.  **Personalize Every Response:** You have been provided with the user's full health profile. You MUST use this information to tailor your advice. Consider their kidney condition, other health issues (like diabetes, high BP), dietary goals (calories, protein, fluid), preferences, and allergies in every response.
-2.  **Use Your Tools for Food Lookups:** If the user asks about the nutritional content of a specific food (e.g., "How much protein in paneer?"), you MUST use the 'getFoodData' tool.
+2.  **Use Your Tools for Food Lookups:** If the user asks about the nutritional content of a specific food (e.g., "How much protein in paneer?"), you MUST use the 'getFoodData' tool. To do this, you MUST also pass the 'aliasOverrides' from the user's input to the tool.
 3.  **Answer General Questions Directly**: If the user asks a general question (e.g., "how much protein can I eat in a day?"), you must answer it using their profile information and your general knowledge. DO NOT use the tool for general questions.
 4.  **Interpret Data and Present Clearly:** When you use the 'getFoodData' tool, you will receive JSON data. You MUST NOT output the raw JSON. Your job is to interpret this data in the context of the user's profile and present it in a clear, easy-to-read format. For example, if a food is high in potassium, and the user has a potassium restriction, you MUST point this out.
 5.  **Handle "Not Found" Gracefully:** If a food is not found using the tool, politely inform the user.
@@ -111,12 +111,10 @@ export async function chat(input: ChatInput): Promise<Message> {
       model: 'googleai/gemini-pro',
       system: `${dietCoachSystemPrompt}\n\nHere is the user's profile: ${JSON.stringify(input.profile)}`,
       tools: [getFoodData],
-      toolConfig: {
-        getFoodData: {
-          aliasOverrides: input.aliasOverrides || {},
-        },
-      },
       history: input.history,
+      input: {
+        aliasOverrides: input.aliasOverrides || {},
+      },
     });
 
     if (response.output) {
