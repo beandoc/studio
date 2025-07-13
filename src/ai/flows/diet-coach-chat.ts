@@ -9,14 +9,20 @@
 import { ai } from '@/ai/genkit';
 import { foodService } from '@/services/food-service';
 import { z } from 'zod';
-import type { ChatHistory } from '@/app/diet-coach/page';
+import type { Message } from "genkit/experimental/ai";
 
 
 const ChatInputSchema = z.object({
   history: z.array(
     z.object({
-      role: z.enum(['user', 'model']),
-      content: z.string(),
+      role: z.enum(['user', 'model', 'tool']),
+      content: z.array(
+          z.object({
+              text: z.string().optional(),
+              toolRequest: z.any().optional(),
+              toolResponse: z.any().optional(),
+          })
+      ),
     })
   ),
   profile: z.any().describe("The user's full health profile object."),
@@ -65,9 +71,8 @@ const getFoodData = ai.defineTool(
 );
 
 
-const chatPrompt = ai.definePrompt({
+const dietCoachChat = ai.definePrompt({
     name: 'dietCoachChat',
-    input: { schema: ChatInputSchema }, 
     system: `You are Krutrim, an expert AI Diet Coach for individuals with kidney health concerns. Your tone is friendly, helpful, and supportive.
 
     **CRITICAL INSTRUCTIONS**
@@ -97,9 +102,11 @@ const chatPrompt = ai.definePrompt({
 });
 
 export async function chat(input: ChatInput) {
-  // We pass the whole input object to the prompt, which includes history and profile.
-  // The prompt can then access `{{profile.fullName}}` etc.
-  // The history is used automatically by the `chatPrompt` function.
-  const llmResponse = await chatPrompt(input);
-  return llmResponse.output;
+    const { history, profile } = input;
+    const llmResponse = await ai.generate({
+        prompt: `Here is the user's profile: ${JSON.stringify(profile)}`,
+        history: history as Message[],
+        model: dietCoachChat,
+    });
+    return llmResponse.output();
 }

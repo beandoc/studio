@@ -15,23 +15,17 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProfile } from "@/context/profile-context";
 import ReactMarkdown from 'react-markdown';
 import { z } from "zod";
+import type { Message } from "genkit/experimental/ai";
 
 
-export const chatHistory = z.array(
-  z.object({
-    role: z.enum(['user', 'model']),
-    content: z.string(),
-  })
-);
-export type ChatHistory = z.infer<typeof chatHistory>;
-
-type Message = {
-  role: "user" | "model";
-  content: string;
-};
+const messageSchema = z.object({
+  role: z.enum(['user', 'model']),
+  content: z.string(),
+});
+export type UiMessage = z.infer<typeof messageSchema>;
 
 export default function DietCoachPage() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<UiMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { activeProfile } = useProfile();
@@ -47,25 +41,34 @@ export default function DietCoachPage() {
     e.preventDefault();
     if (!input || isLoading || !activeProfile) return;
 
-    const userMessage: Message = { role: "user", content: input };
+    const userMessage: UiMessage = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
     try {
+      // Convert UI messages to the format Genkit expects
+      const history: Message[] = messages.map(m => ({
+        role: m.role,
+        content: [{text: m.content}]
+      }));
+      
+      // Add the new user message to the history for the AI call
+      history.push({ role: 'user', content: [{ text: userMessage.content }] });
+
       const chatInput: ChatInput = {
-        history: [...messages, userMessage] as ChatHistory,
+        history: history,
         profile: activeProfile,
       };
       
       const response = await chat(chatInput);
       if (response?.content) {
-        const modelMessage: Message = { role: "model", content: response.content };
+        const modelMessage: UiMessage = { role: "model", content: response.content };
         setMessages((prev) => [...prev, modelMessage]);
       }
     } catch (error) {
       console.error("Chat error:", error);
-      const errorMessage: Message = { role: "model", content: "Sorry, I encountered an error. Please try again." };
+      const errorMessage: UiMessage = { role: "model", content: "Sorry, I encountered an error. Please try again." };
       setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
