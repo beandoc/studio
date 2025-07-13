@@ -41,46 +41,6 @@
         ]
     },
     {
-        "slug": "butter-oil",
-        "name": "Butter Oil",
-        "cuisine": "Generic",
-        "mealCategory": "Other",
-        "foodGroup": "Cheese, Milk & Dairy",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 876,
-            "totalFat": { "value": 99.48 },
-            "saturatedFat": { "value": 61.924 },
-            "monounsaturatedFat": { "value": 28.732 },
-            "polyunsaturatedFat": { "value": 3.694 },
-            "cholesterol": { "value": 256 },
-            "sodium": { "value": 2 },
-            "totalCarbohydrate": { "value": 0 },
-            "dietaryFiber": { "value": 0 },
-            "sugars": { "value": 0 },
-            "protein": { "value": 0.28 },
-            "calcium": { "value": 4 },
-            "iron": { "value": 0 },
-            "potassium": { "value": 5 },
-            "vitaminA": { "value": 840, "percent": 93 },
-            "vitaminD": { "value": 0 },
-            "vitaminE": { "value": 2.8 },
-            "vitaminK": { "value": 8.6 }
-        },
-        "nutritionSummary": {
-            "calories": 876,
-            "fat": "99.5g",
-            "carbs": "0.0g",
-            "protein": "0.3g",
-            "summaryText": "Anhydrous milkfat, similar to ghee.",
-            "breakdown": "100% fat, 0% carbs, 0% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 876 },
-            { "size": "1 cup (205g)", "calories": 1796 }
-        ]
-    },
-    {
         "slug": "buttermilk",
         "name": "Buttermilk",
         "cuisine": "Generic",
@@ -2102,3 +2062,4 @@
     }
 ]
 
+    
