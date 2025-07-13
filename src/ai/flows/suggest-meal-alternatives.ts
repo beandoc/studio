@@ -13,7 +13,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import { foodService } from '@/services/food-service';
+import { foodService } from '@/lib/food-service';
 import type { FoodItem, MealCategory } from '@/lib/food-data';
 
 const SuggestMealAlternativesInputSchema = z.object({
@@ -100,7 +100,7 @@ const suggestMealAlternativesFlow = ai.defineFlow(
             similarityScore: calculateSimilarityScore(originalMeal, meal) 
         }))
         // Sort by the similarity score in ascending order (lowest score is the best match)
-        .sort((a, b) => a.similarityScore - b.similarityScore); 
+        .sort((a, b) => a.similarityScore - b.sortScore); 
 
     
     // 4. Format the output with the top 2 best-scoring alternatives

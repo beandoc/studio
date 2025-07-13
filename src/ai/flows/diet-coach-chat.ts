@@ -7,14 +7,17 @@
  * - ChatInput - The input schema for the chat function.
  */
 import { ai } from '@/ai/genkit';
-import { foodService } from '@/services/food-service';
+import { FoodService } from '@/lib/food-service';
 import { z } from 'zod';
 import type { Message } from "genkit/experimental/ai";
+import type { MealCategory } from '@/lib/food-data';
 
 
 const ChatInputSchema = z.object({
   history: z.array(z.custom<Message>()).describe("The history of the conversation, with the last message being the user's current query."),
   profile: z.any().describe("The user's full health profile object."),
+  // User-specific overrides for the food database
+  aliasOverrides: z.record(z.array(z.string())).optional().describe("A map of food slugs to their user-defined aliases."),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
 
@@ -29,11 +32,16 @@ const getFoodData = ai.defineTool(
     If the JSON contains an error message (e.g., 'Food item "..." not found'), you MUST politely inform the user that you could not find the food in your database.`,
     inputSchema: z.object({
       foodName: z.string().describe('The name of the food item to look up. Should be a reasonably specific name.'),
+      // The user's alias overrides are passed in here from the main chat function
+      aliasOverrides: z.record(z.array(z.string())).optional(),
     }),
     outputSchema: z.string().describe("A JSON string containing the nutritional data for the food, or a message indicating the food was not found."),
   },
   async (input) => {
-    const foodDb = foodService.getFoodDatabase();
+    // Instantiate a food service with the user's specific alias overrides
+    const userFoodService = new FoodService({}, input.aliasOverrides);
+    const foodDb = userFoodService.getFoodDatabase();
+    
     const searchTerm = input.foodName.toLowerCase().trim();
     
     // Improved search logic:
@@ -91,17 +99,23 @@ const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for indi
  * A robust chat function that uses a system prompt and tools to answer user questions.
  */
 export async function chat(input: ChatInput): Promise<Message> {
-  // Use Genkit's built-in conversational capabilities.
-  // It will automatically handle tool requests and continue the conversation.
+
+  // Pass the user's alias overrides to the tool config.
+  // This ensures that when the AI decides to call `getFoodData`, it will have the user's custom aliases.
+  const toolConfig = {
+    getFoodData: {
+      aliasOverrides: input.aliasOverrides
+    }
+  };
+
   const response = await ai.generate({
       model: 'googleai/gemini-pro',
       system: `${dietCoachSystemPrompt}\n\nHere is the user's profile: ${JSON.stringify(input.profile)}`,
       tools: [getFoodData],
-      history: input.history, // Pass the entire conversation history
+      toolConfig: toolConfig, // Provide the user-specific config to the tool
+      history: input.history,
   });
 
-  // The 'output' field from the response contains the AI's final message.
-  // Genkit automatically handles the tool-use loop, so we can just return the result.
   if (response.output) {
     return response.output;
   }

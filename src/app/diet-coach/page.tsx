@@ -11,10 +11,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "@/components/header";
 import { chat, type ChatInput } from "@/ai/flows/diet-coach-chat";
 import { cn } from "@/lib/utils";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useProfile } from "@/context/profile-context";
 import ReactMarkdown from 'react-markdown';
 import type { Message } from "genkit/experimental/ai";
+import { useFoodData } from "@/context/food-context";
 
 
 // This is the simple message format for our UI state
@@ -29,6 +30,7 @@ export default function DietCoachPage() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { activeProfile } = useProfile();
+  const { getAliasOverrides } = useFoodData();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,6 +65,7 @@ export default function DietCoachPage() {
       const chatInput: ChatInput = {
         history: historyForGenkit,
         profile: activeProfile,
+        aliasOverrides: getAliasOverrides(), // Pass user-specific aliases
       };
       
       // 2. The response from the flow is the full Message object.

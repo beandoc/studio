@@ -12,7 +12,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import { foodService } from '@/services/food-service';
+import { FoodService } from '@/lib/food-service';
 import type { FoodItem, MealCategory } from '@/lib/food-data';
 
 const GenerateDietPlanInputSchema = z.object({
@@ -25,6 +25,9 @@ const GenerateDietPlanInputSchema = z.object({
   meals: z.array(z.string()).describe("Array of meals to generate, e.g., ['breakfast', 'lunch', 'dinner', 'morning snack', 'afternoon snack', 'evening snack']"),
   dailyCalorieGoal: z.number().optional().describe("User's daily calorie goal in kcal."),
   dailyProteinGoal: z.number().optional().describe("User's daily protein goal in grams."),
+  // User-specific overrides for the food database
+  categoryOverrides: z.record(z.array(z.nativeEnum(MealCategory))).optional().describe("A map of food slugs to their user-defined meal categories."),
+  aliasOverrides: z.record(z.array(z.string())).optional().describe("A map of food slugs to their user-defined aliases."),
 });
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
@@ -83,8 +86,9 @@ const generateDietPlanFlow = ai.defineFlow(
     outputSchema: GenerateDietPlanOutputSchema,
   },
   async (input) => {
-    // Use the foodService to get the potentially customized database
-    const foodDatabase = foodService.getFoodDatabase();
+    // Instantiate a FoodService with user-specific overrides
+    const userFoodService = new FoodService(input.categoryOverrides, input.aliasOverrides);
+    const foodDatabase = userFoodService.getFoodDatabase();
     
     // 1. Determine base dietary filter (vegetarian, vegan, etc.)
     const isVegetarian = input.preferences.toLowerCase().includes('vegetarian');

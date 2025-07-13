@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { useForm, type SubmitHandler, Controller } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { generateDietPlan, type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
@@ -19,7 +19,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,13 +26,9 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Download, Loader2, Info, Replace, Utensils } from "lucide-react";
+import { Loader2, Replace, Utensils } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import jsPDF from "jspdf";
-import "jspdf-autotable";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import Link from "next/link";
 import {
   Accordion,
   AccordionContent,
@@ -42,9 +37,7 @@ import {
 } from "@/components/ui/accordion";
 import { useRouter } from "next/navigation";
 import { Checkbox } from "@/components/ui/checkbox";
-import Image from "next/image";
 import { useProfile } from "@/context/profile-context";
-import Link from "next/link";
 import { useFoodData } from "@/context/food-context";
 
 
@@ -66,7 +59,7 @@ const dailyMealOptions = ["breakfast", "lunch", "dinner", "morning snack", "afte
 
 export default function DietPlanPage() {
   const { activeProfile, dietPlan, setDietPlan, isLoading: isProfileLoading } = useProfile();
-  const { foodDatabase, findFoodBySlug } = useFoodData();
+  const { foodDatabase, getCategoryOverrides, getAliasOverrides } = useFoodData();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
@@ -131,6 +124,9 @@ export default function DietPlanPage() {
         meals: data.meals,
         dailyCalorieGoal: activeProfile.calorieGoal,
         dailyProteinGoal: activeProfile.proteinGoal,
+        // Pass user-specific overrides to the AI flow
+        categoryOverrides: getCategoryOverrides(),
+        aliasOverrides: getAliasOverrides(),
       });
       setDietPlan(result);
       setShowForm(false);
