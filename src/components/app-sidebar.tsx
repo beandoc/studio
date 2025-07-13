@@ -15,25 +15,13 @@ import {
   SidebarMenuItem,
   SidebarMenuButton
 } from "@/components/ui/sidebar";
-import dynamic from 'next/dynamic';
+import SidebarNav from './sidebar-nav';
 import { Skeleton } from "./ui/skeleton";
 import Link from 'next/link';
 import { useProfile } from "@/context/profile-context";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
-
-
-const SidebarNav = dynamic(() => import('./sidebar-nav'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex flex-col gap-1 p-2">
-      {[...Array(7)].map((_, i) => (
-        <Skeleton key={i} className="h-10 w-full" />
-      ))}
-    </div>
-  )
-});
 
 
 const Logo = () => (
