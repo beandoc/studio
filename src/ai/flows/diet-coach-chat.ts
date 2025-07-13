@@ -34,13 +34,26 @@ const getFoodData = ai.defineTool(
   },
   async (input) => {
     const foodDb = foodService.getFoodDatabase();
-    const searchTerm = input.foodName.toLowerCase();
+    const searchTerm = input.foodName.toLowerCase().trim();
     
-    // Find the best match in the database, checking names and aliases
-    const foodItem = foodDb.find(food => 
-        food.name.toLowerCase().includes(searchTerm) || 
-        (food.aliases && food.aliases.some(a => a.toLowerCase().includes(searchTerm)))
-    );
+    // Improved search logic:
+    // 1. Look for an exact match first.
+    let foodItem = foodDb.find(food => food.name.toLowerCase() === searchTerm);
+
+    // 2. If no exact match, look for a whole word match in name or aliases.
+    if (!foodItem) {
+        const searchRegex = new RegExp(`\\b${searchTerm}\\b`, 'i'); // \b is for word boundary
+        foodItem = foodDb.find(food => 
+            searchRegex.test(food.name) || 
+            (food.aliases && food.aliases.some(a => searchRegex.test(a)))
+        );
+    }
+    
+    // 3. As a last resort, check if the name includes the search term (original logic).
+    if (!foodItem) {
+        foodItem = foodDb.find(food => food.name.toLowerCase().includes(searchTerm));
+    }
+
 
     if (foodItem) {
       // Return a simplified version of the food data as a JSON string
