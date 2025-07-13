@@ -9,6 +9,9 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import WeeklyProgressChart from "@/components/weekly-progress-chart";
 import { useProfile } from "@/context/profile-context";
 import type { DailyLog, Goals, LoggedMeal } from "@/app/my-meal-tracker/page";
+import { generateDailyTip } from "@/ai/flows/generate-daily-tip";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Lightbulb } from "lucide-react";
 
 type NutrientAverage = {
   protein: number;
@@ -19,13 +22,26 @@ export default function Dashboard() {
   const { activeProfile, getRawProfileLogs } = useProfile();
   const [chartView, setChartView] = useState<'weekly' | 'monthly'>('weekly');
   const [dailyLogs, setDailyLogs] = useState<DailyLog[]>([]);
+  const [dailyTip, setDailyTip] = useState<string | null>(null);
+  const [isTipLoading, setIsTipLoading] = useState(true);
 
   useEffect(() => {
     if (activeProfile) {
       const logs = getRawProfileLogs(activeProfile.id, 7);
       setDailyLogs(logs);
+
+      setIsTipLoading(true);
+      generateDailyTip(activeProfile)
+        .then(result => setDailyTip(result.tip))
+        .catch(err => {
+            console.error("Failed to generate tip:", err);
+            setDailyTip("Could not load a tip right now. Please try again later.");
+        })
+        .finally(() => setIsTipLoading(false));
+
     } else {
       setDailyLogs([]);
+      setDailyTip(null);
     }
   }, [activeProfile, getRawProfileLogs]);
 
@@ -88,6 +104,23 @@ export default function Dashboard() {
         showImage={true}
       />
       <main className="flex-1 p-4 md:p-8 space-y-8">
+        <section>
+          <Card>
+             <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-amber-600">
+                  <Lightbulb /> Tip of the Day
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {isTipLoading ? (
+                  <Skeleton className="h-5 w-3/4" />
+                ) : (
+                  <p className="text-muted-foreground italic">{dailyTip}</p>
+                )}
+              </CardContent>
+          </Card>
+        </section>
+
         <section>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
              <Card>
