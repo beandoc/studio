@@ -135,7 +135,7 @@ export default function MyMealTrackerPage() {
 
   const handleLogAgain = (item: LoggedMeal) => {
      const newLog = JSON.parse(JSON.stringify(dailyLog));
-     newLog.meals[item.category].push({ ...item, id: new Date().toISOString() });
+     newLog.meals[item.category].push({ ...item, id: new Date().toISOString() + Math.random() });
      handleDailyLogChange(newLog);
   }
   
@@ -449,4 +449,3 @@ export default function MyMealTrackerPage() {
     </>
   );
 }
-
