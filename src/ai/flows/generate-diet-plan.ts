@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -111,15 +112,16 @@ const generateDietPlanFlow = ai.defineFlow(
 
     // 2. Build food lists for each specific meal type requested by the user, now including nutrition data
     const foodListsForPrompt = input.meals.map(mealType => {
-      const mealTypeNormalized = mealType.toLowerCase() as MealCategory;
+      const mealTypeNormalized = mealType.toLowerCase().replace(/ /g, "") as MealCategory;
 
       const mealSpecificFoods = relevantFoods
         .filter(food => {
           if (!food.mealCategory) return false;
+          // Handle both array and string meal categories from the database
           const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
-          // Normalize categories from the database for comparison
+          // Normalize categories for comparison
           const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/ /g, ""));
-          return normalizedCategories.includes(mealTypeNormalized.replace(/ /g, ""));
+          return normalizedCategories.includes(mealTypeNormalized);
         })
         // Enrich the food item string with calorie and protein data
         .map(food => `${food.name} (${food.nutritionFacts.calories} kcal, ${food.nutritionFacts.protein.value}g protein)`);
@@ -149,7 +151,7 @@ const generateDietPlanFlow = ai.defineFlow(
       2.  **Strict Food Selection:** For each meal type (e.g., breakfast, lunch), you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists. This is a strict rule.
       3.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like 'Chapati (1 no.) (147 kcal, 3.6g protein)', a protein like 'Plain dal (1 Katori) (101 kcal, 6.7g protein)', a vegetable side). Snacks can be single items. Aim for variety throughout the week. A diet should not have the same meal every day.
       4.  **Meet Nutritional Goals:** You are provided with the calorie and protein content for each food item. You MUST use this information to create a daily plan where the total calories and protein are as close as possible to the user's daily goals. A plan with only 600 calories when the goal is 2000 is not acceptable. Use snacks if needed to meet the calorie goal.
-      5.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema, which expects a 'plan' array containing 7 daily plans. In your output, you MUST provide the *exact* food name as it appears in the list (e.g., 'Chapati (1 no.) (147 kcal, 3.6g protein)'). Do NOT include calorie counts or other details in the output \`name\` field.
+      5.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema, which expects a 'plan' array containing 7 daily plans. In your output, you MUST provide the *exact* food name as it appears in the list (e.g., 'Chapati (1 no.)'). Do NOT include calorie counts or other details in the output \`name\` field.
       6.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: ${input.meals.join(', ')}.
 
       **--- AVAILABLE FOODS PER MEAL TYPE (WITH NUTRITIONAL DATA) ---**
@@ -170,10 +172,11 @@ const generateDietPlanFlow = ai.defineFlow(
       plan: aiOutput.plan.map(aiDay => {
         const verifiedMeals = aiDay.meals
           .map(aiMeal => {
+            if (!aiMeal || !aiMeal.items) return null;
 
             const verifiedItems = aiMeal.items
               .map(aiItem => {
-                // The AI will return the full string like "Chapati (1 no.) (147 kcal, 3.6g protein)".
+                // The AI might return the full string like "Chapati (1 no.) (147 kcal, 3.6g protein)".
                 // We need to extract the pure name to find it in our database.
                 const cleanedName = aiItem.name.split(' (')[0].trim();
                 
@@ -217,3 +220,5 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
+
+    
