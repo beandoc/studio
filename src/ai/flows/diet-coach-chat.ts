@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview An AI Diet Coach that can answer user questions about food items using a food database tool, personalized to the user's health profile.
@@ -67,13 +66,13 @@ const getFoodData = ai.defineTool(
       // Return a simplified version of the food data as a JSON string
       const relevantData = {
         name: foodItem.name,
-        servingSize: food.nutritionFacts.servingSize,
-        calories: food.nutritionFacts.calories,
-        protein: `${food.nutritionFacts.protein.value}g`,
-        fat: `${food.nutritionFacts.totalFat.value}g`,
-        carbohydrates: `${food.nutritionFacts.totalCarbohydrate.value}g`,
-        sodium: `${food.nutritionFacts.sodium.value}mg`,
-        potassium: `${food.nutritionFacts.potassium?.value || 'N/A'}mg`,
+        servingSize: foodItem.nutritionFacts.servingSize,
+        calories: foodItem.nutritionFacts.calories,
+        protein: `${foodItem.nutritionFacts.protein.value}g`,
+        fat: `${foodItem.nutritionFacts.totalFat.value}g`,
+        carbohydrates: `${foodItem.nutritionFacts.totalCarbohydrate.value}g`,
+        sodium: `${foodItem.nutritionFacts.sodium.value}mg`,
+        potassium: `${foodItem.nutritionFacts.potassium?.value || 'N/A'}mg`,
         summary: foodItem.nutritionSummary.summaryText,
       };
       return JSON.stringify(relevantData);
