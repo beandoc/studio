@@ -24,18 +24,13 @@ type AddMealDialogProps = {
 
 export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: AddMealDialogProps) {
   const { foodDatabase, findFoodBySlug } = useFoodData();
-  const { activeProfile, isFavorite } = useProfile();
+  const { activeProfile } = useProfile();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedServing, setSelectedServing] = useState<string>("");
-
-  const frequentItems = useMemo(() => {
-    // For this demo, we'll just show some items. A real implementation would be more complex.
-    return foodDatabase.slice(0, 5);
-  }, [foodDatabase]);
 
   const favoriteItems = useMemo(() => {
     if (!activeProfile) return [];
