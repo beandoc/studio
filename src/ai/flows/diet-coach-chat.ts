@@ -106,15 +106,26 @@ export async function chat(input: ChatInput): Promise<Message> {
     };
   }
 
+  // The AI needs the aliasOverrides passed as part of the tool's context.
+  // We can add it to the last user message's tool_request for this turn.
+  const history = [...input.history];
+  const lastMessage = history[history.length - 1];
+
+  if (lastMessage.role === 'user' && lastMessage.content) {
+    lastMessage.content.push({
+      data: {
+        aliasOverrides: input.aliasOverrides || {},
+      },
+    });
+  }
+
+
   try {
     const response = await ai.generate({
       model: 'googleai/gemini-pro',
       system: `${dietCoachSystemPrompt}\n\nHere is the user's profile: ${JSON.stringify(input.profile)}`,
       tools: [getFoodData],
-      history: input.history,
-      input: {
-        aliasOverrides: input.aliasOverrides || {},
-      },
+      history: history,
     });
 
     if (response.output) {
