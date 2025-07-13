@@ -137,13 +137,13 @@ const generateDietPlanFlow = ai.defineFlow(
       **USER PROFILE:**
       - Health Requirements: ${input.healthRequirements}
       - Preferences: ${input.preferences}
-      - Daily Calorie Goal: ~${input.dailyCalorieGoal} kcal
-      - Daily Protein Goal: ~${input.dailyProteinGoal} g
+      - Daily Calorie Goal: ~${input.dailyCalorieGoal || 2000} kcal
+      - Daily Protein Goal: ~${input.dailyProteinGoal || 70} g
 
       **CRITICAL INSTRUCTIONS:**
       1.  **Strict Food Selection:** For each meal type (e.g., breakfast, lunch), you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists. This is a strict rule.
-      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like 'Chapati (1 no.)', a protein like 'Plain dal (1 Katori)', a vegetable side). Snacks can be single items.
-      3.  **Meet Nutritional Goals:** The combination of all meals for each day should come as close as possible to the user's daily nutritional targets.
+      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like 'Chapati (1 no.)', a protein like 'Plain dal (1 Katori)', a vegetable side). Snacks can be single items. Aim for variety throughout the week. A diet should not have the same meal every day.
+      3.  **Meet Nutritional Goals:** The combination of all meals for each day should come as close as possible to the user's daily nutritional targets. It is critical that the total daily calories are reasonably close to the goal. A plan with only 600 calories is not acceptable. Use snacks if needed to meet the calorie goal.
       4.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema. Do not include calorie counts or descriptions in your output. Your only job is to provide the 'name' of the food item from the list.
       5.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: ${input.meals.join(', ')}.
 
