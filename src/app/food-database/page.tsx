@@ -91,19 +91,21 @@ export default function FoodDatabasePage() {
         }
     }, [foodDatabase]);
 
-    const filteredFoods = foodDatabase.filter(food => {
-        const searchLower = searchTerm.toLowerCase();
-        const matchesSearch = food.name.toLowerCase().includes(searchLower) ||
-                              (food.aliases && food.aliases.some(a => a.toLowerCase().includes(searchLower)));
+    const filteredFoods = useMemo(() => {
+        return foodDatabase.filter(food => {
+            const searchLower = searchTerm.toLowerCase();
+            const matchesSearch = food.name.toLowerCase().includes(searchLower) ||
+                                (food.aliases && food.aliases.some(a => a.toLowerCase().includes(searchLower)));
 
-        const matchesCuisine = cuisineFilter === "All" || food.cuisine === cuisineFilter;
-        
-        const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory].filter(Boolean);
-        const matchesMealCategory = mealCategoryFilter === "All" || categories.includes(mealCategoryFilter as any);
+            const matchesCuisine = cuisineFilter === "All" || food.cuisine === cuisineFilter;
+            
+            const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory].filter(Boolean) as MealCategory[];
+            const matchesMealCategory = mealCategoryFilter === "All" || categories.includes(mealCategoryFilter as MealCategory);
 
-        const matchesFoodGroup = foodGroupFilter === "All" || food.foodGroup === foodGroupFilter;
-        return matchesSearch && matchesCuisine && matchesMealCategory && matchesFoodGroup;
-    });
+            const matchesFoodGroup = foodGroupFilter === "All" || food.foodGroup === foodGroupFilter;
+            return matchesSearch && matchesCuisine && matchesMealCategory && matchesFoodGroup;
+        });
+    }, [foodDatabase, searchTerm, cuisineFilter, mealCategoryFilter, foodGroupFilter]);
 
   const handleCategoryChange = (slug: string, category: MealCategory, isChecked: boolean) => {
     const food = foodDatabase.find(f => f.slug === slug);
