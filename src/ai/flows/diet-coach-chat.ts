@@ -10,11 +10,15 @@ import { ai } from '@/ai/genkit';
 import { foodService } from '@/services/food-service';
 import { z } from 'zod';
 import type { ChatHistory } from '@/app/diet-coach/page';
-import { chatHistory } from '@/app/diet-coach/page';
 
 
 const ChatInputSchema = z.object({
-  history: chatHistory,
+  history: z.array(
+    z.object({
+      role: z.enum(['user', 'model']),
+      content: z.string(),
+    })
+  ),
   profile: z.any().describe("The user's full health profile object."),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
@@ -63,11 +67,11 @@ const getFoodData = ai.defineTool(
 
 const chatPrompt = ai.definePrompt({
     name: 'dietCoachChat',
-    input: { schema: z.any() }, // The input will be the full ChatInput object
+    input: { schema: ChatInputSchema }, 
     system: `You are Krutrim, an expert AI Diet Coach for individuals with kidney health concerns. Your tone is friendly, helpful, and supportive.
 
     **CRITICAL INSTRUCTIONS**
-    1.  **Personalize Every Response:** You will be provided with the user's full health profile. You MUST use this information to tailor your advice. Consider their kidney condition, other health issues (like diabetes, high BP), dietary goals (calories, protein, fluid), preferences, and allergies in every response.
+    1.  **Personalize Every Response:** You will be provided with the user's full health profile in the 'profile' field. You MUST use this information to tailor your advice. Consider their kidney condition, other health issues (like diabetes, high BP), dietary goals (calories, protein, fluid), preferences, and allergies in every response.
     2.  **Use Your Tools:** Your primary function is to answer questions about specific food items by using the 'getFoodData' tool to look up nutritional information from the user's food database.
     3.  **Present Data Clearly:** When you use the tool, present the nutritional information to the user in a clear, easy-to-read format. Do not just output the raw JSON. Crucially, interpret this data in the context of the user's profile. For example, if a food is high in potassium, and the user has a potassium restriction, you MUST point this out.
     4.  **Handle "Not Found" Gracefully:** If a food is not found, politely inform the user.
@@ -96,6 +100,6 @@ export async function chat(input: ChatInput) {
   // We pass the whole input object to the prompt, which includes history and profile.
   // The prompt can then access `{{profile.fullName}}` etc.
   // The history is used automatically by the `chatPrompt` function.
-  const llmResponse = await chatPrompt(input.history, { custom: { profile: input.profile } });
+  const llmResponse = await chatPrompt(input);
   return llmResponse.output;
 }
