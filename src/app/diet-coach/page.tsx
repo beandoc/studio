@@ -9,26 +9,17 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Header from "@/components/header";
-import { chat } from "@/ai/flows/diet-coach-chat";
+import { chat, type ChatHistory, type ChatInput } from "@/ai/flows/diet-coach-chat";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProfile } from "@/context/profile-context";
 import ReactMarkdown from 'react-markdown';
-import { z } from 'zod';
 
 
 type Message = {
   role: "user" | "model";
   content: string;
 };
-
-const chatHistory = z.array(
-  z.object({
-    role: z.enum(['user', 'model']),
-    content: z.string(),
-  })
-);
-
 
 export default function DietCoachPage() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -53,8 +44,12 @@ export default function DietCoachPage() {
     setIsLoading(true);
 
     try {
-      const historyForApi = chatHistory.parse([...messages, userMessage]);
-      const response = await chat(historyForApi);
+      const chatInput: ChatInput = {
+        history: [...messages, userMessage] as ChatHistory,
+        profile: activeProfile,
+      };
+      
+      const response = await chat(chatInput);
       if (response?.content) {
         const modelMessage: Message = { role: "model", content: response.content };
         setMessages((prev) => [...prev, modelMessage]);
@@ -98,7 +93,7 @@ export default function DietCoachPage() {
                 {messages.length === 0 && (
                     <div className="text-center text-muted-foreground p-8">
                         <Bot className="mx-auto h-12 w-12" />
-                        <p className="mt-2">I'm Krutrim, your AI Diet Coach. Ask me questions like "How much protein is in paneer?" or "Is watermelon a good snack?".</p>
+                        <p className="mt-2">I'm Krutrim, your AI Diet Coach. Ask me questions like "How much protein is in paneer?" or "Is watermelon a good snack for someone on dialysis?".</p>
                     </div>
                 )}
                 {messages.map((message, index) => (
@@ -156,7 +151,7 @@ export default function DietCoachPage() {
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={activeProfile ? "Ask about a food item..." : "Select a profile to chat"}
+                placeholder={activeProfile ? "Ask a personalized nutrition question..." : "Select a profile to chat"}
                 disabled={isLoading || !activeProfile}
               />
               <Button type="submit" disabled={isLoading || !input || !activeProfile}>
