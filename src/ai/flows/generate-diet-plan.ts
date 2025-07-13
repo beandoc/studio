@@ -106,7 +106,7 @@ const generateDietPlanFlow = ai.defineFlow(
         );
     }
 
-    // 2. Build food lists for each specific meal type requested by the user
+    // 2. Build food lists for each specific meal type requested by the user, now including nutrition data
     const foodListsForPrompt = input.meals.map(mealType => {
       const mealTypeNormalized = mealType.toLowerCase() as MealCategory;
 
@@ -118,7 +118,8 @@ const generateDietPlanFlow = ai.defineFlow(
           const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/ /g, ""));
           return normalizedCategories.includes(mealTypeNormalized.replace(/ /g, ""));
         })
-        .map(food => `${food.name}`);
+        // Enrich the food item string with calorie and protein data
+        .map(food => `${food.name} (${food.nutritionFacts.calories} kcal, ${food.nutritionFacts.protein.value}g protein)`);
 
       if (mealSpecificFoods.length === 0) {
         return `For the meal type "${mealType}", there are no available food items based on the user's dietary profile. Do not generate a meal for this slot.`;
@@ -142,12 +143,12 @@ const generateDietPlanFlow = ai.defineFlow(
 
       **CRITICAL INSTRUCTIONS:**
       1.  **Strict Food Selection:** For each meal type (e.g., breakfast, lunch), you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists. This is a strict rule.
-      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like 'Chapati (1 no.)', a protein like 'Plain dal (1 Katori)', a vegetable side). Snacks can be single items. Aim for variety throughout the week. A diet should not have the same meal every day.
-      3.  **Meet Nutritional Goals:** The combination of all meals for each day should come as close as possible to the user's daily nutritional targets. It is critical that the total daily calories are reasonably close to the goal. A plan with only 600 calories is not acceptable. Use snacks if needed to meet the calorie goal.
-      4.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema. Do not include calorie counts or descriptions in your output. Your only job is to provide the 'name' of the food item from the list.
+      2.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain like 'Chapati (1 no.) (147 kcal, 3.6g protein)', a protein like 'Plain dal (1 Katori) (101 kcal, 6.7g protein)', a vegetable side). Snacks can be single items. Aim for variety throughout the week. A diet should not have the same meal every day.
+      3.  **Meet Nutritional Goals:** You are provided with the calorie and protein content for each food item. You MUST use this information to create a daily plan where the total calories and protein are as close as possible to the user's daily goals. A plan with only 600 calories when the goal is 2000 is not acceptable. Use snacks if needed to meet the calorie goal.
+      4.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema. In your output, you MUST provide the *exact* food name as it appears in the list (e.g., 'Chapati (1 no.) (147 kcal, 3.6g protein)'). Do NOT include calorie counts or other details in the output \`name\` field.
       5.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: ${input.meals.join(', ')}.
 
-      **--- AVAILABLE FOODS PER MEAL TYPE ---**
+      **--- AVAILABLE FOODS PER MEAL TYPE (WITH NUTRITIONAL DATA) ---**
       ${foodListsForPrompt}
       `,
     });
@@ -168,12 +169,16 @@ const generateDietPlanFlow = ai.defineFlow(
 
             const verifiedItems = aiMeal.items
               .map(aiItem => {
+                // The AI will return the full string like "Chapati (1 no.) (147 kcal, 3.6g protein)".
+                // We need to extract the pure name to find it in our database.
+                const cleanedName = aiItem.name.split(' (')[0].trim();
+                
                 // Find the corresponding food item in our actual database.
-                const dbEntry = foodDatabase.find(food => food.name === aiItem.name);
+                const dbEntry = foodDatabase.find(food => food.name === cleanedName);
 
                 // If the AI hallucinated a meal not in our DB, we skip it.
                 if (!dbEntry) {
-                  console.warn(`AI recommended meal "${aiItem.name}" not found in database. Skipping.`);
+                  console.warn(`AI recommended meal "${aiItem.name}" which was cleaned to "${cleanedName}" and not found in database. Skipping.`);
                   return null;
                 }
 
