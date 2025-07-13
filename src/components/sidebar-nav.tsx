@@ -13,6 +13,7 @@ import {
   CalendarDays,
   Camera,
   Bot,
+  Info,
 } from "lucide-react";
 import {
   SidebarMenu,
@@ -32,7 +33,8 @@ export default function SidebarNav() {
     myMealTracker: "My Meal Tracker",
     foodLens: "FoodLens (AI enabled scanning)",
     foodDatabase: "Food Database",
-    dietCoach: "Diet Coach"
+    dietCoach: "Diet Coach",
+    healthInfo: "Health Info",
   };
 
   const menuItems = [
@@ -75,6 +77,11 @@ export default function SidebarNav() {
       href: "/food-database",
       label: t.foodDatabase,
       icon: Database,
+    },
+    {
+      href: "/health-info",
+      label: t.healthInfo,
+      icon: Info,
     },
   ];
 
