@@ -91,34 +91,19 @@ const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for indi
  * A robust chat function that uses a system prompt and tools to answer user questions.
  */
 export async function chat(input: ChatInput): Promise<Message> {
-  const { history, profile } = input;
-  
   // Use Genkit's built-in conversational capabilities.
   // It will automatically handle tool requests and continue the conversation.
   const response = await ai.generate({
       model: 'googleai/gemini-pro',
-      system: `${dietCoachSystemPrompt}\n\nHere is the user's profile: ${JSON.stringify(profile)}`,
+      system: `${dietCoachSystemPrompt}\n\nHere is the user's profile: ${JSON.stringify(input.profile)}`,
       tools: [getFoodData],
-      history: history, // Pass the entire conversation history
+      history: input.history, // Pass the entire conversation history
   });
 
-  // Handle the different types of responses from the AI
+  // The 'output' field from the response contains the AI's final message.
+  // Genkit automatically handles the tool-use loop, so we can just return the result.
   if (response.output) {
-    // The AI provided a direct text response.
     return response.output;
-  }
-  
-  // Check if the AI wants to call a tool
-  const toolRequest = response.toolRequest;
-  if (toolRequest) {
-    // Genkit automatically handles executing the tool and continuing the flow,
-    // so we can just return the result of continuing the generation.
-    // This is a recursive-like call that will eventually result in a text output.
-    const toolResponse = await ai.runTool(toolRequest);
-    return chat({
-        history: [...history, response.message, toolResponse],
-        profile,
-    });
   }
   
   // If we get here, something went wrong, and the AI didn't provide a valid response.
