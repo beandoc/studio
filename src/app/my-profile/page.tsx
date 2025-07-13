@@ -220,7 +220,7 @@ export default function MyProfilePage() {
         title: "Generating Diet Plan...",
         description: `Creating a personalized plan for ${data.fullName}.`,
       });
-      const result = await generateDietPlan({ healthRequirements, preferences, meals: ["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"] });
+      const result = await generateDietPlan({ healthRequirements, preferences, meals: ["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"], dailyCalorieGoal: data.calorieGoal, dailyProteinGoal: data.proteinGoal });
       setDietPlan(result, newProfileId);
       toast({
         title: "Profile Saved & Diet Plan Generated!",
