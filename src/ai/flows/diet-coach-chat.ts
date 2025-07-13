@@ -52,7 +52,7 @@ const getFoodData = ai.defineTool(
       };
       return JSON.stringify(relevantData);
     } else {
-      return `Food item "${input.foodName}" not found in the database. I can only provide information on items in my database.`;
+      return JSON.stringify({ error: `Food item "${input.foodName}" not found in the database. I can only provide information on items in my database.` });
     }
   }
 );

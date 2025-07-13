@@ -1129,6 +1129,43 @@
         ]
     },
     {
+        "slug": "paneer",
+        "name": "Paneer",
+        "cuisine": "Indian",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Cheese, Milk & Dairy",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 296,
+            "totalFat": { "value": 22.8 },
+            "saturatedFat": { "value": 13.8 },
+            "monounsaturatedFat": { "value": 6.5 },
+            "polyunsaturatedFat": { "value": 0.8 },
+            "cholesterol": { "value": 62 },
+            "sodium": { "value": 466 },
+            "totalCarbohydrate": { "value": 4.5 },
+            "dietaryFiber": { "value": 0 },
+            "sugars": { "value": 4.5 },
+            "protein": { "value": 18.3 },
+            "calcium": { "value": 480 },
+            "iron": { "value": 0.8 },
+            "potassium": { "value": 138 },
+            "vitaminA": { "value": 179, "percent": 20 }
+        },
+        "nutritionSummary": {
+            "calories": 296,
+            "fat": "22.8g",
+            "carbs": "4.5g",
+            "protein": "18.3g",
+            "summaryText": "A fresh, non-melting cheese common in Indian cuisine, made from cow or buffalo milk.",
+            "breakdown": "68% fat, 6% carbs, 26% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 296 },
+            { "size": "1 oz (28g)", "calories": 83 }
+        ]
+    },
+    {
         "slug": "cheese-parmesan-hard",
         "name": "Cheese Parmesan Hard",
         "cuisine": "Generic",
@@ -2061,5 +2098,3 @@
         ]
     }
 ]
-
-    
