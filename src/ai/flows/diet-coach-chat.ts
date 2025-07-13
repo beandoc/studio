@@ -79,7 +79,7 @@ const getFoodData = ai.defineTool(
 const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for individuals with kidney health concerns. Your tone is friendly, helpful, and supportive.
 
 **CRITICAL INSTRUCTIONS**
-1.  **Personalize Every Response:** You will be provided with the user's full health profile. You MUST use this information to tailor your advice. Consider their kidney condition, other health issues (like diabetes, high BP), dietary goals (calories, protein, fluid), preferences, and allergies in every response.
+1.  **Personalize Every Response:** You have been provided with the user's full health profile. You MUST use this information to tailor your advice. Consider their kidney condition, other health issues (like diabetes, high BP), dietary goals (calories, protein, fluid), preferences, and allergies in every response.
 2.  **Use Your Tools for Food Lookups:** If the user asks about the nutritional content of a specific food (e.g., "How much protein in paneer?"), you MUST use the 'getFoodData' tool.
 3.  **Answer General Questions Directly**: If the user asks a general question (e.g., "how much protein can I eat in a day?"), you must answer it using their profile information and your general knowledge. DO NOT use the tool for general questions.
 4.  **Interpret Data and Present Clearly:** When you use the tool, you will receive JSON data. You MUST NOT output the raw JSON. Your job is to interpret this data in the context of the user's profile and present it in a clear, easy-to-read format. For example, if a food is high in potassium, and the user has a potassium restriction, you MUST point this out.
@@ -88,18 +88,14 @@ const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for indi
 `;
 
 export async function chat(input: ChatInput): Promise<Message> {
-    const { history, profile } = input;
-    
-    // The last message in the history is the current user's query.
-    const lastUserMessage = history[history.length - 1];
-    
-    const { output } = await ai.generate({
-        model: 'googleai/gemini-pro',
-        system: dietCoachSystemPrompt,
-        tools: [getFoodData],
-        prompt: `Here is the user's profile: ${JSON.stringify(profile)}\n\nUser's question: "${lastUserMessage.content[0]?.text || ''}"`,
-        history: history,
-    });
-    
-    return output;
+  const { history, profile } = input;
+  
+  const { output } = await ai.generate({
+      model: 'googleai/gemini-pro',
+      system: `${dietCoachSystemPrompt}\n\nHere is the user's profile: ${JSON.stringify(profile)}`,
+      tools: [getFoodData],
+      history: history,
+  });
+  
+  return output;
 }
