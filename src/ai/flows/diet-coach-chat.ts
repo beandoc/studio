@@ -91,14 +91,14 @@ export async function chat(input: ChatInput) {
     const { history, profile } = input;
     
     // The last message in the history is the current user's query.
-    const lastUserMessage = history[history.length - 1]?.content[0]?.text || '';
+    const lastUserMessage = history[history.length - 1];
     
     const llmResponse = await ai.generate({
         model: 'googleai/gemini-2.0-flash',
         system: dietCoachSystemPrompt,
         tools: [getFoodData],
-        prompt: `Here is the user's profile: ${JSON.stringify(profile)}\n\nUser's question: "${lastUserMessage}"`,
-        history: history as Message[],
+        prompt: `Here is the user's profile: ${JSON.stringify(profile)}\n\nUser's question: "${lastUserMessage.content[0]?.text || ''}"`,
+        history: history,
     });
     
     return llmResponse.output;
