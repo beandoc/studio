@@ -25,7 +25,8 @@ const getFoodData = ai.defineTool(
     name: 'getFoodData',
     description: `Provides nutritional information for a given food item name. Use this tool ONLY when the user asks about the nutrition of a specific food. 
     **CRITICAL**: After receiving the JSON output from this tool, you MUST interpret the data in the context of the user's profile and health goals. 
-    DO NOT simply output the raw JSON. Formulate a friendly, helpful, and personalized response based on the nutritional data and the user's needs (e.g., "Paneer is a great source of protein, but it is high in fat. Given your health goals, you might want to have it in moderation.")`,
+    DO NOT simply output the raw JSON. Formulate a friendly, helpful, and personalized response based on the nutritional data and the user's needs (e.g., "Paneer is a great source of protein, but it is high in fat. Given your health goals, you might want to have it in moderation.").
+    If the JSON contains an error message (e.g., 'Food item "..." not found'), you MUST politely inform the user that you could not find the food in your database.`,
     inputSchema: z.object({
       foodName: z.string().describe('The name of the food item to look up. Should be a reasonably specific name.'),
     }),
