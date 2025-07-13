@@ -13,18 +13,7 @@ import type { Message } from "genkit/experimental/ai";
 
 
 const ChatInputSchema = z.object({
-  history: z.array(
-    z.object({
-      role: z.enum(['user', 'model', 'tool']),
-      content: z.array(
-          z.object({
-              text: z.string().optional(),
-              toolRequest: z.any().optional(),
-              toolResponse: z.any().optional(),
-          })
-      ),
-    })
-  ),
+  history: z.array(z.custom<Message>()),
   profile: z.any().describe("The user's full health profile object."),
 });
 export type ChatInput = z.infer<typeof ChatInputSchema>;
