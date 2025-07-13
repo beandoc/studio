@@ -45,7 +45,7 @@ const getFoodData = ai.defineTool(
         const searchRegex = new RegExp(`\\b${searchTerm}\\b`, 'i'); // \b is for word boundary, i is for case-insensitive
         foodItem = foodDb.find(food => 
             searchRegex.test(food.name) || 
-            (food.aliases && food.aliases.some(a => searchRegex.test(a)))
+            (food.aliases && food.aliases.some(a => searchRegex.test(a.toLowerCase())))
         );
     }
     
