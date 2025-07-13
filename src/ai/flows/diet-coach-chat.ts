@@ -104,9 +104,13 @@ const dietCoachChat = ai.definePrompt({
 export async function chat(input: ChatInput) {
     const { history, profile } = input;
     const llmResponse = await ai.generate({
-        prompt: `Here is the user's profile: ${JSON.stringify(profile)}`,
+        model: 'googleai/gemini-2.0-flash',
+        prompt: {
+            system: dietCoachChat.system,
+            tools: dietCoachChat.tools,
+            prompt: `Here is the user's profile: ${JSON.stringify(profile)}`,
+        },
         history: history as Message[],
-        model: dietCoachChat,
     });
     return llmResponse.output();
 }
