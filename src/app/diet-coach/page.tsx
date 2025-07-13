@@ -53,23 +53,23 @@ export default function DietCoachPage() {
     setIsLoading(true);
 
     try {
-      // 1. Convert our simple UI messages into the format Genkit's `ai.generate` expects.
+      // 1. Convert our simple UI messages into the format Genkit expects.
       //    We also need to add the newest user message to the history.
-      const history: Message[] = [...messages, userMessage].map(m => ({
+      const historyForGenkit: Message[] = [...messages, userMessage].map(m => ({
         role: m.role,
         content: [{text: m.content}]
       }));
       
       const chatInput: ChatInput = {
-        history: history,
+        history: historyForGenkit,
         profile: activeProfile,
       };
       
+      // 2. The response from the flow is the full Message object.
       const response = await chat(chatInput);
       
-      // 2. The AI's response comes in a `Message` format, so we extract the text content.
-      // The response from the flow is the `Message` object itself.
-      const responseText = response?.content.map(c => c.text).join('') || '';
+      // 3. Extract the text content from the AI's response message.
+      const responseText = response.content.map(c => c.text).join('') || '';
 
 
       if (responseText) {

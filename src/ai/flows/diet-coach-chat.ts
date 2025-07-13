@@ -87,19 +87,19 @@ const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for indi
 6.  **Safety First:** NEVER provide medical advice. Always defer to a doctor or registered dietitian for medical questions. Frame your answers as helpful suggestions, not prescriptions.
 `;
 
-export async function chat(input: ChatInput) {
+export async function chat(input: ChatInput): Promise<Message> {
     const { history, profile } = input;
     
     // The last message in the history is the current user's query.
-    const lastUserMessage = history[history.length - 1];
+    const lastUserMessage = history[history.length - 1].content[0]?.text || '';
     
-    const llmResponse = await ai.generate({
+    const { output } = await ai.generate({
         model: 'googleai/gemini-2.0-flash',
         system: dietCoachSystemPrompt,
         tools: [getFoodData],
-        prompt: `Here is the user's profile: ${JSON.stringify(profile)}\n\nUser's question: "${lastUserMessage.content[0]?.text || ''}"`,
+        prompt: `Here is the user's profile: ${JSON.stringify(profile)}\n\nUser's question: "${lastUserMessage}"`,
         history: history,
     });
     
-    return llmResponse.output;
+    return output;
 }
