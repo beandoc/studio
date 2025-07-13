@@ -82,22 +82,7 @@ const dietCoachChat = ai.definePrompt({
     4.  **Handle "Not Found" Gracefully:** If a food is not found, politely inform the user.
     5.  **General Knowledge:** For general questions, use your broad knowledge, but always filter it through the lens of the user's health profile. For example, a generally healthy food might not be suitable for someone on dialysis.
     6.  **Safety First:** NEVER provide medical advice. Always defer to a doctor or registered dietitian for medical questions. Frame your answers as helpful suggestions, not prescriptions.
-
-    **USER PROFILE CONTEXT**
-    You will be given a 'profile' object with the following structure. Use it to personalize your answers.
-    - fullName: string
-    - age: number
-    - gender: string
-    - kidneyCondition: string (e.g., 'chronic_kidney_disease', 'hemodialysis')
-    - otherHealthConditions: string[] (e.g., ['diabetes', 'high_bp'])
-    - calorieGoal: number
-    - proteinGoal: number
-    - fluidGoal: number
-    - sodiumGoal: number
-    - potassiumGoal: number
-    - dietType: string (e.g., 'vegetarian')
-    - dislikes: string
-    - allergies: string`,
+`,
     tools: [getFoodData],
 });
 

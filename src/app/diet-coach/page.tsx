@@ -14,15 +14,15 @@ import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useProfile } from "@/context/profile-context";
 import ReactMarkdown from 'react-markdown';
-import { z } from "zod";
 import type { Message } from "genkit/experimental/ai";
 
 
-const messageSchema = z.object({
-  role: z.enum(['user', 'model']),
-  content: z.string(),
-});
-export type UiMessage = z.infer<typeof messageSchema>;
+// This is the simple message format for our UI state
+export type UiMessage = {
+  role: 'user' | 'model';
+  content: string;
+};
+
 
 export default function DietCoachPage() {
   const [messages, setMessages] = useState<UiMessage[]>([]);
@@ -32,8 +32,14 @@ export default function DietCoachPage() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // This logic ensures the scroll area keeps the latest message in view.
     if (scrollAreaRef.current) {
-        scrollAreaRef.current.scrollTo({ top: scrollAreaRef.current.scrollHeight, behavior: "smooth" });
+        // We use a timeout to allow the DOM to update before we try to scroll
+        setTimeout(() => {
+             if (scrollAreaRef.current) {
+                scrollAreaRef.current.scrollTo({ top: scrollAreaRef.current.scrollHeight, behavior: "smooth" });
+             }
+        }, 100);
     }
   }, [messages]);
   
@@ -47,25 +53,32 @@ export default function DietCoachPage() {
     setIsLoading(true);
 
     try {
-      // Convert UI messages to the format Genkit expects
-      const history: Message[] = messages.map(m => ({
+      // 1. Convert our simple UI messages into the format Genkit's `ai.generate` expects.
+      //    We also need to add the newest user message to the history.
+      const history: Message[] = [...messages, userMessage].map(m => ({
         role: m.role,
         content: [{text: m.content}]
       }));
       
-      // Add the new user message to the history for the AI call
-      history.push({ role: 'user', content: [{ text: userMessage.content }] });
-
       const chatInput: ChatInput = {
         history: history,
         profile: activeProfile,
       };
       
       const response = await chat(chatInput);
-      if (response?.content) {
-        const modelMessage: UiMessage = { role: "model", content: response.content };
+      
+      // 2. The AI's response comes in a `Message` format, so we extract the text content.
+      const responseText = response?.content.map(c => c.text).join('') || '';
+
+      if (responseText) {
+        const modelMessage: UiMessage = { role: "model", content: responseText };
         setMessages((prev) => [...prev, modelMessage]);
+      } else {
+        // Handle cases where the AI gives an empty response
+         const errorMessage: UiMessage = { role: "model", content: "I'm sorry, I couldn't generate a response. Please try again." };
+         setMessages((prev) => [...prev, errorMessage]);
       }
+
     } catch (error) {
       console.error("Chat error:", error);
       const errorMessage: UiMessage = { role: "model", content: "Sorry, I encountered an error. Please try again." };
