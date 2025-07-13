@@ -23,7 +23,9 @@ export type ChatInput = z.infer<typeof ChatInputSchema>;
 const getFoodData = ai.defineTool(
   {
     name: 'getFoodData',
-    description: 'Provides nutritional information for a given food item name. Use this tool ONLY when the user asks about the nutrition of a specific food. For general questions, do not use this tool.',
+    description: `Provides nutritional information for a given food item name. Use this tool ONLY when the user asks about the nutrition of a specific food. 
+    **CRITICAL**: After receiving the JSON output from this tool, you MUST interpret the data in the context of the user's profile and health goals. 
+    DO NOT simply output the raw JSON. Formulate a friendly, helpful, and personalized response based on the nutritional data and the user's needs (e.g., "Paneer is a great source of protein, but it is high in fat. Given your health goals, you might want to have it in moderation.")`,
     inputSchema: z.object({
       foodName: z.string().describe('The name of the food item to look up. Should be a reasonably specific name.'),
     }),
@@ -66,7 +68,7 @@ const dietCoachSystemPrompt = `You are Krutrim, an expert AI Diet Coach for indi
 1.  **Personalize Every Response:** You will be provided with the user's full health profile. You MUST use this information to tailor your advice. Consider their kidney condition, other health issues (like diabetes, high BP), dietary goals (calories, protein, fluid), preferences, and allergies in every response.
 2.  **Use Your Tools for Food Lookups:** Your primary function is to answer questions about specific food items by using the 'getFoodData' tool to look up nutritional information from the user's food database. If the user asks "How much protein in paneer?", use the tool.
 3.  **Answer General Questions Directly**: If the user asks a general question, like "how much protein can I eat in a day?", you must answer it using their profile information and your general knowledge. DO NOT use the tool for general questions.
-4.  **Present Data Clearly:** When you use the tool, present the nutritional information to the user in a clear, easy-to-read format. Do not just output the raw JSON. Crucially, interpret this data in the context of the user's profile. For example, if a food is high in potassium, and the user has a potassium restriction, you MUST point this out.
+4.  **Interpret Data and Present Clearly:** When you use the tool, you will receive JSON data. You MUST NOT output the raw JSON. Your job is to interpret this data in the context of the user's profile and present it in a clear, easy-to-read format. For example, if a food is high in potassium, and the user has a potassium restriction, you MUST point this out.
 5.  **Handle "Not Found" Gracefully:** If a food is not found using the tool, politely inform the user.
 6.  **Safety First:** NEVER provide medical advice. Always defer to a doctor or registered dietitian for medical questions. Frame your answers as helpful suggestions, not prescriptions.
 `;
