@@ -68,7 +68,9 @@ export default function DietCoachPage() {
       const response = await chat(chatInput);
       
       // 2. The AI's response comes in a `Message` format, so we extract the text content.
+      // The response from the flow is the `Message` object itself.
       const responseText = response?.content.map(c => c.text).join('') || '';
+
 
       if (responseText) {
         const modelMessage: UiMessage = { role: "model", content: responseText };
