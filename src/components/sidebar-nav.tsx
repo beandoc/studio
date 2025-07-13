@@ -63,11 +63,6 @@ export default function SidebarNav() {
       label: t.myMealTracker,
       icon: ClipboardList,
     },
-     {
-      href: "/diet-coach",
-      label: t.dietCoach,
-      icon: Bot,
-    },
     {
       href: "/recognize-food",
       label: t.foodLens,
