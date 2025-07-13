@@ -95,21 +95,21 @@ const suggestMealAlternativesFlow = ai.defineFlow(
     // 3. Calculate similarity scores for all potential alternatives.
     const scoredAlternatives = potentialAlternatives
         .map(meal => ({
-            ...meal,
+            meal,
             // Calculate a score for each potential alternative
             similarityScore: calculateSimilarityScore(originalMeal, meal) 
         }))
         // Sort by the similarity score in ascending order (lowest score is the best match)
-        .sort((a, b) => a.similarityScore - b.sortScore); 
+        .sort((a, b) => a.similarityScore - b.similarityScore); 
 
     
     // 4. Format the output with the top 2 best-scoring alternatives
     const alternatives = scoredAlternatives.slice(0, 2).map(alt => ({
-        name: alt.name,
-        slug: alt.slug,
-        description: alt.nutritionSummary.summaryText,
-        nutrientInformation: `Calories: ${alt.nutritionFacts.calories} kcal, Protein: ${alt.nutritionFacts.protein.value}g`,
-        calories: alt.nutritionFacts.calories,
+        name: alt.meal.name,
+        slug: alt.meal.slug,
+        description: alt.meal.nutritionSummary.summaryText,
+        nutrientInformation: `Calories: ${alt.meal.nutritionFacts.calories} kcal, Protein: ${alt.meal.nutritionFacts.protein.value}g`,
+        calories: alt.meal.nutritionFacts.calories,
     }));
     
     return { alternatives };
