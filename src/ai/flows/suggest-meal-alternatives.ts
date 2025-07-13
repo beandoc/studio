@@ -87,8 +87,9 @@ const suggestMealAlternativesFlow = ai.defineFlow(
     const potentialAlternatives = foodDb.filter(meal => {
         if (meal.slug === originalMeal.slug) return false; // Exclude the original meal itself
         
-        const mealCategories = Array.isArray(meal.mealCategory) ? meal.mealCategory : [meal.mealCategory];
-        return mealCategories.includes(input.mealType as MealCategory);
+        // This logic handles both string and array mealCategory formats correctly.
+        const mealCategories = Array.isArray(meal.mealCategory) ? meal.mealCategory : [meal.mealCategory].filter(Boolean);
+        return mealCategories.map(c => c.toLowerCase()).includes(input.mealType.toLowerCase());
     });
 
     // 3. Calculate similarity scores for all potential alternatives.
