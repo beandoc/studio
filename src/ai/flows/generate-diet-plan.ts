@@ -13,7 +13,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 import { FoodService } from '@/lib/food-service';
-import type { FoodItem, MealCategory } from '@/lib/food-data';
+import { MealCategoryEnum, type FoodItem, type MealCategory } from '@/lib/food-data';
 
 const GenerateDietPlanInputSchema = z.object({
   healthRequirements: z
@@ -26,7 +26,7 @@ const GenerateDietPlanInputSchema = z.object({
   dailyCalorieGoal: z.number().optional().describe("User's daily calorie goal in kcal."),
   dailyProteinGoal: z.number().optional().describe("User's daily protein goal in grams."),
   // User-specific overrides for the food database
-  categoryOverrides: z.record(z.array(z.nativeEnum(MealCategory))).optional().describe("A map of food slugs to their user-defined meal categories."),
+  categoryOverrides: z.record(z.array(MealCategoryEnum)).optional().describe("A map of food slugs to their user-defined meal categories."),
   aliasOverrides: z.record(z.array(z.string())).optional().describe("A map of food slugs to their user-defined aliases."),
 });
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;

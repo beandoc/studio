@@ -21,6 +21,10 @@ export type FoodGroup =
 
 export type MealCategory = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Beverages' | 'Other' | 'Soups'| 'Sweets, Candy & Desserts' | 'Lunch/Dinner' | 'Fruit';
 
+// Zod enum for runtime validation
+import { z } from 'zod';
+export const MealCategoryEnum = z.enum(['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner', 'Fruit']);
+
 
 export type FoodItem = {
     slug: string;
