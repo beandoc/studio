@@ -19,12 +19,6 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  experimental: {
-    // This is the new configuration to allow cross-origin requests in development.
-    allowedDevOrigins: [
-      'https://*.cloudworkstations.dev',
-    ],
-  },
 };
 
 export default nextConfig;
