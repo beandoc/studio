@@ -33,7 +33,7 @@ export default function ProfilesPage() {
   }
 
   const handleDeleteProfile = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation(); // Prevent card click event from firing
+    e.stopPropagation(); 
     removeProfile(id);
   }
 

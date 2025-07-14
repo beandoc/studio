@@ -74,8 +74,8 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
                 <Image 
                     src={food.imageUrl || "https://placehold.co/800x400.png"}
                     alt={`Image of ${food.name}`}
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    className="object-cover"
                     data-ai-hint="food meal"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"/>
@@ -120,7 +120,7 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
                             {food.nutritionFacts.vitaminD && <NutrientRow label="Vitamin D" value={food.nutritionFacts.vitaminD.value} unit="mcg" percent={food.nutritionFacts.vitaminD.percent}/>}
                             {food.nutritionFacts.calcium && <NutrientRow label="Calcium" value={food.nutritionFacts.calcium.value} unit="mg" percent={food.nutritionFacts.calcium.percent}/>}
                             {food.nutritionFacts.iron && <NutrientRow label="Iron" value={food.nutritionFacts.iron.value} unit="mg" percent={food.nutritionFacts.iron.percent}/>}
-                            <NutrientRow label="Potassium" value={food.nutritionFacts.potassium.value} unit="mg" percent={food.nutritionFacts.potassium.percent}/>
+                            {food.nutritionFacts.potassium && <NutrientRow label="Potassium" value={food.nutritionFacts.potassium.value} unit="mg" percent={food.nutritionFacts.potassium.percent}/>}
                             {food.nutritionFacts.vitaminA && <NutrientRow label="Vitamin A" value={food.nutritionFacts.vitaminA.value} unit="mcg" percent={food.nutritionFacts.vitaminA.percent}/>}
                             {food.nutritionFacts.vitaminC && <NutrientRow label="Vitamin C" value={food.nutritionFacts.vitaminC.value} unit="mg" percent={food.nutritionFacts.vitaminC.percent}/>}
 

@@ -31,13 +31,11 @@ import Header from "@/components/header";
 import Image from "next/image";
 import { Loader2, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { generateDietPlan } from "@/ai/flows/generate-diet-plan";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormMessage } from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
 import { useProfile } from "@/context/profile-context";
-
 
 const steps = [
   { id: 1, name: "Basic Info" },
@@ -57,34 +55,27 @@ const healthConditionOptions = [
 
 
 const formSchema = z.object({
-  // Step 1
   fullName: z.string().min(1, "Full name is required."),
   age: z.coerce.number().optional(),
   gender: z.string().optional(),
   height: z.coerce.number().optional(),
   weight: z.coerce.number().optional(),
   bmi: z.string().optional(),
-
-  // Step 2
   kidneyCondition: z.string().optional(),
   otherHealthConditions: z.array(z.string()).optional(),
   fluidGoal: z.coerce.number().optional(),
   sodiumGoal: z.coerce.number().optional(),
   potassiumGoal: z.coerce.number().optional(),
   phosphorusGoal: z.coerce.number().optional(),
-
-  // Step 3
   dietType: z.string().optional(),
   preferredCuisine: z.string().optional(),
   likes: z.string().optional(),
   dislikes: z.string().optional(),
   allergies: z.string().optional(),
-
-  // Step 4
   targetWeight: z.coerce.number().optional(),
   calorieGoal: z.coerce.number().optional(),
   proteinGoal: z.coerce.number().optional(),
-  favorites: z.array(z.string()).optional(), // Added for favorites
+  favorites: z.array(z.string()).optional(),
 });
 
 export type FormValues = z.infer<typeof formSchema>;
@@ -102,10 +93,10 @@ const cuisineOptions = [
 
 export default function MyProfilePage() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [isGenerating, setIsGenerating] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
-  const { addProfile, setActiveProfileId, setDietPlan } = useProfile();
+  const { addProfile, setActiveProfileId } = useProfile();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -168,7 +159,7 @@ export default function MyProfilePage() {
 
   const handleNext = async () => {
     const isValid = await form.trigger();
-    if (!isValid && currentStep === 1) { // Only check for name on first step
+    if (!isValid && currentStep === 1) { 
         return;
     }
     
@@ -186,58 +177,18 @@ export default function MyProfilePage() {
   };
 
   const onSubmit = async (data: FormValues) => {
-    setIsGenerating(true);
+    setIsSaving(true);
     
     const newProfileId = addProfile(data);
     setActiveProfileId(newProfileId);
 
-    const healthRequirements = `
-      - Kidney Condition: ${data.kidneyCondition?.replace(/_/g, ' ') || 'Not specified'}
-      - Other Health Conditions: ${data.otherHealthConditions?.join(', ').replace(/_/g, ' ') || 'None'}
-      - Daily Fluid Goal: ${data.fluidGoal || 'Not specified'} ml
-      - Daily Sodium Goal: ${data.sodiumGoal || 'Not specified'} mg
-      - Daily Potassium Goal: ${data.potassiumGoal || 'Not specified'} mg
-      - Daily Phosphorus Goal: ${data.phosphorusGoal || 'Not specified'} mg
-      - Daily Calorie Goal: ${data.calorieGoal || 'Not specified'} kcal
-      - Daily Protein Goal: ${data.proteinGoal || 'Not specified'} g
-    `;
+    toast({
+      title: "Profile Saved!",
+      description: `The profile for ${data.fullName} has been created. You can now generate a diet plan.`,
+    });
+    router.push('/diet-plan');
 
-    const preferences = `
-      - Age: ${data.age || 'Not specified'}
-      - Gender: ${data.gender || 'Not specified'}
-      - Height: ${data.height || 'Not specified'} cm
-      - Weight: ${data.weight || 'Not specified'} kg
-      - Target Weight: ${data.targetWeight || 'Not specified'} kg
-      - Diet Type: ${data.dietType || 'Not specified'}
-      - Preferred Cuisine: ${data.preferredCuisine || 'Not specified'}
-      - Food Likes: ${data.likes || 'Not specified'}
-      - Food Dislikes: ${data.dislikes || 'Not specified'}
-      - Allergies: ${data.allergies || 'Not specified'}
-    `;
-
-    try {
-      toast({
-        title: "Generating Diet Plan...",
-        description: `Creating a personalized plan for ${data.fullName}.`,
-      });
-      const result = await generateDietPlan({ healthRequirements, preferences, meals: ["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"], dailyCalorieGoal: data.calorieGoal, dailyProteinGoal: data.proteinGoal });
-      setDietPlan(result, newProfileId);
-      toast({
-        title: "Profile Saved & Diet Plan Generated!",
-        description: "Redirecting you to the diet plan...",
-      });
-      router.push('/diet-plan');
-    } catch (error) {
-      console.error(error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to generate diet plan. Profile was saved, but please try generating the plan again.",
-      });
-       router.push('/profiles');
-    } finally {
-        setIsGenerating(false);
-    }
+    setIsSaving(false);
   };
 
   const renderStepIcon = (index: number, step: {id: number}) => {
@@ -265,7 +216,7 @@ export default function MyProfilePage() {
               <CardHeader>
                 <div className="flex justify-center mb-4">
                   <Image
-                      src="/welcome-image.png"
+                      src="/logo.png"
                       alt="KidneyWise Diet Logo"
                       width={100}
                       height={100}
@@ -549,9 +500,9 @@ export default function MyProfilePage() {
                   <div>
                       {currentStep > 1 && <Button type="button" variant="outline" onClick={handleBack}>Back</Button>}
                   </div>
-                  <Button type="button" onClick={handleNext} disabled={isGenerating}>
-                    {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {currentStep === steps.length ? "Save and Generate Diet Plan" : "Next Step"}
+                  <Button type="button" onClick={handleNext} disabled={isSaving}>
+                    {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {currentStep === steps.length ? "Save Profile" : "Next Step"}
                   </Button>
                 </CardFooter>
               </form>

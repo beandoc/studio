@@ -8,7 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import WeeklyProgressChart from "@/components/weekly-progress-chart";
 import { useProfile } from "@/context/profile-context";
-import type { DailyLog, Goals, LoggedMeal } from "@/app/my-meal-tracker/page";
+import type { DailyLog, Goals } from "@/app/my-meal-tracker/page";
 import { generateDailyTip } from "@/ai/flows/generate-daily-tip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Lightbulb } from "lucide-react";
@@ -48,8 +48,8 @@ export default function Dashboard() {
   const goals = useMemo<Goals>(() => ({
     calories: activeProfile?.calorieGoal || 2200,
     protein: activeProfile?.proteinGoal || 80,
-    fat: 70, // This is not in profile yet, so keeping it static for now
-    carbs: 300, // This is not in profile yet
+    fat: 70, 
+    carbs: 300,
     fluid: activeProfile?.fluidGoal || 2000,
   }), [activeProfile]);
 

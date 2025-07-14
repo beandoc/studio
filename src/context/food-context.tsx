@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import type { FoodItem, MealCategory } from '@/lib/food-data';
-import { FoodService, foodService as staticFoodService } from '@/lib/food-service';
+import { FoodService } from '@/lib/food-service';
 import { useToast } from '@/hooks/use-toast';
 
 type FoodDataContextType = {
@@ -24,8 +24,6 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // This effect runs once on mount to load data from localStorage
-    // and initialize the stateful FoodService for the UI.
     let storedCatOverrides: Record<string, MealCategory[]> = {};
     let storedAliasOverrides: Record<string, string[]> = {};
     
@@ -45,7 +43,6 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
     setCategoryOverrides(storedCatOverrides);
     setAliasOverrides(storedAliasOverrides);
     
-    // Instantiate a FoodService with the loaded overrides for the UI
     const userSpecificFoodService = new FoodService(storedCatOverrides, storedAliasOverrides);
     setFoodDatabase(userSpecificFoodService.getFoodDatabase());
   }, []);
@@ -55,7 +52,6 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
     setCategoryOverrides(newOverrides);
     try {
       localStorage.setItem('foodCategoryOverrides', JSON.stringify(newOverrides));
-      // Update the UI's food database instance with the new overrides
       const updatedService = new FoodService(newOverrides, aliasOverrides);
       setFoodDatabase(updatedService.getFoodDatabase());
       toast({
@@ -77,7 +73,6 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
     setAliasOverrides(newOverrides);
     try {
       localStorage.setItem('foodAliasOverrides', JSON.stringify(newOverrides));
-      // Update the UI's food database instance with the new overrides
       const updatedService = new FoodService(categoryOverrides, newOverrides);
       setFoodDatabase(updatedService.getFoodDatabase());
        toast({

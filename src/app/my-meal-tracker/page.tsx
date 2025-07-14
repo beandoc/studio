@@ -29,8 +29,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { useProfile } from "@/context/profile-context";
 
-
-// Types
 export type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Morning Snack" | "Afternoon Snack" | "Evening Snack";
 export type LoggedItem = {
   id: string;
@@ -76,9 +74,9 @@ export const getInitialLog = (): DailyLog => ({
 });
 
 const chartConfig = {
-    carbs: { label: "Carbs" },
-    fat: { label: "Fat" },
-    protein: { label: "Protein" },
+    carbs: { label: "Carbs", color: "var(--color-carbs)" },
+    fat: { label: "Fat", color: "var(--color-fat)" },
+    protein: { label: "Protein", color: "var(--color-protein)" },
 } satisfies ChartConfig;
 
 
@@ -92,13 +90,11 @@ export default function MyMealTrackerPage() {
   const goals = useMemo<Goals>(() => ({
     calories: activeProfile?.calorieGoal || 2200,
     protein: activeProfile?.proteinGoal || 80,
-    fat: 70, // not in profile yet
-    carbs: 300, // not in profile yet
+    fat: 70, 
+    carbs: 300,
     fluid: activeProfile?.fluidGoal || 2000,
   }), [activeProfile]);
 
-
-  // Load from context/storage on date or profile change
   useEffect(() => {
     if (activeProfile) {
         const log = getDailyLog(activeProfile.id, currentDate) || getInitialLog();
@@ -108,7 +104,6 @@ export default function MyMealTrackerPage() {
     }
   }, [currentDate, activeProfile, getDailyLog]);
 
-  // Save to context/storage whenever dailyLog changes
   const handleDailyLogChange = useCallback((newLog: DailyLog) => {
     setDailyLog(newLog);
     if (activeProfile) {
@@ -178,9 +173,9 @@ export default function MyMealTrackerPage() {
   }, [dailyLog]);
 
   const calorieBreakdownData = [
-    { name: 'Carbs', value: totals.carbs * 4, fill: 'var(--color-carbs)' }, // 4 calories per gram
-    { name: 'Fat', value: totals.fat * 9, fill: 'var(--color-fat)' },     // 9 calories per gram
-    { name: 'Protein', value: totals.protein * 4, fill: 'var(--color-protein)' }, // 4 calories per gram
+    { name: 'carbs', value: totals.carbs * 4, fill: 'var(--color-carbs)' }, 
+    { name: 'fat', value: totals.fat * 9, fill: 'var(--color-fat)' },    
+    { name: 'protein', value: totals.protein * 4, fill: 'var(--color-protein)' },
   ].filter(item => item.value > 0);
   
   if (!activeProfile) {
@@ -216,7 +211,6 @@ export default function MyMealTrackerPage() {
           description="Log daily intake to track nutritional progress."
         />
         <main className="flex-1 p-4 md:p-8 space-y-8">
-          {/* Top Control Bar */}
           <Card>
             <CardContent className="p-4 flex justify-between items-center">
               <div className="flex items-center gap-2">
@@ -257,7 +251,6 @@ export default function MyMealTrackerPage() {
             </CardContent>
           </Card>
 
-          {/* Meal Sections */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {MEAL_CATEGORIES.map(category => (
                   <Card key={category}>
@@ -313,7 +306,6 @@ export default function MyMealTrackerPage() {
                   </Card>
               ))}
 
-            {/* Fluid Log Section */}
             <Card className="lg:col-span-2">
                 <CardHeader>
                     <CardTitle>Fluid Log</CardTitle>
@@ -355,14 +347,12 @@ export default function MyMealTrackerPage() {
             </Card>
           </div>
 
-          {/* Day Summary Section */}
           <Card>
             <CardHeader>
               <CardTitle>Day Summary</CardTitle>
               <CardDescription>Your total nutritional intake for the day against your goals.</CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              {/* Left side: Totals and Progress Bars */}
               <div className="space-y-4">
                  <div>
                   <div className="flex justify-between font-medium mb-1">
@@ -401,7 +391,6 @@ export default function MyMealTrackerPage() {
                 </div>
               </div>
 
-              {/* Right side: Pie Chart */}
               <div className="h-64">
                 <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
@@ -417,7 +406,8 @@ export default function MyMealTrackerPage() {
                                 outerRadius={80}
                                 fill="#8884d8"
                                 labelLine={false}
-                                label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+                                label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }) => {
+                                    if(percent < 0.1) return null; // Don't render label if it's too small
                                     const RADIAN = Math.PI / 180;
                                     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
                                     const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -429,11 +419,11 @@ export default function MyMealTrackerPage() {
                                     );
                                 }}
                             >
-                                {calorieBreakdownData.map((entry, index) => (
-                                    <Cell key={`cell-${index}`} fill={entry.fill} />
+                                {calorieBreakdownData.map((entry) => (
+                                    <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                                 ))}
                             </Pie>
-                            <Legend />
+                            <Legend content={<ChartTooltipContent nameKey="name" hideValue hideIndicator />} />
                         </PieChart>
                     </ResponsiveContainer>
                 </ChartContainer>

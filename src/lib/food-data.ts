@@ -1,4 +1,6 @@
 
+import { z } from 'zod';
+
 export type FoodGroup = 
     | 'Beans & Legumes'
     | 'Beverages'
@@ -21,10 +23,7 @@ export type FoodGroup =
 
 export type MealCategory = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Beverages' | 'Other' | 'Soups'| 'Sweets, Candy & Desserts' | 'Lunch/Dinner' | 'Fruit';
 
-// Zod enum for runtime validation
-import { z } from 'zod';
 export const MealCategoryEnum = z.enum(['Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner', 'Fruit']);
-
 
 export type FoodItem = {
     slug: string;
@@ -52,6 +51,18 @@ export type FoodItem = {
         potassium?: { value: number; percent?: number };
         vitaminA?: { value: number; percent?: number };
         vitaminC?: { value: number; percent?: number };
+        vitaminE?: { value: number; };
+        vitaminK?: { value: number; };
+        vitaminB12?: { value: number; };
+        vitaminB6?: { value: number; };
+        riboflavin?: { value: number; };
+        selenium?: { value: number; };
+        copper?: { value: number; };
+        manganese?: { value: number; };
+        magnesium?: { value: number; };
+        phosphorus?: { value: number; };
+        zinc?: { value: number; };
+        choline?: { value: number; };
         folate?: { value: number; };
     };
     nutritionSummary: {
@@ -66,9 +77,6 @@ export type FoodItem = {
         size: string;
         calories: number;
     }[];
-    relatedTypes?: {
-        [key: string]: string[];
-    };
     aliases?: string[];
     imageUrl?: string;
     cookingInstructions?: string;

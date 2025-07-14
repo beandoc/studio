@@ -17,7 +17,6 @@ const GenerateDailyTipOutputSchema = z.object({
 });
 export type GenerateDailyTipOutput = z.infer<typeof GenerateDailyTipOutputSchema>;
 
-// The exported function doesn't need to be a flow itself, it can just call the flow.
 export async function generateDailyTip(profile: ProfileWithId): Promise<GenerateDailyTipOutput> {
   return generateDailyTipFlow(profile);
 }

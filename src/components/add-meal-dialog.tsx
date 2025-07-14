@@ -54,7 +54,6 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: 
   
   const handleSelectFood = (food: FoodItem) => {
     setSelectedFood(food);
-    // Set default serving size to the primary one
     if (food.servingSizes && food.servingSizes.length > 0) {
       setSelectedServing(food.servingSizes[0].size);
     } else {

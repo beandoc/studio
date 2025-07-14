@@ -8,6 +8,7 @@ import {
   ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
+  type ChartConfig
 } from "@/components/ui/chart";
 import { useProfile } from "@/context/profile-context";
 import { format } from "date-fns";
@@ -25,7 +26,7 @@ const chartConfig = {
     label: "Fat (g)",
     color: "hsl(var(--chart-2))",
   }
-};
+} satisfies ChartConfig;
 
 type WeeklyProgressChartProps = {
   view: 'weekly' | 'monthly';

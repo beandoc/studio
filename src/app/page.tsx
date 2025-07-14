@@ -8,12 +8,12 @@ import Header from "@/components/header";
 
 export default function WelcomePage() {
   const t = {
-    title: "Welcome to Flip & Toss",
+    title: "Welcome to KidneyWise Diet",
     description: "Your smart meal companion for kidney health.",
     cardTitle: "Take Control of Your Kidney Health",
     cardDescription: "Manage diet with personalized meal plans, tracking, and smart food suggestions. Select your role to get started.",
-    doctorButton: "I'm a Doctor",
-    patientButton: "I'm a Patient"
+    doctorButton: "I'm a Doctor / Dietitian",
+    patientButton: "I'm a Patient / User"
   };
 
   return (
@@ -26,8 +26,8 @@ export default function WelcomePage() {
         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="relative aspect-square">
                  <Image
-                    src="/welcome-image.png"
-                    alt="Flip and Toss app logo"
+                    src="/logo.png"
+                    alt="KidneyWise Diet app logo"
                     fill
                     className="object-contain rounded-2xl"
                     data-ai-hint="logo health"
@@ -49,7 +49,7 @@ export default function WelcomePage() {
                                     {t.doctorButton}
                                 </Button>
                             </Link>
-                             <Link href="/diet-plan" passHref>
+                             <Link href="/dashboard" passHref>
                                 <Button size="lg" variant="secondary" className="w-full sm:w-auto">
                                     <User className="mr-2 h-5 w-5" />
                                     {t.patientButton}

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { generateDietPlan, type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
+import { generateDietPlan } from "@/ai/flows/generate-diet-plan";
 import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/header";
 import {
@@ -19,7 +19,6 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -125,7 +124,6 @@ export default function DietPlanPage() {
         meals: data.meals,
         dailyCalorieGoal: activeProfile.calorieGoal,
         dailyProteinGoal: activeProfile.proteinGoal,
-        // Pass user-specific overrides to the AI flow
         categoryOverrides: getCategoryOverrides(),
         aliasOverrides: getAliasOverrides(),
       });
@@ -158,7 +156,6 @@ export default function DietPlanPage() {
   };
 
   const handleRegenerate = async () => {
-      // Use the default form values to regenerate the plan without showing the form.
       await onSubmit(form.getValues());
   };
 
@@ -278,7 +275,10 @@ export default function DietPlanPage() {
               </CardDescription>
           </div>
         <div className="flex gap-2">
-          <Button onClick={handleRegenerate} variant="secondary">Regenerate</Button>
+          <Button onClick={handleRegenerate} variant="secondary" disabled={isGenerating}>
+            {isGenerating && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Regenerate
+          </Button>
         </div>
       </CardHeader>
       <CardContent>

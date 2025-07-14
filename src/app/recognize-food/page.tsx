@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useRef, useEffect, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Header from "@/components/header";
@@ -25,63 +25,32 @@ import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 
-type AiFoodItem = RecognizeFoodImageOutput['items'][0];
-
 const MEAL_CATEGORIES: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Morning Snack", "Afternoon Snack", "Evening Snack"];
 
 export default function RecognizeFoodPage() {
   const { activeProfile, updateDailyLog, getDailyLog } = useProfile();
-  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<RecognizeFoodImageOutput | null>(null);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [imageUri, setImageUri] = useState<string | null>(null);
   
   const [logDate, setLogDate] = useState<Date>(new Date());
   const [mealCategory, setMealCategory] = useState<MealCategory>("Lunch");
   const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>({});
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   
   const { toast } = useToast();
   const router = useRouter();
-
-  const getCameraPermission = async () => {
-    if (hasCameraPermission !== null) return;
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      toast({
-        variant: "destructive",
-        title: "Camera Not Supported",
-        description: "Your browser does not support camera access.",
-      });
-      setHasCameraPermission(false);
-      return;
-    }
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
-      setHasCameraPermission(true);
-    } catch (error) {
-      console.error("Error accessing camera:", error);
-      setHasCameraPermission(false);
-      toast({
-        variant: "destructive",
-        title: "Camera Access Denied",
-        description: "Please enable camera permissions in your browser settings to use this feature.",
-      });
-    }
-  };
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setUploadedImage(e.target?.result as string);
-        setAnalysisResult(null); // Clear previous results
+        const result = e.target?.result as string;
+        setImageUri(result);
+        setAnalysisResult(null); 
+        recognizeImage(result);
       };
       reader.readAsDataURL(file);
     }
@@ -97,7 +66,7 @@ export default function RecognizeFoodPage() {
         setAnalysisResult(result);
         const initialSelection: Record<string, boolean> = {};
         result.items.forEach(item => {
-            initialSelection[item.name] = true; // Select all items by default
+            initialSelection[item.name] = true;
         });
         setSelectedItems(initialSelection);
         toast({
@@ -123,34 +92,6 @@ export default function RecognizeFoodPage() {
     }
   };
   
-  const handleCaptureAndRecognize = () => {
-    if (!videoRef.current || !canvasRef.current) return;
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const context = canvas.getContext("2d");
-    if (!context) return;
-    context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-    
-    const photoDataUri = canvas.toDataURL("image/jpeg");
-    setUploadedImage(photoDataUri); // also set the image for display
-    recognizeImage(photoDataUri);
-  }
-  
-  const handleUploadAndRecognize = () => {
-    if (uploadedImage) {
-        recognizeImage(uploadedImage);
-    } else {
-        toast({
-            variant: "destructive",
-            title: "No Image Selected",
-            description: "Please upload an image file first."
-        });
-    }
-  };
-
-
   const handleLogMeal = () => {
     if (!analysisResult || !activeProfile) {
       if (!activeProfile) {
@@ -176,12 +117,6 @@ export default function RecognizeFoodPage() {
         });
         return;
     }
-
-    // This is the corrected logic:
-    // 1. Fetch the existing log for the date, or create an initial one if it's null.
-    // 2. Deep copy to avoid mutation issues.
-    // 3. Add each selected item as a separate entry.
-    // 4. Update the log in the context.
 
     const existingLog = getDailyLog(activeProfile.id, logDate) || getInitialLog();
     const updatedLog = JSON.parse(JSON.stringify(existingLog));
@@ -234,217 +169,159 @@ export default function RecognizeFoodPage() {
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="FoodLens (AI enabled scanning)"
-        description="Point your camera at a meal to identify items and estimate nutrition."
+        title="FoodLens AI Scanner"
+        description="Snap a picture of your meal to identify items and estimate nutrition."
       />
       <main className="flex-1 p-4 md:p-8">
         <Card className="max-w-2xl mx-auto">
-          <Tabs defaultValue="camera" className="w-full">
             <CardHeader>
                <CardTitle>Scan Your Meal</CardTitle>
-                <div className="flex justify-between items-end">
-                    <CardDescription>
-                      Use your camera or upload an image for analysis.
-                    </CardDescription>
-                     <TabsList>
-                        <TabsTrigger value="camera" onClick={getCameraPermission}>Camera</TabsTrigger>
-                        <TabsTrigger value="upload">Upload</TabsTrigger>
-                    </TabsList>
-                </div>
+                <CardDescription>
+                  Upload an image of your food for an instant nutritional analysis.
+                </CardDescription>
             </CardHeader>
             <CardContent>
-                <TabsContent value="camera" className="space-y-4">
-                    <div className="relative aspect-video w-full bg-muted rounded-md overflow-hidden">
-                        <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
-                        <canvas ref={canvasRef} className="hidden" />
-                        {hasCameraPermission === false && (
-                            <div className="absolute inset-0 flex items-center justify-center p-4">
-                            <Alert variant="destructive">
-                                <Camera className="h-4 w-4" />
-                                <AlertTitle>Camera Access Required</AlertTitle>
-                                <AlertDescription>
-                                Please allow camera access in your browser to use this feature.
-                                </AlertDescription>
-                            </Alert>
-                            </div>
-                        )}
-                        {hasCameraPermission === null && (
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                            </div>
-                        )}
-                    </div>
-                    <Button
-                    onClick={handleCaptureAndRecognize}
-                    disabled={isLoading || hasCameraPermission !== true}
-                    className="w-full"
-                    size="lg"
-                    >
-                    {isLoading ? (
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                <div className="relative aspect-video w-full bg-muted rounded-md overflow-hidden flex items-center justify-center border-2 border-dashed">
+                    {imageUri ? (
+                        <Image src={imageUri} alt="Uploaded meal" layout="fill" objectFit="contain" />
                     ) : (
-                        <Camera className="mr-2 h-5 w-5" />
+                        <div className="text-center text-muted-foreground p-4">
+                            <Camera className="mx-auto h-12 w-12" />
+                            <p className="mt-2">Image preview will appear here</p>
+                        </div>
                     )}
-                    Analyze from Camera
-                    </Button>
-                </TabsContent>
-                <TabsContent value="upload" className="space-y-4">
-                   <div className="relative aspect-video w-full bg-muted rounded-md overflow-hidden flex items-center justify-center">
-                        {uploadedImage ? (
-                            <Image src={uploadedImage} alt="Uploaded meal" layout="fill" objectFit="contain" />
-                        ) : (
-                            <div className="text-center text-muted-foreground p-4">
-                                <Upload className="mx-auto h-12 w-12" />
-                                <p>Upload an image to start analysis</p>
-                            </div>
-                        )}
-                    </div>
-                     <div className="grid w-full max-w-sm items-center gap-1.5">
-                        <Label htmlFor="picture">Picture</Label>
-                        <Input id="picture" type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} />
-                    </div>
-                    <Button
-                        onClick={handleUploadAndRecognize}
-                        disabled={isLoading || !uploadedImage}
-                        className="w-full"
-                        size="lg"
-                    >
-                        {isLoading ? (
-                            <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        ) : (
-                            <Sparkles className="mr-2 h-5 w-5" />
-                        )}
-                        Analyze Uploaded Image
-                    </Button>
-                </TabsContent>
+                </div>
+                 <div className="mt-4">
+                    <Label htmlFor="picture-upload" className={cn(buttonVariants({ size: "lg" }), "w-full cursor-pointer")}>
+                        <Upload className="mr-2 h-5 w-5" />
+                        {imageUri ? "Upload a Different Image" : "Upload Image"}
+                    </Label>
+                    <Input id="picture-upload" type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} className="hidden"/>
+                </div>
+            </CardContent>
 
                 {isLoading && (
-                    <div className="mt-6 p-4 border rounded-lg space-y-4">
-                        <Skeleton className="h-8 w-3/4" />
-                        <Skeleton className="h-4 w-1/2" />
-                        <Separator />
-                        <div className="space-y-3">
-                        <div className="flex justify-between items-center"><Skeleton className="h-5 w-1/3" /> <Skeleton className="h-4 w-1/4" /></div>
-                        <div className="flex justify-between items-center"><Skeleton className="h-5 w-1/2" /> <Skeleton className="h-4 w-1/4" /></div>
-                        </div>
-                    </div>
+                    <CardFooter>
+                      <div className="w-full p-4 border rounded-lg space-y-4">
+                          <Skeleton className="h-8 w-3/4" />
+                          <Skeleton className="h-4 w-1/2" />
+                          <Separator />
+                          <div className="space-y-3">
+                            <div className="flex justify-between items-center"><Skeleton className="h-5 w-1/3" /> <Skeleton className="h-4 w-1/4" /></div>
+                            <div className="flex justify-between items-center"><Skeleton className="h-5 w-1/2" /> <Skeleton className="h-4 w-1/4" /></div>
+                          </div>
+                      </div>
+                    </CardFooter>
                 )}
                 
                 {analysisResult && !isLoading && (
-                <Card className="mt-6 bg-green-50 border-green-200">
-                    <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-green-900">
-                            <CheckCircle2 /> Meal Analysis Complete
-                        </CardTitle>
-                        <CardDescription className="text-green-800">
-                            We've identified the items in your meal: <span className="font-bold">{analysisResult.mealName}</span>. Select the items you want to log.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                         <div>
-                            <h4 className="font-semibold text-md mb-2 text-green-900">Select Items to Log</h4>
-                            <div className="space-y-2">
-                                {analysisResult.items.map((item, index) => (
-                                    <div key={index} className="p-3 rounded-md bg-white/80 flex items-center gap-4">
-                                        <Checkbox
-                                            id={`item-${index}`}
-                                            checked={selectedItems[item.name]}
-                                            onCheckedChange={() => handleToggleItem(item.name)}
-                                        />
-                                        <label htmlFor={`item-${index}`} className="flex-grow flex justify-between items-center cursor-pointer">
-                                            <div>
-                                                <p className="font-semibold">{item.name}</p>
-                                                <p className="text-right text-xs text-muted-foreground">
-                                                    {Math.round(item.calories)} kcal | P: {item.protein.toFixed(1)}g, F: {item.fat.toFixed(1)}g
-                                                </p>
-                                            </div>
-                                            <div className="text-right text-xs">
-                                                <p className="font-medium text-muted-foreground">Confidence</p>
-                                                <p className="font-bold" style={{ color: `hsl(120, ${item.confidenceScore * 100}%, 35%)`}}>
-                                                    {(item.confidenceScore * 100).toFixed(0)}%
-                                                </p>
-                                            </div>
-                                        </label>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="bg-white/60 p-4 rounded-lg">
-                            <h4 className="font-bold text-lg mb-2 text-center text-green-900">Selected Totals</h4>
-                            {calculatedTotals ? (
-                                <div className="grid grid-cols-4 gap-2 text-center">
-                                    <div>
-                                        <p className="text-sm text-muted-foreground">Calories</p>
-                                        <p className="font-bold text-xl">{Math.round(calculatedTotals.calories)}</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-muted-foreground">Protein</p>
-                                        <p className="font-bold text-xl">{calculatedTotals.protein.toFixed(1)}g</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-muted-foreground">Fat</p>
-                                        <p className="font-bold text-xl">{calculatedTotals.fat.toFixed(1)}g</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-muted-foreground">Carbs</p>
-                                        <p className="font-bold text-xl">{calculatedTotals.carbs.toFixed(1)}g</p>
-                                    </div>
-                                </div>
-                            ) : <p className="text-center text-muted-foreground">No items selected.</p>}
-                        </div>
-                    </CardContent>
-                    <CardFooter className="flex-col sm:flex-row gap-4 items-stretch">
-                        <div className="grid grid-cols-2 gap-4 w-full">
-                             <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full justify-start text-left font-normal",
-                                        !logDate && "text-muted-foreground"
-                                    )}
-                                    >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {logDate ? format(logDate, "PPP") : <span>Pick a date</span>}
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
-                                    <Calendar
-                                    mode="single"
-                                    selected={logDate}
-                                    onSelect={(date) => date && setLogDate(date)}
-                                    initialFocus
-                                    />
-                                </PopoverContent>
-                            </Popover>
-                             <Select value={mealCategory} onValueChange={(value: MealCategory) => setMealCategory(value)}>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Select meal type" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    {MEAL_CATEGORIES.map(cat => (
-                                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                <div className="border-t">
+                  <CardHeader>
+                      <CardTitle className="flex items-center gap-2 text-primary">
+                          <CheckCircle2 /> Meal Analysis Complete
+                      </CardTitle>
+                      <CardDescription>
+                          We've identified your meal as: <span className="font-bold">{analysisResult.mealName}</span>. Select the items you want to log.
+                      </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                        <div>
+                          <h4 className="font-semibold text-md mb-2 text-card-foreground">Select Items to Log</h4>
+                          <div className="space-y-2">
+                              {analysisResult.items.map((item, index) => (
+                                  <div key={index} className="p-3 rounded-md bg-muted flex items-center gap-4">
+                                      <Checkbox
+                                          id={`item-${index}`}
+                                          checked={!!selectedItems[item.name]}
+                                          onCheckedChange={() => handleToggleItem(item.name)}
+                                      />
+                                      <label htmlFor={`item-${index}`} className="flex-grow flex justify-between items-center cursor-pointer">
+                                          <div>
+                                              <p className="font-semibold">{item.name}</p>
+                                              <p className="text-right text-xs text-muted-foreground">
+                                                  {Math.round(item.calories)} kcal | P: {item.protein.toFixed(1)}g, F: {item.fat.toFixed(1)}g
+                                              </p>
+                                          </div>
+                                          <div className="text-right text-xs">
+                                              <p className="font-medium text-muted-foreground">Confidence</p>
+                                              <p className="font-bold" style={{ color: `hsl(120, ${item.confidenceScore * 100}%, 35%)`}}>
+                                                  {(item.confidenceScore * 100).toFixed(0)}%
+                                              </p>
+                                          </div>
+                                      </label>
+                                  </div>
+                              ))}
+                          </div>
+                      </div>
+                      <div className="bg-muted p-4 rounded-lg">
+                          <h4 className="font-bold text-lg mb-2 text-center text-card-foreground">Selected Totals</h4>
+                          {calculatedTotals ? (
+                              <div className="grid grid-cols-4 gap-2 text-center">
+                                  <div>
+                                      <p className="text-sm text-muted-foreground">Calories</p>
+                                      <p className="font-bold text-xl">{Math.round(calculatedTotals.calories)}</p>
+                                  </div>
+                                  <div>
+                                      <p className="text-sm text-muted-foreground">Protein</p>
+                                      <p className="font-bold text-xl">{calculatedTotals.protein.toFixed(1)}g</p>
+                                  </div>
+                                  <div>
+                                      <p className="text-sm text-muted-foreground">Fat</p>
+                                      <p className="font-bold text-xl">{calculatedTotals.fat.toFixed(1)}g</p>
+                                  </div>
+                                  <div>
+                                      <p className="text-sm text-muted-foreground">Carbs</p>
+                                      <p className="font-bold text-xl">{calculatedTotals.carbs.toFixed(1)}g</p>
+                                  </div>
+                              </div>
+                          ) : <p className="text-center text-muted-foreground">No items selected.</p>}
+                      </div>
+                  </CardContent>
+                  <CardFooter className="flex-col sm:flex-row gap-4 items-stretch">
+                      <div className="grid grid-cols-2 gap-4 w-full">
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                  <Button
+                                  variant={"outline"}
+                                  className={cn(
+                                      "w-full justify-start text-left font-normal",
+                                      !logDate && "text-muted-foreground"
+                                  )}
+                                  >
+                                  <CalendarIcon className="mr-2 h-4 w-4" />
+                                  {logDate ? format(logDate, "PPP") : <span>Pick a date</span>}
+                                  </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                  mode="single"
+                                  selected={logDate}
+                                  onSelect={(date) => date && setLogDate(date)}
+                                  initialFocus
+                                  />
+                              </PopoverContent>
+                          </Popover>
+                            <Select value={mealCategory} onValueChange={(value: MealCategory) => setMealCategory(value)}>
+                              <SelectTrigger>
+                                  <SelectValue placeholder="Select meal type" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                  {MEAL_CATEGORIES.map(cat => (
+                                      <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                                  ))}
+                              </SelectContent>
+                          </Select>
+                      </div>
 
-                         <div className="flex gap-2 w-full sm:w-auto">
-                            <Button onClick={() => router.push('/my-meal-tracker')} variant="secondary" className="flex-1">
-                                <Plus className="mr-2 h-4 w-4" /> 
-                                Add Manually
-                            </Button>
-                            <Button onClick={handleLogMeal} className="flex-1">
-                                <Utensils className="mr-2 h-4 w-4" /> 
-                                {activeProfile ? `Add to Tracker` : 'Add to Tracker'}
-                            </Button>
-                        </div>
-                    </CardFooter>
-                </Card>
+                        <div className="flex gap-2 w-full sm:w-auto">
+                          <Button onClick={handleLogMeal} className="flex-1">
+                              <Utensils className="mr-2 h-4 w-4" /> 
+                              {activeProfile ? `Add to Tracker` : 'Add to Tracker'}
+                          </Button>
+                      </div>
+                  </CardFooter>
+                </div>
                 )}
-
-            </CardContent>
-          </Tabs>
         </Card>
       </main>
     </div>

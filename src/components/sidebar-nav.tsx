@@ -9,10 +9,8 @@ import {
   LayoutDashboard,
   User,
   Database,
-  Home,
   CalendarDays,
   Camera,
-  Bot,
   Info,
 } from "lucide-react";
 import {
@@ -24,58 +22,45 @@ import {
 export default function SidebarNav() {
   const pathname = usePathname();
 
-  const t = {
-    home: "Home",
-    dashboard: "Dashboard",
-    myProfile: "Manage Profiles",
-    dietPlan: "Diet Plan",
-    weeklyPlan: "Weekly Plan",
-    myMealTracker: "My Meal Tracker",
-    foodLens: "FoodLens (AI enabled scanning)",
-    foodDatabase: "Food Database",
-    dietCoach: "Diet Coach",
-    healthInfo: "Health Info",
-  };
-
   const menuItems = [
     {
       href: "/dashboard",
-      label: t.dashboard,
+      label: "Dashboard",
       icon: LayoutDashboard,
     },
     {
       href: "/profiles",
-      label: t.myProfile,
+      label: "Manage Profiles",
       icon: User,
     },
     {
       href: "/diet-plan",
-      label: t.dietPlan,
+      label: "Diet Plan Generator",
       icon: BookUser,
     },
     {
       href: "/weekly-plan",
-      label: t.weeklyPlan,
+      label: "Weekly Plan",
       icon: CalendarDays,
     },
     {
       href: "/my-meal-tracker",
-      label: t.myMealTracker,
+      label: "Meal Tracker",
       icon: ClipboardList,
     },
     {
       href: "/recognize-food",
-      label: t.foodLens,
+      label: "FoodLens Scanner",
       icon: Camera,
     },
     {
       href: "/food-database",
-      label: t.foodDatabase,
+      label: "Food Database",
       icon: Database,
     },
     {
       href: "/health-info",
-      label: t.healthInfo,
+      label: "Health Info",
       icon: Info,
     },
   ];

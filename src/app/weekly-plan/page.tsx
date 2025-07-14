@@ -1,7 +1,6 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
 import Header from "@/components/header";
 import {
   Card,
@@ -10,7 +9,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { type GenerateDietPlanOutput } from "@/ai/flows/generate-diet-plan";
 import { Button } from "@/components/ui/button";
 import { Utensils, Sunrise, Sun, Moon, Coffee, Download } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -87,7 +85,6 @@ export default function WeeklyPlanPage() {
                     { content: `${protein.toFixed(1)}g`, styles: { valign: 'middle', halign: 'right' } }
                   ]
                 : [
-                    // empty cell for row-spanned column
                     { content: item.name, styles: { valign: 'middle' } },
                     { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } },
                     { content: `${protein.toFixed(1)}g`, styles: { valign: 'middle', halign: 'right' } }
@@ -115,8 +112,6 @@ export default function WeeklyPlanPage() {
         didDrawPage: (data: any) => {
           yPos = data.cursor.y + 10;
         },
-        // This makes sure the yPos is updated correctly after the table is drawn
-        // even if it doesn't create a new page
         finalY: (doc as any).lastAutoTable.finalY 
       });
 

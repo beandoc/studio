@@ -1,3 +1,4 @@
+
 import { FoodItem, MealCategory } from '@/lib/food-data';
 
 import data1 from '@/lib/food-data-split/food-data-1.json';
@@ -9,8 +10,6 @@ import dairyAndEggsData from '@/lib/food-data-split/dairy-and-eggs.json';
 import nutsAndSeedsData from '@/lib/food-data-split/nuts-and-seeds.json';
 import fruitsData from '@/lib/food-data-split/fruits.json';
 
-// Combine all data sources into a single base dataset.
-// This is done once and cached in memory.
 const baseFoodDatabase: FoodItem[] = (() => {
     const allData = [
         ...(data1 as FoodItem[]),
@@ -22,23 +21,12 @@ const baseFoodDatabase: FoodItem[] = (() => {
         ...(nutsAndSeedsData as FoodItem[]),
         ...(fruitsData as FoodItem[]),
     ];
-    // This removes duplicates by slug, preferring the last one found.
     return Array.from(new Map(allData.map(item => [item.slug, item])).values());
 })();
 
-
-/**
- * A stateful FoodService that can be instantiated with user-specific overrides.
- * This is crucial for ensuring AI flows use the user's personalized data.
- */
 export class FoodService {
   private foodDatabase: FoodItem[];
 
-  /**
-   * Creates an instance of FoodService.
-   * @param categoryOverrides - A map of food slugs to their overridden meal categories.
-   * @param aliasOverrides - A map of food slugs to their overridden aliases.
-   */
   constructor(
     categoryOverrides: Record<string, MealCategory[]> = {},
     aliasOverrides: Record<string, string[]> = {}
@@ -67,8 +55,4 @@ export class FoodService {
   }
 }
 
-/**
- * A static, singleton instance of the FoodService that holds the default, non-personalized database.
- * This is suitable for use in the frontend where user context is managed by a React Context Provider.
- */
 export const foodService = new FoodService();

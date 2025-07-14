@@ -10,23 +10,21 @@ import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
-  SidebarFooter,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton
 } from "@/components/ui/sidebar";
 import SidebarNav from './sidebar-nav';
-import { Skeleton } from "./ui/skeleton";
 import Link from 'next/link';
 import { useProfile } from "@/context/profile-context";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
-
+import Image from "next/image";
 
 const Logo = () => (
-    <div className="flex items-center justify-center p-2 rounded-full bg-sidebar-primary">
-        <HeartPulse className="w-8 h-8 text-sidebar-primary-foreground" />
+    <div className="flex items-center justify-center p-1 rounded-full bg-sidebar-primary">
+        <Image src="/logo.png" alt="KidneyWise Logo" width={32} height={32} />
     </div>
 );
 

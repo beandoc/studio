@@ -133,14 +133,14 @@ export default function FoodDatabasePage() {
     const newAliases = (aliasInputs[slug] ?? "")
       .split(',')
       .map(a => a.trim())
-      .filter(a => a); // remove any empty strings
+      .filter(a => a); 
     updateAliases(slug, newAliases);
-    // Clear the input field for that card after saving
     setAliasInputs(prev => ({...prev, [slug]: ''}));
   };
   
   const handleToggleFavorite = (e: React.MouseEvent, slug: string) => {
     e.stopPropagation();
+    e.preventDefault();
     if (!activeProfile) return;
 
     const isCurrentlyFavorite = isFavorite(activeProfile.id, slug);

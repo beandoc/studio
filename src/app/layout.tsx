@@ -9,7 +9,7 @@ import { ProfileProvider } from "@/context/profile-context";
 import { FoodDataProvider } from "@/context/food-context";
 
 export const metadata: Metadata = {
-  title: "Flip and Toss",
+  title: "KidneyWise Diet",
   description: "Your smart meal companion for kidney health.",
 };
 

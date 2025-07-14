@@ -2,7 +2,7 @@
 import Header from "@/components/header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CheckCircle2, Info, Pilcrow, XCircle } from "lucide-react";
+import { CheckCircle2, Info, XCircle } from "lucide-react";
 import Image from "next/image";
 
 const potassiumFoods = {
@@ -70,8 +70,8 @@ export default function HealthInfoPage() {
                     <Image
                     src="https://placehold.co/1200x400.png"
                     alt="A vibrant display of healthy foods"
-                    layout="fill"
-                    objectFit="cover"
+                    fill
+                    className="object-cover"
                     data-ai-hint="healthy food"
                     />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
@@ -89,7 +89,6 @@ export default function HealthInfoPage() {
             </CardContent>
           </Card>
 
-          {/* Potassium Section */}
           <Card>
             <CardHeader>
                 <CardTitle>Managing Potassium</CardTitle>
@@ -137,7 +136,6 @@ export default function HealthInfoPage() {
             </CardContent>
           </Card>
 
-           {/* Phosphorus Section */}
           <Card>
             <CardHeader>
                 <CardTitle>Managing Phosphorus</CardTitle>
@@ -160,7 +158,6 @@ export default function HealthInfoPage() {
           </Card>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {/* Sodium Section */}
             <Card className="flex flex-col">
                 <CardHeader>
                     <CardTitle>Tips for Reducing Sodium (Salt)</CardTitle>
@@ -178,7 +175,6 @@ export default function HealthInfoPage() {
                 </CardContent>
             </Card>
 
-            {/* Protein Section */}
             <Card className="flex flex-col">
                 <CardHeader>
                     <CardTitle>Understanding Your Protein Needs</CardTitle>
@@ -196,7 +192,6 @@ export default function HealthInfoPage() {
                 </CardContent>
             </Card>
           </div>
-
         </div>
       </main>
     </div>

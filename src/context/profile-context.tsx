@@ -39,7 +39,6 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const [dietPlans, setDietPlans] = useState<Record<string, GenerateDietPlanOutput>>({});
   const { toast } = useToast();
 
-  // Load initial data from localStorage
   useEffect(() => {
     try {
       const storedProfiles = localStorage.getItem('profiles');
@@ -71,7 +70,11 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
 
   const setActiveProfileId = (id: string | null) => {
     setActiveProfileIdState(id);
-    localStorage.setItem('activeProfileId', id || '');
+    if(id) {
+      localStorage.setItem('activeProfileId', id);
+    } else {
+      localStorage.removeItem('activeProfileId');
+    }
   };
 
   const addProfile = (profileData: Profile) => {
@@ -85,24 +88,20 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
     const profileToRemove = profiles.find(p => p.id === id);
     if (!profileToRemove) return;
 
-    // Remove profile from state and localStorage
     const updatedProfiles = profiles.filter(p => p.id !== id);
     saveProfiles(updatedProfiles);
 
-    // Remove associated diet plan and daily logs
     const newDietPlans = { ...dietPlans };
     delete newDietPlans[id];
     setDietPlans(newDietPlans);
     localStorage.setItem('dietPlans', JSON.stringify(newDietPlans));
     
-    // Clear logs from localStorage (this might be slow if there are many, but it's thorough)
     Object.keys(localStorage).forEach(key => {
         if (key.startsWith(`mealLog-${id}-`)) {
             localStorage.removeItem(key);
         }
     });
 
-    // If the deleted profile was active, clear the active profile ID
     if (activeProfileId === id) {
         setActiveProfileId(null);
     }

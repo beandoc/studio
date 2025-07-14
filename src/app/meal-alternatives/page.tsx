@@ -103,7 +103,7 @@ function MealAlternativesContent() {
         return;
     }
 
-    const updatedPlan = JSON.parse(JSON.stringify(dietPlan)); // Deep copy
+    const updatedPlan = JSON.parse(JSON.stringify(dietPlan)); 
     const dayIndex = updatedPlan.plan.findIndex((d: any) => d.day.toLowerCase() === dayToReplace.toLowerCase());
     
     if (dayIndex !== -1) {
@@ -119,7 +119,7 @@ function MealAlternativesContent() {
                   description: newMealData.nutritionSummary.summaryText,
               };
 
-              setDietPlan(updatedPlan); // Update context
+              setDietPlan(updatedPlan); 
               toast({
                   title: "Meal Swapped!",
                   description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
