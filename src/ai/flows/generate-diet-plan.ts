@@ -107,15 +107,13 @@ const generateDietPlanFlow = ai.defineFlow(
             food.foodGroup !== 'Meat' && 
             food.foodGroup !== 'Fish & Seafood'
         );
-    } else if (isNonVegetarian) {
-      // Keep all foods if non-vegetarian is specified
-      relevantFoods = foodDatabase;
     }
     
     const foodListForPrompt = relevantFoods.map(food => `${food.name} (calories: ${food.nutritionFacts.calories}, protein: ${food.nutritionFacts.protein.value}g)`).join('; ');
 
     const prompt = ai.definePrompt({
       name: 'generateDietPlanPrompt',
+      model: 'googleai/gemini-1.5-flash-latest',
       output: {schema: AiResponseSchema},
       prompt: `You are an expert dietitian creating a realistic, varied, and nutritionally balanced 7-day diet plan.
 
