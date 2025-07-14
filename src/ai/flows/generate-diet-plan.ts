@@ -111,18 +111,19 @@ const generateDietPlanFlow = ai.defineFlow(
 
     // 2. Build food lists for each specific meal type requested by the user, now including nutrition data
     const foodListsForPrompt = input.meals.map(mealType => {
-      const mealTypeNormalized = mealType.toLowerCase().replace(/ /g, "") as MealCategory;
+      // Normalize mealType from "morning snack" to "morningsnack" for comparison
+      const mealTypeNormalized = mealType.toLowerCase().replace(/\s/g, "") as MealCategory;
 
       const mealSpecificFoods = relevantFoods
         .filter(food => {
           if (!food.mealCategory) return false;
           // Handle both array and string meal categories from the database
           const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
-          // Normalize categories for comparison
-          const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/ /g, ""));
+          // Normalize categories for comparison, e.g., "Lunch/Dinner" becomes ["lunch/dinner"]
+          const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/\s/g, ""));
           return normalizedCategories.includes(mealTypeNormalized);
         })
-        // Enrich the food item string with calorie and protein data
+        // Enrich the food item string with calorie and protein data for the AI's reference
         .map(food => `${food.name} (${food.nutritionFacts.calories} kcal, ${food.nutritionFacts.protein.value}g protein)`);
 
       if (mealSpecificFoods.length === 0) {
@@ -219,3 +220,5 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
+
+    
