@@ -1283,7 +1283,7 @@
         "foodGroup": "Fruit",
         "nutritionFacts": {
             "servingSize": "100 g",
-            "calories": 32,
+            "calories": 33,
             "totalFat": { "value": 0.3 },
             "totalCarbohydrate": { "value": 7.68 },
             "dietaryFiber": { "value": 2 },
@@ -1305,14 +1305,14 @@
             "zinc": { "value": 0.14 }
         },
         "nutritionSummary": {
-            "calories": 32,
+            "calories": 33,
             "fat": "0.3g",
             "carbs": "7.7g",
             "protein": "0.7g",
             "summaryText": "A sweet, red fruit with a juicy texture.",
             "breakdown": "7% fat, 85% carbs, 8% protein."
         },
-        "servingSizes": [{ "size": "100 g", "calories": 32 }]
+        "servingSizes": [{ "size": "100 g", "calories": 33 }]
     },
     {
         "slug": "watermelon",

@@ -209,7 +209,6 @@ export default function MyMealTrackerPage() {
         onClose={() => setIsAddMealOpen(false)}
         onAddMeal={handleAddMeal}
         category={currentCategory}
-        dailyLog={dailyLog}
       />
       <div className="flex flex-col w-full">
         <Header
@@ -367,24 +366,24 @@ export default function MyMealTrackerPage() {
               <div className="space-y-4">
                  <div>
                   <div className="flex justify-between font-medium mb-1">
-                    <span><Droplets className="inline-block mr-2 h-4 w-4 text-blue-500" />Fluid</span>
+                    <span><Droplets className="inline-block mr-2 h-4 w-4 text-primary" />Fluid</span>
                     <span>{Math.round(totals.fluid)} / {goals.fluid} ml</span>
                   </div>
-                  <Progress value={(totals.fluid / goals.fluid) * 100} className="[&>div]:bg-blue-500" />
+                  <Progress value={(totals.fluid / goals.fluid) * 100} />
                 </div>
                 <div>
                   <div className="flex justify-between font-medium mb-1">
                     <span>Calories</span>
                     <span>{Math.round(totals.calories)} / {goals.calories} kcal</span>
                   </div>
-                  <Progress value={(totals.calories / goals.calories) * 100} />
+                  <Progress value={(totals.calories / goals.calories) * 100} className="[&>div]:bg-accent" />
                 </div>
                 <div>
                   <div className="flex justify-between font-medium mb-1">
                     <span>Protein</span>
                     <span>{totals.protein.toFixed(1)}g / {goals.protein}g</span>
                   </div>
-                  <Progress value={(totals.protein / goals.protein) * 100} className="[&>div]:bg-red-500" />
+                  <Progress value={(totals.protein / goals.protein) * 100} />
                 </div>
                 <div>
                   <div className="flex justify-between font-medium mb-1">

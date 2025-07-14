@@ -133,7 +133,7 @@ export default function Dashboard() {
                         <p className="text-3xl font-bold">{averages.protein.toFixed(1)}g</p>
                         <p className="text-lg font-semibold text-primary">{proteinPercentage.toFixed(0)}% of Goal</p>
                     </div>
-                    <Progress value={proteinPercentage} className="mt-2 h-3 [&>div]:bg-red-500" />
+                    <Progress value={proteinPercentage} className="mt-2 h-3" />
                 </CardContent>
              </Card>
              <Card>
@@ -146,7 +146,7 @@ export default function Dashboard() {
                         <p className="text-3xl font-bold">{averages.calories.toFixed(0)}</p>
                         <p className="text-lg font-semibold text-primary">{caloriesPercentage.toFixed(0)}% of Goal</p>
                     </div>
-                    <Progress value={caloriesPercentage} className="mt-2 h-3 [&>div]:bg-green-500" />
+                    <Progress value={caloriesPercentage} className="mt-2 h-3 [&>div]:bg-accent" />
                 </CardContent>
              </Card>
           </div>
