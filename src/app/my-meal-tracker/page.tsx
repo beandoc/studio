@@ -416,7 +416,7 @@ export default function MyMealTrackerPage() {
                                     );
                                 }}
                             >
-                                {calorieBreakdownData.map((entry, index) => (
+                                {calorieBreakdownData.map((entry) => (
                                     <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                                 ))}
                             </Pie>
@@ -435,4 +435,3 @@ export default function MyMealTrackerPage() {
     </>
   );
 }
- 

@@ -12,19 +12,20 @@ import {
 } from "@/components/ui/chart";
 import { useProfile } from "@/context/profile-context";
 import { format } from "date-fns";
+import { Skeleton } from "./ui/skeleton";
 
 const chartConfig = {
   calories: {
     label: "Calories (kcal)",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-2))",
   },
   protein: {
     label: "Protein (g)",
-    color: "hsl(var(--chart-4))",
+    color: "hsl(var(--chart-1))",
   },
   fat: {
     label: "Fat (g)",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(var(--chart-4))",
   }
 } satisfies ChartConfig;
 
@@ -33,7 +34,7 @@ type WeeklyProgressChartProps = {
 };
 
 export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) {
-  const { activeProfile, getProfileLogs } = useProfile();
+  const { activeProfile, getProfileLogs, isLoading } = useProfile();
   const [chartData, setChartData] = useState<any[]>([]);
 
   useEffect(() => {
@@ -53,21 +54,29 @@ export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) 
     }
   }, [view, activeProfile, getProfileLogs]);
 
+  if (isLoading) {
+    return (
+        <div className="h-[350px] w-full flex items-center justify-center">
+            <Skeleton className="h-full w-full" />
+        </div>
+    );
+  }
+
   if (!activeProfile) return <div className="h-[350px] w-full flex items-center justify-center text-muted-foreground">Select a profile to see progress.</div>;
   if (chartData.length === 0) return <div className="h-[350px] w-full flex items-center justify-center text-muted-foreground">No data to display for this period.</div>;
 
-  const containerWidth = view === 'monthly' ? Math.max(chartData.length * 40, 400) : '100%';
+  const containerWidth = view === 'monthly' ? Math.max(chartData.length * 50, 400) : '100%';
 
   return (
     <div className="h-[350px] w-full">
       <div className={view === 'monthly' ? "w-full overflow-x-auto" : ""}>
         <ChartContainer 
           config={chartConfig} 
-          className="w-full h-full"
+          className="h-full"
           style={{ minWidth: containerWidth }}
         >
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
+            <BarChart data={chartData} margin={{ top: 20, right: 20, bottom: 20, left: -10 }}>
               <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="date"
@@ -76,8 +85,8 @@ export default function WeeklyProgressChart({ view }: WeeklyProgressChartProps) 
                 axisLine={false}
                 interval={view === 'monthly' ? 2 : 0}
               />
-              <YAxis yAxisId="left" orientation="left" stroke="hsl(var(--chart-1))" tickLine={false} axisLine={false} />
-              <YAxis yAxisId="right" orientation="right" stroke="hsl(var(--chart-4))" tickLine={false} axisLine={false} />
+              <YAxis yAxisId="left" orientation="left" stroke="hsl(var(--chart-2))" tickLine={false} axisLine={false} />
+              <YAxis yAxisId="right" orientation="right" stroke="hsl(var(--chart-1))" tickLine={false} axisLine={false} />
               <Tooltip
                 cursor={false}
                 content={<ChartTooltipContent indicator="dot" />}

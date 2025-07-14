@@ -1,12 +1,12 @@
 
 "use client";
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Plus, ArrowLeft, Minus, Star, Loader2 } from 'lucide-react';
+import { Plus, ArrowLeft, Minus, Star, Loader2, AlertTriangle } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import type { MealCategory, LoggedMeal } from '@/app/my-meal-tracker/page';
@@ -14,6 +14,16 @@ import { useFoodData } from '@/context/food-context';
 import type { FoodItem } from '@/lib/food-data';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useProfile } from '@/context/profile-context';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 
 type AddMealDialogProps = {
   isOpen: boolean;
@@ -22,15 +32,21 @@ type AddMealDialogProps = {
   category: MealCategory;
 };
 
+type WarningInfo = {
+  type: 'allergen' | 'nutrient';
+  message: string;
+};
+
 export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: AddMealDialogProps) {
   const { foodDatabase, findFoodBySlug, isFoodDataLoading } = useFoodData();
-  const { activeProfile } = useProfile();
+  const { activeProfile, getDailyLog } = useProfile();
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState<FoodItem[]>([]);
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedServing, setSelectedServing] = useState<string>("");
+  const [warning, setWarning] = useState<WarningInfo | null>(null);
 
   const favoriteItems = useMemo(() => {
     if (!activeProfile || isFoodDataLoading) return [];
@@ -52,6 +68,92 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: 
     }
   }, [searchTerm, foodDatabase]);
   
+  const getMealToAdd = useCallback(() => {
+    if (!selectedFood) return null;
+    
+    const servingSizeData = selectedFood.servingSizes?.find(s => s.size === selectedServing);
+    const primaryServingSize = selectedFood.servingSizes?.[0] || { size: selectedFood.nutritionFacts.servingSize, calories: selectedFood.nutritionFacts.calories};
+    const primaryNutrients = selectedFood.nutritionFacts;
+
+    let baseCalories, baseProtein, baseFat, baseCarbs, basePotassium, basePhosphorus;
+
+    const baseNutrientCalories = primaryServingSize.calories;
+    
+    if(servingSizeData && baseNutrientCalories > 0) {
+        const ratio = servingSizeData.calories / baseNutrientCalories;
+        baseCalories = servingSizeData.calories;
+        baseProtein = (primaryNutrients.protein.value || 0) * ratio;
+        baseFat = (primaryNutrients.totalFat.value || 0) * ratio;
+        baseCarbs = (primaryNutrients.totalCarbohydrate.value || 0) * ratio;
+        basePotassium = (primaryNutrients.potassium?.value || 0) * ratio;
+        basePhosphorus = (primaryNutrients.phosphorus || 0) * ratio; // Phosphorus might not be in the base data
+    } else {
+        baseCalories = primaryNutrients.calories || 0;
+        baseProtein = primaryNutrients.protein.value || 0;
+        baseFat = primaryNutrients.totalFat.value || 0;
+        baseCarbs = primaryNutrients.totalCarbohydrate.value || 0;
+        basePotassium = primaryNutrients.potassium?.value || 0;
+        basePhosphorus = primaryNutrients.phosphorus || 0;
+    }
+
+    const numQuantity = quantity;
+
+    return {
+      name: `${selectedFood.name} (${numQuantity}x ${selectedServing})`,
+      calories: baseCalories * numQuantity,
+      protein: baseProtein * numQuantity,
+      fat: baseFat * numQuantity,
+      carbs: baseCarbs * numQuantity,
+      potassium: basePotassium * numQuantity,
+      phosphorus: basePhosphorus * numQuantity,
+      category: category,
+    };
+  }, [selectedFood, quantity, selectedServing, category]);
+
+  const checkForWarnings = useCallback((meal: ReturnType<typeof getMealToAdd>) => {
+    if (!activeProfile || !meal || !selectedFood) return null;
+    
+    // Allergen Check
+    const allergies = (activeProfile.allergies || "").toLowerCase().split(',').map(a => a.trim()).filter(Boolean);
+    if(allergies.length > 0) {
+        const foodNameLower = selectedFood.name.toLowerCase();
+        for (const allergy of allergies) {
+            if (foodNameLower.includes(allergy)) {
+                return {
+                    type: 'allergen',
+                    message: `This food, "${selectedFood.name}", may contain a known allergen: ${allergy}. Are you sure you want to add it?`
+                };
+            }
+        }
+    }
+
+    // Nutrient Check
+    const dailyLog = getDailyLog(activeProfile.id, new Date());
+    const totals = dailyLog?.meals ? Object.values(dailyLog.meals).flat().reduce((acc, item) => {
+        const foodDetails = findFoodBySlug(item.name.split(' (')[0].toLowerCase().replace(/\s+/g, '-'));
+        acc.potassium += foodDetails?.nutritionFacts.potassium?.value || 0;
+        // Assume phosphorus is tracked if a goal is set, but it may not be in all food data
+        acc.phosphorus += (foodDetails?.nutritionFacts as any).phosphorus || 0; 
+        return acc;
+    }, { potassium: 0, phosphorus: 0 }) : { potassium: 0, phosphorus: 0 };
+    
+    if (activeProfile.potassiumGoal && (totals.potassium + (meal.potassium || 0)) > activeProfile.potassiumGoal) {
+      return {
+        type: 'nutrient',
+        message: `Adding this meal would exceed your daily potassium goal of ${activeProfile.potassiumGoal}mg. Are you sure you want to add it?`
+      };
+    }
+    
+    if (activeProfile.phosphorusGoal && (totals.phosphorus + (meal.phosphorus || 0)) > activeProfile.phosphorusGoal) {
+      return {
+        type: 'nutrient',
+        message: `Adding this meal would exceed your daily phosphorus goal of ${activeProfile.phosphorusGoal}mg. Are you sure you want to add it?`
+      };
+    }
+
+    return null;
+  }, [activeProfile, selectedFood, getDailyLog, findFoodBySlug]);
+
   const handleSelectFood = (food: FoodItem) => {
     setSelectedFood(food);
     if (food.servingSizes && food.servingSizes.length > 0) {
@@ -61,47 +163,31 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: 
     }
     setQuantity(1);
   };
+  
+  const proceedWithAddingMeal = () => {
+    const meal = getMealToAdd();
+    if(meal){
+        const { potassium, phosphorus, ...mealToLog } = meal;
+        onAddMeal(mealToLog);
+    }
+    handleClose();
+  }
 
   const handleAddMealClick = () => {
-    if (!selectedFood) return;
-
-    const servingSizeData = selectedFood.servingSizes?.find(s => s.size === selectedServing);
-    const primaryServingSize = selectedFood.servingSizes?.[0] || { size: selectedFood.nutritionFacts.servingSize, calories: selectedFood.nutritionFacts.calories};
-    const primaryNutrients = selectedFood.nutritionFacts;
-
-    let baseCalories, baseProtein, baseFat, baseCarbs;
-
-    const baseNutrientCalories = primaryServingSize.calories;
+    const meal = getMealToAdd();
+    const potentialWarning = checkForWarnings(meal);
     
-    if(servingSizeData && baseNutrientCalories > 0) {
-        const ratio = servingSizeData.calories / baseNutrientCalories;
-        baseCalories = servingSizeData.calories;
-        baseProtein = primaryNutrients.protein.value * ratio;
-        baseFat = primaryNutrients.totalFat.value * ratio;
-        baseCarbs = primaryNutrients.totalCarbohydrate.value * ratio;
+    if (potentialWarning) {
+      setWarning(potentialWarning);
     } else {
-        baseCalories = primaryNutrients.calories;
-        baseProtein = primaryNutrients.protein.value;
-        baseFat = primaryNutrients.totalFat.value;
-        baseCarbs = primaryNutrients.totalCarbohydrate.value;
+      proceedWithAddingMeal();
     }
-
-    const numQuantity = quantity;
-
-    onAddMeal({
-      name: `${selectedFood.name} (${numQuantity}x ${selectedServing})`,
-      calories: baseCalories * numQuantity,
-      protein: baseProtein * numQuantity,
-      fat: baseFat * numQuantity,
-      carbs: baseCarbs * numQuantity,
-      category: category,
-    });
-    handleClose();
   };
 
   const handleClose = () => {
     setSelectedFood(null);
     setSearchTerm('');
+    setWarning(null);
     onClose();
   };
   
@@ -245,10 +331,31 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: 
   }
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[425px]">
         {selectedFood ? renderQuantityStep() : renderSearchStep()}
       </DialogContent>
     </Dialog>
+    {warning && (
+        <AlertDialog open={!!warning} onOpenChange={() => setWarning(null)}>
+            <AlertDialogContent>
+                <AlertDialogHeader>
+                    <AlertDialogTitle className="flex items-center gap-2">
+                        <AlertTriangle className="text-destructive h-6 w-6" />
+                        Potential Issue Detected
+                    </AlertDialogTitle>
+                    <AlertDialogDescription>
+                        {warning.message}
+                    </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                    <AlertDialogCancel onClick={() => setWarning(null)}>Cancel</AlertDialogCancel>
+                    <AlertDialogAction onClick={proceedWithAddingMeal}>Add Anyway</AlertDialogAction>
+                </AlertDialogFooter>
+            </AlertDialogContent>
+        </AlertDialog>
+    )}
+    </>
   );
 }
