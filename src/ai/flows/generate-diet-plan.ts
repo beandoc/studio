@@ -45,7 +45,6 @@ const AiResponseSchema = z.object({
 const MealDetailsSchema = z.object({
     name: z.string(),
     calories: z.number(),
-    description: z.string(),
 });
 
 const MealSchema = z.object({
@@ -231,7 +230,6 @@ const generateDietPlanFlow = ai.defineFlow(
             items: meal.items.map(item => ({
                 name: item.name,
                 calories: item.nutritionFacts.calories,
-                description: item.nutritionSummary.summaryText,
             })),
         }));
 

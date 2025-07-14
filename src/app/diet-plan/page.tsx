@@ -51,7 +51,7 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-type MealItem = { name: string; calories: number; description: string; };
+type MealItem = { name: string; calories: number; };
 type Meal = { type: string; items: MealItem[]; };
 type DayPlan = { day: string; meals: Meal[]; notes?: string; };
 
@@ -59,7 +59,7 @@ const dailyMealOptions = ["breakfast", "lunch", "dinner", "morning snack", "afte
 
 export default function DietPlanPage() {
   const { activeProfile, dietPlan, setDietPlan, isLoading: isProfileLoading } = useProfile();
-  const { foodDatabase, getCategoryOverrides, getAliasOverrides, isFoodDataLoading } = useFoodData();
+  const { foodDatabase, getCategoryOverrides, getAliasOverrides, isFoodDataLoading, findFoodBySlug } = useFoodData();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
@@ -142,7 +142,7 @@ export default function DietPlanPage() {
   };
   
   const handleFlipMeal = (day: string, mealType: string, mealItemName: string) => {
-    const mealToFlip = foodDatabase.find(food => food.name === mealItemName);
+    const mealToFlip = findFoodBySlug(mealItemName.toLowerCase().replace(/\s+/g, '-'));
     
     if (mealToFlip) {
         router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}&day=${day}&mealType=${mealType}&originalMealName=${encodeURIComponent(mealItemName)}`);
@@ -300,20 +300,19 @@ export default function DietPlanPage() {
                             <h4 className="font-semibold capitalize text-lg mb-2 flex items-center gap-2"><Utensils className="h-5 w-5 text-primary" />{meal.type}</h4>
                             <div className="space-y-2">
                             {meal.items.map((item: MealItem, itemIndex: number) => {
-                                const foodItem = foodDatabase.find(food => food.name === item.name);
-                                const slug = foodItem?.slug;
+                                const foodItem = findFoodBySlug(item.name.toLowerCase().replace(/\s+/g, '-'));
 
                                 return (
                                 <Card key={`${item.name}-${itemIndex}`} className="flex justify-between items-center p-4">
                                   <div>
-                                    {slug ? (
-                                      <Link href={`/food-database/${slug}`} className="hover:underline">
+                                    {foodItem?.slug ? (
+                                      <Link href={`/food-database/${foodItem.slug}`} className="hover:underline">
                                         <p className="font-semibold text-primary">{item.name}</p>
                                       </Link>
                                     ) : (
                                       <p className="font-semibold text-primary">{item.name}</p>
                                     )}
-                                    <p className="text-sm text-muted-foreground mt-1">{item.description}</p>
+                                    <p className="text-sm text-muted-foreground mt-1">{foodItem?.nutritionSummary?.summaryText || 'A nutritious food item.'}</p>
                                     <p className="text-xs text-muted-foreground mt-2">{item.calories} kcal</p>
                                   </div>
                                   <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type, item.name)}>
