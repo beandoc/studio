@@ -19,6 +19,7 @@ import { useProfile } from "@/context/profile-context";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { Badge } from "@/components/ui/badge";
+import { useFoodData } from "@/context/food-context";
 
 type MealItem = {
     name: string;
@@ -50,6 +51,7 @@ const mealIcons: { [key: string]: React.ElementType } = {
 
 export default function WeeklyPlanPage() {
   const { activeProfile, dietPlan, isLoading } = useProfile();
+  const { foodDatabase } = useFoodData();
 
   const handleExportPdf = () => {
     if (!dietPlan || !activeProfile) return;
@@ -74,19 +76,23 @@ export default function WeeklyPlanPage() {
       const dayHeaderHeight = 10;
       
       const tableBody = dayPlan.meals.flatMap(meal => 
-        meal.items.map((item, index) => 
-            index === 0
+        meal.items.map((item, index) => {
+             const foodItem = foodDatabase.find(food => food.name === item.name);
+             const protein = foodItem?.nutritionFacts.protein.value ?? 0;
+            return index === 0
                 ? [
                     { content: meal.type.charAt(0).toUpperCase() + meal.type.slice(1), rowSpan: meal.items.length, styles: { fontStyle: 'bold', valign: 'middle', cellWidth: 40 } },
                     { content: item.name, styles: { valign: 'middle' } },
-                    { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } }
+                    { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } },
+                    { content: `${protein.toFixed(1)}g`, styles: { valign: 'middle', halign: 'right' } }
                   ]
                 : [
                     // empty cell for row-spanned column
                     { content: item.name, styles: { valign: 'middle' } },
-                    { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } }
+                    { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } },
+                    { content: `${protein.toFixed(1)}g`, styles: { valign: 'middle', halign: 'right' } }
                   ]
-        )
+        })
       );
 
       const tableHeight = tableBody.length * 10 + 20;
@@ -102,7 +108,7 @@ export default function WeeklyPlanPage() {
   
       (doc as any).autoTable({
         startY: yPos,
-        head: [['Meal', 'Details', 'Calories']],
+        head: [['Meal', 'Details', 'Calories', 'Protein']],
         body: tableBody,
         theme: 'grid',
         headStyles: { fillColor: [167, 217, 163] },
@@ -195,10 +201,12 @@ export default function WeeklyPlanPage() {
 
             const dailyTotals = dayPlan.meals.reduce((totals, meal) => {
                 meal.items.forEach(item => {
+                    const foodItem = foodDatabase.find(food => food.name === item.name);
                     totals.calories += item.calories;
+                    totals.protein += foodItem?.nutritionFacts.protein.value ?? 0;
                 });
                 return totals;
-            }, { calories: 0 });
+            }, { calories: 0, protein: 0 });
 
             return (
               <Card key={dayPlan.day} className="flex flex-col min-w-[320px] md:min-w-[350px] flex-shrink-0">
@@ -207,9 +215,14 @@ export default function WeeklyPlanPage() {
                     <CardTitle className="text-xl text-primary">
                       {dayPlan.day}
                     </CardTitle>
-                     <Badge variant="secondary" className="font-normal">
-                        ~{Math.round(dailyTotals.calories)} kcal
-                      </Badge>
+                     <div className="flex flex-col items-end gap-1">
+                        <Badge variant="secondary" className="font-normal">
+                            ~{Math.round(dailyTotals.calories)} kcal
+                        </Badge>
+                        <Badge variant="outline" className="font-normal border-amber-300">
+                            ~{Math.round(dailyTotals.protein)}g protein
+                        </Badge>
+                     </div>
                   </div>
                 </CardHeader>
                 <CardContent className="flex-grow space-y-3">
@@ -240,5 +253,3 @@ export default function WeeklyPlanPage() {
     </div>
   );
 }
-
-    

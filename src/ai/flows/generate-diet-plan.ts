@@ -220,5 +220,3 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
-
-    
