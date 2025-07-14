@@ -113,7 +113,7 @@ const generateDietPlanFlow = ai.defineFlow(
 
     const prompt = ai.definePrompt({
       name: 'generateDietPlanPrompt',
-      model: 'googleai/gemini-1.5-flash-latest',
+      model: 'googleai/gemini-2.0-flash',
       output: {schema: AiResponseSchema},
       prompt: `You are an expert dietitian creating a realistic, varied, and nutritionally balanced 7-day diet plan.
 
@@ -127,10 +127,10 @@ const generateDietPlanFlow = ai.defineFlow(
       1.  **Generate a Full 7-Day Plan:** Create a plan for all seven days of the week (Monday to Sunday).
       2.  **Strictly Use Provided Foods:** You MUST select food items *exclusively* from the list provided at the end of this prompt. Do NOT invent or use any food not on the list.
       3.  **Create Realistic, Multi-Item Meals:**
-          - For "lunch" and "dinner", combine 2-4 items to create a balanced meal (e.g., a grain, a protein source, a vegetable).
+          - For "lunch" and "dinner", you MUST combine 2-4 items to create a balanced meal (e.g., a grain, a protein source, a vegetable). A meal with only one item for lunch or dinner is not acceptable.
           - For "breakfast", combine 1-2 items.
           - Snacks should typically be single items.
-      4.  **Meet Nutritional Goals:** Construct daily plans that are as close as possible to the user's calorie and protein goals. Use the provided nutritional info for each food item to guide your selections. A plan with only 600 calories when the goal is 2000 is unacceptable. Add snacks and combine items to reach the target.
+      4.  **Meet Nutritional Goals:** Construct daily plans that are as close as possible to the user's calorie and protein goals. Use the provided nutritional info for each food item to guide your selections. A plan with only 600 calories when the goal is 2000 is a critical failure. You MUST add snacks and combine items to reach the target.
       5.  **Follow the Schema:** Ensure your entire response strictly adheres to the provided JSON output schema.
       6.  **Plan for Requested Meals:** Create a plan ONLY for these meal slots each day: ${input.meals.join(', ')}.
 
