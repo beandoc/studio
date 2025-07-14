@@ -3,9 +3,9 @@
 
 /**
  * @fileOverview Generates a personalized 7-day diet plan.
- * This flow is re-architected for reliability. It simplifies the AI's task to only suggesting meal names.
- * The application code then looks up the details and constructs the final plan,
- * ensuring reliability, data consistency, and preventing crashes.
+ * This flow is re-architected for reliability. The AI's task is simplified to suggesting a pool of suitable
+ * meal items for the week. The application code then programmatically constructs balanced, multi-item
+ * meals for each day, ensuring reliability, data consistency, and preventing crashes.
  *
  * - generateDietPlan - A function that generates the diet plan.
  * - GenerateDietPlanInput - The input type for the generateDietPlan function.
@@ -15,7 +15,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 import { FoodService, getFoodService } from '@/lib/food-service';
-import { MealCategoryEnum, type MealCategory, type FoodItem } from '@/lib/food-data';
+import { MealCategoryEnum, type MealCategory, type FoodItem, type FoodGroup } from '@/lib/food-data';
 
 const GenerateDietPlanInputSchema = z.object({
   healthRequirements: z
@@ -33,21 +33,12 @@ const GenerateDietPlanInputSchema = z.object({
 export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
 
-const AiMealItemSchema = z.object({
+const AiSuggestedFoodItemSchema = z.object({
     name: z.string().describe("Name of the food item. This MUST be a name chosen directly from the provided food list."),
 });
 
-const AiDailyPlanSchema = z.object({
-    day: z.string().describe("The day of the week (e.g., 'Monday', 'Tuesday')."),
-    meals: z.array(z.object({
-        type: z.enum(["breakfast", "lunch", "dinner", "morning snack", "afternoon snack", "evening snack"]),
-        items: z.array(AiMealItemSchema).describe("An array of food items for this meal. Major meals like lunch and dinner should be a combination of multiple items (e.g., a grain, a protein source, a vegetable). Snacks are usually single items."),
-    })).describe("An array of meals for the day."),
-    notes: z.string().optional().describe("Any specific notes or tips for the day's meals."),
-});
-
 const AiResponseSchema = z.object({
-    plan: z.array(AiDailyPlanSchema).describe("An array of 7 daily diet plans, one for each day of the week.")
+    suggested_foods: z.array(AiSuggestedFoodItemSchema).describe("A flat list of 25-35 varied food items suitable for the user's weekly plan, based on their profile. Do not categorize them by day or meal."),
 });
 
 
@@ -78,6 +69,15 @@ export async function generateDietPlan(input: GenerateDietPlanInput): Promise<Ge
   return generateDietPlanFlow(input);
 }
 
+// Helper function to shuffle an array
+const shuffleArray = <T>(array: T[]): T[] => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
+
 const generateDietPlanFlow = ai.defineFlow(
   {
     name: 'generateDietPlanFlow',
@@ -107,12 +107,6 @@ const generateDietPlanFlow = ai.defineFlow(
             food.foodGroup !== 'Meat' && 
             food.foodGroup !== 'Fish & Seafood'
         );
-    } else if (!isVegetarian && isNonVegetarian) {
-      // Keep all foods if non-vegetarian is specified but vegetarian is not.
-      relevantFoods = foodDatabase;
-    } else if (!isVegetarian && !isNonVegetarian && !isVegan) {
-      // Default case: if no dietary preference is mentioned, use all foods.
-      relevantFoods = foodDatabase;
     }
     
     const foodListForPrompt = relevantFoods.map(food => `${food.name} (calories: ${food.nutritionFacts.calories}, protein: ${food.nutritionFacts.protein.value}g)`).join('; ');
@@ -121,7 +115,7 @@ const generateDietPlanFlow = ai.defineFlow(
       name: 'generateDietPlanPrompt',
       model: 'googleai/gemini-1.5-flash-latest',
       output: {schema: AiResponseSchema},
-      prompt: `You are an expert dietitian creating a realistic, varied, and nutritionally balanced 7-day diet plan.
+      prompt: `You are an expert dietitian creating a list of suitable foods for a 7-day diet plan.
 
       **USER PROFILE:**
       - Health Requirements: ${input.healthRequirements}
@@ -130,15 +124,10 @@ const generateDietPlanFlow = ai.defineFlow(
       - Daily Protein Goal: ~${input.dailyProteinGoal || 70} g
 
       **CRITICAL INSTRUCTIONS:**
-      1.  **Generate a Full 7-Day Plan:** Create a plan for all seven days of the week (Monday to Sunday).
+      1.  **Suggest a Food Pool:** Your only task is to suggest a list of 25-35 varied food items suitable for a full week's plan.
       2.  **Strictly Use Provided Foods:** You MUST select food items *exclusively* from the list provided at the end of this prompt. Do NOT invent or use any food not on the list.
-      3.  **Create Realistic, Multi-Item Meals:**
-          - For "lunch" and "dinner", you MUST combine 2-4 items to create a balanced meal (e.g., a grain, a protein source, a vegetable). A meal with only one item for lunch or dinner is not acceptable.
-          - For "breakfast", combine 1-2 items.
-          - Snacks should typically be single items.
-      4.  **Meet Nutritional Goals:** Construct daily plans that are as close as possible to the user's calorie and protein goals. Use the provided nutritional info for each food item to guide your selections. A plan with only 600 calories when the goal is 2000 is a critical failure. You MUST add snacks and combine items to reach the target.
-      5.  **Follow the Schema:** Ensure your entire response strictly adheres to the provided JSON output schema.
-      6.  **Plan for Requested Meals:** Create a plan ONLY for these meal slots each day: ${input.meals.join(', ')}.
+      3.  **Ensure Variety:** Provide a wide variety of foods from different food groups (grains, proteins, vegetables, fruits, snacks) to ensure a balanced and interesting weekly plan.
+      4.  **Follow the Schema:** Your response must be a flat array of food items under the 'suggested_foods' key. Do not add any daily or meal-based structure.
 
       **--- AVAILABLE FOODS (with nutritional data for your reference) ---**
       [${foodListForPrompt}]
@@ -147,57 +136,111 @@ const generateDietPlanFlow = ai.defineFlow(
 
     const { output: aiOutput } = await prompt({});
 
-    if (!aiOutput || !aiOutput.plan || aiOutput.plan.length === 0) {
-      throw new Error('AI failed to generate a diet plan structure. The AI response was either null or did not contain a plan.');
+    if (!aiOutput || !aiOutput.suggested_foods || aiOutput.suggested_foods.length < 10) {
+      throw new Error('AI failed to generate a sufficient list of food suggestions.');
     }
 
-    const finalPlan: GenerateDietPlanOutput = {
-      plan: aiOutput.plan.map(aiDay => {
-        const verifiedMeals = aiDay.meals
-          .map(aiMeal => {
-            if (!aiMeal || !aiMeal.items || !Array.isArray(aiMeal.items)) return null;
+    const suggestedFoodItems = aiOutput.suggested_foods
+        .map(item => userFoodService.findFoodBySlug(item.name.toLowerCase().replace(/\s+/g, '-')) || foodDatabase.find(f => f.name.toLowerCase() === item.name.toLowerCase()))
+        .filter((item): item is FoodItem => !!item);
 
-            const verifiedItems = aiMeal.items
-              .map(aiItem => {
-                if (!aiItem || !aiItem.name) return null;
-                const cleanedName = aiItem.name.split(' (')[0].trim();
-                const dbEntry = userFoodService.findFoodBySlug(cleanedName.toLowerCase().replace(/\s+/g, '-')) || foodDatabase.find(f => f.name.toLowerCase() === cleanedName.toLowerCase());
+    const mealCategories = new Set(input.meals);
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const finalPlan: GenerateDietPlanOutput = { plan: [] };
+    
+    const categorizedFoods: Record<MealCategory, FoodItem[]> = {
+        'Breakfast': [], 'Lunch': [], 'Dinner': [], 'Snack': [], 'Beverages': [], 'Other': [], 'Soups': [], 'Sweets, Candy & Desserts': [], 'Lunch/Dinner': [], 'Fruit': []
+    };
+    
+    suggestedFoodItems.forEach(item => {
+      const categories = Array.isArray(item.mealCategory) ? item.mealCategory : [item.mealCategory];
+      categories.forEach(cat => {
+        if(cat === 'Lunch/Dinner'){
+            categorizedFoods['Lunch'].push(item);
+            categorizedFoods['Dinner'].push(item);
+        } else if (cat) {
+            categorizedFoods[cat].push(item);
+        }
+      });
+    });
 
-                if (!dbEntry) {
-                  console.warn(`AI recommended meal "${aiItem.name}" which was cleaned to "${cleanedName}" but not found in database. Skipping.`);
-                  return null;
-                }
-                
-                return {
-                  name: dbEntry.name,
-                  calories: dbEntry.nutritionFacts.calories,
-                  description: dbEntry.nutritionSummary.summaryText,
-                };
-              })
-              .filter((item): item is z.infer<typeof MealDetailsSchema> => item !== null);
-
-            if (verifiedItems.length === 0) {
-                return null;
-            }
-
-            return {
-              type: aiMeal.type,
-              items: verifiedItems,
-            };
-          })
-          .filter((meal): meal is z.infer<typeof MealSchema> => meal !== null);
-
-        return {
-          day: aiDay.day,
-          meals: verifiedMeals,
-          notes: aiDay.notes,
-        };
-      }),
+    // Helper to get a random item from a list, avoiding duplicates in the same day
+    const getUniqueRandomItem = (list: FoodItem[], usedInDay: Set<string>): FoodItem | undefined => {
+        const availableItems = shuffleArray(list.filter(item => !usedInDay.has(item.slug)));
+        return availableItems[0];
     };
 
+    const getMainMealComponent = (foodGroup: FoodGroup, dayFoods: Set<string>, category: MealCategory): FoodItem | undefined => {
+        const foods = shuffleArray(categorizedFoods[category].filter(f => f.foodGroup === foodGroup && !dayFoods.has(f.slug)));
+        return foods[0];
+    }
+    
+    for (const day of days) {
+        const dailyPlan: DailyPlanSchema = { day, meals: [] };
+        const usedToday = new Set<string>();
+
+        if (mealCategories.has('breakfast')) {
+            const breakfastItem = getUniqueRandomItem(categorizedFoods['Breakfast'], usedToday);
+            if (breakfastItem) {
+                dailyPlan.meals.push({ type: 'breakfast', items: [breakfastItem] });
+                usedToday.add(breakfastItem.slug);
+            }
+        }
+        
+        if (mealCategories.has('lunch')) {
+            const lunchItems: FoodItem[] = [];
+            const mainCourse = getMainMealComponent('Beans & Legumes', usedToday, 'Lunch') || getMainMealComponent('Meat', usedToday, 'Lunch');
+            if (mainCourse) lunchItems.push(mainCourse);
+
+            const side = getMainMealComponent('Breads & Cereals', usedToday, 'Lunch') || getMainMealComponent('Pasta, Rice & Noodles', usedToday, 'Lunch');
+            if (side) lunchItems.push(side);
+            
+            if(lunchItems.length > 0) {
+              dailyPlan.meals.push({ type: 'lunch', items: lunchItems });
+              lunchItems.forEach(i => usedToday.add(i.slug));
+            }
+        }
+        
+        if (mealCategories.has('dinner')) {
+             const dinnerItems: FoodItem[] = [];
+            const mainCourse = getMainMealComponent('Beans & Legumes', usedToday, 'Dinner') || getMainMealComponent('Meat', usedToday, 'Dinner');
+            if (mainCourse) dinnerItems.push(mainCourse);
+
+            const side = getMainMealComponent('Breads & Cereals', usedToday, 'Dinner') || getMainMealComponent('Pasta, Rice & Noodles', usedToday, 'Dinner');
+            if (side) dinnerItems.push(side);
+            
+            if(dinnerItems.length > 0) {
+              dailyPlan.meals.push({ type: 'dinner', items: dinnerItems });
+              dinnerItems.forEach(i => usedToday.add(i.slug));
+            }
+        }
+
+        ['morning snack', 'afternoon snack', 'evening snack'].forEach(snackType => {
+            if (mealCategories.has(snackType)) {
+                const snackItem = getUniqueRandomItem([...categorizedFoods['Snack'], ...categorizedFoods['Fruit']], usedToday);
+                if (snackItem) {
+                    dailyPlan.meals.push({ type: snackType as any, items: [snackItem] });
+                    usedToday.add(snackItem.slug);
+                }
+            }
+        });
+
+        // Convert FoodItem to MealDetailsSchema
+        dailyPlan.meals = dailyPlan.meals.map(meal => ({
+            ...meal,
+            items: meal.items.map(item => ({
+                name: item.name,
+                calories: item.nutritionFacts.calories,
+                description: item.nutritionSummary.summaryText,
+            })),
+        }));
+
+        finalPlan.plan.push(dailyPlan);
+    }
+    
     const hasContent = finalPlan.plan.some(day => day.meals.length > 0 && day.meals.some(meal => meal.items.length > 0));
     if (!hasContent) {
-        throw new Error("AI returned a plan, but after validation, no valid meals remained. This could be due to the AI consistently suggesting foods in the wrong meal categories or hallucinating food names.");
+        throw new Error("Failed to construct a valid diet plan from the AI's suggestions. The AI may not have provided enough variety.");
     }
 
     return finalPlan;
