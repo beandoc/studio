@@ -159,6 +159,7 @@ const generateDietPlanFlow = ai.defineFlow(
 
             const verifiedItems = aiMeal.items
               .map(aiItem => {
+                if (!aiItem || !aiItem.name) return null;
                 const cleanedName = aiItem.name.split(' (')[0].trim();
                 const dbEntry = userFoodService.findFoodBySlug(cleanedName.toLowerCase().replace(/\s+/g, '-')) || foodDatabase.find(f => f.name.toLowerCase() === cleanedName.toLowerCase());
 
@@ -167,21 +168,6 @@ const generateDietPlanFlow = ai.defineFlow(
                   return null;
                 }
                 
-                const mealTypeNormalized = aiMeal.type.toLowerCase().replace(/\s/g, "");
-                const dbCategories = Array.isArray(dbEntry.mealCategory) ? dbEntry.mealCategory : [dbEntry.mealCategory];
-                const normalizedCategories = dbCategories.map(cat => cat.toLowerCase().replace(/\s/g, ""));
-
-                const isSnackSlot = mealTypeNormalized.includes('snack');
-                const isSnackCategory = normalizedCategories.some(cat => cat.includes('snack'));
-                const isLunchDinnerSlot = mealTypeNormalized === 'lunch' || mealTypeNormalized === 'dinner';
-                const isLunchDinnerCategory = normalizedCategories.includes('lunch/dinner');
-
-                // Allow if it's a direct match OR if it's a snack in any snack slot OR if it's a lunch/dinner item in a lunch/dinner slot
-                if (!normalizedCategories.includes(mealTypeNormalized) && !(isSnackSlot && isSnackCategory) && !(isLunchDinnerSlot && isLunchDinnerCategory)) {
-                     console.warn(`AI recommended meal "${dbEntry.name}" for "${aiMeal.type}", but it is not in the correct category (${normalizedCategories.join(', ')}). Skipping.`);
-                     return null;
-                }
-
                 return {
                   name: dbEntry.name,
                   calories: dbEntry.nutritionFacts.calories,
@@ -211,9 +197,10 @@ const generateDietPlanFlow = ai.defineFlow(
 
     const hasContent = finalPlan.plan.some(day => day.meals.length > 0 && day.meals.some(meal => meal.items.length > 0));
     if (!hasContent) {
-        throw new Error("AI returned a plan, but after validation, no valid meals remained. This could be due to the AI consistently suggesting foods in the wrong meal categories.");
+        throw new Error("AI returned a plan, but after validation, no valid meals remained. This could be due to the AI consistently suggesting foods in the wrong meal categories or hallucinating food names.");
     }
 
     return finalPlan;
   }
 );
+
