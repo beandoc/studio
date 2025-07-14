@@ -23,17 +23,8 @@ export default function WelcomePage() {
         description={t.description}
       />
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
-        <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="relative aspect-square">
-                 <Image
-                    src="/logo.png"
-                    alt="KidneyWise Diet app logo"
-                    fill
-                    className="object-contain rounded-2xl"
-                    data-ai-hint="logo health"
-                />
-            </div>
-            <div className="flex flex-col items-start">
+        <div className="max-w-xl w-full">
+            <div className="flex flex-col items-center text-center">
                  <Card className="w-full border-0 shadow-none">
                     <CardHeader>
                         <CardTitle className="text-4xl font-bold text-primary">{t.cardTitle}</CardTitle>
@@ -42,7 +33,7 @@ export default function WelcomePage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Link href="/profiles" passHref>
                                 <Button size="lg" className="w-full sm:w-auto">
                                     <Stethoscope className="mr-2 h-5 w-5" />
