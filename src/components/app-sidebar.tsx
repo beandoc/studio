@@ -2,7 +2,6 @@
 "use client";
 
 import {
-  HeartPulse,
   Users,
   UserPlus
 } from "lucide-react";
@@ -20,7 +19,7 @@ import { Button } from "./ui/button";
 import Image from "next/image";
 
 const Logo = () => (
-    <div className="flex items-center justify-center p-1 rounded-full bg-sidebar-primary">
+    <div className="flex items-center justify-center p-1 rounded-full bg-sidebar-primary shrink-0">
         <Image src="/logo.png" alt="KidneyWise Logo" width={32} height={32} />
     </div>
 );
@@ -94,3 +93,5 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
+
+    

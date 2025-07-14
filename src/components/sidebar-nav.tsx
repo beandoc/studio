@@ -66,7 +66,11 @@ export default function SidebarNav() {
   ];
 
   const checkActive = (href: string) => {
+    // Special case for the root path
     if (href === '/') return pathname === '/';
+    // For other paths, check if the current pathname starts with the href.
+    // This ensures parent paths are highlighted for nested routes.
+    // e.g., /food-database will be active for /food-database/some-slug
     return pathname.startsWith(href);
   }
 
@@ -74,14 +78,17 @@ export default function SidebarNav() {
     <SidebarMenu>
       {menuItems.map((item) => (
         <SidebarMenuItem key={item.label}>
-          <Link href={item.href}>
+          <Link href={item.href} passHref legacyBehavior>
             <SidebarMenuButton
+              asChild
               isActive={checkActive(item.href)}
               tooltip={item.label}
               className="justify-start"
             >
-              <item.icon className="h-5 w-5" />
-              <span>{item.label}</span>
+              <a>
+                <item.icon className="h-5 w-5" />
+                <span>{item.label}</span>
+              </a>
             </SidebarMenuButton>
           </Link>
         </SidebarMenuItem>
@@ -89,3 +96,5 @@ export default function SidebarNav() {
     </SidebarMenu>
   );
 }
+
+    
