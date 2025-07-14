@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Header from "@/components/header";
@@ -38,9 +38,47 @@ export default function RecognizeFoodPage() {
   const [selectedItems, setSelectedItems] = useState<Record<string, boolean>>({});
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
   
   const { toast } = useToast();
   const router = useRouter();
+  
+  useEffect(() => {
+    const getCameraPermission = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        setHasCameraPermission(true);
+
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        setHasCameraPermission(false);
+        toast({
+          variant: 'destructive',
+          title: 'Camera Access Denied',
+          description: 'Please enable camera permissions in your browser settings to use this app.',
+        });
+      }
+    };
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      getCameraPermission();
+    } else {
+      setHasCameraPermission(false);
+    }
+
+    return () => {
+        if (videoRef.current && videoRef.current.srcObject) {
+            const stream = videoRef.current.srcObject as MediaStream;
+            stream.getTracks().forEach(track => track.stop());
+        }
+    }
+  }, [toast]);
+
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -55,6 +93,24 @@ export default function RecognizeFoodPage() {
       reader.readAsDataURL(file);
     }
   };
+  
+  const handleCapture = () => {
+    if (videoRef.current && canvasRef.current) {
+        const canvas = canvasRef.current;
+        const video = videoRef.current;
+        const context = canvas.getContext('2d');
+        
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context?.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        
+        const dataUri = canvas.toDataURL('image/jpeg');
+        setImageUri(dataUri);
+        setAnalysisResult(null);
+        recognizeImage(dataUri);
+    }
+  };
+
 
   const recognizeImage = async (photoDataUri: string) => {
     setIsLoading(true);
@@ -79,6 +135,7 @@ export default function RecognizeFoodPage() {
           title: "No Food Detected",
           description: "We couldn't identify any food in the image. Please try again with a clearer picture.",
         });
+         setImageUri(null);
       }
     } catch (error) {
       console.error(error);
@@ -87,6 +144,7 @@ export default function RecognizeFoodPage() {
         title: "Recognition Failed",
         description: "Something went wrong while trying to identify the food.",
       });
+      setImageUri(null);
     } finally {
       setIsLoading(false);
     }
@@ -177,34 +235,65 @@ export default function RecognizeFoodPage() {
             <CardHeader>
                <CardTitle>Scan Your Meal</CardTitle>
                 <CardDescription>
-                  Upload an image of your food for an instant nutritional analysis.
+                  Use your camera for a live scan or upload an image for analysis.
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div className="relative aspect-video w-full bg-muted rounded-md overflow-hidden flex items-center justify-center border-2 border-dashed">
-                    {imageUri ? (
-                        <Image src={imageUri} alt="Uploaded meal" layout="fill" objectFit="contain" />
-                    ) : (
-                        <div className="text-center text-muted-foreground p-4">
-                            <Camera className="mx-auto h-12 w-12" />
-                            <p className="mt-2">Image preview will appear here</p>
+                <Tabs defaultValue="upload" className="w-full">
+                    <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="upload"><Upload className="mr-2 h-4 w-4" /> Upload</TabsTrigger>
+                        <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4" /> Camera</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="upload">
+                        <div className="relative aspect-video w-full bg-muted rounded-md overflow-hidden flex items-center justify-center border-2 border-dashed mt-4">
+                            {imageUri ? (
+                                <Image src={imageUri} alt="Uploaded meal" layout="fill" objectFit="contain" />
+                            ) : (
+                                <div className="text-center text-muted-foreground p-4">
+                                    <Upload className="mx-auto h-12 w-12" />
+                                    <p className="mt-2">Image preview will appear here</p>
+                                </div>
+                            )}
                         </div>
-                    )}
-                </div>
-                 <div className="mt-4">
-                    <Label htmlFor="picture-upload" className={cn(buttonVariants({ size: "lg" }), "w-full cursor-pointer")}>
-                        <Upload className="mr-2 h-5 w-5" />
-                        {imageUri ? "Upload a Different Image" : "Upload Image"}
-                    </Label>
-                    <Input id="picture-upload" type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} className="hidden"/>
-                </div>
+                        <div className="mt-4">
+                            <Label htmlFor="picture-upload" className={cn(buttonVariants({ size: "lg" }), "w-full cursor-pointer")}>
+                                <Upload className="mr-2 h-5 w-5" />
+                                {imageUri ? "Upload a Different Image" : "Upload Image"}
+                            </Label>
+                            <Input id="picture-upload" type="file" accept="image/*" onChange={handleFileChange} ref={fileInputRef} className="hidden"/>
+                        </div>
+                    </TabsContent>
+                    <TabsContent value="camera">
+                        <div className="relative aspect-video w-full bg-muted rounded-md overflow-hidden flex items-center justify-center border-2 border-dashed mt-4">
+                           <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
+                           <canvas ref={canvasRef} className="hidden" />
+                           {hasCameraPermission === false && (
+                               <Alert variant="destructive" className="m-4">
+                                   <AlertTitle>Camera Access Required</AlertTitle>
+                                   <AlertDescription>
+                                       Please allow camera access in your browser settings to use this feature.
+                                   </AlertDescription>
+                               </Alert>
+                           )}
+                        </div>
+                        <div className="mt-4">
+                           <Button size="lg" className="w-full" onClick={handleCapture} disabled={!hasCameraPermission || isLoading}>
+                               <Camera className="mr-2 h-5 w-5" />
+                               Capture Photo
+                           </Button>
+                        </div>
+                    </TabsContent>
+                </Tabs>
             </CardContent>
 
                 {isLoading && (
                     <CardFooter>
                       <div className="w-full p-4 border rounded-lg space-y-4">
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <Loader2 className="h-5 w-5 animate-spin" />
+                            <p className="font-semibold">Analyzing your meal...</p>
+                          </div>
                           <Skeleton className="h-8 w-3/4" />
-                          <Skeleton className="h-4 w-1/2" />
                           <Separator />
                           <div className="space-y-3">
                             <div className="flex justify-between items-center"><Skeleton className="h-5 w-1/3" /> <Skeleton className="h-4 w-1/4" /></div>
@@ -314,6 +403,9 @@ export default function RecognizeFoodPage() {
                       </div>
 
                         <div className="flex gap-2 w-full sm:w-auto">
+                           <Button onClick={() => setAnalysisResult(null)} variant="outline" className="flex-1">
+                                Retake
+                           </Button>
                           <Button onClick={handleLogMeal} className="flex-1">
                               <Utensils className="mr-2 h-4 w-4" /> 
                               {activeProfile ? `Add to Tracker` : 'Add to Tracker'}
