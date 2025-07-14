@@ -115,8 +115,7 @@ function MealAlternativesContent() {
             if(itemIndex !== -1) {
               updatedPlan.plan[dayIndex].meals[mealIndex].items[itemIndex] = {
                   name: newMealData.name,
-                  calories: newMealData.nutritionFacts.calories,
-                  description: newMealData.nutritionSummary.summaryText,
+                  calories: newMealData.nutritionFacts.calories
               };
 
               setDietPlan(updatedPlan); 
