@@ -2,8 +2,10 @@
 'use server';
 
 /**
- * @fileOverview Generates a personalized 7-day diet plan based on user's health requirements, preferences, and the available food database.
- * The AI's role is to select appropriate meal names from the database to form realistic, multi-item meals that meet nutritional goals.
+ * @fileOverview Generates a personalized 7-day diet plan.
+ * This flow simplifies the AI's task by having it only suggest meal names.
+ * The application code then looks up the details and constructs the final plan,
+ * ensuring reliability and data consistency.
  *
  * - generateDietPlan - A function that generates the diet plan.
  * - GenerateDietPlanInput - The input type for the generateDietPlan function.
@@ -13,7 +15,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 import { FoodService } from '@/lib/food-service';
-import { MealCategoryEnum, type MealCategory } from '@/lib/food-data';
+import { MealCategoryEnum, type MealCategory, type FoodItem } from '@/lib/food-data';
 
 const GenerateDietPlanInputSchema = z.object({
   healthRequirements: z
@@ -22,7 +24,7 @@ const GenerateDietPlanInputSchema = z.object({
   preferences: z
     .string()
     .describe('Dietary preferences of the user, e.g., vegetarian, low-sodium, favorite foods, foods to avoid.'),
-  meals: z.array(z.string()).describe("Array of meals to generate, e.g., ['breakfast', 'lunch', 'dinner', 'morning snack', 'afternoon snack', 'evening snack']"),
+  meals: z.array(z.string()).describe("Array of meals to generate, e.g., ['breakfast', 'lunch', 'dinner', 'morning snack']"),
   dailyCalorieGoal: z.number().optional().describe("User's daily calorie goal in kcal."),
   dailyProteinGoal: z.number().optional().describe("User's daily protein goal in grams."),
   categoryOverrides: z.record(z.array(MealCategoryEnum)).optional().describe("A map of food slugs to their user-defined meal categories."),
@@ -90,7 +92,7 @@ const generateDietPlanFlow = ai.defineFlow(
     const isNonVegetarian = input.preferences.toLowerCase().includes('non-vegetarian');
     const isVegan = input.preferences.toLowerCase().includes('vegan');
 
-    let relevantFoods = foodDatabase;
+    let relevantFoods: FoodItem[] = foodDatabase;
     if(isVegan) {
       relevantFoods = foodDatabase.filter(food => 
           food.foodGroup !== 'Meat' && 
@@ -109,7 +111,6 @@ const generateDietPlanFlow = ai.defineFlow(
 
     const prompt = ai.definePrompt({
       name: 'generateDietPlanPrompt',
-      input: {schema: z.any()},
       output: {schema: AiResponseSchema},
       prompt: `You are an expert dietitian creating a realistic, varied, and nutritionally balanced 7-day diet plan.
 
@@ -120,12 +121,15 @@ const generateDietPlanFlow = ai.defineFlow(
       - Daily Protein Goal: ~${input.dailyProteinGoal || 70} g
 
       **CRITICAL INSTRUCTIONS:**
-      1.  **Generate a Full 7-Day Plan:** Create a plan for all seven days of the week.
-      2.  **Strict Food Selection:** You MUST select food items *exclusively* from the list provided below. Do NOT invent or use any food not on the list.
-      3.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain, a protein source, a vegetable). For "breakfast", also combine multiple items. Snacks can be single items.
-      4.  **Meet Nutritional Goals:** Create daily plans that are as close as possible to the user's calorie and protein goals. A plan with only 600 calories when the goal is 2000 is unacceptable. Use snacks and multiple items in meals to meet the calorie goal.
-      5.  **Adhere to Schema:** Ensure the entire response strictly adheres to the provided JSON schema.
-      6.  **Plan for Requested Meals:** Create a plan for these meal slots each day: ${input.meals.join(', ')}.
+      1.  **Generate a Full 7-Day Plan:** Create a plan for all seven days of the week (Monday to Sunday).
+      2.  **Strictly Use Provided Foods:** You MUST select food items *exclusively* from the list provided at the end of this prompt. Do NOT invent or use any food not on the list.
+      3.  **Create Realistic, Multi-Item Meals:**
+          - For "lunch" and "dinner", combine 2-4 items to create a balanced meal (e.g., a grain, a protein source, a vegetable).
+          - For "breakfast", combine 1-2 items.
+          - Snacks should typically be single items.
+      4.  **Meet Nutritional Goals:** Construct daily plans that are as close as possible to the user's calorie and protein goals. Use the provided nutritional info for each food item to guide your selections. A plan with only 600 calories when the goal is 2000 is unacceptable. Add snacks and combine items to reach the target.
+      5.  **Follow the Schema:** Ensure your entire response strictly adheres to the provided JSON output schema.
+      6.  **Plan for Requested Meals:** Create a plan ONLY for these meal slots each day: ${input.meals.join(', ')}.
 
       **--- AVAILABLE FOODS (with nutritional data for your reference) ---**
       [${foodListForPrompt}]
@@ -134,7 +138,7 @@ const generateDietPlanFlow = ai.defineFlow(
 
     const { output: aiOutput } = await prompt({});
 
-    if (!aiOutput || !aiOutput.plan) {
+    if (!aiOutput || !aiOutput.plan || aiOutput.plan.length === 0) {
       throw new Error('AI failed to generate a diet plan structure. The AI response was either null or did not contain a plan.');
     }
 
@@ -143,15 +147,15 @@ const generateDietPlanFlow = ai.defineFlow(
       plan: aiOutput.plan.map(aiDay => {
         const verifiedMeals = aiDay.meals
           .map(aiMeal => {
-            if (!aiMeal || !aiMeal.items) return null;
+            if (!aiMeal || !aiMeal.items || !Array.isArray(aiMeal.items)) return null;
 
             const verifiedItems = aiMeal.items
               .map(aiItem => {
                 const cleanedName = aiItem.name.split(' (')[0].trim();
-                const dbEntry = foodDatabase.find(food => food.name === cleanedName);
+                const dbEntry = userFoodService.findFoodBySlug(cleanedName.toLowerCase().replace(/\s+/g, '-')) || foodDatabase.find(f => f.name.toLowerCase() === cleanedName.toLowerCase());
 
                 if (!dbEntry) {
-                  console.warn(`AI recommended meal "${aiItem.name}" which was cleaned to "${cleanedName}" and not found in database. Skipping.`);
+                  console.warn(`AI recommended meal "${aiItem.name}" which was cleaned to "${cleanedName}" but not found in database. Skipping.`);
                   return null;
                 }
                 
@@ -160,9 +164,14 @@ const generateDietPlanFlow = ai.defineFlow(
                 const categories = Array.isArray(dbEntry.mealCategory) ? dbEntry.mealCategory : [dbEntry.mealCategory];
                 const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/\s/g, ""));
 
-                if (!normalizedCategories.includes(mealTypeNormalized)) {
-                     console.warn(`AI recommended meal "${dbEntry.name}" for "${aiMeal.type}", but it is not in the correct category. Skipping.`);
-                     return null;
+                if (!normalizedCategories.includes(mealTypeNormalized) && mealTypeNormalized !== 'snack' && mealTypeNormalized !== 'morningsnack' && mealTypeNormalized !== 'afternoonsnack' && mealTypeNormalized !== 'eveningsnack') {
+                     // Allow snacks to be more flexible, but enforce for main meals.
+                     const isSnack = ['snack', 'morningsnack', 'afternoonsnack', 'eveningsnack'].some(s => mealTypeNormalized.includes(s));
+                     const isSnackCategory = normalizedCategories.some(s => s.includes('snack'));
+                     if (!isSnack && !isSnackCategory && !normalizedCategories.includes('lunch/dinner')) {
+                        console.warn(`AI recommended meal "${dbEntry.name}" for "${aiMeal.type}", but it is not in the correct category. Skipping.`);
+                        return null;
+                     }
                 }
 
                 return {
@@ -195,5 +204,3 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
-
-    
