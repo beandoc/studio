@@ -142,7 +142,10 @@ export default function FoodDatabasePage() {
   const handleToggleFavorite = (e: React.MouseEvent, slug: string) => {
     e.stopPropagation();
     if (!activeProfile) return;
-    if (isFavorite(activeProfile.id, slug)) {
+
+    const isCurrentlyFavorite = isFavorite(activeProfile.id, slug);
+
+    if (isCurrentlyFavorite) {
         removeFavorite(activeProfile.id, slug);
     } else {
         addFavorite(activeProfile.id, slug);
@@ -354,4 +357,3 @@ export default function FoodDatabasePage() {
     </div>
   );
 }
-
