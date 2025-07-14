@@ -32,7 +32,7 @@ export type GenerateDietPlanInput = z.infer<typeof GenerateDietPlanInputSchema>;
 
 
 const AiMealItemSchema = z.object({
-    name: z.string().describe("Name of the food item. This MUST be a name chosen directly from the provided food list for the specific meal type."),
+    name: z.string().describe("Name of the food item. This MUST be a name chosen directly from the provided food list."),
 });
 
 const AiDailyPlanSchema = z.object({
@@ -104,26 +104,8 @@ const generateDietPlanFlow = ai.defineFlow(
             food.foodGroup !== 'Fish & Seafood'
         );
     }
-
-    const foodListsForPrompt = input.meals.map(mealType => {
-      const mealTypeNormalized = mealType.toLowerCase().replace(/\s/g, "") as MealCategory;
-
-      const mealSpecificFoods = relevantFoods
-        .filter(food => {
-          if (!food.mealCategory) return false;
-          const categories = Array.isArray(food.mealCategory) ? food.mealCategory : [food.mealCategory];
-          const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/\s/g, ""));
-          return normalizedCategories.includes(mealTypeNormalized);
-        })
-        .map(food => `${food.name} (${food.nutritionFacts.calories} kcal, ${food.nutritionFacts.protein.value}g protein)`);
-
-      if (mealSpecificFoods.length === 0) {
-        return `For the meal type "${mealType}", there are no available food items based on the user's dietary profile. Do not generate a meal for this slot.`;
-      }
-      
-      return `For the meal type "${mealType}", you MUST choose from this list ONLY: [${mealSpecificFoods.join(', ')}]`;
-    }).join('\n\n');
     
+    const foodListForPrompt = relevantFoods.map(food => `${food.name} (calories: ${food.nutritionFacts.calories}, protein: ${food.nutritionFacts.protein.value}g)`).join('; ');
 
     const prompt = ai.definePrompt({
       name: 'generateDietPlanPrompt',
@@ -138,15 +120,15 @@ const generateDietPlanFlow = ai.defineFlow(
       - Daily Protein Goal: ~${input.dailyProteinGoal || 70} g
 
       **CRITICAL INSTRUCTIONS:**
-      1.  **Generate a Full 7-Day Plan:** You MUST create a complete diet plan for all seven days of the week: Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, and Sunday.
-      2.  **Strict Food Selection:** For each meal type (e.g., breakfast, lunch), you MUST select food items *exclusively* from the specific list provided for that meal type below. Do NOT invent or use any food not on these lists.
-      3.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain, a protein source, a vegetable). Snacks can be single items. Aim for variety throughout the week. A diet should not have the same meal every day.
-      4.  **Meet Nutritional Goals:** Use the provided calorie and protein data for each food item to create daily plans that are as close as possible to the user's goals. A plan with only 600 calories when the goal is 2000 is unacceptable. Use snacks if needed to meet the calorie goal.
-      5.  **Adhere to Schema:** Your entire response must strictly adhere to the provided JSON schema. You MUST provide the *exact* food name as it appears in the list (e.g., 'Chapati (1 no.)'). Do NOT include calorie counts or other details in the output \`name\` field.
-      6.  **Plan for Requested Meals:** Create a plan for the following meal slots each day: ${input.meals.join(', ')}.
+      1.  **Generate a Full 7-Day Plan:** Create a plan for all seven days of the week.
+      2.  **Strict Food Selection:** You MUST select food items *exclusively* from the list provided below. Do NOT invent or use any food not on the list.
+      3.  **Create Multi-Item Meals:** For major meals like "lunch" and "dinner", combine multiple items to create a balanced meal (e.g., a grain, a protein source, a vegetable). For "breakfast", also combine multiple items. Snacks can be single items.
+      4.  **Meet Nutritional Goals:** Create daily plans that are as close as possible to the user's calorie and protein goals. A plan with only 600 calories when the goal is 2000 is unacceptable. Use snacks and multiple items in meals to meet the calorie goal.
+      5.  **Adhere to Schema:** Ensure the entire response strictly adheres to the provided JSON schema.
+      6.  **Plan for Requested Meals:** Create a plan for these meal slots each day: ${input.meals.join(', ')}.
 
-      **--- AVAILABLE FOODS PER MEAL TYPE (WITH NUTRITIONAL DATA) ---**
-      ${foodListsForPrompt}
+      **--- AVAILABLE FOODS (with nutritional data for your reference) ---**
+      [${foodListForPrompt}]
       `,
     });
 
@@ -156,6 +138,7 @@ const generateDietPlanFlow = ai.defineFlow(
       throw new Error('AI failed to generate a diet plan structure. The AI response was either null or did not contain a plan.');
     }
 
+    // Post-process and validate the AI output
     const finalPlan: GenerateDietPlanOutput = {
       plan: aiOutput.plan.map(aiDay => {
         const verifiedMeals = aiDay.meals
@@ -170,6 +153,16 @@ const generateDietPlanFlow = ai.defineFlow(
                 if (!dbEntry) {
                   console.warn(`AI recommended meal "${aiItem.name}" which was cleaned to "${cleanedName}" and not found in database. Skipping.`);
                   return null;
+                }
+                
+                // Validate if the meal is suitable for the category
+                const mealTypeNormalized = aiMeal.type.toLowerCase().replace(/\s/g, "") as MealCategory;
+                const categories = Array.isArray(dbEntry.mealCategory) ? dbEntry.mealCategory : [dbEntry.mealCategory];
+                const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/\s/g, ""));
+
+                if (!normalizedCategories.includes(mealTypeNormalized)) {
+                     console.warn(`AI recommended meal "${dbEntry.name}" for "${aiMeal.type}", but it is not in the correct category. Skipping.`);
+                     return null;
                 }
 
                 return {
@@ -202,3 +195,5 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
+
+    
