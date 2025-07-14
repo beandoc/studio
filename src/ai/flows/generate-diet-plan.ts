@@ -13,7 +13,7 @@
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
 import { FoodService } from '@/lib/food-service';
-import { MealCategoryEnum, type FoodItem, type MealCategory } from '@/lib/food-data';
+import { MealCategoryEnum, type MealCategory } from '@/lib/food-data';
 
 const GenerateDietPlanInputSchema = z.object({
   healthRequirements: z
@@ -48,7 +48,6 @@ const AiDailyPlanSchema = z.object({
 const AiResponseSchema = z.object({
     plan: z.array(AiDailyPlanSchema).describe("An array of 7 daily diet plans, one for each day of the week.")
 });
-type AiResponseType = z.infer<typeof AiResponseSchema>;
 
 
 // This is the final, user-facing output structure, created by code, not AI.
@@ -164,7 +163,7 @@ const generateDietPlanFlow = ai.defineFlow(
     const { output: aiOutput } = await prompt({}); // Input is now built into the prompt string itself
 
     if (!aiOutput || !aiOutput.plan) {
-      throw new Error('AI failed to generate a diet plan structure.');
+      throw new Error('AI failed to generate a diet plan structure. The AI response was either null or did not contain a plan.');
     }
 
     // 4. Build the final, code-verified diet plan.
@@ -220,3 +219,5 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
+
+    
