@@ -75,9 +75,9 @@ export const getInitialLog = (): DailyLog => ({
 });
 
 const chartConfig = {
-    carbs: { label: "Carbs", color: "var(--color-carbs)" },
-    fat: { label: "Fat", color: "var(--color-fat)" },
-    protein: { label: "Protein", color: "var(--color-protein)" },
+    carbs: { label: "Carbs", color: "hsl(var(--chart-4))" },
+    fat: { label: "Fat", color: "hsl(var(--chart-2))" },
+    protein: { label: "Protein", color: "hsl(var(--chart-1))" },
 } satisfies ChartConfig;
 
 
@@ -402,7 +402,6 @@ export default function MyMealTrackerPage() {
                                 cy="50%"
                                 innerRadius={60}
                                 outerRadius={80}
-                                fill="#8884d8"
                                 labelLine={false}
                                 label={({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }) => {
                                     if(percent < 0.1) return null; // Don't render label if it's too small
@@ -417,7 +416,7 @@ export default function MyMealTrackerPage() {
                                     );
                                 }}
                             >
-                                {calorieBreakdownData.map((entry) => (
+                                {calorieBreakdownData.map((entry, index) => (
                                     <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                                 ))}
                             </Pie>
@@ -436,3 +435,4 @@ export default function MyMealTrackerPage() {
     </>
   );
 }
+ 
