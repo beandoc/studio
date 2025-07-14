@@ -29,11 +29,12 @@ export default function WelcomePage() {
         <div className="max-w-xl w-full">
           <div className="flex flex-col items-center text-center">
             <Image
-              src="/welcome-image.png"
+              src="https://placehold.co/150x150.png"
               alt="KidneyWise Diet Logo"
               width={150}
               height={150}
               className="mb-6 rounded-full"
+              data-ai-hint="logo"
             />
             <Card className="w-full border-0 shadow-none">
               <CardHeader>
