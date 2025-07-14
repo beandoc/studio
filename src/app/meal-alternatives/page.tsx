@@ -151,12 +151,18 @@ function MealAlternativesContent() {
                         <CardTitle>Replacing</CardTitle>
                         {originalMeal && <CardDescription>{originalMeal.name}</CardDescription>}
                     </CardHeader>
-                    {originalMeal && (
+                    {originalMeal ? (
                         <CardContent>
                             <p className="text-sm text-muted-foreground">{originalMeal.nutritionSummary.summaryText}</p>
                              <p className="text-sm font-medium mt-2">
                                 Calories: {originalMeal.nutritionFacts.calories} kcal, Protein: {originalMeal.nutritionFacts.protein.value}g
                             </p>
+                        </CardContent>
+                    ) : (
+                        <CardContent>
+                            <Skeleton className="h-5 w-3/4 mb-2" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full mt-1" />
                         </CardContent>
                     )}
                 </Card>

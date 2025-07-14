@@ -3,7 +3,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { format, addDays } from "date-fns";
-import { Plus, Settings, Copy, Printer, Trash2, ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw, GlassWater, Droplets } from "lucide-react";
+import { Plus, Settings, Copy, Printer, Trash2, ChevronLeft, ChevronRight, Calendar as CalendarIcon, RotateCcw, GlassWater, Droplets, Loader2 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, Legend } from "recharts";
 
 import Header from "@/components/header";
@@ -28,6 +28,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { useProfile } from "@/context/profile-context";
+import { useFoodData } from "@/context/food-context";
 
 export type MealCategory = "Breakfast" | "Lunch" | "Dinner" | "Morning Snack" | "Afternoon Snack" | "Evening Snack";
 export type LoggedItem = {
@@ -82,6 +83,7 @@ const chartConfig = {
 
 export default function MyMealTrackerPage() {
   const { activeProfile, updateDailyLog, getDailyLog } = useProfile();
+  const { isFoodDataLoading } = useFoodData();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [dailyLog, setDailyLog] = useState<DailyLog>(getInitialLog());
   const [isAddMealOpen, setIsAddMealOpen] = useState(false);
@@ -259,15 +261,10 @@ export default function MyMealTrackerPage() {
                       </CardHeader>
                       <CardContent>
                           {dailyLog.meals[category].length === 0 ? (
-                              <div 
-                                  onClick={() => handleOpenAddItem(category)}
-                                  className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center cursor-pointer hover:bg-muted"
-                              >
-                                  <div className="flex items-center justify-center gap-2 text-primary font-semibold">
-                                      <Plus className="h-5 w-5" />
-                                      <span>Add Item</span>
-                                  </div>
-                              </div>
+                              <Button variant="outline" className="w-full border-dashed" onClick={() => handleOpenAddItem(category)} disabled={isFoodDataLoading}>
+                                  {isFoodDataLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                                  {isFoodDataLoading ? "Loading food..." : "Add Item"}
+                              </Button>
                           ) : (
                               <div className="space-y-4">
                                   <Table>
@@ -297,8 +294,9 @@ export default function MyMealTrackerPage() {
                                           ))}
                                       </TableBody>
                                   </Table>
-                                  <Button variant="outline" className="w-full" onClick={() => handleOpenAddItem(category)}>
-                                      <Plus className="mr-2 h-4 w-4" /> Add Another Item
+                                  <Button variant="outline" className="w-full" onClick={() => handleOpenAddItem(category)} disabled={isFoodDataLoading}>
+                                      {isFoodDataLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                                      {isFoodDataLoading ? "Loading food..." : "Add Another Item"}
                                   </Button>
                               </div>
                           )}

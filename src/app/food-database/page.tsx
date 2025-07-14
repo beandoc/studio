@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import type { FoodGroup, FoodItem, MealCategory } from "@/lib/food-data";
-import { ArrowRight, Search, Database, ChefHat, Plus, Star } from "lucide-react";
+import { ArrowRight, Search, Database, ChefHat, Plus, Star, Loader2 } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { useProfile } from "@/context/profile-context";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const cuisineOptions = ['All', 'Maharashtrian', 'Gujarati', 'North Indian', 'South Indian', 'Generic', 'Punjabi', 'Bengali', 'Jain', 'Indian'];
 const mealCategoryOptions: (MealCategory | 'All')[] = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Beverages', 'Other', 'Soups', 'Sweets, Candy & Desserts', 'Lunch/Dinner', 'Fruit'];
@@ -55,7 +56,7 @@ type Stats = {
 }
 
 export default function FoodDatabasePage() {
-    const { foodDatabase, updateMealCategories, updateAliases } = useFoodData();
+    const { foodDatabase, updateMealCategories, updateAliases, isFoodDataLoading } = useFoodData();
     const { activeProfile, isFavorite, addFavorite, removeFavorite } = useProfile();
     const [searchTerm, setSearchTerm] = useState("");
     const [cuisineFilter, setCuisineFilter] = useState("All");
@@ -64,6 +65,7 @@ export default function FoodDatabasePage() {
     const [aliasInputs, setAliasInputs] = useState<Record<string, string>>({});
     
     const stats: Stats = useMemo(() => {
+        if (isFoodDataLoading) return { total: 0, byFoodGroup: {}, byMealCategory: {}, byCuisine: {} };
         const byFoodGroup = foodDatabase.reduce((acc, food) => {
             if (!food.foodGroup) return acc;
             acc[food.foodGroup] = (acc[food.foodGroup] || 0) + 1;
@@ -91,9 +93,10 @@ export default function FoodDatabasePage() {
             byMealCategory: Object.fromEntries(Object.entries(byMealCategory).sort(([,a],[,b]) => b-a)),
             byCuisine: Object.fromEntries(Object.entries(byCuisine).sort(([,a],[,b]) => b-a)),
         }
-    }, [foodDatabase]);
+    }, [foodDatabase, isFoodDataLoading]);
 
     const filteredFoods = useMemo(() => {
+        if (isFoodDataLoading) return [];
         return foodDatabase.filter(food => {
             const searchLower = searchTerm.toLowerCase();
             const matchesSearch = food.name.toLowerCase().includes(searchLower) ||
@@ -107,7 +110,7 @@ export default function FoodDatabasePage() {
             const matchesFoodGroup = foodGroupFilter === "All" || food.foodGroup === foodGroupFilter;
             return matchesSearch && matchesCuisine && matchesMealCategory && matchesFoodGroup;
         });
-    }, [foodDatabase, searchTerm, cuisineFilter, mealCategoryFilter, foodGroupFilter]);
+    }, [foodDatabase, searchTerm, cuisineFilter, mealCategoryFilter, foodGroupFilter, isFoodDataLoading]);
 
   const handleCategoryChange = (slug: string, category: MealCategory, isChecked: boolean) => {
     const food = foodDatabase.find(f => f.slug === slug);
@@ -152,6 +155,29 @@ export default function FoodDatabasePage() {
     }
   }
 
+  const renderLoadingState = () => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {[...Array(8)].map((_, i) => (
+            <Card key={i} className="flex flex-col">
+                <CardHeader className="p-4 pb-0">
+                    <Skeleton className="h-6 w-3/4" />
+                    <div className="flex gap-2 mt-2">
+                        <Skeleton className="h-5 w-16" />
+                        <Skeleton className="h-5 w-20" />
+                    </div>
+                </CardHeader>
+                <CardContent className="p-4 flex-grow space-y-4">
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-10 w-full" />
+                </CardContent>
+                <CardFooter className="p-2 pt-0">
+                    <Skeleton className="h-9 w-full" />
+                </CardFooter>
+            </Card>
+        ))}
+    </div>
+  );
+
 
   return (
     <div className="flex flex-col w-full">
@@ -168,7 +194,7 @@ export default function FoodDatabasePage() {
                 </CardTitle>
                  <CardDescription asChild>
                   <div className="text-sm text-muted-foreground">
-                    We currently have <Badge variant="secondary">{stats.total}</Badge> food items in our database.
+                    We currently have <Badge variant="secondary">{isFoodDataLoading ? <Loader2 className="h-3 w-3 animate-spin" /> : stats.total}</Badge> food items in our database.
                   </div>
                 </CardDescription>
             </CardHeader>
@@ -264,94 +290,96 @@ export default function FoodDatabasePage() {
             </CardContent>
         </Card>
 
-        {filteredFoods.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredFoods.map((food) => {
-                const currentCategories = Array.isArray(food.mealCategory) ? food.mealCategory : (food.mealCategory ? [food.mealCategory] : []);
-                const availableCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Snack"];
-                const isFav = activeProfile ? isFavorite(activeProfile.id, food.slug) : false;
-                return (
-                    <Card key={food.slug} className="flex flex-col hover:shadow-lg transition-shadow">
-                        <CardHeader className="p-4 pb-0">
-                           <div className="flex justify-between items-start">
-                             <h3 className="font-bold text-lg text-primary flex-1 pr-2">{food.name}</h3>
-                             {activeProfile && (
-                                <Button
-                                    variant="ghost"
-                                    size="icon"
-                                    className="h-8 w-8 -mt-1 -mr-1 flex-shrink-0"
-                                    onClick={(e) => handleToggleFavorite(e, food.slug)}
-                                >
-                                    <Star className={cn("h-5 w-5", isFav ? "fill-current text-yellow-400" : "text-muted-foreground")} />
-                                </Button>
-                             )}
-                           </div>
-                           <div className="text-xs text-muted-foreground mt-2 flex flex-wrap gap-1">
-                                {food.foodGroup && <Badge variant="secondary" className="font-normal">{food.foodGroup}</Badge>}
-                                {food.cuisine && <Badge variant="secondary" className="font-normal">{food.cuisine}</Badge>}
-                            </div>
-                        </CardHeader>
-                        <CardContent className="p-4 flex-grow space-y-4">
-                            {food.cookingInstructions && (
-                                <p className="text-xs text-muted-foreground italic border-l-2 pl-2">
-                                    <ChefHat className="inline-block h-3 w-3 mr-1" />
-                                    {food.cookingInstructions}
-                                </p>
-                            )}
-
-                            <div>
-                                <Label className="text-xs font-bold text-muted-foreground">Meal Categories</Label>
-                                <div className="flex flex-wrap gap-x-4 gap-y-2 mt-1">
-                                    {availableCategories.map(cat => (
-                                        <div key={cat} className="flex items-center space-x-2">
-                                            <Checkbox 
-                                                id={`${food.slug}-${cat}`}
-                                                checked={currentCategories.includes(cat)}
-                                                onCheckedChange={(checked) => handleCategoryChange(food.slug, cat, !!checked)}
-                                            />
-                                            <label
-                                                htmlFor={`${food.slug}-${cat}`}
-                                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
-                                            >
-                                                {cat}
-                                            </label>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            <div>
-                                <Label htmlFor={`alias-${food.slug}`} className="text-xs font-bold text-muted-foreground">Aliases</Label>
-                                {food.aliases && food.aliases.length > 0 && <p className="text-xs text-muted-foreground">Current: {food.aliases.join(', ')}</p>}
-                                <div className="flex items-center gap-2 mt-1">
-                                    <Input 
-                                        id={`alias-${food.slug}`}
-                                        placeholder="Add comma-separated aliases"
-                                        value={aliasInputs[food.slug] ?? ''}
-                                        onChange={(e) => handleAliasChange(food.slug, e.target.value)}
-                                        className="h-9"
-                                    />
-                                    <Button size="sm" variant="outline" onClick={() => handleSaveAliases(food.slug)} className="h-9 px-2">
-                                        <Plus className="h-4 w-4"/>
+        {isFoodDataLoading ? renderLoadingState() : (
+            filteredFoods.length > 0 ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                {filteredFoods.map((food) => {
+                    const currentCategories = Array.isArray(food.mealCategory) ? food.mealCategory : (food.mealCategory ? [food.mealCategory] : []);
+                    const availableCategories: MealCategory[] = ["Breakfast", "Lunch", "Dinner", "Snack"];
+                    const isFav = activeProfile ? isFavorite(activeProfile.id, food.slug) : false;
+                    return (
+                        <Card key={food.slug} className="flex flex-col hover:shadow-lg transition-shadow">
+                            <CardHeader className="p-4 pb-0">
+                               <div className="flex justify-between items-start">
+                                 <h3 className="font-bold text-lg text-primary flex-1 pr-2">{food.name}</h3>
+                                 {activeProfile && (
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 -mt-1 -mr-1 flex-shrink-0"
+                                        onClick={(e) => handleToggleFavorite(e, food.slug)}
+                                    >
+                                        <Star className={cn("h-5 w-5", isFav ? "fill-current text-yellow-400" : "text-muted-foreground")} />
                                     </Button>
+                                 )}
+                               </div>
+                               <div className="text-xs text-muted-foreground mt-2 flex flex-wrap gap-1">
+                                    {food.foodGroup && <Badge variant="secondary" className="font-normal">{food.foodGroup}</Badge>}
+                                    {food.cuisine && <Badge variant="secondary" className="font-normal">{food.cuisine}</Badge>}
                                 </div>
-                            </div>
-                        </CardContent>
-                        <CardFooter className="p-2 pt-0">
-                            <Button asChild variant="outline" size="sm" className="w-full">
-                                <Link href={`/food-database/${food.slug}`}>
-                                    View Details <ArrowRight className="ml-2 h-4 w-4" />
-                                </Link>
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                );
-            })}
-            </div>
-        ) : (
-            <div className="text-center py-16 text-muted-foreground">
-                <p>No food items match your filters.</p>
-            </div>
+                            </CardHeader>
+                            <CardContent className="p-4 flex-grow space-y-4">
+                                {food.cookingInstructions && (
+                                    <p className="text-xs text-muted-foreground italic border-l-2 pl-2">
+                                        <ChefHat className="inline-block h-3 w-3 mr-1" />
+                                        {food.cookingInstructions}
+                                    </p>
+                                )}
+    
+                                <div>
+                                    <Label className="text-xs font-bold text-muted-foreground">Meal Categories</Label>
+                                    <div className="flex flex-wrap gap-x-4 gap-y-2 mt-1">
+                                        {availableCategories.map(cat => (
+                                            <div key={cat} className="flex items-center space-x-2">
+                                                <Checkbox 
+                                                    id={`${food.slug}-${cat}`}
+                                                    checked={currentCategories.includes(cat)}
+                                                    onCheckedChange={(checked) => handleCategoryChange(food.slug, cat, !!checked)}
+                                                />
+                                                <label
+                                                    htmlFor={`${food.slug}-${cat}`}
+                                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 capitalize"
+                                                >
+                                                    {cat}
+                                                </label>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+    
+                                <div>
+                                    <Label htmlFor={`alias-${food.slug}`} className="text-xs font-bold text-muted-foreground">Aliases</Label>
+                                    {food.aliases && food.aliases.length > 0 && <p className="text-xs text-muted-foreground">Current: {food.aliases.join(', ')}</p>}
+                                    <div className="flex items-center gap-2 mt-1">
+                                        <Input 
+                                            id={`alias-${food.slug}`}
+                                            placeholder="Add comma-separated aliases"
+                                            value={aliasInputs[food.slug] ?? ''}
+                                            onChange={(e) => handleAliasChange(food.slug, e.target.value)}
+                                            className="h-9"
+                                        />
+                                        <Button size="sm" variant="outline" onClick={() => handleSaveAliases(food.slug)} className="h-9 px-2">
+                                            <Plus className="h-4 w-4"/>
+                                        </Button>
+                                    </div>
+                                </div>
+                            </CardContent>
+                            <CardFooter className="p-2 pt-0">
+                                <Button asChild variant="outline" size="sm" className="w-full">
+                                    <Link href={`/food-database/${food.slug}`}>
+                                        View Details <ArrowRight className="ml-2 h-4 w-4" />
+                                    </Link>
+                                </Button>
+                            </CardFooter>
+                        </Card>
+                    );
+                })}
+                </div>
+            ) : (
+                <div className="text-center py-16 text-muted-foreground">
+                    <p>No food items match your filters.</p>
+                </div>
+            )
         )}
       </main>
     </div>

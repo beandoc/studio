@@ -3,11 +3,12 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import type { FoodItem, MealCategory } from '@/lib/food-data';
-import { FoodService } from '@/lib/food-service';
+import { FoodService, getFoodService } from '@/lib/food-service';
 import { useToast } from '@/hooks/use-toast';
 
 type FoodDataContextType = {
   foodDatabase: FoodItem[];
+  isFoodDataLoading: boolean;
   findFoodBySlug: (slug: string) => FoodItem | undefined;
   updateMealCategories: (slug: string, categories: MealCategory[]) => void;
   getCategoryOverrides: () => Record<string, MealCategory[]>;
@@ -19,32 +20,41 @@ const FoodDataContext = createContext<FoodDataContextType | undefined>(undefined
 
 export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
   const [foodDatabase, setFoodDatabase] = useState<FoodItem[]>([]);
+  const [isFoodDataLoading, setIsFoodDataLoading] = useState(true);
   const [categoryOverrides, setCategoryOverrides] = useState<Record<string, MealCategory[]>>({});
   const [aliasOverrides, setAliasOverrides] = useState<Record<string, string[]>>({});
   const { toast } = useToast();
 
   useEffect(() => {
-    let storedCatOverrides: Record<string, MealCategory[]> = {};
-    let storedAliasOverrides: Record<string, string[]> = {};
-    
-    try {
-      const storedCategories = localStorage.getItem('foodCategoryOverrides');
-      if (storedCategories) {
-        storedCatOverrides = JSON.parse(storedCategories);
+    const loadData = async () => {
+      setIsFoodDataLoading(true);
+      
+      let storedCatOverrides: Record<string, MealCategory[]> = {};
+      let storedAliasOverrides: Record<string, string[]> = {};
+      
+      try {
+        const storedCategories = localStorage.getItem('foodCategoryOverrides');
+        if (storedCategories) {
+          storedCatOverrides = JSON.parse(storedCategories);
+        }
+        const storedAliases = localStorage.getItem('foodAliasOverrides');
+        if (storedAliases) {
+          storedAliasOverrides = JSON.parse(storedAliases);
+        }
+      } catch (e) {
+        console.error("Failed to parse overrides from localStorage", e);
       }
-      const storedAliases = localStorage.getItem('foodAliasOverrides');
-      if (storedAliases) {
-        storedAliasOverrides = JSON.parse(storedAliases);
-      }
-    } catch (e) {
-      console.error("Failed to parse overrides from localStorage", e);
-    }
+      
+      setCategoryOverrides(storedCatOverrides);
+      setAliasOverrides(storedAliasOverrides);
+
+      await FoodService.initialize();
+      const userSpecificFoodService = getFoodService(storedCatOverrides, storedAliasOverrides);
+      setFoodDatabase(userSpecificFoodService.getFoodDatabase());
+      setIsFoodDataLoading(false);
+    };
     
-    setCategoryOverrides(storedCatOverrides);
-    setAliasOverrides(storedAliasOverrides);
-    
-    const userSpecificFoodService = new FoodService(storedCatOverrides, storedAliasOverrides);
-    setFoodDatabase(userSpecificFoodService.getFoodDatabase());
+    loadData();
   }, []);
 
   const updateMealCategories = useCallback((slug: string, categories: MealCategory[]) => {
@@ -52,7 +62,7 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
     setCategoryOverrides(newOverrides);
     try {
       localStorage.setItem('foodCategoryOverrides', JSON.stringify(newOverrides));
-      const updatedService = new FoodService(newOverrides, aliasOverrides);
+      const updatedService = getFoodService(newOverrides, aliasOverrides);
       setFoodDatabase(updatedService.getFoodDatabase());
       toast({
         title: "Categories Updated",
@@ -73,7 +83,7 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
     setAliasOverrides(newOverrides);
     try {
       localStorage.setItem('foodAliasOverrides', JSON.stringify(newOverrides));
-      const updatedService = new FoodService(categoryOverrides, newOverrides);
+      const updatedService = getFoodService(categoryOverrides, newOverrides);
       setFoodDatabase(updatedService.getFoodDatabase());
        toast({
         title: "Aliases Updated",
@@ -97,7 +107,7 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
   const getAliasOverrides = useCallback(() => aliasOverrides, [aliasOverrides]);
 
   return (
-    <FoodDataContext.Provider value={{ foodDatabase, findFoodBySlug, updateMealCategories, getCategoryOverrides, updateAliases, getAliasOverrides }}>
+    <FoodDataContext.Provider value={{ foodDatabase, isFoodDataLoading, findFoodBySlug, updateMealCategories, getCategoryOverrides, updateAliases, getAliasOverrides }}>
       {children}
     </FoodDataContext.Provider>
   );

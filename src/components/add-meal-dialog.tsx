@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Plus, ArrowLeft, Minus, Star } from 'lucide-react';
+import { Plus, ArrowLeft, Minus, Star, Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import type { MealCategory, LoggedMeal } from '@/app/my-meal-tracker/page';
@@ -23,7 +23,7 @@ type AddMealDialogProps = {
 };
 
 export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: AddMealDialogProps) {
-  const { foodDatabase, findFoodBySlug } = useFoodData();
+  const { foodDatabase, findFoodBySlug, isFoodDataLoading } = useFoodData();
   const { activeProfile } = useProfile();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -33,11 +33,11 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: 
   const [selectedServing, setSelectedServing] = useState<string>("");
 
   const favoriteItems = useMemo(() => {
-    if (!activeProfile) return [];
+    if (!activeProfile || isFoodDataLoading) return [];
     return (activeProfile.favorites || [])
         .map(slug => findFoodBySlug(slug))
         .filter((item): item is FoodItem => !!item);
-  }, [activeProfile, findFoodBySlug]);
+  }, [activeProfile, findFoodBySlug, isFoodDataLoading]);
 
   useEffect(() => {
     if (searchTerm.length > 1) {
@@ -142,40 +142,46 @@ export default function AddMealDialog({ isOpen, onClose, onAddMeal, category }: 
           Select from favorites or search the database.
         </DialogDescription>
       </DialogHeader>
-      <Tabs defaultValue="favorites" className="w-full">
-        <div className="flex justify-between items-center pr-1">
-             <TabsList>
-                <TabsTrigger value="favorites">
-                    <Star className="mr-2 h-4 w-4" /> Favorites
-                </TabsTrigger>
-                <TabsTrigger value="search">Search</TabsTrigger>
-            </TabsList>
-            <Input
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="max-w-[150px]"
-            />
+      {isFoodDataLoading ? (
+        <div className="h-80 flex items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </div>
-        <ScrollArea className="h-72 mt-2">
-            {searchTerm ? (
-                <FoodList items={searchResults} />
-            ) : (
-                <>
-                <TabsContent value="favorites">
-                    {favoriteItems.length > 0 ? (
-                        <FoodList items={favoriteItems} />
-                    ) : (
-                        <p className="text-center text-muted-foreground pt-8">No favorite items yet. Add some from the Food Database!</p>
-                    )}
-                </TabsContent>
-                <TabsContent value="search">
-                    <FoodList items={foodDatabase} />
-                </TabsContent>
-                </>
-            )}
-        </ScrollArea>
-      </Tabs>
+      ) : (
+        <Tabs defaultValue="favorites" className="w-full">
+            <div className="flex justify-between items-center pr-1">
+                <TabsList>
+                    <TabsTrigger value="favorites">
+                        <Star className="mr-2 h-4 w-4" /> Favorites
+                    </TabsTrigger>
+                    <TabsTrigger value="search">Search</TabsTrigger>
+                </TabsList>
+                <Input
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="max-w-[150px]"
+                />
+            </div>
+            <ScrollArea className="h-72 mt-2">
+                {searchTerm ? (
+                    <FoodList items={searchResults} />
+                ) : (
+                    <>
+                    <TabsContent value="favorites">
+                        {favoriteItems.length > 0 ? (
+                            <FoodList items={favoriteItems} />
+                        ) : (
+                            <p className="text-center text-muted-foreground pt-8">No favorite items yet. Add some from the Food Database!</p>
+                        )}
+                    </TabsContent>
+                    <TabsContent value="search">
+                        <FoodList items={foodDatabase} />
+                    </TabsContent>
+                    </>
+                )}
+            </ScrollArea>
+        </Tabs>
+      )}
     </>
   );
   

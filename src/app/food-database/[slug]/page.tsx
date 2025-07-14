@@ -9,11 +9,12 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChefHat, Star } from "lucide-react";
+import { ArrowLeft, ChefHat, Star, Loader2 } from "lucide-react";
 import React, { use } from 'react';
 import Image from "next/image";
 import { useFoodData } from "@/context/food-context";
 import { useProfile } from "@/context/profile-context";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type NutrientRowProps = {
     label: string;
@@ -194,9 +195,41 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
 }
 
 
+function FoodDetailPageLoading() {
+  return (
+    <div className="flex flex-col w-full bg-muted/20">
+      <Header
+        title="Loading Food..."
+        description="Please wait while we fetch the details."
+      />
+      <main className="flex-1 p-4 md:p-8">
+        <div className="max-w-6xl mx-auto">
+          <Skeleton className="h-10 w-48 mb-4" />
+          <Skeleton className="relative w-full h-64 rounded-xl mb-8" />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div className="lg:col-span-1 space-y-8">
+              <Skeleton className="h-96 w-full" />
+            </div>
+            <div className="lg:col-span-2 space-y-8">
+              <Skeleton className="h-48 w-full" />
+              <Skeleton className="h-32 w-full" />
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+
 export default function FoodDetailPage({ params }: { params: { slug: string } }) {
-  const { findFoodBySlug } = useFoodData();
+  const { findFoodBySlug, isFoodDataLoading } = useFoodData();
   const resolvedParams = use(Promise.resolve(params));
+  
+  if (isFoodDataLoading) {
+      return <FoodDetailPageLoading />;
+  }
+
   const food = findFoodBySlug(resolvedParams.slug);
 
   if (!food) {

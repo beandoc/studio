@@ -59,7 +59,7 @@ const dailyMealOptions = ["breakfast", "lunch", "dinner", "morning snack", "afte
 
 export default function DietPlanPage() {
   const { activeProfile, dietPlan, setDietPlan, isLoading: isProfileLoading } = useProfile();
-  const { foodDatabase, getCategoryOverrides, getAliasOverrides } = useFoodData();
+  const { foodDatabase, getCategoryOverrides, getAliasOverrides, isFoodDataLoading } = useFoodData();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
@@ -253,11 +253,11 @@ export default function DietPlanPage() {
               />
           </CardContent>
           <CardFooter>
-              <Button type="submit" disabled={isGenerating} size="lg">
-              {isGenerating && (
+              <Button type="submit" disabled={isGenerating || isFoodDataLoading} size="lg">
+              {(isGenerating || isFoodDataLoading) && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Generate Diet Plan!
+              {isFoodDataLoading ? 'Loading Food Data...' : 'Generate Diet Plan!'}
               </Button>
           </CardFooter>
           </form>

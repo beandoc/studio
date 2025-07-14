@@ -13,7 +13,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import { foodService } from '@/lib/food-service';
+import { FoodService } from '@/lib/food-service';
 import type { FoodItem, MealCategory } from '@/lib/food-data';
 
 const SuggestMealAlternativesInputSchema = z.object({
@@ -61,6 +61,9 @@ const suggestMealAlternativesFlow = ai.defineFlow(
     outputSchema: SuggestMealAlternativesOutputSchema,
   },
   async (input) => {
+    // Initialize the service to ensure data is loaded
+    await FoodService.initialize();
+    const foodService = new FoodService(); // use default instance
     const foodDb = foodService.getFoodDatabase();
     
     const originalMeal = foodDb.find(meal => meal.slug === input.mealSlug);

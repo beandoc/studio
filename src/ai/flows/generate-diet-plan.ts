@@ -14,7 +14,7 @@
 
 import {ai} from '@/ai/genkit';
 import {z} from 'zod';
-import { FoodService } from '@/lib/food-service';
+import { FoodService, getFoodService } from '@/lib/food-service';
 import { MealCategoryEnum, type MealCategory, type FoodItem } from '@/lib/food-data';
 
 const GenerateDietPlanInputSchema = z.object({
@@ -85,7 +85,9 @@ const generateDietPlanFlow = ai.defineFlow(
     outputSchema: GenerateDietPlanOutputSchema,
   },
   async (input) => {
-    const userFoodService = new FoodService(input.categoryOverrides, input.aliasOverrides);
+    // Initialize the service to ensure data is loaded
+    await FoodService.initialize();
+    const userFoodService = getFoodService(input.categoryOverrides, input.aliasOverrides);
     const foodDatabase = userFoodService.getFoodDatabase();
     
     const isVegetarian = input.preferences.toLowerCase().includes('vegetarian');
