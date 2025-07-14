@@ -161,17 +161,19 @@ const generateDietPlanFlow = ai.defineFlow(
                   return null;
                 }
                 
-                const mealTypeNormalized = aiMeal.type.toLowerCase().replace(/\s/g, "") as MealCategory;
-                const categories = Array.isArray(dbEntry.mealCategory) ? dbEntry.mealCategory : [dbEntry.mealCategory];
-                const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/\s/g, ""));
+                const mealTypeNormalized = aiMeal.type.toLowerCase().replace(/\s/g, "");
+                const dbCategories = Array.isArray(dbEntry.mealCategory) ? dbEntry.mealCategory : [dbEntry.mealCategory];
+                const normalizedCategories = dbCategories.map(cat => cat.toLowerCase().replace(/\s/g, ""));
 
-                if (!normalizedCategories.includes(mealTypeNormalized) && mealTypeNormalized !== 'snack' && mealTypeNormalized !== 'morningsnack' && mealTypeNormalized !== 'afternoonsnack' && mealTypeNormalized !== 'eveningsnack') {
-                     const isSnack = ['snack', 'morningsnack', 'afternoonsnack', 'eveningsnack'].some(s => mealTypeNormalized.includes(s));
-                     const isSnackCategory = normalizedCategories.some(s => s.includes('snack'));
-                     if (!isSnack && !isSnackCategory && !normalizedCategories.includes('lunch/dinner')) {
-                        console.warn(`AI recommended meal "${dbEntry.name}" for "${aiMeal.type}", but it is not in the correct category. Skipping.`);
-                        return null;
-                     }
+                const isSnackSlot = mealTypeNormalized.includes('snack');
+                const isSnackCategory = normalizedCategories.some(cat => cat.includes('snack'));
+                const isLunchDinnerSlot = mealTypeNormalized === 'lunch' || mealTypeNormalized === 'dinner';
+                const isLunchDinnerCategory = normalizedCategories.includes('lunch/dinner');
+
+                // Allow if it's a direct match OR if it's a snack in any snack slot OR if it's a lunch/dinner item in a lunch/dinner slot
+                if (!normalizedCategories.includes(mealTypeNormalized) && !(isSnackSlot && isSnackCategory) && !(isLunchDinnerSlot && isLunchDinnerCategory)) {
+                     console.warn(`AI recommended meal "${dbEntry.name}" for "${aiMeal.type}", but it is not in the correct category (${normalizedCategories.join(', ')}). Skipping.`);
+                     return null;
                 }
 
                 return {
@@ -201,8 +203,11 @@ const generateDietPlanFlow = ai.defineFlow(
       }),
     };
 
+    const hasContent = finalPlan.plan.some(day => day.meals.length > 0 && day.meals.some(meal => meal.items.length > 0));
+    if (!hasContent) {
+        throw new Error("AI returned a plan, but after validation, no valid meals remained. This could be due to the AI consistently suggesting foods in the wrong meal categories.");
+    }
+
     return finalPlan;
   }
 );
-
-    
