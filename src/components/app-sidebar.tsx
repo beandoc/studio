@@ -10,9 +10,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton
 } from "@/components/ui/sidebar";
 import SidebarNav from './sidebar-nav';
 import Link from 'next/link';
@@ -36,12 +33,21 @@ const ProfileSwitcher = () => {
     if (profiles.length === 0) {
         return (
             <div className="p-2">
-                <Link href="/my-profile" passHref>
-                    <Button className="w-full">
-                        <UserPlus className="mr-2 h-4 w-4" />
-                        Create Profile
-                    </Button>
-                </Link>
+                <div className="group-data-[collapsible=icon]:hidden">
+                    <Link href="/my-profile" passHref>
+                        <Button className="w-full">
+                            <UserPlus className="mr-2 h-4 w-4" />
+                            Create Profile
+                        </Button>
+                    </Link>
+                </div>
+                 <div className="group-data-[collapsible=icon]:flex group-data-[collapsible=icon]:justify-center hidden">
+                     <Link href="/my-profile" passHref>
+                        <Button variant="ghost" size="icon" className="text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+                            <UserPlus />
+                        </Button>
+                     </Link>
+                </div>
             </div>
         )
     }
