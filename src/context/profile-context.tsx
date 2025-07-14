@@ -35,11 +35,22 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 const safelyParseJSON = (jsonString: string | null, defaultValue: any) => {
     if (!jsonString) return defaultValue;
     try {
-        return JSON.parse(jsonString);
+        const parsed = JSON.parse(jsonString);
+        // Quick validation for diet plan structure
+        if (Array.isArray(parsed?.plan)) {
+            return parsed;
+        }
+        if (typeof parsed === 'object' && parsed !== null && Object.keys(parsed).every(key => typeof parsed[key] === 'object' && parsed[key] !== null && Array.isArray(parsed[key].plan))) {
+             return parsed; // For dietPlans object
+        }
+         if (Array.isArray(parsed)) { // For profiles array
+            return parsed;
+        }
+
     } catch (e) {
         console.error("Failed to parse JSON from localStorage", e);
-        return defaultValue;
     }
+    return defaultValue;
 }
 
 export const ProfileProvider = ({ children }: { children: ReactNode }) => {
@@ -278,3 +289,5 @@ export const useProfile = () => {
   }
   return context;
 };
+
+    

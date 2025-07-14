@@ -51,7 +51,7 @@ const FormSchema = z.object({
 
 type FormValues = z.infer<typeof FormSchema>;
 
-type MealItem = { name: string; calories: number; };
+type MealItem = { name: string; calories: number; servingSize: string; };
 type Meal = { type: string; items: MealItem[]; };
 type DayPlan = { day: string; meals: Meal[]; notes?: string; };
 
@@ -312,6 +312,7 @@ export default function DietPlanPage() {
                                     ) : (
                                       <p className="font-semibold text-primary">{item.name}</p>
                                     )}
+                                    <p className="text-sm font-bold text-muted-foreground">{item.servingSize}</p>
                                     <p className="text-sm text-muted-foreground mt-1">{foodItem?.nutritionSummary?.summaryText || 'A nutritious food item.'}</p>
                                     <p className="text-xs text-muted-foreground mt-2">{item.calories} kcal</p>
                                   </div>
@@ -391,3 +392,5 @@ export default function DietPlanPage() {
     </div>
   );
 }
+
+    

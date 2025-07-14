@@ -22,7 +22,7 @@ import { useFoodData } from "@/context/food-context";
 type MealItem = {
     name: string;
     calories: number;
-    description: string;
+    servingSize: string;
 };
 
 type Meal = {
@@ -77,18 +77,20 @@ export default function WeeklyPlanPage() {
         meal.items.map((item, index) => {
              const foodItem = foodDatabase.find(food => food.name === item.name);
              const protein = foodItem?.nutritionFacts.protein.value ?? 0;
-            return index === 0
-                ? [
-                    { content: meal.type.charAt(0).toUpperCase() + meal.type.slice(1), rowSpan: meal.items.length, styles: { fontStyle: 'bold', valign: 'middle', cellWidth: 40 } },
-                    { content: item.name, styles: { valign: 'middle' } },
-                    { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } },
-                    { content: `${protein.toFixed(1)}g`, styles: { valign: 'middle', halign: 'right' } }
-                  ]
-                : [
-                    { content: item.name, styles: { valign: 'middle' } },
-                    { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } },
-                    { content: `${protein.toFixed(1)}g`, styles: { valign: 'middle', halign: 'right' } }
-                  ]
+            const rowData = [
+                { content: item.name, styles: { valign: 'middle' } },
+                { content: item.servingSize, styles: { valign: 'middle' } },
+                { content: `${item.calories} kcal`, styles: { valign: 'middle', halign: 'right' } },
+                { content: `${protein.toFixed(1)}g`, styles: { valign: 'middle', halign: 'right' } }
+            ];
+
+            if (index === 0) {
+                 return [
+                     { content: meal.type.charAt(0).toUpperCase() + meal.type.slice(1), rowSpan: meal.items.length, styles: { fontStyle: 'bold', valign: 'middle', cellWidth: 35 } },
+                     ...rowData
+                 ];
+            }
+            return rowData;
         })
       );
 
@@ -105,7 +107,7 @@ export default function WeeklyPlanPage() {
   
       (doc as any).autoTable({
         startY: yPos,
-        head: [['Meal', 'Details', 'Calories', 'Protein']],
+        head: [['Meal', 'Item', 'Serving Size', 'Calories', 'Protein']],
         body: tableBody,
         theme: 'grid',
         headStyles: { fillColor: [167, 217, 163] },
@@ -197,7 +199,7 @@ export default function WeeklyPlanPage() {
             const dailyTotals = dayPlan.meals.reduce((totals, meal) => {
                 meal.items.forEach(item => {
                     const foodItem = foodDatabase.find(food => food.name === item.name);
-                    totals.calories += item.calories;
+                    totals.calories += item.calories || 0;
                     totals.protein += foodItem?.nutritionFacts.protein.value ?? 0;
                 });
                 return totals;
@@ -248,3 +250,5 @@ export default function WeeklyPlanPage() {
     </div>
   );
 }
+
+    
