@@ -23,7 +23,6 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -155,7 +154,12 @@ export default function DietPlanPage() {
             description: `Could not find "${mealItemName}" in the database to get alternatives.`
         });
     }
-  }
+  };
+
+  const handleRegenerate = async () => {
+      // Use the default form values to regenerate the plan without showing the form.
+      await onSubmit(form.getValues());
+  };
 
 
   const renderForm = () => (
@@ -228,9 +232,6 @@ export default function DietPlanPage() {
                       {...field}
                       />
                   </FormControl>
-                  <FormDescription>
-                      List any specific dietary adjustments needed for this plan. Profile defaults will be used.
-                  </FormDescription>
                   <FormMessage />
                   </FormItem>
               )}
@@ -248,9 +249,6 @@ export default function DietPlanPage() {
                       {...field}
                       />
                   </FormControl>
-                  <FormDescription>
-                      List any specific food preferences for this plan. Profile defaults will be used.
-                  </FormDescription>
                   <FormMessage />
                   </FormItem>
               )}
@@ -279,7 +277,7 @@ export default function DietPlanPage() {
               </CardDescription>
           </div>
         <div className="flex gap-2">
-          <Button onClick={() => setShowForm(true)} variant="secondary">Regenerate</Button>
+          <Button onClick={handleRegenerate} variant="secondary">Regenerate</Button>
         </div>
       </CardHeader>
       <CardContent>
