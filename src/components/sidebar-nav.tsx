@@ -78,17 +78,17 @@ export default function SidebarNav() {
     <SidebarMenu>
       {menuItems.map((item) => (
         <SidebarMenuItem key={item.label}>
-          <Link href={item.href} passHref legacyBehavior>
+          <Link href={item.href} passHref>
             <SidebarMenuButton
               asChild
               isActive={checkActive(item.href)}
               tooltip={item.label}
               className="justify-start"
             >
-              <a>
+              <div>
                 <item.icon className="h-5 w-5" />
                 <span>{item.label}</span>
-              </a>
+              </div>
             </SidebarMenuButton>
           </Link>
         </SidebarMenuItem>
