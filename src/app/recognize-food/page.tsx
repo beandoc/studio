@@ -47,6 +47,10 @@ export default function RecognizeFoodPage() {
   
   useEffect(() => {
     const getCameraPermission = async () => {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setHasCameraPermission(false);
+        return;
+      }
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
         setHasCameraPermission(true);
@@ -65,11 +69,7 @@ export default function RecognizeFoodPage() {
       }
     };
 
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      getCameraPermission();
-    } else {
-      setHasCameraPermission(false);
-    }
+    getCameraPermission();
 
     return () => {
         if (videoRef.current && videoRef.current.srcObject) {
@@ -268,16 +268,18 @@ export default function RecognizeFoodPage() {
                            <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted playsInline />
                            <canvas ref={canvasRef} className="hidden" />
                            {hasCameraPermission === false && (
-                               <Alert variant="destructive" className="m-4">
-                                   <AlertTitle>Camera Access Required</AlertTitle>
-                                   <AlertDescription>
-                                       Please allow camera access in your browser settings to use this feature.
-                                   </AlertDescription>
-                               </Alert>
+                               <div className="absolute inset-0 flex items-center justify-center p-4 bg-black/50">
+                                   <Alert variant="destructive" className="max-w-sm">
+                                       <AlertTitle>Camera Access Required</AlertTitle>
+                                       <AlertDescription>
+                                           Please allow camera access in your browser settings to use this feature.
+                                       </AlertDescription>
+                                   </Alert>
+                               </div>
                            )}
                         </div>
                         <div className="mt-4">
-                           <Button size="lg" className="w-full" onClick={handleCapture} disabled={!hasCameraPermission || isLoading}>
+                           <Button size="lg" className="w-full" onClick={handleCapture} disabled={hasCameraPermission !== true || isLoading}>
                                <Camera className="mr-2 h-5 w-5" />
                                Capture Photo
                            </Button>
