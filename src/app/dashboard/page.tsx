@@ -155,7 +155,7 @@ export default function Dashboard() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
              <Card>
                 <CardHeader>
-                    <CardTitle>Average Weekly Protein</CardTitle>
+                    <CardTitle>Average Daily Protein</CardTitle>
                     <CardDescription>Your average daily protein intake vs. your goal of {goals.protein}g.</CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -168,7 +168,7 @@ export default function Dashboard() {
              </Card>
              <Card>
                 <CardHeader>
-                    <CardTitle>Average Weekly Calories</CardTitle>
+                    <CardTitle>Average Daily Calories</CardTitle>
                     <CardDescription>Your average daily calorie intake vs. your goal of {goals.calories} kcal.</CardDescription>
                 </CardHeader>
                 <CardContent>
