@@ -7,7 +7,7 @@ import AppSidebar from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { ProfileProvider } from "@/context/profile-context";
 import { FoodDataProvider } from "@/context/food-context";
-import { pt_sans } from "@/app/font";
+import { sans } from "@/app/font";
 
 export const metadata: Metadata = {
   title: "KidneyWise Diet",
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn("min-h-screen bg-background font-sans antialiased", pt_sans.variable)}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", sans.variable)}>
         <ProfileProvider>
           <FoodDataProvider>
             <SidebarProvider>

@@ -32,6 +32,16 @@ type ProfileContextType = {
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
+const safelyParseJSON = (jsonString: string | null, defaultValue: any) => {
+    if (!jsonString) return defaultValue;
+    try {
+        return JSON.parse(jsonString);
+    } catch (e) {
+        console.error("Failed to parse JSON from localStorage", e);
+        return defaultValue;
+    }
+}
+
 export const ProfileProvider = ({ children }: { children: ReactNode }) => {
   const [profiles, setProfiles] = useState<ProfileWithId[]>([]);
   const [activeProfileId, setActiveProfileIdState] = useState<string | null>(null);
@@ -41,39 +51,55 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     try {
-      const storedProfiles = localStorage.getItem('profiles');
+      const storedProfiles = safelyParseJSON(localStorage.getItem('profiles'), []);
       const storedActiveId = localStorage.getItem('activeProfileId');
-      const storedDietPlans = localStorage.getItem('dietPlans');
+      const storedDietPlans = safelyParseJSON(localStorage.getItem('dietPlans'), {});
 
-      if (storedProfiles) {
-        setProfiles(JSON.parse(storedProfiles));
-      }
-
-      if (storedActiveId) {
+      setProfiles(storedProfiles);
+      setDietPlans(storedDietPlans);
+      
+      if (storedActiveId && storedProfiles.some((p: ProfileWithId) => p.id === storedActiveId)) {
         setActiveProfileIdState(storedActiveId);
+      } else if (storedProfiles.length > 0) {
+        setActiveProfileIdState(storedProfiles[0].id);
+        localStorage.setItem('activeProfileId', storedProfiles[0].id);
       }
 
-      if (storedDietPlans) {
-        setDietPlans(JSON.parse(storedDietPlans));
-      }
     } catch (e) {
-      console.error("Failed to parse data from localStorage", e);
+      console.error("Failed to access localStorage", e);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
+  const saveItem = (key: string, value: any) => {
+      try {
+          localStorage.setItem(key, JSON.stringify(value));
+      } catch (e) {
+          console.error(`Failed to save ${key} to localStorage`, e);
+          toast({ variant: 'destructive', title: 'Save Error', description: 'Could not save your changes.' });
+      }
+  }
+
   const saveProfiles = (updatedProfiles: ProfileWithId[]) => {
     setProfiles(updatedProfiles);
-    localStorage.setItem('profiles', JSON.stringify(updatedProfiles));
+    saveItem('profiles', updatedProfiles);
   }
 
   const setActiveProfileId = (id: string | null) => {
     setActiveProfileIdState(id);
     if(id) {
-      localStorage.setItem('activeProfileId', id);
+      try {
+          localStorage.setItem('activeProfileId', id);
+      } catch (e) {
+          console.error("Failed to save activeProfileId to localStorage", e);
+      }
     } else {
-      localStorage.removeItem('activeProfileId');
+      try {
+          localStorage.removeItem('activeProfileId');
+      } catch (e) {
+          console.error("Failed to remove activeProfileId from localStorage", e);
+      }
     }
   };
 
@@ -94,16 +120,21 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
     const newDietPlans = { ...dietPlans };
     delete newDietPlans[id];
     setDietPlans(newDietPlans);
-    localStorage.setItem('dietPlans', JSON.stringify(newDietPlans));
+    saveItem('dietPlans', newDietPlans);
     
-    Object.keys(localStorage).forEach(key => {
-        if (key.startsWith(`mealLog-${id}-`)) {
-            localStorage.removeItem(key);
-        }
-    });
+    try {
+        Object.keys(localStorage).forEach(key => {
+            if (key.startsWith(`mealLog-${id}-`)) {
+                localStorage.removeItem(key);
+            }
+        });
+    } catch(e) {
+        console.error("Failed to clear logs from localStorage for deleted profile", e);
+    }
 
     if (activeProfileId === id) {
-        setActiveProfileId(null);
+        const newActiveId = updatedProfiles.length > 0 ? updatedProfiles[0].id : null;
+        setActiveProfileId(newActiveId);
     }
     
     toast({
@@ -124,23 +155,27 @@ export const ProfileProvider = ({ children }: { children: ReactNode }) => {
     }
     
     setDietPlans(newDietPlans);
-    localStorage.setItem('dietPlans', JSON.stringify(newDietPlans));
+    saveItem('dietPlans', newDietPlans);
   };
   
   const getDailyLog = useCallback((profileId: string, date: Date): DailyLog | null => {
     try {
         const logKey = `mealLog-${profileId}-${format(date, 'yyyy-MM-dd')}`;
         const storedLog = localStorage.getItem(logKey);
-        return storedLog ? JSON.parse(storedLog) : null;
+        return storedLog ? safelyParseJSON(storedLog, null) : null;
     } catch (e) {
-        console.error("Failed to parse daily log from localStorage", e);
+        console.error("Failed to get daily log from localStorage", e);
         return null;
     }
   }, []);
 
   const updateDailyLog = useCallback((profileId: string, date: Date, log: DailyLog) => {
-    const logKey = `mealLog-${profileId}-${format(date, 'yyyy-MM-dd')}`;
-    localStorage.setItem(logKey, JSON.stringify(log));
+    try {
+        const logKey = `mealLog-${profileId}-${format(date, 'yyyy-MM-dd')}`;
+        localStorage.setItem(logKey, JSON.stringify(log));
+    } catch (e) {
+        console.error("Failed to save daily log to localStorage", e);
+    }
   }, []);
   
   const getProfileLogs = useCallback((profileId: string, days: number) => {

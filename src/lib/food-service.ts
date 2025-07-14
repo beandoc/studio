@@ -12,9 +12,7 @@ export class FoodService {
     aliasOverrides: Record<string, string[]> = {}
   ) {
     if (!isInitialized) {
-        // This is a fallback for server-side rendering where initialize() might not have been called.
-        // It's not ideal but prevents crashes. The client-side will be fast.
-        console.warn("FoodService used before explicit initialization.");
+        console.warn("FoodService used before explicit initialization. This may lead to an empty food database on first load.");
     }
     this.foodDatabase = this.applyOverrides(baseFoodDatabase, categoryOverrides, aliasOverrides);
   }
@@ -83,7 +81,6 @@ export class FoodService {
   }
 }
 
-// We now export a function to get an instance, but initialization is separate.
 export const getFoodService = (
   categoryOverrides?: Record<string, MealCategory[]>,
   aliasOverrides?: Record<string, string[]>
@@ -91,5 +88,4 @@ export const getFoodService = (
   return new FoodService(categoryOverrides, aliasOverrides);
 };
 
-// A default instance for cases where overrides are not needed, mainly for server components.
 export const foodService = new FoodService();

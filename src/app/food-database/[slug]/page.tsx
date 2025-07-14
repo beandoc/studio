@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ChefHat, Star, Loader2 } from "lucide-react";
+import { ArrowLeft, ChefHat, Star } from "lucide-react";
 import React, { use } from 'react';
 import Image from "next/image";
 import { useFoodData } from "@/context/food-context";

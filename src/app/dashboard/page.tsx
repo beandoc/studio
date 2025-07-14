@@ -12,6 +12,7 @@ import type { DailyLog, Goals } from "@/app/my-meal-tracker/page";
 import { generateDailyTip } from "@/ai/flows/generate-daily-tip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Lightbulb } from "lucide-react";
+import Image from "next/image";
 
 type NutrientAverage = {
   protein: number;
@@ -19,7 +20,7 @@ type NutrientAverage = {
 };
 
 export default function Dashboard() {
-  const { activeProfile, getRawProfileLogs } = useProfile();
+  const { activeProfile, getRawProfileLogs, isLoading: isProfileLoading } = useProfile();
   const [chartView, setChartView] = useState<'weekly' | 'monthly'>('weekly');
   const [dailyLogs, setDailyLogs] = useState<DailyLog[]>([]);
   const [dailyTip, setDailyTip] = useState<string | null>(null);
@@ -77,6 +78,28 @@ export default function Dashboard() {
   const proteinPercentage = goals.protein > 0 ? (averages.protein / goals.protein) * 100 : 0;
   const caloriesPercentage = goals.calories > 0 ? (averages.calories / goals.calories) * 100 : 0;
 
+  if (isProfileLoading) {
+    return (
+       <div className="flex flex-col w-full">
+        <Header
+          title="Dashboard"
+          description="Loading your dashboard..."
+        />
+        <main className="flex-1 p-4 md:p-8">
+            <Card>
+                <CardHeader>
+                    <Skeleton className="h-8 w-1/2" />
+                    <Skeleton className="h-4 w-3/4" />
+                </CardHeader>
+                <CardContent>
+                    <Skeleton className="h-48 w-full" />
+                </CardContent>
+            </Card>
+        </main>
+      </div>
+    )
+  }
+  
   if (!activeProfile) {
     return (
        <div className="flex flex-col w-full">
@@ -101,8 +124,15 @@ export default function Dashboard() {
       <Header
         title={`${activeProfile.fullName}'s Dashboard`}
         description="Here's a summary of meals and progress."
-        showImage={true}
-      />
+      >
+        <Image 
+          src="/logo.png" 
+          alt="Profile image placeholder"
+          width={40}
+          height={40}
+          className="object-cover rounded-full"
+        />
+      </Header>
       <main className="flex-1 p-4 md:p-8 space-y-8">
         <section>
           <Card>

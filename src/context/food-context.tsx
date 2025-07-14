@@ -18,6 +18,16 @@ type FoodDataContextType = {
 
 const FoodDataContext = createContext<FoodDataContextType | undefined>(undefined);
 
+const safelyParseJSON = (jsonString: string | null, defaultValue: any) => {
+    if (!jsonString) return defaultValue;
+    try {
+        return JSON.parse(jsonString);
+    } catch (e) {
+        console.error("Failed to parse JSON from localStorage", e);
+        return defaultValue;
+    }
+}
+
 export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
   const [foodDatabase, setFoodDatabase] = useState<FoodItem[]>([]);
   const [isFoodDataLoading, setIsFoodDataLoading] = useState(true);
@@ -33,16 +43,10 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
       let storedAliasOverrides: Record<string, string[]> = {};
       
       try {
-        const storedCategories = localStorage.getItem('foodCategoryOverrides');
-        if (storedCategories) {
-          storedCatOverrides = JSON.parse(storedCategories);
-        }
-        const storedAliases = localStorage.getItem('foodAliasOverrides');
-        if (storedAliases) {
-          storedAliasOverrides = JSON.parse(storedAliases);
-        }
+        storedCatOverrides = safelyParseJSON(localStorage.getItem('foodCategoryOverrides'), {});
+        storedAliasOverrides = safelyParseJSON(localStorage.getItem('foodAliasOverrides'), {});
       } catch (e) {
-        console.error("Failed to parse overrides from localStorage", e);
+        console.error("Failed to access overrides from localStorage", e);
       }
       
       setCategoryOverrides(storedCatOverrides);
@@ -57,47 +61,42 @@ export const FoodDataProvider = ({ children }: { children: ReactNode }) => {
     loadData();
   }, []);
 
+  const saveOverrides = useCallback((key: string, data: any) => {
+      try {
+          localStorage.setItem(key, JSON.stringify(data));
+      } catch (e) {
+          console.error(`Failed to save ${key} to localStorage`, e);
+          toast({
+              variant: 'destructive',
+              title: 'Error Saving Customization',
+              description: 'Your changes could not be saved due to a browser storage issue.'
+          });
+      }
+  }, [toast]);
+
   const updateMealCategories = useCallback((slug: string, categories: MealCategory[]) => {
     const newOverrides = { ...categoryOverrides, [slug]: categories };
     setCategoryOverrides(newOverrides);
-    try {
-      localStorage.setItem('foodCategoryOverrides', JSON.stringify(newOverrides));
-      const updatedService = getFoodService(newOverrides, aliasOverrides);
-      setFoodDatabase(updatedService.getFoodDatabase());
-      toast({
-        title: "Categories Updated",
-        description: "Your changes have been saved locally.",
-      });
-    } catch (e) {
-      console.error("Failed to save category overrides to localStorage", e);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Could not save your category changes.",
-      });
-    }
-  }, [categoryOverrides, aliasOverrides, toast]);
+    saveOverrides('foodCategoryOverrides', newOverrides);
+    const updatedService = getFoodService(newOverrides, aliasOverrides);
+    setFoodDatabase(updatedService.getFoodDatabase());
+    toast({
+      title: "Categories Updated",
+      description: "Your changes have been saved locally.",
+    });
+  }, [categoryOverrides, aliasOverrides, toast, saveOverrides]);
 
   const updateAliases = useCallback((slug: string, aliases: string[]) => {
     const newOverrides = { ...aliasOverrides, [slug]: aliases };
     setAliasOverrides(newOverrides);
-    try {
-      localStorage.setItem('foodAliasOverrides', JSON.stringify(newOverrides));
-      const updatedService = getFoodService(categoryOverrides, newOverrides);
-      setFoodDatabase(updatedService.getFoodDatabase());
-       toast({
-        title: "Aliases Updated",
-        description: `Aliases for the item have been saved locally.`,
-      });
-    } catch (e) {
-      console.error("Failed to save alias overrides to localStorage", e);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Could not save your alias changes.",
-      });
-    }
-  }, [aliasOverrides, categoryOverrides, toast]);
+    saveOverrides('foodAliasOverrides', newOverrides);
+    const updatedService = getFoodService(categoryOverrides, newOverrides);
+    setFoodDatabase(updatedService.getFoodDatabase());
+     toast({
+      title: "Aliases Updated",
+      description: `Aliases for the item have been saved locally.`,
+    });
+  }, [aliasOverrides, categoryOverrides, toast, saveOverrides]);
 
   const findFoodBySlug = useCallback((slug: string): FoodItem | undefined => {
     return foodDatabase.find(item => item.slug === slug);

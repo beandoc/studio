@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { recognizeFoodImage, type RecognizeFoodImageOutput } from "@/ai/flows/recognize-food-image";
-import { Camera, Loader2, Sparkles, Utensils, CheckCircle2, Upload, CalendarIcon, Plus } from "lucide-react";
+import { Camera, Loader2, CheckCircle2, Upload, CalendarIcon, Utensils } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { useProfile } from "@/context/profile-context";
@@ -61,11 +61,6 @@ export default function RecognizeFoodPage() {
       } catch (error) {
         console.error('Error accessing camera:', error);
         setHasCameraPermission(false);
-        toast({
-          variant: 'destructive',
-          title: 'Camera Access Denied',
-          description: 'Please enable camera permissions in your browser settings to use this app.',
-        });
       }
     };
 
@@ -77,7 +72,7 @@ export default function RecognizeFoodPage() {
             stream.getTracks().forEach(track => track.stop());
         }
     }
-  }, [toast]);
+  }, []);
 
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -247,7 +242,7 @@ export default function RecognizeFoodPage() {
                     <TabsContent value="upload">
                         <div className="relative aspect-video w-full bg-muted rounded-md overflow-hidden flex items-center justify-center border-2 border-dashed mt-4">
                             {imageUri ? (
-                                <Image src={imageUri} alt="Uploaded meal" layout="fill" objectFit="contain" />
+                                <Image src={imageUri} alt="Uploaded meal" fill objectFit="contain" />
                             ) : (
                                 <div className="text-center text-muted-foreground p-4">
                                     <Upload className="mx-auto h-12 w-12" />
@@ -368,8 +363,8 @@ export default function RecognizeFoodPage() {
                           ) : <p className="text-center text-muted-foreground">No items selected.</p>}
                       </div>
                   </CardContent>
-                  <CardFooter className="flex-col sm:flex-row gap-4 items-stretch">
-                      <div className="grid grid-cols-2 gap-4 w-full">
+                  <CardFooter className="flex-col sm:flex-row gap-4 items-stretch sm:items-center">
+                        <div className="grid grid-cols-2 gap-4 flex-grow">
                             <Popover>
                               <PopoverTrigger asChild>
                                   <Button
@@ -405,7 +400,7 @@ export default function RecognizeFoodPage() {
                       </div>
 
                         <div className="flex gap-2 w-full sm:w-auto">
-                           <Button onClick={() => setAnalysisResult(null)} variant="outline" className="flex-1">
+                           <Button onClick={() => { setAnalysisResult(null); setImageUri(null); }} variant="outline" className="flex-1">
                                 Retake
                            </Button>
                           <Button onClick={handleLogMeal} className="flex-1">

@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
@@ -28,13 +29,12 @@ export default function WelcomePage() {
       <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
         <div className="max-w-xl w-full">
           <div className="flex flex-col items-center text-center">
-            <Image
-              src="https://placehold.co/150x150.png"
+             <Image
+              src="/logo.png"
               alt="KidneyWise Diet Logo"
               width={150}
               height={150}
               className="mb-6 rounded-full"
-              data-ai-hint="logo"
             />
             <Card className="w-full border-0 shadow-none">
               <CardHeader>

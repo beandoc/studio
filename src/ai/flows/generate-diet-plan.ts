@@ -3,9 +3,9 @@
 
 /**
  * @fileOverview Generates a personalized 7-day diet plan.
- * This flow simplifies the AI's task by having it only suggest meal names.
+ * This flow is re-architected for reliability. It simplifies the AI's task to only suggesting meal names.
  * The application code then looks up the details and constructs the final plan,
- * ensuring reliability and data consistency.
+ * ensuring reliability, data consistency, and preventing crashes.
  *
  * - generateDietPlan - A function that generates the diet plan.
  * - GenerateDietPlanInput - The input type for the generateDietPlan function.
@@ -144,7 +144,6 @@ const generateDietPlanFlow = ai.defineFlow(
       throw new Error('AI failed to generate a diet plan structure. The AI response was either null or did not contain a plan.');
     }
 
-    // Post-process and validate the AI output
     const finalPlan: GenerateDietPlanOutput = {
       plan: aiOutput.plan.map(aiDay => {
         const verifiedMeals = aiDay.meals
@@ -161,13 +160,11 @@ const generateDietPlanFlow = ai.defineFlow(
                   return null;
                 }
                 
-                // Validate if the meal is suitable for the category
                 const mealTypeNormalized = aiMeal.type.toLowerCase().replace(/\s/g, "") as MealCategory;
                 const categories = Array.isArray(dbEntry.mealCategory) ? dbEntry.mealCategory : [dbEntry.mealCategory];
                 const normalizedCategories = categories.map(cat => cat.toLowerCase().replace(/\s/g, ""));
 
                 if (!normalizedCategories.includes(mealTypeNormalized) && mealTypeNormalized !== 'snack' && mealTypeNormalized !== 'morningsnack' && mealTypeNormalized !== 'afternoonsnack' && mealTypeNormalized !== 'eveningsnack') {
-                     // Allow snacks to be more flexible, but enforce for main meals.
                      const isSnack = ['snack', 'morningsnack', 'afternoonsnack', 'eveningsnack'].some(s => mealTypeNormalized.includes(s));
                      const isSnackCategory = normalizedCategories.some(s => s.includes('snack'));
                      if (!isSnack && !isSnackCategory && !normalizedCategories.includes('lunch/dinner')) {
