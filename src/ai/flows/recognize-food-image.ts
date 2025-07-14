@@ -45,6 +45,7 @@ export async function recognizeFoodImage(input: RecognizeFoodImageInput): Promis
 
 const prompt = ai.definePrompt({
   name: 'recognizeFoodImagePrompt',
+  model: 'googleai/gemini-1.5-flash-latest',
   input: {schema: RecognizeFoodImageInputSchema},
   output: {schema: RecognizeFoodImageOutputSchema},
   prompt: `You are a specialist dietitian and expert food recognition AI. Analyze the provided image of a meal with a high degree of accuracy.

@@ -43,6 +43,7 @@ const generateDailyTipFlow = ai.defineFlow(
 
     const prompt = ai.definePrompt({
       name: 'dailyHealthTipPrompt',
+      model: 'googleai/gemini-1.5-flash-latest',
       output: { schema: GenerateDailyTipOutputSchema },
       prompt: `
         You are a friendly and encouraging AI dietitian. Your role is to provide a single, short, personalized, and actionable health tip for the user based on their profile.
