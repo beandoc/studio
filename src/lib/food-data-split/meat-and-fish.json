@@ -1,0 +1,303 @@
+
+[
+    {
+        "slug": "chicken-breast",
+        "name": "Chicken Breast",
+        "cuisine": "Generic",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Meat",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 165,
+            "totalFat": { "value": 3.6 },
+            "cholesterol": { "value": 85 },
+            "sodium": { "value": 74 },
+            "totalCarbohydrate": { "value": 0 },
+            "protein": { "value": 31 },
+            "calcium": { "value": 15 },
+            "iron": { "value": 1 },
+            "potassium": { "value": 256 }
+        },
+        "nutritionSummary": {
+            "calories": 165,
+            "fat": "3.6g",
+            "carbs": "0g",
+            "protein": "31g",
+            "summaryText": "A lean source of protein, chicken breast is versatile for many meals.",
+            "breakdown": "20% fat, 0% carbs, 80% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 165 }
+        ]
+    },
+    {
+        "slug": "rohu-fish",
+        "name": "Rohu Fish",
+        "cuisine": "Indian",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Fish & Seafood",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 90,
+            "totalFat": { "value": 2.7 },
+            "cholesterol": { "value": 55 },
+            "sodium": { "value": 50 },
+            "totalCarbohydrate": { "value": 0 },
+            "protein": { "value": 17 },
+            "calcium": { "value": 300 },
+            "iron": { "value": 1.5 },
+            "potassium": { "value": 350 }
+        },
+        "nutritionSummary": {
+            "calories": 90,
+            "fat": "2.7g",
+            "carbs": "0g",
+            "protein": "17g",
+            "summaryText": "A freshwater fish popular in South Asia, rich in omega-3 fatty acids.",
+            "breakdown": "27% fat, 0% carbs, 73% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 90 }
+        ]
+    },
+    {
+        "slug": "katla-fish",
+        "name": "Katla Fish",
+        "cuisine": "Indian",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Fish & Seafood",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 111,
+            "totalFat": { "value": 2.4 },
+            "cholesterol": { "value": 60 },
+            "sodium": { "value": 45 },
+            "totalCarbohydrate": { "value": 2.9 },
+            "protein": { "value": 19 },
+            "calcium": { "value": 250 },
+            "iron": { "value": 1 },
+            "potassium": { "value": 300 }
+        },
+        "nutritionSummary": {
+            "calories": 111,
+            "fat": "2.4g",
+            "carbs": "2.9g",
+            "protein": "19g",
+            "summaryText": "A popular freshwater fish in India, known for its taste and nutritional value.",
+            "breakdown": "19% fat, 10% carbs, 71% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 111 }
+        ]
+    },
+    {
+        "slug": "mutton",
+        "name": "Mutton",
+        "cuisine": "Indian",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Meat",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 294,
+            "totalFat": { "value": 20 },
+            "cholesterol": { "value": 97 },
+            "sodium": { "value": 82 },
+            "totalCarbohydrate": { "value": 0 },
+            "protein": { "value": 24 },
+            "calcium": { "value": 17 },
+            "iron": { "value": 2.8 },
+            "potassium": { "value": 310 }
+        },
+        "nutritionSummary": {
+            "calories": 294,
+            "fat": "20g",
+            "carbs": "0g",
+            "protein": "24g",
+            "summaryText": "A rich source of protein, commonly from goat or sheep.",
+            "breakdown": "61% fat, 0% carbs, 39% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 294 }
+        ]
+    },
+    {
+        "slug": "crab",
+        "name": "Crab",
+        "cuisine": "Generic",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Fish & Seafood",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 101,
+            "totalFat": { "value": 1.9 },
+            "cholesterol": { "value": 59 },
+            "sodium": { "value": 395 },
+            "totalCarbohydrate": { "value": 0 },
+            "protein": { "value": 18.5 },
+            "calcium": { "value": 89 },
+            "iron": { "value": 0.8 },
+            "potassium": { "value": 223 }
+        },
+        "nutritionSummary": {
+            "calories": 101,
+            "fat": "1.9g",
+            "carbs": "0g",
+            "protein": "18.5g",
+            "summaryText": "A popular shellfish with a delicate, sweet flavor.",
+            "breakdown": "17% fat, 0% carbs, 83% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 101 }
+        ]
+    },
+    {
+        "slug": "shrimp",
+        "name": "Shrimp",
+        "cuisine": "Generic",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Fish & Seafood",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 94,
+            "totalFat": { "value": 0.28 },
+            "cholesterol": { "value": 189 },
+            "sodium": { "value": 111 },
+            "totalCarbohydrate": { "value": 0.2 },
+            "protein": { "value": 24 },
+            "calcium": { "value": 70 },
+            "iron": { "value": 0.5 },
+            "potassium": { "value": 259 }
+        },
+        "nutritionSummary": {
+            "calories": 94,
+            "fat": "0.3g",
+            "carbs": "0.2g",
+            "protein": "24g",
+            "summaryText": "A very low-fat source of protein.",
+            "breakdown": "3% fat, 1% carbs, 96% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 94 }
+        ]
+    },
+    {
+        "slug": "salmon",
+        "name": "Salmon",
+        "cuisine": "Generic",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Fish & Seafood",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 208,
+            "totalFat": { "value": 13 },
+            "cholesterol": { "value": 55 },
+            "sodium": { "value": 59 },
+            "totalCarbohydrate": { "value": 0 },
+            "protein": { "value": 20 },
+            "calcium": { "value": 9 },
+            "iron": { "value": 0.3 },
+            "potassium": { "value": 363 }
+        },
+        "nutritionSummary": {
+            "calories": 208,
+            "fat": "13g",
+            "carbs": "0g",
+            "protein": "20g",
+            "summaryText": "An oily fish rich in protein and omega-3 fatty acids.",
+            "breakdown": "56% fat, 0% carbs, 44% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 208 }
+        ]
+    },
+    {
+        "slug": "pork",
+        "name": "Pork",
+        "cuisine": "Generic",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Meat",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 297,
+            "totalFat": { "value": 20.8 },
+            "cholesterol": { "value": 85 },
+            "sodium": { "value": 62 },
+            "totalCarbohydrate": { "value": 0 },
+            "protein": { "value": 25.7 },
+            "calcium": { "value": 19 },
+            "iron": { "value": 0.9 },
+            "potassium": { "value": 370 }
+        },
+        "nutritionSummary": {
+            "calories": 297,
+            "fat": "20.8g",
+            "carbs": "0g",
+            "protein": "25.7g",
+            "summaryText": "A popular meat, high in protein and fat.",
+            "breakdown": "63% fat, 0% carbs, 37% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 297 }
+        ]
+    },
+    {
+        "slug": "chicken-liver",
+        "name": "Chicken Liver",
+        "cuisine": "Generic",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Meat",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 167,
+            "totalFat": { "value": 6.5 },
+            "cholesterol": { "value": 563 },
+            "sodium": { "value": 94 },
+            "totalCarbohydrate": { "value": 1 },
+            "protein": { "value": 24 },
+            "calcium": { "value": 8 },
+            "iron": { "value": 12.9 },
+            "potassium": { "value": 263 }
+        },
+        "nutritionSummary": {
+            "calories": 167,
+            "fat": "6.5g",
+            "carbs": "1g",
+            "protein": "24g",
+            "summaryText": "An organ meat that is extremely high in iron and vitamin A.",
+            "breakdown": "35% fat, 2% carbs, 63% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 167 }
+        ]
+    },
+    {
+        "slug": "chicken-gizzard",
+        "name": "Chicken Gizzard",
+        "cuisine": "Generic",
+        "mealCategory": ["Lunch", "Dinner"],
+        "foodGroup": "Meat",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 92,
+            "totalFat": { "value": 2.06 },
+            "cholesterol": { "value": 240 },
+            "sodium": { "value": 69 },
+            "totalCarbohydrate": { "value": 0 },
+            "protein": { "value": 17.6 },
+            "calcium": { "value": 10 },
+            "iron": { "value": 2.5 },
+            "potassium": { "value": 237 }
+        },
+        "nutritionSummary": {
+            "calories": 92,
+            "fat": "2.1g",
+            "carbs": "0g",
+            "protein": "17.6g",
+            "summaryText": "A muscular part of the chicken stomach, it's a lean source of protein.",
+            "breakdown": "20% fat, 0% carbs, 80% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 92 }
+        ]
+    }
+]

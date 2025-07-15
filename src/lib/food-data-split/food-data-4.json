@@ -425,27 +425,13 @@
         "nutritionFacts": {
             "servingSize": "100 g",
             "calories": 60,
-            "totalFat": {
-                "value": 4
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 3
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 3
-            },
-            "calcium": {
-                "value": 149
-            },
+            "totalFat": { "value": 3 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 0 },
+            "totalCarbohydrate": { "value": 3 },
+            "dietaryFiber": { "value": 0 },
+            "protein": { "value": 4.3 },
+            "calcium": { "value": 149 },
             "iron": {
             "value": 0
             },
@@ -455,11 +441,11 @@
         },
         "nutritionSummary": {
             "calories": 60,
-            "fat": "4.0g",
+            "fat": "3.0g",
             "carbs": "3.0g",
-            "protein": "3.0g",
+            "protein": "4.3g",
             "summaryText": "Nutritional facts for CURDS per 100g.",
-            "breakdown": "60% fat, 20% carbs, 20% protein."
+            "breakdown": "45% fat, 20% carbs, 35% protein."
         },
         "servingSizes": [
             {

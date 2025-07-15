@@ -24,7 +24,7 @@ export class FoodService {
     
     const [
         data1, data2, data3, data4, data5, 
-        dairyAndEggsData, nutsAndSeedsData, fruitsData
+        dairyAndEggsData, nutsAndSeedsData, fruitsData, meatAndFishData
     ] = await Promise.all([
         import('@/lib/food-data-split/food-data-1.json'),
         import('@/lib/food-data-split/food-data-2.json'),
@@ -33,7 +33,8 @@ export class FoodService {
         import('@/lib/food-data-split/food-data-5.json'),
         import('@/lib/food-data-split/dairy-and-eggs.json'),
         import('@/lib/food-data-split/nuts-and-seeds.json'),
-        import('@/lib/food-data-split/fruits.json')
+        import('@/lib/food-data-split/fruits.json'),
+        import('@/lib/food-data-split/meat-and-fish.json')
     ]);
 
     const allData = [
@@ -45,6 +46,7 @@ export class FoodService {
       ...dairyAndEggsData.default,
       ...nutsAndSeedsData.default,
       ...fruitsData.default,
+      ...meatAndFishData.default
     ];
     
     // Using a Map to ensure unique items by slug, preventing duplicates.
