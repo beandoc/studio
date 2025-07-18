@@ -56,7 +56,7 @@ const ProfileSwitcher = () => {
             <div className="group-data-[collapsible=icon]:hidden">
                 <label className="text-xs text-sidebar-foreground/70 px-2">Active Profile</label>
                 <Select value={activeProfile?.id} onValueChange={setActiveProfileId}>
-                    <SelectTrigger className="bg-sidebar-accent border-sidebar-border text-sidebar-accent-foreground">
+                    <SelectTrigger className="truncate bg-sidebar-accent border-sidebar-border text-sidebar-accent-foreground">
                         <SelectValue placeholder="Select a profile" />
                     </SelectTrigger>
                     <SelectContent>
