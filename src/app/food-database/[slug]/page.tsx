@@ -2,7 +2,7 @@
 "use client";
 
 import type { FoodItem } from "@/lib/food-data";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import Header from "@/components/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -10,7 +10,7 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ChefHat, Star } from "lucide-react";
-import React, { use } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from "next/image";
 import { useFoodData } from "@/context/food-context";
 import { useProfile } from "@/context/profile-context";
@@ -222,19 +222,27 @@ function FoodDetailPageLoading() {
 }
 
 
-export default function FoodDetailPage({ params }: { params: { slug: string } }) {
+export default function FoodDetailPage() {
   const { findFoodBySlug, isFoodDataLoading } = useFoodData();
-  const resolvedParams = use(Promise.resolve(params));
-  
-  if (isFoodDataLoading) {
-      return <FoodDetailPageLoading />;
+  const params = useParams();
+  const [food, setFood] = useState<FoodItem | undefined | null>(undefined);
+
+  const slug = typeof params.slug === 'string' ? params.slug : '';
+
+  useEffect(() => {
+    if (!isFoodDataLoading && slug) {
+      const foundFood = findFoodBySlug(slug);
+      setFood(foundFood);
+    }
+  }, [isFoodDataLoading, slug, findFoodBySlug]);
+
+  if (isFoodDataLoading || food === undefined) {
+    return <FoodDetailPageLoading />;
   }
 
-  const food = findFoodBySlug(resolvedParams.slug);
-
-  if (!food) {
+  if (food === null) {
     notFound();
   }
-  
+
   return <FoodDetailClient food={food} />;
 }

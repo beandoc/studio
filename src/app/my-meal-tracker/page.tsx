@@ -393,7 +393,10 @@ export default function MyMealTrackerPage() {
                 <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <PieChart>
-                            <RechartsTooltip content={<ChartTooltipContent hideLabel />} />
+                            <RechartsTooltip
+                              cursor={false}
+                              content={<ChartTooltipContent hideLabel />}
+                            />
                             <Pie
                                 data={calorieBreakdownData}
                                 dataKey="value"
@@ -420,7 +423,7 @@ export default function MyMealTrackerPage() {
                                     <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                                 ))}
                             </Pie>
-                            <Legend content={<ChartTooltipContent nameKey="name" hideValue hideIndicator />} />
+                            <Legend content={<ChartLegendContent nameKey="name" hideValue hideIndicator />} />
                         </PieChart>
                     </ResponsiveContainer>
                 </ChartContainer>
