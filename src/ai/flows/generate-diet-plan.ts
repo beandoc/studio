@@ -2,10 +2,10 @@
 'use server';
 
 /**
- * @fileOverview Generates a personalized 7-day diet plan.
- * This flow is re-architected for reliability. The AI's task is simplified to suggesting a pool of suitable
- * meal items for the week. The application code then programmatically constructs balanced, multi-item
- * meals for each day, ensuring reliability, data consistency, and preventing crashes.
+ * @fileOverview Generates a personalized 7-day diet plan based on ICMR-NIN guidelines.
+ * This flow combines AI creativity with programmatic structure to ensure balanced, varied, and palatable meals.
+ * The AI's role is to suggest a diverse pool of suitable food items. The code then constructs the daily
+ * meals according to the "My Plate for the Day" principle, ensuring a healthy balance of food groups.
  *
  * - generateDietPlan - A function that generates the diet plan.
  * - GenerateDietPlanInput - The input type for the generateDietPlan function.
@@ -115,7 +115,7 @@ const generateDietPlanFlow = ai.defineFlow(
       name: 'generateDietPlanPrompt',
       model: 'googleai/gemini-1.5-flash-latest',
       output: {schema: AiResponseSchema},
-      prompt: `You are an expert dietitian creating a list of suitable foods for a 7-day diet plan.
+      prompt: `You are an expert dietitian creating a list of suitable foods for a 7-day diet plan based on Indian nutritional guidelines.
 
       **USER PROFILE:**
       - Health Requirements: ${input.healthRequirements}
@@ -126,7 +126,7 @@ const generateDietPlanFlow = ai.defineFlow(
       **CRITICAL INSTRUCTIONS:**
       1.  **Suggest a Food Pool:** Your only task is to suggest a list of 25-35 varied food items suitable for a full week's plan.
       2.  **Strictly Use Provided Foods:** You MUST select food items *exclusively* from the list provided at the end of this prompt. Do NOT invent or use any food not on the list.
-      3.  **Ensure Variety:** Provide a wide variety of foods from different food groups (grains, proteins, vegetables, fruits, snacks) to ensure a balanced and interesting weekly plan.
+      3.  **Ensure Variety:** Provide a wide variety of foods from different food groups (grains, proteins (pulses/legumes), vegetables, fruits, snacks) to ensure a balanced and interesting weekly plan. This is the most important instruction.
       4.  **Follow the Schema:** Your response must be a flat array of food items under the 'suggested_foods' key. Do not add any daily or meal-based structure.
 
       **--- AVAILABLE FOODS (with nutritional data for your reference) ---**
@@ -189,7 +189,7 @@ const generateDietPlanFlow = ai.defineFlow(
         
         if (mealCategories.has('lunch')) {
             const lunchItems: FoodItem[] = [];
-            const mainCourse = getMainMealComponent('Beans & Legumes', usedToday, 'Lunch') || getMainMealComponent('Meat', usedToday, 'Lunch');
+            const mainCourse = getMainMealComponent('Beans & Legumes', usedToday, 'Lunch') || getMainMealComponent('Meat', usedToday, 'Lunch') || getMainMealComponent('Fish & Seafood', usedToday, 'Lunch');
             if (mainCourse) lunchItems.push(mainCourse);
 
             const side = getMainMealComponent('Breads & Cereals', usedToday, 'Lunch') || getMainMealComponent('Pasta, Rice & Noodles', usedToday, 'Lunch');
@@ -203,7 +203,7 @@ const generateDietPlanFlow = ai.defineFlow(
         
         if (mealCategories.has('dinner')) {
              const dinnerItems: FoodItem[] = [];
-            const mainCourse = getMainMealComponent('Beans & Legumes', usedToday, 'Dinner') || getMainMealComponent('Meat', usedToday, 'Dinner');
+            const mainCourse = getMainMealComponent('Beans & Legumes', usedToday, 'Dinner') || getMainMealComponent('Meat', usedToday, 'Dinner') || getMainMealComponent('Fish & Seafood', usedToday, 'Dinner');
             if (mainCourse) dinnerItems.push(mainCourse);
 
             const side = getMainMealComponent('Breads & Cereals', usedToday, 'Dinner') || getMainMealComponent('Pasta, Rice & Noodles', usedToday, 'Dinner');
@@ -246,5 +246,3 @@ const generateDietPlanFlow = ai.defineFlow(
     return finalPlan;
   }
 );
-
-    

@@ -27,7 +27,7 @@
             "fat": "31.4g",
             "carbs": "53.7g",
             "protein": "8.1g",
-            "summaryText": "Dried acorns, edible after leaching tannins.",
+            "summaryText": "Dried acorns, edible after leaching tannins. A source of healthy fats and carbohydrates.",
             "breakdown": "56% fat, 42% carbs, 2% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 509 }]
@@ -61,42 +61,10 @@
             "fat": "49.9g",
             "carbs": "21.6g",
             "protein": "21.2g",
-            "summaryText": "A popular tree nut rich in healthy fats, vitamin E, and protein.",
+            "summaryText": "A popular tree nut rich in healthy fats, vitamin E, and protein. Excellent for a healthy snack.",
             "breakdown": "73% fat, 15% carbs, 12% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 579 }, { "size": "1 oz (28g)", "calories": 164 }]
-    },
-    {
-        "slug": "beechnut-dried",
-        "name": "Beechnut Dried",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 576,
-            "totalFat": { "value": 50 },
-            "saturatedFat": { "value": 5.719 },
-            "monounsaturatedFat": { "value": 21.892 },
-            "polyunsaturatedFat": { "value": 20.089 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 38 },
-            "totalCarbohydrate": { "value": 33.5 },
-            "protein": { "value": 6.2 },
-            "calcium": { "value": 1 },
-            "iron": { "value": 2.46 },
-            "potassium": { "value": 1017 },
-            "zinc": { "value": 0.36 }
-        },
-        "nutritionSummary": {
-            "calories": 576,
-            "fat": "50.0g",
-            "carbs": "33.5g",
-            "protein": "6.2g",
-            "summaryText": "Edible nuts from the beech tree.",
-            "breakdown": "73% fat, 22% carbs, 5% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 576 }]
     },
     {
         "slug": "brazil-nut-dried",
@@ -127,44 +95,10 @@
             "fat": "67.1g",
             "carbs": "11.7g",
             "protein": "14.3g",
-            "summaryText": "Large nuts from a South American tree, exceptionally high in selenium.",
+            "summaryText": "Large nuts from a South American tree, exceptionally high in selenium. A few nuts can meet the daily requirement.",
             "breakdown": "83% fat, 7% carbs, 10% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 659 }, { "size": "1 oz (28g)", "calories": 187 }]
-    },
-    {
-        "slug": "breadnut-tree-seed-dried",
-        "name": "Breadnut Tree Seed Dried",
-        "aliases": ["Maya Nut Tree Seed"],
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 367,
-            "totalFat": { "value": 1.68 },
-            "saturatedFat": { "value": 0.454 },
-            "monounsaturatedFat": { "value": 0.214 },
-            "polyunsaturatedFat": { "value": 0.896 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 53 },
-            "totalCarbohydrate": { "value": 79.39 },
-            "dietaryFiber": { "value": 14.9 },
-            "protein": { "value": 8.62 },
-            "calcium": { "value": 94 },
-            "iron": { "value": 4.6 },
-            "potassium": { "value": 2011 },
-            "zinc": { "value": 1.91 }
-        },
-        "nutritionSummary": {
-            "calories": 367,
-            "fat": "1.7g",
-            "carbs": "79.4g",
-            "protein": "8.6g",
-            "summaryText": "Dried seeds from the breadnut tree, a good source of fiber and potassium.",
-            "breakdown": "4% fat, 86% carbs, 10% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 367 }]
     },
     {
         "slug": "cashew",
@@ -194,108 +128,10 @@
             "fat": "43.9g",
             "carbs": "30.2g",
             "protein": "18.2g",
-            "summaryText": "Kidney-shaped nuts that are rich in healthy fats and protein.",
+            "summaryText": "Kidney-shaped nuts that are rich in healthy fats and protein. A good choice for a balanced diet.",
             "breakdown": "67% fat, 21% carbs, 12% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 553 }, { "size": "1 oz (28g)", "calories": 157 }]
-    },
-    {
-        "slug": "chestnut-chinese-dried",
-        "name": "Chestnut Chinese Dried",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 363,
-            "totalFat": { "value": 1.81 },
-            "saturatedFat": { "value": 0.266 },
-            "monounsaturatedFat": { "value": 0.945 },
-            "polyunsaturatedFat": { "value": 0.468 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 5 },
-            "totalCarbohydrate": { "value": 79.76 },
-            "protein": { "value": 6.82 },
-            "calcium": { "value": 29 },
-            "iron": { "value": 2.29 },
-            "potassium": { "value": 726 },
-            "zinc": { "value": 1.41 }
-        },
-        "nutritionSummary": {
-            "calories": 363,
-            "fat": "1.8g",
-            "carbs": "79.8g",
-            "protein": "6.8g",
-            "summaryText": "Dried chestnuts from the Chinese chestnut tree.",
-            "breakdown": "4% fat, 88% carbs, 8% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 363 }]
-    },
-    {
-        "slug": "chestnut-european-dried",
-        "name": "Chestnut European Dried",
-        "aliases": ["Chestnut European Dried (with peel)"],
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 374,
-            "totalFat": { "value": 4.45 },
-            "saturatedFat": { "value": 0.837 },
-            "monounsaturatedFat": { "value": 1.535 },
-            "polyunsaturatedFat": { "value": 1.758 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 37 },
-            "totalCarbohydrate": { "value": 77.31 },
-            "dietaryFiber": { "value": 11.7 },
-            "protein": { "value": 6.39 },
-            "calcium": { "value": 67 },
-            "iron": { "value": 2.38 },
-            "potassium": { "value": 986 },
-            "zinc": { "value": 0.35 }
-        },
-        "nutritionSummary": {
-            "calories": 374,
-            "fat": "4.5g",
-            "carbs": "77.3g",
-            "protein": "6.4g",
-            "summaryText": "Dried chestnuts from the European sweet chestnut tree.",
-            "breakdown": "11% fat, 82% carbs, 7% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 374 }, { "size": "100 g (without peel)", "calories": 369 }]
-    },
-    {
-        "slug": "chestnut-japanese-dried",
-        "name": "Chestnut Japanese Dried",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 360,
-            "totalFat": { "value": 1.24 },
-            "saturatedFat": { "value": 0.183 },
-            "monounsaturatedFat": { "value": 0.65 },
-            "polyunsaturatedFat": { "value": 0.322 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 34 },
-            "totalCarbohydrate": { "value": 81.43 },
-            "protein": { "value": 5.25 },
-            "calcium": { "value": 72 },
-            "iron": { "value": 3.38 },
-            "potassium": { "value": 768 },
-            "zinc": { "value": 2.57 }
-        },
-        "nutritionSummary": {
-            "calories": 360,
-            "fat": "1.2g",
-            "carbs": "81.4g",
-            "protein": "5.3g",
-            "summaryText": "Dried chestnuts from the Japanese chestnut tree.",
-            "breakdown": "3% fat, 90% carbs, 7% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 360 }]
     },
     {
         "slug": "chia-seed",
@@ -327,43 +163,10 @@
             "fat": "30.7g",
             "carbs": "42.1g",
             "protein": "16.5g",
-            "summaryText": "Tiny black seeds, high in omega-3, fiber, and protein.",
+            "summaryText": "Tiny black seeds, high in omega-3, fiber, and protein. Recommended for vegetarians to meet n-3 PUFA needs.",
             "breakdown": "54% fat, 34% carbs, 12% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 486 }, { "size": "1 tbsp (12g)", "calories": 58 }]
-    },
-    {
-        "slug": "coconut-meat-dried",
-        "name": "Coconut Meat Dried",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 660,
-            "totalFat": { "value": 64.53 },
-            "saturatedFat": { "value": 57.218 },
-            "monounsaturatedFat": { "value": 2.745 },
-            "polyunsaturatedFat": { "value": 0.706 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 37 },
-            "totalCarbohydrate": { "value": 23.65 },
-            "dietaryFiber": { "value": 16.3 },
-            "protein": { "value": 6.88 },
-            "calcium": { "value": 26 },
-            "iron": { "value": 3.32 },
-            "potassium": { "value": 543 },
-            "zinc": { "value": 2.01 }
-        },
-        "nutritionSummary": {
-            "calories": 660,
-            "fat": "64.5g",
-            "carbs": "23.7g",
-            "protein": "6.9g",
-            "summaryText": "Dehydrated coconut flesh, rich in fats and fiber.",
-            "breakdown": "82% fat, 14% carbs, 4% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 660 }]
     },
     {
         "slug": "flaxseed",
@@ -393,42 +196,10 @@
             "fat": "42.2g",
             "carbs": "28.9g",
             "protein": "18.3g",
-            "summaryText": "Small seeds rich in omega-3 fatty acids and fiber.",
+            "summaryText": "Small seeds rich in n-3 PUFA and fiber. A key food for vegetarians to get essential fatty acids.",
             "breakdown": "66% fat, 21% carbs, 13% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 534 }, { "size": "1 tbsp (10g)", "calories": 53 }]
-    },
-    {
-        "slug": "ginkgo-nut-dried",
-        "name": "Ginkgo Nut Dried",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 348,
-            "totalFat": { "value": 2 },
-            "saturatedFat": { "value": 0.381 },
-            "monounsaturatedFat": { "value": 0.739 },
-            "polyunsaturatedFat": { "value": 0.737 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 13 },
-            "totalCarbohydrate": { "value": 72.45 },
-            "protein": { "value": 10.35 },
-            "calcium": { "value": 20 },
-            "iron": { "value": 1.6 },
-            "potassium": { "value": 998 },
-            "zinc": { "value": 0.67 }
-        },
-        "nutritionSummary": {
-            "calories": 348,
-            "fat": "2.0g",
-            "carbs": "72.5g",
-            "protein": "10.4g",
-            "summaryText": "Edible seeds from the ginkgo tree.",
-            "breakdown": "5% fat, 83% carbs, 12% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 348 }]
     },
     {
         "slug": "hazelnut",
@@ -463,105 +234,6 @@
             "breakdown": "80% fat, 10% carbs, 10% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 628 }, { "size": "1 oz (28g)", "calories": 178 }]
-    },
-    {
-        "slug": "hempseed",
-        "name": "Hempseed",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 553,
-            "totalFat": { "value": 48.75 },
-            "saturatedFat": { "value": 4.6 },
-            "monounsaturatedFat": { "value": 5.4 },
-            "polyunsaturatedFat": { "value": 38.1 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 5 },
-            "totalCarbohydrate": { "value": 8.67 },
-            "dietaryFiber": { "value": 4 },
-            "protein": { "value": 31.56 },
-            "calcium": { "value": 70 },
-            "iron": { "value": 7.95 },
-            "potassium": { "value": 1200 },
-            "zinc": { "value": 9.9 }
-        },
-        "nutritionSummary": {
-            "calories": 553,
-            "fat": "48.8g",
-            "carbs": "8.7g",
-            "protein": "31.6g",
-            "summaryText": "Seeds of the hemp plant, high in protein and healthy fats.",
-            "breakdown": "69% fat, 6% carbs, 25% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 553 }]
-    },
-    {
-        "slug": "hickorynut",
-        "name": "Hickorynut",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 657,
-            "totalFat": { "value": 64.37 },
-            "saturatedFat": { "value": 7.038 },
-            "monounsaturatedFat": { "value": 32.611 },
-            "polyunsaturatedFat": { "value": 21.886 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 1 },
-            "totalCarbohydrate": { "value": 18.25 },
-            "dietaryFiber": { "value": 6.4 },
-            "protein": { "value": 12.72 },
-            "calcium": { "value": 61 },
-            "iron": { "value": 2.12 },
-            "potassium": { "value": 436 },
-            "zinc": { "value": 4.31 }
-        },
-        "nutritionSummary": {
-            "calories": 657,
-            "fat": "64.4g",
-            "carbs": "18.3g",
-            "protein": "12.7g",
-            "summaryText": "Edible nuts from hickory trees, with a rich, buttery flavor.",
-            "breakdown": "82% fat, 11% carbs, 7% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 657 }]
-    },
-    {
-        "slug": "lotus-seed-dried",
-        "name": "Lotus Seed Dried",
-        "aliases": ["Makhana"],
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 332,
-            "totalFat": { "value": 1.97 },
-            "saturatedFat": { "value": 0.33 },
-            "monounsaturatedFat": { "value": 0.388 },
-            "polyunsaturatedFat": { "value": 1.166 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 5 },
-            "totalCarbohydrate": { "value": 64.47 },
-            "protein": { "value": 15.41 },
-            "calcium": { "value": 163 },
-            "iron": { "value": 3.53 },
-            "potassium": { "value": 1368 },
-            "zinc": { "value": 1.05 }
-        },
-        "nutritionSummary": {
-            "calories": 332,
-            "fat": "2.0g",
-            "carbs": "64.5g",
-            "protein": "15.4g",
-            "summaryText": "Dried seeds of the lotus plant, often used in Asian cuisine.",
-            "breakdown": "5% fat, 78% carbs, 17% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 332 }]
     },
     {
         "slug": "macadamia-nut",
@@ -624,7 +296,7 @@
             "fat": "49.2g",
             "carbs": "16.1g",
             "protein": "25.8g",
-            "summaryText": "A legume that's popular as a nut, high in protein and healthy fats.",
+            "summaryText": "A legume that's popular as a nut, high in protein and healthy fats. A great healthy snack option.",
             "breakdown": "72% fat, 11% carbs, 17% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 567 }, { "size": "1 oz (28g)", "calories": 161 }]
@@ -657,42 +329,10 @@
             "fat": "72.0g",
             "carbs": "13.9g",
             "protein": "9.2g",
-            "summaryText": "A sweet, buttery nut, often used in desserts.",
+            "summaryText": "A sweet, buttery nut, often used in desserts. High in healthy fats.",
             "breakdown": "87% fat, 8% carbs, 5% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 691 }, { "size": "1 oz (28g)", "calories": 196 }]
-    },
-    {
-        "slug": "pilinut",
-        "name": "Pilinut",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 719,
-            "totalFat": { "value": 79.55 },
-            "saturatedFat": { "value": 31.184 },
-            "monounsaturatedFat": { "value": 37.229 },
-            "polyunsaturatedFat": { "value": 7.605 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 3 },
-            "totalCarbohydrate": { "value": 3.98 },
-            "protein": { "value": 10.8 },
-            "calcium": { "value": 145 },
-            "iron": { "value": 3.53 },
-            "potassium": { "value": 507 },
-            "zinc": { "value": 2.97 }
-        },
-        "nutritionSummary": {
-            "calories": 719,
-            "fat": "79.6g",
-            "carbs": "4.0g",
-            "protein": "10.8g",
-            "summaryText": "A rich, buttery nut from Southeast Asia.",
-            "breakdown": "92% fat, 2% carbs, 6% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 719 }]
     },
     {
         "slug": "pine-nut",
@@ -722,7 +362,7 @@
             "fat": "68.4g",
             "carbs": "13.1g",
             "protein": "13.7g",
-            "summaryText": "Edible seeds of pines, used in pesto and as a snack.",
+            "summaryText": "Edible seeds of pines, used in pesto and as a snack. A good source of healthy fats.",
             "breakdown": "84% fat, 8% carbs, 8% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 673 }, { "size": "1 tbsp (8g)", "calories": 54 }]
@@ -755,7 +395,7 @@
             "fat": "45.3g",
             "carbs": "27.2g",
             "protein": "20.2g",
-            "summaryText": "A small green nut, often eaten salted.",
+            "summaryText": "A small green nut, often eaten salted. A great source of protein, fiber, and healthy fats.",
             "breakdown": "68% fat, 19% carbs, 13% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 560 }, { "size": "1 oz (28g)", "calories": 159 }]
@@ -788,42 +428,10 @@
             "fat": "49.1g",
             "carbs": "10.7g",
             "protein": "30.2g",
-            "summaryText": "Edible seeds of a pumpkin, rich in magnesium and zinc.",
+            "summaryText": "Edible seeds of a pumpkin, rich in magnesium and zinc. A nutrient-dense snack.",
             "breakdown": "73% fat, 7% carbs, 20% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 559 }, { "size": "1 oz (28g)", "calories": 158 }]
-    },
-    {
-        "slug": "safflower-seed-kernel",
-        "name": "Safflower Seed Kernel",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 517,
-            "totalFat": { "value": 38.45 },
-            "saturatedFat": { "value": 3.682 },
-            "monounsaturatedFat": { "value": 4.848 },
-            "polyunsaturatedFat": { "value": 28.223 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 3 },
-            "totalCarbohydrate": { "value": 34.29 },
-            "protein": { "value": 16.18 },
-            "calcium": { "value": 78 },
-            "iron": { "value": 4.9 },
-            "potassium": { "value": 687 },
-            "zinc": { "value": 5.05 }
-        },
-        "nutritionSummary": {
-            "calories": 517,
-            "fat": "38.5g",
-            "carbs": "34.3g",
-            "protein": "16.2g",
-            "summaryText": "Seeds from the safflower plant, often used for oil.",
-            "breakdown": "62% fat, 25% carbs, 13% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 517 }]
     },
     {
         "slug": "sesame-seed",
@@ -854,7 +462,7 @@
             "fat": "49.7g",
             "carbs": "23.5g",
             "protein": "17.7g",
-            "summaryText": "Tiny, oil-rich seeds used in many cuisines.",
+            "summaryText": "Tiny, oil-rich seeds used in many cuisines. An excellent source of calcium.",
             "breakdown": "72% fat, 16% carbs, 12% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 573 }, { "size": "1 tbsp (9g)", "calories": 52 }]
@@ -887,7 +495,7 @@
             "fat": "51.5g",
             "carbs": "20.0g",
             "protein": "20.8g",
-            "summaryText": "The edible part of the sunflower seed, high in vitamin E.",
+            "summaryText": "The edible part of the sunflower seed, high in vitamin E. A great addition to salads and snacks.",
             "breakdown": "73% fat, 13% carbs, 14% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 584 }, { "size": "1 oz (28g)", "calories": 165 }]
@@ -920,7 +528,7 @@
             "fat": "65.2g",
             "carbs": "13.7g",
             "protein": "15.2g",
-            "summaryText": "A wrinkled, brain-shaped nut, high in omega-3 fats.",
+            "summaryText": "A wrinkled, brain-shaped nut, high in n-3 PUFA. An important source of essential fatty acids for vegetarians.",
             "breakdown": "83% fat, 8% carbs, 9% protein."
         },
         "servingSizes": [{ "size": "100 g", "calories": 654 }, { "size": "1 oz (28g)", "calories": 185 }]

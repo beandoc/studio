@@ -1,197 +1,111 @@
 
 import Header from "@/components/header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { CheckCircle2, Info, XCircle } from "lucide-react";
 import Image from "next/image";
+import { CheckCircle2, Info } from "lucide-react";
 
-const potassiumFoods = {
-  high: [
-    { name: "Avocado", amount: "1/4 whole" },
-    { name: "Banana", amount: "1 medium" },
-    { name: "Cantaloupe", amount: "1 cup" },
-    { name: "Oranges & Orange Juice", amount: "1 cup" },
-    { name: "Potatoes & Sweet Potatoes", amount: "1 medium" },
-    { name: "Spinach (cooked)", amount: "1/2 cup" },
-    { name: "Tomatoes & Tomato Sauce", amount: "1 cup" },
-    { name: "Yogurt", amount: "1 cup" },
-  ],
-  low: [
-    { name: "Apples & Apple Juice", amount: "1 medium" },
-    { "name": "Berries (strawberries, blueberries)", amount: "1/2 cup" },
-    { name: "Cabbage", amount: "1/2 cup" },
-    { name: "Carrots (cooked)", amount: "1/2 cup" },
-    { name: "Cauliflower", amount: "1/2 cup" },
-    { name: "Cucumber", amount: "1/2 cup" },
-    { name: "Grapes & Grape Juice", amount: "1/2 cup" },
-    { name: "White Rice / Pasta", amount: "1/2 cup" },
-  ]
-};
-
-const phosphorusFoods = {
-    high: [
-        { name: "Dairy products (milk, cheese, yogurt)" },
-        { name: "Nuts and seeds" },
-        { name: "Whole-grain bread and cereals" },
-        { name: "Dark-colored sodas (cola)" },
-        { name: "Processed meats (hot dogs, bacon)" },
-        { name: "Dried beans and peas (lentils, kidney beans)" },
-    ],
-    low: [
-        { name: "Rice milk or almond milk (unenriched)" },
-        { name: "White bread, pasta, and rice" },
-        { name: "Fresh fruits and vegetables" },
-        { name: "Corn and rice cereals" },
-        { name: "Light-colored sodas (lemon-lime)" },
-    ]
-}
-
-const sodiumTips = [
-    "Cook from scratch to control salt levels.",
-    "Choose fresh or frozen vegetables over canned.",
-    "Rinse canned foods to remove some sodium.",
-    "Use herbs, spices, lemon juice, and vinegar for flavor instead of salt.",
-    "Read food labels for 'sodium-free' or 'low-sodium' options.",
-    "Avoid processed meats, packaged meals, and fast food.",
+const healthyHabits = [
+    "Include non-starchy fresh vegetables and green leafy vegetables in every meal. Aim for at least 30 grams of fruit in every meal.",
+    "Ensure at least 50% of cereals and grains are whole grains (like millets or brown rice) for adequate nutrients and fibre.",
+    "Accompany all cereal-based meals with adequate pulses or beans for good quality protein.",
+    "Consume adequate quantities of nuts, oilseeds, and fatty fish. Restrict cooking oils to 25-30g per day.",
+    "Avoid ultra-processed foods (UPFs) and foods high in fat, sugar, and salt (HFSS).",
+    "Limit added sugar to 20-25g per day for adults.",
+    "Incorporate a variety of foods within each food group to ensure a wide range of nutrients."
 ];
+
+const nutrientsOfConcern = [
+    { name: "Vegetarians", concern: "Achieving adequacy of essential Long-chain n-3 PUFA and Vitamin B12 can be a challenge. Good sources of n-3 PUFA include flax seeds, chia seeds, and walnuts. For B12, fortified foods or milk (which contains small amounts) are important." },
+    { name: "General Population", concern: "Dietary fibre, antioxidants (like Vitamins C & E, beta-carotene), and phytonutrients are crucial for protecting the body from damage and promoting health. A diet rich in colorful fruits, vegetables, whole grains, and spices helps meet these needs."}
+]
 
 export default function HealthInfoPage() {
   return (
     <div className="flex flex-col w-full">
       <Header
-        title="Kidney Health Nutrition"
-        description="Understanding your diet is key to managing kidney health."
+        title="A Guide to Healthy Eating"
+        description="Understanding the principles of a balanced diet for a healthy life."
       />
       <main className="flex-1 p-4 md:p-8">
         <div className="max-w-6xl mx-auto space-y-8">
+          
           <Card>
-            <CardHeader>
-                <div className="relative w-full h-48 md:h-64 rounded-xl overflow-hidden">
+            <CardHeader className="p-0">
+                <div className="relative w-full h-auto rounded-t-xl overflow-hidden">
                     <Image
-                    src="https://placehold.co/1200x400.png"
-                    alt="A vibrant display of healthy foods"
-                    fill
-                    className="object-cover"
-                    data-ai-hint="healthy food"
+                    src="https://storage.googleapis.com/project-spark-b8516.appspot.com/static/kidney-wise/healthy-eating-pyramid.png"
+                    alt="The food pyramid for a balanced diet, showing vegetables and fruits at the base, then cereals, then pulses and dairy, then nuts and fats at the top."
+                    width={1200}
+                    height={955}
+                    className="object-contain w-full h-full"
+                    data-ai-hint="food pyramid"
+                    priority
                     />
-                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center p-4">
-                    <h1 className="text-4xl md:text-6xl font-bold text-white text-center">
-                        Your Guide to a Kidney-Friendly Diet
-                    </h1>
-                    </div>
                 </div>
             </CardHeader>
-             <CardContent>
-              <CardTitle className="text-2xl mb-2">The Importance of What You Eat</CardTitle>
-              <CardDescription className="max-w-prose">
-                When you have kidney disease, your kidneys cannot remove waste products and fluid from your blood as well as they should. A kidney-friendly diet helps to protect your kidneys from further damage by limiting certain foods and fluids. This guide will help you understand the key nutrients to manage: potassium, phosphorus, sodium, and protein.
+             <CardContent className="p-6">
+              <CardTitle className="text-2xl mb-2">What is a Balanced Diet?</CardTitle>
+              <CardDescription className="max-w-prose space-y-2">
+                <p>A balanced diet is a wholesome and nutritionally adequate diet. It provides the required calories, proteins, vitamins, minerals, and adequate fibre necessary to sustain life, maintain health, and support growth and development. Since no single food contains all essential nutrients, achieving a balanced diet requires eating a diverse variety of foods from different food groups.</p>
+                <p>The ICMR-NIN 'My Plate for the Day' recommends that a healthy plate should source macronutrients and micronutrients from multiple food groups, with vegetables, fruits, and greens forming half the plate. Cereals should be about 25%, and protein-rich foods like pulses, beans, and meat should make up the remaining 25%.</p>
               </CardDescription>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-                <CardTitle>Managing Potassium</CardTitle>
-                <CardDescription>Potassium is a mineral that helps your nerves and muscles work properly. Damaged kidneys have trouble filtering it, leading to unsafe levels in the blood.</CardDescription>
+                <CardTitle>Key Principles of Healthy Eating</CardTitle>
+                <CardDescription>Follow these habits to maintain a healthy and balanced diet.</CardDescription>
             </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2 text-destructive"><XCircle /> High-Potassium Foods to Limit</h3>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Food</TableHead>
-                                <TableHead>Serving Size</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {potassiumFoods.high.map(food => (
-                                <TableRow key={food.name}>
-                                    <TableCell>{food.name}</TableCell>
-                                    <TableCell>{food.amount}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
-                 <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2 text-green-600"><CheckCircle2 /> Low-Potassium Foods to Enjoy</h3>
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Food</TableHead>
-                                <TableHead>Serving Size</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {potassiumFoods.low.map(food => (
-                                <TableRow key={food.name}>
-                                    <TableCell>{food.name}</TableCell>
-                                    <TableCell>{food.amount}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </div>
+            <CardContent>
+                <ul className="space-y-3">
+                    {healthyHabits.map((tip, index) => (
+                        <li key={index} className="flex items-start gap-3">
+                            <CheckCircle2 className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                            <span>{tip}</span>
+                        </li>
+                    ))}
+                </ul>
             </CardContent>
           </Card>
+          
+           <div className="grid md:grid-cols-2 gap-8">
+                <Card className="flex flex-col">
+                    <CardHeader>
+                        <CardTitle>Understanding Macronutrients</CardTitle>
+                        <CardDescription>The building blocks of your diet needed in large amounts.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-grow space-y-4">
+                        <div>
+                            <h4 className="font-bold text-accent-foreground">Carbohydrates (50-55% of Calories)</h4>
+                            <p className="text-sm text-muted-foreground">The body's main source of energy (4 Kcal/g). Complex carbs from whole grains, millets, and pulses are preferred as they contain dietary fibre, which improves satiety and helps regulate blood glucose.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-accent-foreground">Proteins (10-15% of Calories)</h4>
+                            <p className="text-sm text-muted-foreground">Essential for building and repairing tissues (4 Kcal/g). Animal sources (meat, fish, eggs, milk) are high-quality, while combining cereals and pulses provides good quality plant-based protein.</p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-accent-foreground">Fats (20-30% of Calories)</h4>
+                            <p className="text-sm text-muted-foreground">A concentrated source of energy (9 Kcal/g) and essential for absorbing fat-soluble vitamins. Focus on healthy fats from nuts, seeds, and fish.</p>
+                        </div>
+                    </CardContent>
+                </Card>
+                <Card className="flex flex-col">
+                    <CardHeader>
+                        <CardTitle>Nutrients of Concern</CardTitle>
+                        <CardDescription>Special considerations for certain dietary patterns.</CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex-grow space-y-4">
+                        {nutrientsOfConcern.map(item => (
+                             <div key={item.name}>
+                                <h4 className="font-bold text-accent-foreground">{item.name}</h4>
+                                <p className="text-sm text-muted-foreground">{item.concern}</p>
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
+            </div>
 
-          <Card>
-            <CardHeader>
-                <CardTitle>Managing Phosphorus</CardTitle>
-                <CardDescription>Phosphorus works with calcium to build strong bones. With kidney disease, it can build up in your blood, pulling calcium from your bones and making them weak. Many packaged foods have added phosphorus.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2 text-destructive"><XCircle /> High-Phosphorus Foods to Limit</h3>
-                    <ul className="list-disc pl-5 space-y-1 text-sm">
-                       {phosphorusFoods.high.map(food => <li key={food.name}>{food.name}</li>)}
-                    </ul>
-                </div>
-                 <div>
-                    <h3 className="font-semibold mb-2 flex items-center gap-2 text-green-600"><CheckCircle2 /> Low-Phosphorus Foods to Enjoy</h3>
-                     <ul className="list-disc pl-5 space-y-1 text-sm">
-                       {phosphorusFoods.low.map(food => <li key={food.name}>{food.name}</li>)}
-                    </ul>
-                </div>
-            </CardContent>
-          </Card>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <Card className="flex flex-col">
-                <CardHeader>
-                    <CardTitle>Tips for Reducing Sodium (Salt)</CardTitle>
-                    <CardDescription>Too much sodium can make you thirsty, which can be difficult if you are on a fluid restriction. It also raises blood pressure.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                    <ul className="space-y-3">
-                       {sodiumTips.map(tip => (
-                            <li key={tip} className="flex items-start gap-3">
-                                <Info className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                                <span>{tip}</span>
-                            </li>
-                       ))}
-                    </ul>
-                </CardContent>
-            </Card>
-
-            <Card className="flex flex-col">
-                <CardHeader>
-                    <CardTitle>Understanding Your Protein Needs</CardTitle>
-                    <CardDescription>Protein is essential, but the right amount depends on your kidney health stage. Eating too much can overwork your kidneys, while eating too little can cause muscle loss.</CardDescription>
-                </CardHeader>
-                <CardContent className="flex-grow space-y-4">
-                    <div>
-                        <h4 className="font-bold text-accent-foreground">Early Stage / Non-Dialysis</h4>
-                        <p className="text-sm text-muted-foreground">You may need to limit protein to help slow down further kidney damage. Your doctor or dietitian will recommend a specific daily goal, often around 0.6-0.8 grams per kilogram of body weight.</p>
-                    </div>
-                     <div>
-                        <h4 className="font-bold text-accent-foreground">Dialysis (Hemodialysis or Peritoneal)</h4>
-                        <p className="text-sm text-muted-foreground">Dialysis removes protein from your body, so you'll need to eat more high-quality protein to replace what is lost. Your goal may increase to 1.2 grams or more per kilogram of body weight.</p>
-                    </div>
-                </CardContent>
-            </Card>
-          </div>
         </div>
       </main>
     </div>

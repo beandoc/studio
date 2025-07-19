@@ -4,260 +4,31 @@
         "slug": "jaggery-cane",
         "name": "JAGGERY (cane)",
         "cuisine": "Indian",
-        "mealCategory": "Other",
+        "mealCategory": "Sweets, Candy & Desserts",
         "foodGroup": "Sweets, Candy & Desserts",
         "nutritionFacts": {
             "servingSize": "100 g",
             "calories": 383,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 95
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 0
-            },
-            "calcium": {
-                "value": 80
-            },
-            "iron": {
-                "value": 3
-            },
-            "potassium": {
-                "value": 0
-            }
+            "totalFat": { "value": 0 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 0 },
+            "totalCarbohydrate": { "value": 95 },
+            "dietaryFiber": { "value": 0 },
+            "protein": { "value": 0.4 },
+            "calcium": { "value": 80 },
+            "iron": { "value": 2.6 },
+            "potassium": { "value": 0 }
         },
         "nutritionSummary": {
             "calories": 383,
             "fat": "0.0g",
             "carbs": "95.0g",
-            "protein": "0.0g",
-            "summaryText": "Nutritional facts for JAGGERY (cane) per 100g.",
-            "breakdown": "0% fat, 100% carbs, 0% protein."
-        },
-        "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 383
-            }
-        ]
-    },
-    {
-        "slug": "jaggery-coconut-palm",
-        "name": "JAGGERY (coconut palm)",
-        "cuisine": "Indian",
-        "mealCategory": "Other",
-        "foodGroup": "Sweets, Candy & Desserts",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 340,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 83
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 1
-            },
-            "calcium": {
-                "value": 1638
-            },
-            "iron": {
-                "value": 0
-            },
-            "potassium": {
-                "value": 0
-            }
-        },
-        "nutritionSummary": {
-            "calories": 340,
-            "fat": "0.0g",
-            "carbs": "83.0g",
-            "protein": "1.0g",
-            "summaryText": "Nutritional facts for JAGGERY (coconut palm) per 100g.",
+            "protein": "0.4g",
+            "summaryText": "An unrefined sugar product. While it contains some minerals, it is still a form of added sugar and should be limited.",
             "breakdown": "0% fat, 99% carbs, 1% protein."
         },
         "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 340
-            }
-        ]
-    },
-    {
-        "slug": "jaggery-date-palm",
-        "name": "JAGGERY (date palm)",
-        "cuisine": "Indian",
-        "mealCategory": "Other",
-        "foodGroup": "Sweets, Candy & Desserts",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 353,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 86
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 1
-            },
-            "calcium": {
-                "value": 363
-            },
-            "iron": {
-                "value": 0
-            },
-            "potassium": {
-                "value": 0
-            }
-        },
-        "nutritionSummary": {
-            "calories": 353,
-            "fat": "0.0g",
-            "carbs": "86.0g",
-            "protein": "1.0g",
-            "summaryText": "Nutritional facts for JAGGERY (date palm) per 100g.",
-            "breakdown": "0% fat, 99% carbs, 1% protein."
-        },
-        "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 353
-            }
-        ]
-    },
-    {
-        "slug": "jaggery-fan-palm",
-        "name": "JAGGERY (fan palm)",
-        "cuisine": "Indian",
-        "mealCategory": "Other",
-        "foodGroup": "Sweets, Candy & Desserts",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 359,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 98
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 1
-            },
-            "calcium": {
-                "value": 225
-            },
-            "iron": {
-                "value": 0
-            },
-            "potassium": {
-                "value": 0
-            }
-        },
-        "nutritionSummary": {
-            "calories": 359,
-            "fat": "0.0g",
-            "carbs": "98.0g",
-            "protein": "1.0g",
-            "summaryText": "Nutritional facts for JAGGERY (fan palm) per 100g.",
-            "breakdown": "0% fat, 99% carbs, 1% protein."
-        },
-        "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 359
-            }
-        ]
-    },
-    {
-        "slug": "jaggery-sago-palm",
-        "name": "JAGGERY (sago palm)",
-        "cuisine": "Indian",
-        "mealCategory": "Other",
-        "foodGroup": "Sweets, Candy & Desserts",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 349,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 85
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 2
-            },
-            "calcium": {
-                "value": 1252
-            },
-            "iron": {
-                "value": 0
-            },
-            "potassium": {
-                "value": 0
-            }
-        },
-        "nutritionSummary": {
-            "calories": 349,
-            "fat": "0.0g",
-            "carbs": "85.0g",
-            "protein": "2.0g",
-            "summaryText": "Nutritional facts for JAGGERY (sago palm) per 100g.",
-            "breakdown": "0% fat, 98% carbs, 2% protein."
-        },
-        "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 349
-            }
+            { "size": "100 g", "calories": 383 }
         ]
     },
     {
@@ -272,19 +43,19 @@
             "totalFat": { "value": 0 },
             "cholesterol": { "value": 0 },
             "sodium": { "value": 0 },
-            "totalCarbohydrate": { "value": 26 },
+            "totalCarbohydrate": { "value": 26.1 },
             "dietaryFiber": { "value": 0 },
-            "protein": { "value": 0 },
-            "calcium": { "value": 10 },
-            "iron": { "value": 1 },
+            "protein": { "value": 0.1 },
+            "calcium": { "value": 3 },
+            "iron": { "value": 0.4 },
             "potassium": { "value": 0 }
         },
         "nutritionSummary": {
             "calories": 105,
             "fat": "0.0g",
-            "carbs": "26.0g",
-            "protein": "0.0g",
-            "summaryText": "Nutritional facts for SAGO per 30g.",
+            "carbs": "26.1g",
+            "protein": "0.1g",
+            "summaryText": "A starch extracted from the pith of various tropical palm stems. Primarily a source of carbohydrates.",
             "breakdown": "0% fat, 100% carbs, 0% protein."
         },
         "servingSizes": [
@@ -301,99 +72,151 @@
         "nutritionFacts": {
             "servingSize": "100 g",
             "calories": 39,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 9
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 0
-            },
-            "calcium": {
-                "value": 10
-            },
-            "iron": {
-                "value": 0
-            },
-            "potassium": {
-                "value": 0
-            }
+            "totalFat": { "value": 0 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 0 },
+            "totalCarbohydrate": { "value": 9 },
+            "dietaryFiber": { "value": 0 },
+            "protein": { "value": 0.1 },
+            "calcium": { "value": 10 },
+            "iron": { "value": 0.1 },
+            "potassium": { "value": 0 }
         },
         "nutritionSummary": {
             "calories": 39,
             "fat": "0.0g",
             "carbs": "9.0g",
-            "protein": "0.0g",
-            "summaryText": "Nutritional facts for SUGAR CANE JUICE per 100g.",
-            "breakdown": "0% fat, 100% carbs, 0% protein."
+            "protein": "0.1g",
+            "summaryText": "A sweet beverage. A source of added sugar, which should be consumed in moderation.",
+            "breakdown": "0% fat, 99% carbs, 1% protein."
         },
         "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 39
-            }
+            { "size": "100 g", "calories": 39 }
         ]
     },
     {
         "slug": "honey",
         "name": "HONEY",
         "cuisine": "Indian",
-        "mealCategory": "Other",
-        "foodGroup": "Other",
+        "mealCategory": "Sweets, Candy & Desserts",
+        "foodGroup": "Sweets, Candy & Desserts",
         "nutritionFacts": {
             "servingSize": "100 g",
             "calories": 319,
-            "totalFat": {
-                "value": 0
-            },
-            "cholesterol": {
-                "value": 0
-            },
-            "sodium": {
-                "value": 0
-            },
-            "totalCarbohydrate": {
-                "value": 79
-            },
-            "dietaryFiber": {
-                "value": 0
-            },
-            "protein": {
-                "value": 0
-            },
-            "calcium": {
-                "value": 5
-            },
-            "iron": {
-                "value": 1
-            },
-            "potassium": {
-                "value": 0
-            }
+            "totalFat": { "value": 0 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 0 },
+            "totalCarbohydrate": { "value": 79.5 },
+            "dietaryFiber": { "value": 0 },
+            "protein": { "value": 0.4 },
+            "calcium": { "value": 5 },
+            "iron": { "value": 1 },
+            "potassium": { "value": 0 }
         },
         "nutritionSummary": {
             "calories": 319,
             "fat": "0.0g",
-            "carbs": "79.0g",
-            "protein": "0.0g",
-            "summaryText": "Nutritional facts for HONEY per 100g.",
+            "carbs": "79.5g",
+            "protein": "0.4g",
+            "summaryText": "A natural sweetener, but still a form of sugar. Use sparingly.",
             "breakdown": "0% fat, 100% carbs, 0% protein."
         },
         "servingSizes": [
-            {
-                "size": "100 g",
-                "calories": 319
-            }
+            { "size": "100 g", "calories": 319 }
+        ]
+    },
+    {
+        "slug": "fenugreek-seeds",
+        "name": "Fenugreek Seeds",
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Sauces, Spices & Spreads",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 323,
+            "totalFat": { "value": 6.4 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 67 },
+            "totalCarbohydrate": { "value": 58.4 },
+            "dietaryFiber": { "value": 24.6 },
+            "protein": { "value": 23 },
+            "calcium": { "value": 176 },
+            "iron": { "value": 33.5 },
+            "potassium": { "value": 770 }
+        },
+        "nutritionSummary": {
+            "calories": 323,
+            "fat": "6.4g",
+            "carbs": "58.4g",
+            "protein": "23.0g",
+            "summaryText": "Commonly used as a spice, fenugreek seeds are known for their health-promoting effects and are a good source of fiber.",
+            "breakdown": "16% fat, 63% carbs, 21% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 323 }
+        ]
+    },
+    {
+        "slug": "amaranth-seeds",
+        "name": "Amaranth Seeds",
+        "cuisine": "Indian",
+        "mealCategory": "Lunch/Dinner",
+        "foodGroup": "Breads & Cereals",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 371,
+            "totalFat": { "value": 7 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 4 },
+            "totalCarbohydrate": { "value": 65 },
+            "dietaryFiber": { "value": 7 },
+            "protein": { "value": 14 },
+            "calcium": { "value": 159 },
+            "iron": { "value": 7.6 },
+            "potassium": { "value": 508 }
+        },
+        "nutritionSummary": {
+            "calories": 371,
+            "fat": "7.0g",
+            "carbs": "65.0g",
+            "protein": "14.0g",
+            "summaryText": "A nutritious pseudo-cereal that is a good source of protein, fiber, and minerals.",
+            "breakdown": "17% fat, 69% carbs, 14% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 371 }
+        ]
+    },
+     {
+        "slug": "basil-seeds",
+        "name": "Basil Seeds",
+        "aliases": ["Sabja"],
+        "cuisine": "Indian",
+        "mealCategory": "Other",
+        "foodGroup": "Nuts & Seeds",
+        "nutritionFacts": {
+            "servingSize": "100 g",
+            "calories": 442,
+            "totalFat": { "value": 14.8 },
+            "cholesterol": { "value": 0 },
+            "sodium": { "value": 16 },
+            "totalCarbohydrate": { "value": 63.8 },
+            "dietaryFiber": { "value": 39.8 },
+            "protein": { "value": 14.8 },
+            "calcium": { "value": 2240 },
+            "iron": { "value": 2.27 },
+            "potassium": { "value": 1160 }
+        },
+        "nutritionSummary": {
+            "calories": 442,
+            "fat": "14.8g",
+            "carbs": "63.8g",
+            "protein": "14.8g",
+            "summaryText": "Known for their cooling properties, these seeds are rich in fiber and minerals, especially calcium.",
+            "breakdown": "25% fat, 55% carbs, 20% protein."
+        },
+        "servingSizes": [
+            { "size": "100 g", "calories": 442 }
         ]
     }
 ]
