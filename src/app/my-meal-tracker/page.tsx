@@ -20,7 +20,9 @@ import {
 import {
   ChartContainer,
   ChartTooltipContent,
-  type ChartConfig
+  type ChartConfig,
+  ChartLegend,
+  ChartLegendContent
 } from "@/components/ui/chart";
 import AddMealDialog from "@/components/add-meal-dialog";
 import { Progress } from "@/components/ui/progress";
@@ -397,6 +399,7 @@ export default function MyMealTrackerPage() {
                               cursor={false}
                               content={<ChartTooltipContent hideLabel />}
                             />
+                            <Legend content={<ChartLegendContent nameKey="name" hideValue hideIndicator />} />
                             <Pie
                                 data={calorieBreakdownData}
                                 dataKey="value"
@@ -423,7 +426,6 @@ export default function MyMealTrackerPage() {
                                     <Cell key={`cell-${entry.name}`} fill={entry.fill} />
                                 ))}
                             </Pie>
-                            <Legend content={<ChartLegendContent nameKey="name" hideValue hideIndicator />} />
                         </PieChart>
                     </ResponsiveContainer>
                 </ChartContainer>

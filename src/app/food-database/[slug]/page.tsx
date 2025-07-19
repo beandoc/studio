@@ -174,8 +174,8 @@ function FoodDetailClient({ food }: { food: FoodItem }) {
                         <CardHeader><CardTitle>Common Serving Sizes</CardTitle></CardHeader>
                         <CardContent>
                             <ul className="space-y-2">
-                                {food.servingSizes.map((serving, index) => (
-                                    <li key={index} className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50">
+                                {food.servingSizes.map((serving) => (
+                                    <li key={serving.size} className="flex justify-between items-center p-2 rounded-md hover:bg-muted/50">
                                         <div>
                                             <span className="text-primary mr-2">&#9679;</span>
                                             <span>{serving.size}</span>
