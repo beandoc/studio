@@ -30,21 +30,10 @@ export default function HealthInfoPage() {
         <div className="max-w-6xl mx-auto space-y-8">
           
           <Card>
-            <CardHeader className="p-0">
-                <div className="relative w-full h-auto rounded-t-xl overflow-hidden">
-                    <Image
-                    src="https://storage.googleapis.com/project-spark-b8516.appspot.com/static/kidney-wise/healthy-eating-pyramid.png"
-                    alt="The food pyramid for a balanced diet, showing vegetables and fruits at the base, then cereals, then pulses and dairy, then nuts and fats at the top."
-                    width={1200}
-                    height={955}
-                    className="object-contain w-full h-full"
-                    data-ai-hint="food pyramid"
-                    priority
-                    />
-                </div>
-            </CardHeader>
-             <CardContent className="p-6">
+             <CardHeader>
               <CardTitle className="text-2xl mb-2">What is a Balanced Diet?</CardTitle>
+             </CardHeader>
+             <CardContent>
               <CardDescription className="max-w-prose space-y-2">
                 <p>A balanced diet is a wholesome and nutritionally adequate diet. It provides the required calories, proteins, vitamins, minerals, and adequate fibre necessary to sustain life, maintain health, and support growth and development. Since no single food contains all essential nutrients, achieving a balanced diet requires eating a diverse variety of foods from different food groups.</p>
                 <p>The ICMR-NIN 'My Plate for the Day' recommends that a healthy plate should source macronutrients and micronutrients from multiple food groups, with vegetables, fruits, and greens forming half the plate. Cereals should be about 25%, and protein-rich foods like pulses, beans, and meat should make up the remaining 25%.</p>
