@@ -26,7 +26,7 @@ import { useFoodData } from "@/context/food-context";
 function MealAlternativesContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { foodDatabase, findFoodBySlug } = useFoodData();
+  const { findFoodBySlug } = useFoodData();
   const mealSlug = searchParams.get('mealSlug');
   const mealType = searchParams.get('mealType');
   const originalMealName = searchParams.get('originalMealName');
@@ -97,7 +97,7 @@ function MealAlternativesContent() {
         return;
     }
     
-    const newMealData = foodDatabase.find(meal => meal.name === alternativeName);
+    const newMealData = findFoodBySlug(alternativeName.toLowerCase().replace(/\s+/g, '-'));
     if (!newMealData) {
         toast({ variant: "destructive", title: "Error", description: "Could not find new meal data for the swap." });
         return;
@@ -115,7 +115,8 @@ function MealAlternativesContent() {
             if(itemIndex !== -1) {
               updatedPlan.plan[dayIndex].meals[mealIndex].items[itemIndex] = {
                   name: newMealData.name,
-                  calories: newMealData.nutritionFacts.calories
+                  calories: newMealData.nutritionFacts.calories,
+                  servingSize: newMealData.nutritionFacts.servingSize
               };
 
               setDietPlan(updatedPlan); 

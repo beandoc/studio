@@ -10,7 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useToast } from "@/hooks/use-toast";
 import { recognizeFoodImage, type RecognizeFoodImageOutput } from "@/ai/flows/recognize-food-image";
-import { Camera, Loader2, CheckCircle2, Upload, CalendarIcon, Utensils } from "lucide-react";
+import { Camera, Loader2, CheckCircle2, Upload, CalendarIcon, Utensils, AlertTriangle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Separator } from "@/components/ui/separator";
 import { useProfile } from "@/context/profile-context";
@@ -32,6 +32,7 @@ export default function RecognizeFoodPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [analysisResult, setAnalysisResult] = useState<RecognizeFoodImageOutput | null>(null);
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const [errorState, setErrorState] = useState<string | null>(null);
   
   const [logDate, setLogDate] = useState<Date>(new Date());
   const [mealCategory, setMealCategory] = useState<MealCategory>("Lunch");
@@ -74,15 +75,23 @@ export default function RecognizeFoodPage() {
     }
   }, []);
 
+  const handleReset = () => {
+    setImageUri(null);
+    setAnalysisResult(null);
+    setErrorState(null);
+    if(fileInputRef.current) {
+        fileInputRef.current.value = "";
+    }
+  }
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      handleReset();
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
         setImageUri(result);
-        setAnalysisResult(null); 
         recognizeImage(result);
       };
       reader.readAsDataURL(file);
@@ -91,6 +100,7 @@ export default function RecognizeFoodPage() {
   
   const handleCapture = () => {
     if (videoRef.current && canvasRef.current) {
+        handleReset();
         const canvas = canvasRef.current;
         const video = videoRef.current;
         const context = canvas.getContext('2d');
@@ -101,7 +111,6 @@ export default function RecognizeFoodPage() {
         
         const dataUri = canvas.toDataURL('image/jpeg');
         setImageUri(dataUri);
-        setAnalysisResult(null);
         recognizeImage(dataUri);
     }
   };
@@ -110,6 +119,7 @@ export default function RecognizeFoodPage() {
   const recognizeImage = async (photoDataUri: string) => {
     setIsLoading(true);
     setAnalysisResult(null);
+    setErrorState(null);
 
     try {
       const result = await recognizeFoodImage({ photoDataUri });
@@ -125,21 +135,11 @@ export default function RecognizeFoodPage() {
           description: `We found ${result.items.length} item(s) in your meal.`,
         });
       } else {
-         toast({
-          variant: "destructive",
-          title: "No Food Detected",
-          description: "We couldn't identify any food in the image. Please try again with a clearer picture.",
-        });
-         setImageUri(null);
+         setErrorState("We couldn't identify any food in the image. Please try again with a clearer picture.");
       }
     } catch (error) {
       console.error(error);
-      toast({
-        variant: "destructive",
-        title: "Recognition Failed",
-        description: "Something went wrong while trying to identify the food.",
-      });
-      setImageUri(null);
+      setErrorState("An unexpected error occurred during image recognition. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -299,6 +299,16 @@ export default function RecognizeFoodPage() {
                       </div>
                     </CardFooter>
                 )}
+
+                {errorState && !isLoading && (
+                    <CardFooter>
+                        <Alert variant="destructive" className="w-full">
+                            <AlertTriangle className="h-4 w-4" />
+                            <AlertTitle>Analysis Failed</AlertTitle>
+                            <AlertDescription>{errorState}</AlertDescription>
+                        </Alert>
+                    </CardFooter>
+                )}
                 
                 {analysisResult && !isLoading && (
                 <div className="border-t">
@@ -400,7 +410,7 @@ export default function RecognizeFoodPage() {
                       </div>
 
                         <div className="flex gap-2 w-full sm:w-auto">
-                           <Button onClick={() => { setAnalysisResult(null); setImageUri(null); }} variant="outline" className="flex-1">
+                           <Button onClick={handleReset} variant="outline" className="flex-1">
                                 Retake
                            </Button>
                           <Button onClick={handleLogMeal} className="flex-1">

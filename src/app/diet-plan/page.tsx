@@ -59,7 +59,7 @@ const dailyMealOptions = ["breakfast", "lunch", "dinner", "morning snack", "afte
 
 export default function DietPlanPage() {
   const { activeProfile, dietPlan, setDietPlan, isLoading: isProfileLoading } = useProfile();
-  const { foodDatabase, getCategoryOverrides, getAliasOverrides, isFoodDataLoading, findFoodBySlug } = useFoodData();
+  const { getCategoryOverrides, getAliasOverrides, isFoodDataLoading, findFoodBySlug } = useFoodData();
   const [isGenerating, setIsGenerating] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const { toast } = useToast();
@@ -326,14 +326,6 @@ export default function DietPlanPage() {
                           </div>
                         );
                       })}
-                      {dayPlan.notes && (
-                          <div>
-                            <h4 className="font-semibold capitalize text-lg mb-2">Notes</h4>
-                            <div className="text-sm text-muted-foreground italic p-4 bg-amber-50 rounded-md border border-amber-200">
-                                {dayPlan.notes}
-                            </div>
-                          </div>
-                      )}
                     </div>
                   </AccordionContent>
                 </AccordionItem>
@@ -392,5 +384,3 @@ export default function DietPlanPage() {
     </div>
   );
 }
-
-    

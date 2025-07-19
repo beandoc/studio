@@ -56,13 +56,12 @@ type Stats = {
 }
 
 export default function FoodDatabasePage() {
-    const { foodDatabase, updateMealCategories, updateAliases, isFoodDataLoading } = useFoodData();
+    const { foodDatabase, updateMealCategories, isFoodDataLoading } = useFoodData();
     const { activeProfile, isFavorite, addFavorite, removeFavorite } = useProfile();
     const [searchTerm, setSearchTerm] = useState("");
     const [cuisineFilter, setCuisineFilter] = useState("All");
     const [mealCategoryFilter, setMealCategoryFilter] = useState<MealCategory | 'All'>("All");
     const [foodGroupFilter, setFoodGroupFilter] = useState<"All" | FoodGroup>("All");
-    const [aliasInputs, setAliasInputs] = useState<Record<string, string>>({});
     
     const stats: Stats = useMemo(() => {
         if (isFoodDataLoading) return { total: 0, byFoodGroup: {}, byMealCategory: {}, byCuisine: {} };
@@ -126,19 +125,6 @@ export default function FoodDatabasePage() {
         currentCategories = currentCategories.filter(c => c !== category);
     }
     updateMealCategories(slug, currentCategories);
-  };
-  
-  const handleAliasChange = (slug: string, value: string) => {
-    setAliasInputs(prev => ({...prev, [slug]: value}));
-  };
-
-  const handleSaveAliases = (slug: string) => {
-    const newAliases = (aliasInputs[slug] ?? "")
-      .split(',')
-      .map(a => a.trim())
-      .filter(a => a); 
-    updateAliases(slug, newAliases);
-    setAliasInputs(prev => ({...prev, [slug]: ''}));
   };
   
   const handleToggleFavorite = (e: React.MouseEvent, slug: string) => {
@@ -319,13 +305,6 @@ export default function FoodDatabasePage() {
                                 </div>
                             </CardHeader>
                             <CardContent className="p-4 flex-grow space-y-4">
-                                {food.cookingInstructions && (
-                                    <p className="text-xs text-muted-foreground italic border-l-2 pl-2">
-                                        <ChefHat className="inline-block h-3 w-3 mr-1" />
-                                        {food.cookingInstructions}
-                                    </p>
-                                )}
-    
                                 <div>
                                     <Label className="text-xs font-bold text-muted-foreground">Meal Categories</Label>
                                     <div className="flex flex-wrap gap-x-4 gap-y-2 mt-1">
@@ -350,18 +329,6 @@ export default function FoodDatabasePage() {
                                 <div>
                                     <Label htmlFor={`alias-${food.slug}`} className="text-xs font-bold text-muted-foreground">Aliases</Label>
                                     {food.aliases && food.aliases.length > 0 && <p className="text-xs text-muted-foreground">Current: {food.aliases.join(', ')}</p>}
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <Input 
-                                            id={`alias-${food.slug}`}
-                                            placeholder="Add comma-separated aliases"
-                                            value={aliasInputs[food.slug] ?? ''}
-                                            onChange={(e) => handleAliasChange(food.slug, e.target.value)}
-                                            className="h-9"
-                                        />
-                                        <Button size="sm" variant="outline" onClick={() => handleSaveAliases(food.slug)} className="h-9 px-2">
-                                            <Plus className="h-4 w-4"/>
-                                        </Button>
-                                    </div>
                                 </div>
                             </CardContent>
                             <CardFooter className="p-2 pt-0">
