@@ -7,7 +7,7 @@
         "mealCategory": "Beverages",
         "foodGroup": "Beverages",
         "imageUrl": "https://placehold.co/600x400.png",
-        "cookingInstructions": "1. Boil water with tea leaves and sugar.\n2. Add milk and bring to a boil.\n3. Strain and serve hot.",
+        "cookingInstructions": "1. Boil water with tea leaves and sugar.\\n2. Add milk and bring to a boil.\\n3. Strain and serve hot.",
         "nutritionFacts": {
             "servingSize": "100 ml",
             "calories": 16,
