@@ -166,14 +166,10 @@ const generateDietPlanFlow = ai.defineFlow(
 
     // Helper to get a random item from a list, avoiding duplicates in the same day
     const getUniqueRandomItem = (list: FoodItem[], usedInDay: Set<string>): FoodItem | undefined => {
+        if (!list || list.length === 0) return undefined;
         const availableItems = shuffleArray(list.filter(item => !usedInDay.has(item.slug)));
         return availableItems[0];
     };
-
-    const getMainMealComponent = (foodGroup: FoodGroup, dayFoods: Set<string>, category: MealCategory): FoodItem | undefined => {
-        const foods = shuffleArray(categorizedFoods[category].filter(f => f.foodGroup === foodGroup && !dayFoods.has(f.slug)));
-        return foods[0];
-    }
     
     for (const day of days) {
         const dailyPlan: DailyPlanSchema = { day, meals: [] };
@@ -189,11 +185,15 @@ const generateDietPlanFlow = ai.defineFlow(
         
         if (mealCategories.has('lunch')) {
             const lunchItems: FoodItem[] = [];
-            const mainCourse = getMainMealComponent('Beans & Legumes', usedToday, 'Lunch') || getMainMealComponent('Meat', usedToday, 'Lunch') || getMainMealComponent('Fish & Seafood', usedToday, 'Lunch');
+            // Simplified, more robust logic for meal composition
+            const mainCourse = getUniqueRandomItem(categorizedFoods['Lunch'], usedToday);
             if (mainCourse) lunchItems.push(mainCourse);
 
-            const side = getMainMealComponent('Breads & Cereals', usedToday, 'Lunch') || getMainMealComponent('Pasta, Rice & Noodles', usedToday, 'Lunch');
-            if (side) lunchItems.push(side);
+            // Try to add a side, but it's optional
+            const side = getUniqueRandomItem(categorizedFoods['Lunch'].filter(i => i.slug !== mainCourse?.slug), usedToday);
+            if (side && (side.foodGroup === 'Breads & Cereals' || side.foodGroup === 'Pasta, Rice & Noodles')) {
+              lunchItems.push(side);
+            }
             
             if(lunchItems.length > 0) {
               dailyPlan.meals.push({ type: 'lunch', items: lunchItems });
@@ -202,12 +202,14 @@ const generateDietPlanFlow = ai.defineFlow(
         }
         
         if (mealCategories.has('dinner')) {
-             const dinnerItems: FoodItem[] = [];
-            const mainCourse = getMainMealComponent('Beans & Legumes', usedToday, 'Dinner') || getMainMealComponent('Meat', usedToday, 'Dinner') || getMainMealComponent('Fish & Seafood', usedToday, 'Dinner');
+            const dinnerItems: FoodItem[] = [];
+            const mainCourse = getUniqueRandomItem(categorizedFoods['Dinner'], usedToday);
             if (mainCourse) dinnerItems.push(mainCourse);
 
-            const side = getMainMealComponent('Breads & Cereals', usedToday, 'Dinner') || getMainMealComponent('Pasta, Rice & Noodles', usedToday, 'Dinner');
-            if (side) dinnerItems.push(side);
+            const side = getUniqueRandomItem(categorizedFoods['Dinner'].filter(i => i.slug !== mainCourse?.slug), usedToday);
+            if (side && (side.foodGroup === 'Breads & Cereals' || side.foodGroup === 'Pasta, Rice & Noodles')) {
+              dinnerItems.push(side);
+            }
             
             if(dinnerItems.length > 0) {
               dailyPlan.meals.push({ type: 'dinner', items: dinnerItems });
@@ -240,7 +242,7 @@ const generateDietPlanFlow = ai.defineFlow(
     
     const hasContent = finalPlan.plan.some(day => day.meals.length > 0 && day.meals.some(meal => meal.items.length > 0));
     if (!hasContent) {
-        throw new Error("Failed to construct a valid diet plan from the AI's suggestions. The AI may not have provided enough variety.");
+        throw new Error("Failed to construct a valid diet plan from the AI's suggestions. The AI may not have provided enough variety, or there may be insufficient items in the food database for the requested categories.");
     }
 
     return finalPlan;
