@@ -125,13 +125,17 @@ export default function Dashboard() {
         title={`${activeProfile.fullName}'s Dashboard`}
         description="Here's a summary of meals and progress."
       >
-        <Image 
-          src="/logo.png" 
-          alt="Profile image placeholder"
-          width={40}
-          height={40}
-          className="object-cover rounded-full"
-        />
+        {isProfileLoading ? (
+            <Skeleton className="h-10 w-10 rounded-full" />
+        ) : (
+            <Image 
+              src="/logo.png" 
+              alt="Profile image placeholder"
+              width={40}
+              height={40}
+              className="object-cover rounded-full"
+            />
+        )}
       </Header>
       <main className="flex-1 p-4 md:p-8 space-y-8">
         <section>

@@ -88,7 +88,7 @@ function MealAlternativesContent() {
     fetchAlternatives();
   }, [mealSlug, mealType, toast, findFoodBySlug]);
 
-  const handleSwap = (alternativeName: string) => {
+  const handleSwap = (alternativeSlug: string) => {
     const dayToReplace = searchParams.get('day');
     const mealTypeToReplace = searchParams.get('mealType');
 
@@ -97,7 +97,7 @@ function MealAlternativesContent() {
         return;
     }
     
-    const newMealData = findFoodBySlug(alternativeName.toLowerCase().replace(/\s+/g, '-'));
+    const newMealData = findFoodBySlug(alternativeSlug);
     if (!newMealData) {
         toast({ variant: "destructive", title: "Error", description: "Could not find new meal data for the swap." });
         return;
@@ -122,7 +122,7 @@ function MealAlternativesContent() {
               setDietPlan(updatedPlan); 
               toast({
                   title: "Meal Swapped!",
-                  description: `"${originalMeal?.name}" was replaced with "${alternativeName}".`
+                  description: `"${originalMeal?.name}" was replaced with "${newMealData.name}".`
               });
               router.push('/diet-plan');
             } else {
@@ -210,7 +210,7 @@ function MealAlternativesContent() {
                             <p className="text-sm text-muted-foreground mt-2 mb-2">{alt.description}</p>
                             <p className="text-sm font-medium">{alt.nutrientInformation}</p>
                           </div>
-                           <Button className="w-full sm:w-auto flex-shrink-0" onClick={() => handleSwap(alt.name)}>
+                           <Button className="w-full sm:w-auto flex-shrink-0" onClick={() => handleSwap(alt.slug)}>
                                 <Check className="mr-2 h-4 w-4" />
                                 Swap this Meal
                            </Button>

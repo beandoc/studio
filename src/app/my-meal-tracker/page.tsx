@@ -380,14 +380,14 @@ export default function MyMealTrackerPage() {
                     <span>Fat</span>
                     <span>{totals.fat.toFixed(1)}g / {goals.fat}g</span>
                   </div>
-                  <Progress value={(totals.fat / goals.fat) * 100} className="[&>div]:bg-amber-500"/>
+                  <Progress value={(totals.fat / goals.fat) * 100} className="[&>div]:bg-[var(--color-fat)]"/>
                 </div>
                 <div>
                   <div className="flex justify-between font-medium mb-1">
                     <span>Carbs</span>
                     <span>{totals.carbs.toFixed(1)}g / {goals.carbs}g</span>
                   </div>
-                  <Progress value={(totals.carbs / goals.carbs) * 100} className="[&>div]:bg-green-500"/>
+                  <Progress value={(totals.carbs / goals.carbs) * 100} className="[&>div]:bg-[var(--color-carbs)]"/>
                 </div>
               </div>
 
@@ -399,7 +399,7 @@ export default function MyMealTrackerPage() {
                               cursor={false}
                               content={<ChartTooltipContent hideLabel />}
                             />
-                            <Legend content={<ChartLegendContent nameKey="name" hideValue hideIndicator />} />
+                            <Legend content={<ChartLegendContent nameKey="name" />} />
                             <Pie
                                 data={calorieBreakdownData}
                                 dataKey="value"
