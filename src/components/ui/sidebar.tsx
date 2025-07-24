@@ -226,7 +226,7 @@ const Sidebar = React.forwardRef<
         {/* This is what handles the sidebar gap on desktop */}
         <div
           className={cn(
-            "duration-200 relative h-svh bg-transparent transition-[width] ease-linear",
+            "duration-200 relative h-svh bg-sidebar transition-[width] ease-linear",
             "w-[var(--sidebar-width)]",
             "group-data-[collapsible=offcanvas]:w-0",
             "group-data-[side=right]:rotate-180",
@@ -765,5 +765,3 @@ export {
   SidebarTrigger,
   useSidebar,
 }
-
-    
