@@ -439,9 +439,9 @@ export default function MyProfilePage() {
                                   control={form.control}
                                   render={({ field }) => (
                                       <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex space-x-4">
-                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="vegetarian" id="veg"/><Label htmlFor="veg">Vegetarian</Label></FormItem>
-                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="non-vegetarian" id="non-veg"/><Label htmlFor="non-veg">Non-Vegetarian</Label></FormItem>
-                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="vegan" id="vegan"/><Label htmlFor="vegan">Vegan</Label></FormItem>
+                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="vegetarian" id="veg"/><Label htmlFor="veg" className="font-normal">Vegetarian</Label></FormItem>
+                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="non-vegetarian" id="non-veg"/><Label htmlFor="non-veg" className="font-normal">Non-Vegetarian</Label></FormItem>
+                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="vegan" id="vegan"/><Label htmlFor="vegan" className="font-normal">Vegan</Label></FormItem>
                                       </RadioGroup>
                                   )}
                               />
