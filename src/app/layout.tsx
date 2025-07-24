@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -7,7 +6,7 @@ import AppSidebar from "@/components/app-sidebar";
 import { Toaster } from "@/components/ui/toaster";
 import { ProfileProvider } from "@/context/profile-context";
 import { FoodDataProvider } from "@/context/food-context";
-import { sans } from "@/app/font";
+import { pt_sans } from "@/app/font";
 
 export const metadata: Metadata = {
   title: "KidneyWise Diet",
@@ -23,14 +22,16 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn("min-h-screen bg-background font-sans antialiased", sans.variable)}>
+      <body className={cn("min-h-screen bg-background font-sans antialiased", pt_sans.variable)}>
         <ProfileProvider>
           <FoodDataProvider>
             <SidebarProvider>
-              <AppSidebar />
-              <SidebarInset>
-                {children}
-              </SidebarInset>
+              <div className="flex">
+                <AppSidebar />
+                <SidebarInset>
+                  {children}
+                </SidebarInset>
+              </div>
             </SidebarProvider>
           </FoodDataProvider>
         </ProfileProvider>

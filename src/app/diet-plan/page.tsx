@@ -316,7 +316,7 @@ export default function DietPlanPage() {
                                     <p className="text-sm text-muted-foreground mt-1">{foodItem?.nutritionSummary?.summaryText || 'A nutritious food item.'}</p>
                                     <p className="text-xs text-muted-foreground mt-2">{item.calories} kcal</p>
                                   </div>
-                                  <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type, item.name)}>
+                                  <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type, foodItem?.slug || '')} disabled={!foodItem?.slug}>
                                     <Replace className="mr-2 h-4 w-4" /> Flip
                                   </Button>
                                 </Card>
