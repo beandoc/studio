@@ -33,7 +33,7 @@ import { Loader2, Info } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Form, FormControl, FormField, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormMessage, FormItem } from "@/components/ui/form";
 import { Slider } from "@/components/ui/slider";
 import { useProfile } from "@/context/profile-context";
 
@@ -439,9 +439,9 @@ export default function MyProfilePage() {
                                   control={form.control}
                                   render={({ field }) => (
                                       <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex space-x-4">
-                                          <div className="flex items-center space-x-2"><RadioGroupItem value="vegetarian" id="veg"/><Label htmlFor="veg">Vegetarian</Label></div>
-                                          <div className="flex items-center space-x-2"><RadioGroupItem value="non-vegetarian" id="non-veg"/><Label htmlFor="non-veg">Non-Vegetarian</Label></div>
-                                          <div className="flex items-center space-x-2"><RadioGroupItem value="vegan" id="vegan"/><Label htmlFor="vegan">Vegan</Label></div>
+                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="vegetarian" id="veg"/><Label htmlFor="veg">Vegetarian</Label></FormItem>
+                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="non-vegetarian" id="non-veg"/><Label htmlFor="non-veg">Non-Vegetarian</Label></FormItem>
+                                          <FormItem className="flex items-center space-x-2"><RadioGroupItem value="vegan" id="vegan"/><Label htmlFor="vegan">Vegan</Label></FormItem>
                                       </RadioGroup>
                                   )}
                               />
