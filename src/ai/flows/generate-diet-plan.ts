@@ -4,8 +4,8 @@
 /**
  * @fileOverview Generates a personalized 7-day diet plan based on ICMR-NIN guidelines.
  * This flow combines AI creativity with programmatic structure to ensure balanced, varied, and palatable meals.
- * The AI's role is to suggest a diverse pool of suitable food items. The code then constructs the daily
- * meals according to the "My Plate for the Day" principle, ensuring a healthy balance of food groups.
+ * The AI's role is to suggest a diverse pool of suitable food items categorized by food group. The code then
+ * constructs the daily meals according to the "My Plate for the Day" principle, ensuring a healthy balance.
  *
  * - generateDietPlan - A function that generates the diet plan.
  * - GenerateDietPlanInput - The input type for the generateDietPlan function.
@@ -37,8 +37,14 @@ const AiSuggestedFoodItemSchema = z.object({
     name: z.string().describe("Name of the food item. This MUST be a name chosen directly from the provided food list."),
 });
 
+// New AI Response schema, categorized by food group for balanced meal construction.
 const AiResponseSchema = z.object({
-    suggested_foods: z.array(AiSuggestedFoodItemSchema).describe("A flat list of 25-35 varied food items suitable for the user's weekly plan, based on their profile. Do not categorize them by day or meal."),
+    suggested_breakfasts: z.array(AiSuggestedFoodItemSchema).describe("A list of 7-10 varied breakfast items."),
+    suggested_cereals: z.array(AiSuggestedFoodItemSchema).describe("A list of 5-7 varied cereals/grains (like rice, roti, millets)."),
+    suggested_proteins: z.array(AiSuggestedFoodItemSchema).describe("A list of 7-10 varied protein sources (like dals, legumes, chicken, paneer)."),
+    suggested_vegetables: z.array(AiSuggestedFoodItemSchema).describe("A list of 10-15 varied vegetable dishes."),
+    suggested_snacks: z.array(AiSuggestedFoodItemSchema).describe("A list of 7-10 varied snacks."),
+    suggested_fruits: z.array(AiSuggestedFoodItemSchema).describe("A list of 5-7 varied fruits."),
 });
 
 
@@ -78,6 +84,15 @@ const shuffleArray = <T>(array: T[]): T[] => {
     return array;
 };
 
+// Helper to get a unique random item from a list, using a cursor to avoid reusing the same item
+const getUniqueItem = (list: FoodItem[], cursor: { index: number }): FoodItem | undefined => {
+    if (!list || list.length === 0) return undefined;
+    const item = list[cursor.index % list.length];
+    cursor.index++;
+    return item;
+};
+
+
 const generateDietPlanFlow = ai.defineFlow(
   {
     name: 'generateDietPlanFlow',
@@ -109,13 +124,13 @@ const generateDietPlanFlow = ai.defineFlow(
         );
     }
     
-    const foodListForPrompt = relevantFoods.map(food => `${food.name} (calories: ${food.nutritionFacts.calories}, protein: ${food.nutritionFacts.protein.value}g)`).join('; ');
+    const foodListForPrompt = relevantFoods.map(food => `${food.name} (food group: ${food.foodGroup})`).join('; ');
 
     const prompt = ai.definePrompt({
       name: 'generateDietPlanPrompt',
       model: 'googleai/gemini-1.5-flash-latest',
       output: {schema: AiResponseSchema},
-      prompt: `You are an expert dietitian creating a list of suitable foods for a 7-day diet plan based on Indian nutritional guidelines.
+      prompt: `You are an expert dietitian creating a list of suitable foods for a 7-day diet plan based on Indian nutritional guidelines and the "My Plate for the Day" principle.
 
       **USER PROFILE:**
       - Health Requirements: ${input.healthRequirements}
@@ -124,105 +139,96 @@ const generateDietPlanFlow = ai.defineFlow(
       - Daily Protein Goal: ~${input.dailyProteinGoal || 70} g
 
       **CRITICAL INSTRUCTIONS:**
-      1.  **Suggest a Food Pool:** Your only task is to suggest a list of 25-35 varied food items suitable for a full week's plan.
-      2.  **Strictly Use Provided Foods:** You MUST select food items *exclusively* from the list provided at the end of this prompt. Do NOT invent or use any food not on the list.
-      3.  **Ensure Variety:** Provide a wide variety of foods from different food groups (grains, proteins (pulses/legumes), vegetables, fruits, snacks) to ensure a balanced and interesting weekly plan. This is the most important instruction.
-      4.  **Follow the Schema:** Your response must be a flat array of food items under the 'suggested_foods' key. Do not add any daily or meal-based structure.
+      1.  **Suggest Food Pools by Category:** Your only task is to suggest lists of food items for each of the specified categories in the output schema (breakfasts, cereals, proteins, vegetables, snacks, fruits).
+      2.  **Ensure Variety:** This is the most important instruction. Provide a wide variety of foods within each category to ensure a balanced and interesting weekly plan. The user should not eat the same thing every day.
+      3.  **Strictly Use Provided Foods:** You MUST select food items *exclusively* from the list provided at the end of this prompt. Do NOT invent or use any food not on this list.
+      4.  **Follow the Schema:** Your response must adhere to the schema precisely.
 
-      **--- AVAILABLE FOODS (with nutritional data for your reference) ---**
+      **--- AVAILABLE FOODS (with food groups for your reference) ---**
       [${foodListForPrompt}]
       `,
     });
 
     const { output: aiOutput } = await prompt({});
-
-    if (!aiOutput || !aiOutput.suggested_foods || aiOutput.suggested_foods.length < 10) {
-      throw new Error('AI failed to generate a sufficient list of food suggestions.');
+    
+    if (!aiOutput) {
+      throw new Error('AI failed to generate food suggestions.');
     }
 
-    const suggestedFoodItems = aiOutput.suggested_foods
-        .map(item => userFoodService.findFoodBySlug(item.name.toLowerCase().replace(/\s+/g, '-')) || foodDatabase.find(f => f.name.toLowerCase() === item.name.toLowerCase()))
-        .filter((item): item is FoodItem => !!item);
+    const findFood = (name: string) => userFoodService.findFoodBySlug(name.toLowerCase().replace(/\s+/g, '-')) || foodDatabase.find(f => f.name.toLowerCase() === name.toLowerCase());
+
+    const breakfastPool = shuffleArray(aiOutput.suggested_breakfasts.map(i => findFood(i.name)).filter((i): i is FoodItem => !!i));
+    const cerealPool = shuffleArray(aiOutput.suggested_cereals.map(i => findFood(i.name)).filter((i): i is FoodItem => !!i));
+    const proteinPool = shuffleArray(aiOutput.suggested_proteins.map(i => findFood(i.name)).filter((i): i is FoodItem => !!i));
+    const vegetablePool = shuffleArray(aiOutput.suggested_vegetables.map(i => findFood(i.name)).filter((i): i is FoodItem => !!i));
+    const snackPool = shuffleArray(aiOutput.suggested_snacks.map(i => findFood(i.name)).filter((i): i is FoodItem => !!i));
+    const fruitPool = shuffleArray(aiOutput.suggested_fruits.map(i => findFood(i.name)).filter((i): i is FoodItem => !!i));
+
+    if (breakfastPool.length < 3 || cerealPool.length < 2 || proteinPool.length < 3 || vegetablePool.length < 3) {
+      throw new Error("AI did not provide enough variety of items to build a balanced plan. Please try generating again.");
+    }
+
 
     const mealCategories = new Set(input.meals);
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
     const finalPlan: GenerateDietPlanOutput = { plan: [] };
     
-    const categorizedFoods: Record<MealCategory, FoodItem[]> = {
-        'Breakfast': [], 'Lunch': [], 'Dinner': [], 'Snack': [], 'Beverages': [], 'Other': [], 'Soups': [], 'Sweets, Candy & Desserts': [], 'Lunch/Dinner': [], 'Fruit': []
-    };
-    
-    suggestedFoodItems.forEach(item => {
-      const categories = Array.isArray(item.mealCategory) ? item.mealCategory : [item.mealCategory];
-      categories.forEach(cat => {
-        if(cat === 'Lunch/Dinner'){
-            categorizedFoods['Lunch'].push(item);
-            categorizedFoods['Dinner'].push(item);
-        } else if (cat) {
-            categorizedFoods[cat].push(item);
-        }
-      });
-    });
-
-    // Helper to get a random item from a list, avoiding duplicates in the same day
-    const getUniqueRandomItem = (list: FoodItem[], usedInDay: Set<string>): FoodItem | undefined => {
-        if (!list || list.length === 0) return undefined;
-        const availableItems = shuffleArray(list.filter(item => !usedInDay.has(item.slug)));
-        return availableItems[0];
+    const cursors = {
+        breakfast: { index: 0 },
+        cereal: { index: 0 },
+        protein: { index: 0 },
+        vegetable: { index: 0 },
+        snack: { index: 0 },
+        fruit: { index: 0 },
     };
     
     for (const day of days) {
         const dailyPlan: DailyPlanSchema = { day, meals: [] };
-        const usedToday = new Set<string>();
 
         if (mealCategories.has('breakfast')) {
-            const breakfastItem = getUniqueRandomItem(categorizedFoods['Breakfast'], usedToday);
+            const breakfastItem = getUniqueItem(breakfastPool, cursors.breakfast);
             if (breakfastItem) {
                 dailyPlan.meals.push({ type: 'breakfast', items: [breakfastItem] });
-                usedToday.add(breakfastItem.slug);
             }
         }
         
         if (mealCategories.has('lunch')) {
             const lunchItems: FoodItem[] = [];
-            // Simplified, more robust logic for meal composition
-            const mainCourse = getUniqueRandomItem(categorizedFoods['Lunch'], usedToday);
-            if (mainCourse) lunchItems.push(mainCourse);
-
-            // Try to add a side, but it's optional
-            const side = getUniqueRandomItem(categorizedFoods['Lunch'].filter(i => i.slug !== mainCourse?.slug), usedToday);
-            if (side && (side.foodGroup === 'Breads & Cereals' || side.foodGroup === 'Pasta, Rice & Noodles')) {
-              lunchItems.push(side);
-            }
+            const cereal = getUniqueItem(cerealPool, cursors.cereal);
+            const protein = getUniqueItem(proteinPool, cursors.protein);
+            const vegetable = getUniqueItem(vegetablePool, cursors.vegetable);
+            
+            if (cereal) lunchItems.push(cereal);
+            if (protein) lunchItems.push(protein);
+            if (vegetable) lunchItems.push(vegetable);
             
             if(lunchItems.length > 0) {
               dailyPlan.meals.push({ type: 'lunch', items: lunchItems });
-              lunchItems.forEach(i => usedToday.add(i.slug));
             }
         }
         
         if (mealCategories.has('dinner')) {
             const dinnerItems: FoodItem[] = [];
-            const mainCourse = getUniqueRandomItem(categorizedFoods['Dinner'], usedToday);
-            if (mainCourse) dinnerItems.push(mainCourse);
+            const cereal = getUniqueItem(cerealPool, cursors.cereal);
+            const protein = getUniqueItem(proteinPool, cursors.protein);
+            const vegetable = getUniqueItem(vegetablePool, cursors.vegetable);
 
-            const side = getUniqueRandomItem(categorizedFoods['Dinner'].filter(i => i.slug !== mainCourse?.slug), usedToday);
-            if (side && (side.foodGroup === 'Breads & Cereals' || side.foodGroup === 'Pasta, Rice & Noodles')) {
-              dinnerItems.push(side);
-            }
+            if (cereal) dinnerItems.push(cereal);
+            if (protein) dinnerItems.push(protein);
+            if (vegetable) dinnerItems.push(vegetable);
             
             if(dinnerItems.length > 0) {
               dailyPlan.meals.push({ type: 'dinner', items: dinnerItems });
-              dinnerItems.forEach(i => usedToday.add(i.slug));
             }
         }
 
         ['morning snack', 'afternoon snack', 'evening snack'].forEach(snackType => {
             if (mealCategories.has(snackType)) {
-                const snackItem = getUniqueRandomItem([...categorizedFoods['Snack'], ...categorizedFoods['Fruit']], usedToday);
+                // Alternate between snack and fruit pools for variety
+                const pool = cursors.snack.index % 2 === 0 ? snackPool : fruitPool;
+                const snackItem = getUniqueItem(pool, cursors.snack);
                 if (snackItem) {
                     dailyPlan.meals.push({ type: snackType as any, items: [snackItem] });
-                    usedToday.add(snackItem.slug);
                 }
             }
         });
