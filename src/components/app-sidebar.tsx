@@ -17,6 +17,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { useRouter } from "next/navigation";
 import { Button } from "./ui/button";
 import Image from "next/image";
+import { Label } from "./ui/label";
 
 const Logo = () => (
     <div className="flex items-center justify-center p-1 rounded-full bg-sidebar-primary shrink-0">
@@ -54,7 +55,7 @@ const ProfileSwitcher = () => {
     return (
         <div className="p-2 space-y-2">
             <div className="group-data-[collapsible=icon]:hidden">
-                <label className="text-xs text-sidebar-foreground/70 px-2">Active Profile</label>
+                <Label className="text-xs text-sidebar-foreground/70 px-2">Active Profile</Label>
                 <Select value={activeProfile?.id} onValueChange={setActiveProfileId}>
                     <SelectTrigger className="truncate bg-sidebar-accent border-sidebar-border text-sidebar-accent-foreground">
                         <SelectValue placeholder="Select a profile" />
