@@ -1,339 +1,67 @@
+import type { FoodItem, MealCategory } from '@/lib/food-data';
 
-[
-    {
-        "slug": "butter-clarified",
-        "name": "Butter Clarified",
-        "cuisine": "Generic",
-        "mealCategory": "Other",
-        "foodGroup": "Cheese, Milk & Dairy",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 876,
-            "totalFat": { "value": 99.48 },
-            "saturatedFat": { "value": 61.924 },
-            "monounsaturatedFat": { "value": 28.732 },
-            "polyunsaturatedFat": { "value": 3.694 },
-            "cholesterol": { "value": 256 },
-            "sodium": { "value": 2 },
-            "totalCarbohydrate": { "value": 0 },
-            "dietaryFiber": { "value": 0 },
-            "sugars": { "value": 0 },
-            "protein": { "value": 0.28 },
-            "calcium": { "value": 4 },
-            "iron": { "value": 0 },
-            "potassium": { "value": 5 },
-            "vitaminA": { "value": 840, "percent": 93 },
-            "vitaminD": { "value": 0 },
-            "vitaminE": { "value": 2.8 },
-            "vitaminK": { "value": 8.6 }
-        },
-        "nutritionSummary": {
-            "calories": 876,
-            "fat": "99.5g",
-            "carbs": "0.0g",
-            "protein": "0.3g",
-            "summaryText": "Also known as Ghee. Pure butterfat.",
-            "breakdown": "100% fat, 0% carbs, 0% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 876 },
-            { "size": "1 tbsp (14g)", "calories": 123 }
-        ]
-    },
-    {
-        "slug": "buttermilk",
-        "name": "Buttermilk",
-        "cuisine": "Generic",
-        "mealCategory": "Beverages",
-        "foodGroup": "Cheese, Milk & Dairy",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 62,
-            "totalFat": { "value": 3.31 },
-            "saturatedFat": { "value": 1.899 },
-            "monounsaturatedFat": { "value": 0.827 },
-            "polyunsaturatedFat": { "value": 0.198 },
-            "cholesterol": { "value": 13 },
-            "sodium": { "value": 105 },
-            "totalCarbohydrate": { "value": 4.88 },
-            "dietaryFiber": { "value": 0 },
-            "sugars": { "value": 4.88 },
-            "protein": { "value": 3.21 },
-            "calcium": { "value": 115 },
-            "iron": { "value": 0.03 },
-            "potassium": { "value": 135 },
-            "vitaminA": { "value": 47, "percent": 5 },
-            "vitaminB12": { "value": 0.46 },
-            "vitaminD": { "value": 1.3 }
-        },
-        "nutritionSummary": {
-            "calories": 62,
-            "fat": "3.3g",
-            "carbs": "4.9g",
-            "protein": "3.2g",
-            "summaryText": "Cultured low-fat milk, good source of calcium.",
-            "breakdown": "44% fat, 29% carbs, 27% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 62 },
-            { "size": "1 cup (245g)", "calories": 152 }
-        ]
-    },
-    {
-        "slug": "paneer",
-        "name": "Paneer",
-        "cuisine": "Indian",
-        "mealCategory": ["Lunch", "Dinner"],
-        "foodGroup": "Cheese, Milk & Dairy",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 300,
-            "totalFat": { "value": 22.5 },
-            "saturatedFat": { "value": 13.8 },
-            "cholesterol": { "value": 62 },
-            "sodium": { "value": 466 },
-            "totalCarbohydrate": { "value": 1.5 },
-            "sugars": { "value": 1.5 },
-            "protein": { "value": 19.5 },
-            "calcium": { "value": 480 },
-            "iron": { "value": 0.8 },
-            "potassium": { "value": 138 }
-        },
-        "nutritionSummary": {
-            "calories": 300,
-            "fat": "22.5g",
-            "carbs": "1.5g",
-            "protein": "19.5g",
-            "summaryText": "A fresh, non-melting cheese common in Indian cuisine, made from cow or buffalo milk.",
-            "breakdown": "68% fat, 2% carbs, 30% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 300 },
-            { "size": "1 oz (28g)", "calories": 85 }
-        ]
-    },
-    {
-        "slug": "cheese-cottage-creamed",
-        "name": "Cheese Cottage Creamed",
-        "cuisine": "Generic",
-        "mealCategory": "Other",
-        "foodGroup": "Cheese, Milk & Dairy",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 98,
-            "totalFat": { "value": 4.3 },
-            "saturatedFat": { "value": 1.718 },
-            "cholesterol": { "value": 17 },
-            "sodium": { "value": 315 },
-            "totalCarbohydrate": { "value": 3.4 },
-            "sugars": { "value": 2.67 },
-            "protein": { "value": 11 },
-            "calcium": { "value": 83 },
-            "iron": { "value": 0.07 },
-            "potassium": { "value": 104 }
-        },
-        "nutritionSummary": {
-            "calories": 98,
-            "fat": "4.3g",
-            "carbs": "3.4g",
-            "protein": "11.1g",
-            "summaryText": "Fresh cheese curd product with a mild flavor.",
-            "breakdown": "39% fat, 14% carbs, 47% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 98 },
-            { "size": "1 cup (210g)", "calories": 206 }
-        ]
-    },
-    {
-        "slug": "cheese-cream",
-        "name": "Cheese Cream",
-        "cuisine": "Generic",
-        "mealCategory": "Other",
-        "foodGroup": "Cheese, Milk & Dairy",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 350,
-            "totalFat": { "value": 34.44 },
-            "saturatedFat": { "value": 20.213 },
-            "monounsaturatedFat": { "value": 8.907 },
-            "polyunsaturatedFat": { "value": 1.483 },
-            "cholesterol": { "value": 101 },
-            "sodium": { "value": 314 },
-            "totalCarbohydrate": { "value": 5.52 },
-            "dietaryFiber": { "value": 0 },
-            "sugars": { "value": 3.76 },
-            "protein": { "value": 6.15 },
-            "calcium": { "value": 97 },
-            "iron": { "value": 0.11 },
-            "potassium": { "value": 132 },
-            "vitaminA": { "value": 308, "percent": 34 },
-            "vitaminE": { "value": 0.86 },
-            "vitaminK": { "value": 10.8 }
-        },
-        "nutritionSummary": {
-            "calories": 350,
-            "fat": "34.4g",
-            "carbs": "5.5g",
-            "protein": "6.2g",
-            "summaryText": "Soft, mild-tasting fresh cheese made from milk and cream.",
-            "breakdown": "84% fat, 6% carbs, 10% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 350 },
-            { "size": "1 oz (28g)", "calories": 99 }
-        ]
-    },
-    {
-        "slug": "egg-chicken",
-        "name": "Egg Chicken",
-        "cuisine": "Generic",
-        "mealCategory": "Breakfast",
-        "foodGroup": "Eggs",
-        "nutritionFacts": {
-            "servingSize": "50 g",
-            "calories": 72,
-            "totalFat": { "value": 5 },
-            "saturatedFat": { "value": 1.6 },
-            "cholesterol": { "value": 186 },
-            "sodium": { "value": 71 },
-            "totalCarbohydrate": { "value": 0 },
-            "protein": { "value": 6 },
-            "calcium": { "value": 28 },
-            "iron": { "value": 0.9 },
-            "potassium": { "value": 69 },
-            "vitaminD": { "value": 1 }
-        },
-        "nutritionSummary": {
-            "calories": 72,
-            "fat": "5.0g",
-            "carbs": "0g",
-            "protein": "6g",
-            "summaryText": "A whole large chicken egg, a versatile source of protein.",
-            "breakdown": "62% fat, 0% carbs, 38% protein."
-        },
-        "servingSizes": [
-            { "size": "1 large (50g)", "calories": 72 },
-            { "size": "100 g", "calories": 144 }
-        ]
-    },
-    {
-        "slug": "whey-protein",
-        "name": "Whey Protein",
-        "cuisine": "Generic",
-        "mealCategory": "Other",
-        "foodGroup": "Other",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 116,
-            "totalFat": { "value": 1.5 },
-            "cholesterol": { "value": 5 },
-            "sodium": { "value": 50 },
-            "totalCarbohydrate": { "value": 1 },
-            "protein": { "value": 24 },
-            "calcium": { "value": 120 },
-            "iron": { "value": 0.4 },
-            "potassium": { "value": 160 }
-        },
-        "nutritionSummary": {
-            "calories": 116,
-            "fat": "1.5g",
-            "carbs": "1g",
-            "protein": "24g",
-            "summaryText": "A popular protein supplement derived from milk.",
-            "breakdown": "12% fat, 3% carbs, 85% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 116 }
-        ]
-    },
-    {
-        "slug": "curd",
-        "name": "Curd",
-        "cuisine": "Generic",
-        "mealCategory": "Other",
-        "foodGroup": "Cheese, Milk & Dairy",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 63,
-            "totalFat": { "value": 5 },
-            "cholesterol": { "value": 13 },
-            "sodium": { "value": 46 },
-            "totalCarbohydrate": { "value": 3 },
-            "protein": { "value": 4 },
-            "calcium": { "value": 121 },
-            "potassium": { "value": 155 }
-        },
-        "nutritionSummary": {
-            "calories": 63,
-            "fat": "5g",
-            "carbs": "3g",
-            "protein": "4g",
-            "summaryText": "Also known as Dahi, a traditional yogurt or fermented milk product.",
-            "breakdown": "71% fat, 19% carbs, 10% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 63 }
-        ]
-    },
-    {
-        "slug": "tofu",
-        "name": "Tofu",
-        "cuisine": "Generic",
-        "mealCategory": ["Lunch", "Dinner"],
-        "foodGroup": "Beans & Legumes",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 79,
-            "totalFat": { "value": 4.8 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 7 },
-            "totalCarbohydrate": { "value": 1.9 },
-            "protein": { "value": 8 },
-            "calcium": { "value": 350 },
-            "iron": { "value": 5.4 },
-            "potassium": { "value": 121 }
-        },
-        "nutritionSummary": {
-            "calories": 79,
-            "fat": "4.8g",
-            "carbs": "1.9g",
-            "protein": "8g",
-            "summaryText": "A popular plant-based protein made from soybeans.",
-            "breakdown": "55% fat, 10% carbs, 45% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 79 }
-        ]
-    },
-    {
-        "slug": "tempeh",
-        "name": "Tempeh",
-        "cuisine": "Generic",
-        "mealCategory": ["Lunch", "Dinner"],
-        "foodGroup": "Beans & Legumes",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 192,
-            "totalFat": { "value": 11 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 9 },
-            "totalCarbohydrate": { "value": 9 },
-            "protein": { "value": 20 },
-            "calcium": { "value": 111 },
-            "iron": { "value": 2.7 },
-            "potassium": { "value": 412 }
-        },
-        "nutritionSummary": {
-            "calories": 192,
-            "fat": "11g",
-            "carbs": "9g",
-            "protein": "20g",
-            "summaryText": "A fermented soybean cake with a nutty, mushroom-like flavor.",
-            "breakdown": "52% fat, 19% carbs, 39% protein."
-        },
-        "servingSizes": [
-            { "size": "100 g", "calories": 192 }
-        ]
+let baseFoodDatabase: FoodItem[] = [];
+let isInitialized = false;
+
+export class FoodService {
+  private foodDatabase: FoodItem[];
+
+  constructor(
+    categoryOverrides: Record<string, MealCategory[]> = {},
+    aliasOverrides: Record<string, string[]> = {}
+  ) {
+    if (!isInitialized) {
+        console.warn("FoodService used before explicit initialization. This may lead to an empty food database on first load.");
     }
-]
+    this.foodDatabase = this.applyOverrides(baseFoodDatabase, categoryOverrides, aliasOverrides);
+  }
+
+  public static async initialize() {
+    if (isInitialized) {
+      return;
+    }
+    
+    const foodData = await import('@/lib/food-data.json');
+    
+    // Using a Map to ensure unique items by slug, preventing duplicates.
+    const foodMap = new Map<string, FoodItem>();
+    foodData.default.forEach(item => {
+        foodMap.set(item.slug, item as FoodItem);
+    });
+
+    baseFoodDatabase = Array.from(foodMap.values());
+    isInitialized = true;
+  }
+
+  private applyOverrides(
+    baseData: FoodItem[],
+    catOverrides: Record<string, MealCategory[]>,
+    aliasOverrides: Record<string, string[]>
+  ): FoodItem[] {
+    if (!baseData || baseData.length === 0) {
+        return [];
+    }
+    return baseData.map(item => ({
+      ...item,
+      mealCategory: catOverrides[item.slug] || item.mealCategory,
+      aliases: aliasOverrides[item.slug] || item.aliases,
+    }));
+  }
+
+  public getFoodDatabase(): FoodItem[] {
+    return this.foodDatabase;
+  }
+  
+  public findFoodBySlug(slug: string): FoodItem | undefined {
+    return this.getFoodDatabase().find(item => item.slug === slug);
+  }
+}
+
+export const getFoodService = (
+  categoryOverrides?: Record<string, MealCategory[]>,
+  aliasOverrides?: Record<string, string[]>
+) => {
+  return new FoodService(categoryOverrides, aliasOverrides);
+};
+
+export const foodService = new FoodService();

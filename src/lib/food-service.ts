@@ -22,36 +22,11 @@ export class FoodService {
       return;
     }
     
-    const [
-        data1, data2, data3, data4, data5, 
-        dairyAndEggsData, nutsAndSeedsData, fruitsData, meatAndFishData
-    ] = await Promise.all([
-        import('@/lib/food-data-split/food-data-1.json'),
-        import('@/lib/food-data-split/food-data-2.json'),
-        import('@/lib/food-data-split/food-data-3.json'),
-        import('@/lib/food-data-split/food-data-4.json'),
-        import('@/lib/food-data-split/food-data-5.json'),
-        import('@/lib/food-data-split/dairy-and-eggs.json'),
-        import('@/lib/food-data-split/nuts-and-seeds.json'),
-        import('@/lib/food-data-split/fruits.json'),
-        import('@/lib/food-data-split/meat-and-fish.json')
-    ]);
-
-    const allData = [
-      ...data1.default,
-      ...data2.default,
-      ...data3.default,
-      ...data4.default,
-      ...data5.default,
-      ...dairyAndEggsData.default,
-      ...nutsAndSeedsData.default,
-      ...fruitsData.default,
-      ...meatAndFishData.default
-    ];
+    const foodData = await import('@/lib/food-data.json');
     
     // Using a Map to ensure unique items by slug, preventing duplicates.
     const foodMap = new Map<string, FoodItem>();
-    allData.forEach(item => {
+    foodData.default.forEach(item => {
         foodMap.set(item.slug, item as FoodItem);
     });
 

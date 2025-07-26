@@ -1,536 +1,67 @@
+import type { FoodItem, MealCategory } from '@/lib/food-data';
 
-[
-    {
-        "slug": "acorn-dried",
-        "name": "Acorn Dried",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 509,
-            "totalFat": { "value": 31.41 },
-            "saturatedFat": { "value": 4.084 },
-            "monounsaturatedFat": { "value": 19.896 },
-            "polyunsaturatedFat": { "value": 6.052 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 0 },
-            "totalCarbohydrate": { "value": 53.66 },
-            "protein": { "value": 8.1 },
-            "calcium": { "value": 54 },
-            "iron": { "value": 1.04 },
-            "potassium": { "value": 709 },
-            "zinc": { "value": 0.67 }
-        },
-        "nutritionSummary": {
-            "calories": 509,
-            "fat": "31.4g",
-            "carbs": "53.7g",
-            "protein": "8.1g",
-            "summaryText": "Dried acorns, edible after leaching tannins. A source of healthy fats and carbohydrates.",
-            "breakdown": "56% fat, 42% carbs, 2% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 509 }]
-    },
-    {
-        "slug": "almond",
-        "name": "Almond",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 579,
-            "totalFat": { "value": 49.93 },
-            "saturatedFat": { "value": 3.802 },
-            "monounsaturatedFat": { "value": 31.551 },
-            "polyunsaturatedFat": { "value": 12.329 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 1 },
-            "totalCarbohydrate": { "value": 21.55 },
-            "dietaryFiber": { "value": 12.5 },
-            "protein": { "value": 21.15 },
-            "calcium": { "value": 269 },
-            "iron": { "value": 3.71 },
-            "potassium": { "value": 733 },
-            "zinc": { "value": 3.12 },
-            "vitaminE": { "value": 25.63 }
-        },
-        "nutritionSummary": {
-            "calories": 579,
-            "fat": "49.9g",
-            "carbs": "21.6g",
-            "protein": "21.2g",
-            "summaryText": "A popular tree nut rich in healthy fats, vitamin E, and protein. Excellent for a healthy snack.",
-            "breakdown": "73% fat, 15% carbs, 12% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 579 }, { "size": "1 oz (28g)", "calories": 164 }]
-    },
-    {
-        "slug": "brazil-nut-dried",
-        "name": "Brazil Nut Dried",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 659,
-            "totalFat": { "value": 67.1 },
-            "saturatedFat": { "value": 16.134 },
-            "monounsaturatedFat": { "value": 23.879 },
-            "polyunsaturatedFat": { "value": 24.399 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 3 },
-            "totalCarbohydrate": { "value": 11.74 },
-            "dietaryFiber": { "value": 7.5 },
-            "protein": { "value": 14.32 },
-            "calcium": { "value": 160 },
-            "iron": { "value": 2.43 },
-            "potassium": { "value": 659 },
-            "zinc": { "value": 4.06 },
-            "selenium": { "value": 1917 }
-        },
-        "nutritionSummary": {
-            "calories": 659,
-            "fat": "67.1g",
-            "carbs": "11.7g",
-            "protein": "14.3g",
-            "summaryText": "Large nuts from a South American tree, exceptionally high in selenium. A few nuts can meet the daily requirement.",
-            "breakdown": "83% fat, 7% carbs, 10% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 659 }, { "size": "1 oz (28g)", "calories": 187 }]
-    },
-    {
-        "slug": "cashew",
-        "name": "Cashew",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 553,
-            "totalFat": { "value": 43.85 },
-            "saturatedFat": { "value": 7.783 },
-            "monounsaturatedFat": { "value": 23.797 },
-            "polyunsaturatedFat": { "value": 7.845 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 12 },
-            "totalCarbohydrate": { "value": 30.19 },
-            "dietaryFiber": { "value": 3.3 },
-            "protein": { "value": 18.22 },
-            "calcium": { "value": 37 },
-            "iron": { "value": 6.68 },
-            "potassium": { "value": 660 },
-            "zinc": { "value": 5.78 }
-        },
-        "nutritionSummary": {
-            "calories": 553,
-            "fat": "43.9g",
-            "carbs": "30.2g",
-            "protein": "18.2g",
-            "summaryText": "Kidney-shaped nuts that are rich in healthy fats and protein. A good choice for a balanced diet.",
-            "breakdown": "67% fat, 21% carbs, 12% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 553 }, { "size": "1 oz (28g)", "calories": 157 }]
-    },
-    {
-        "slug": "chia-seed",
-        "name": "Chia Seed",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 486,
-            "totalFat": { "value": 30.74 },
-            "saturatedFat": { "value": 3.33 },
-            "monounsaturatedFat": { "value": 2.309 },
-            "polyunsaturatedFat": { "value": 23.665 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 16 },
-            "totalCarbohydrate": { "value": 42.12 },
-            "dietaryFiber": { "value": 34.4 },
-            "protein": { "value": 16.54 },
-            "calcium": { "value": 631 },
-            "iron": { "value": 7.72 },
-            "potassium": { "value": 407 },
-            "zinc": { "value": 4.58 },
-            "vitaminA": { "value": 0, "percent": 0 },
-            "vitaminC": { "value": 1.6 }
-        },
-        "nutritionSummary": {
-            "calories": 486,
-            "fat": "30.7g",
-            "carbs": "42.1g",
-            "protein": "16.5g",
-            "summaryText": "Tiny black seeds, high in omega-3, fiber, and protein. Recommended for vegetarians to meet n-3 PUFA needs.",
-            "breakdown": "54% fat, 34% carbs, 12% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 486 }, { "size": "1 tbsp (12g)", "calories": 58 }]
-    },
-    {
-        "slug": "flaxseed",
-        "name": "Flaxseed",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 534,
-            "totalFat": { "value": 42.16 },
-            "saturatedFat": { "value": 3.663 },
-            "monounsaturatedFat": { "value": 7.527 },
-            "polyunsaturatedFat": { "value": 28.73 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 30 },
-            "totalCarbohydrate": { "value": 28.88 },
-            "dietaryFiber": { "value": 27.3 },
-            "protein": { "value": 18.29 },
-            "calcium": { "value": 255 },
-            "iron": { "value": 5.73 },
-            "potassium": { "value": 813 },
-            "zinc": { "value": 4.34 }
-        },
-        "nutritionSummary": {
-            "calories": 534,
-            "fat": "42.2g",
-            "carbs": "28.9g",
-            "protein": "18.3g",
-            "summaryText": "Small seeds rich in n-3 PUFA and fiber. A key food for vegetarians to get essential fatty acids.",
-            "breakdown": "66% fat, 21% carbs, 13% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 534 }, { "size": "1 tbsp (10g)", "calories": 53 }]
-    },
-    {
-        "slug": "hazelnut",
-        "name": "Hazelnut",
-        "aliases": ["Filbert"],
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 628,
-            "totalFat": { "value": 60.75 },
-            "saturatedFat": { "value": 4.464 },
-            "monounsaturatedFat": { "value": 45.652 },
-            "polyunsaturatedFat": { "value": 7.92 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 0 },
-            "totalCarbohydrate": { "value": 16.7 },
-            "dietaryFiber": { "value": 9.7 },
-            "protein": { "value": 14.95 },
-            "calcium": { "value": 114 },
-            "iron": { "value": 4.7 },
-            "potassium": { "value": 680 },
-            "zinc": { "value": 2.45 }
-        },
-        "nutritionSummary": {
-            "calories": 628,
-            "fat": "60.8g",
-            "carbs": "16.7g",
-            "protein": "15.0g",
-            "summaryText": "Sweet nuts, rich in monounsaturated fats and vitamin E.",
-            "breakdown": "80% fat, 10% carbs, 10% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 628 }, { "size": "1 oz (28g)", "calories": 178 }]
-    },
-    {
-        "slug": "macadamia-nut",
-        "name": "Macadamia Nut",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 718,
-            "totalFat": { "value": 75.77 },
-            "saturatedFat": { "value": 12.061 },
-            "monounsaturatedFat": { "value": 58.877 },
-            "polyunsaturatedFat": { "value": 1.502 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 5 },
-            "totalCarbohydrate": { "value": 13.82 },
-            "dietaryFiber": { "value": 8.6 },
-            "protein": { "value": 7.91 },
-            "calcium": { "value": 85 },
-            "iron": { "value": 3.69 },
-            "potassium": { "value": 368 },
-            "zinc": { "value": 1.3 }
-        },
-        "nutritionSummary": {
-            "calories": 718,
-            "fat": "75.8g",
-            "carbs": "13.8g",
-            "protein": "7.9g",
-            "summaryText": "Rich, buttery nuts high in monounsaturated fats.",
-            "breakdown": "89% fat, 7% carbs, 4% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 718 }, { "size": "1 oz (28g)", "calories": 204 }]
-    },
-    {
-        "slug": "peanut",
-        "name": "Peanut",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 567,
-            "totalFat": { "value": 49.24 },
-            "saturatedFat": { "value": 6.279 },
-            "monounsaturatedFat": { "value": 24.426 },
-            "polyunsaturatedFat": { "value": 15.558 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 18 },
-            "totalCarbohydrate": { "value": 16.13 },
-            "dietaryFiber": { "value": 8.5 },
-            "protein": { "value": 25.8 },
-            "calcium": { "value": 92 },
-            "iron": { "value": 4.58 },
-            "potassium": { "value": 705 },
-            "zinc": { "value": 3.27 }
-        },
-        "nutritionSummary": {
-            "calories": 567,
-            "fat": "49.2g",
-            "carbs": "16.1g",
-            "protein": "25.8g",
-            "summaryText": "A legume that's popular as a nut, high in protein and healthy fats. A great healthy snack option.",
-            "breakdown": "72% fat, 11% carbs, 17% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 567 }, { "size": "1 oz (28g)", "calories": 161 }]
-    },
-    {
-        "slug": "pecan",
-        "name": "Pecan",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 691,
-            "totalFat": { "value": 71.97 },
-            "saturatedFat": { "value": 6.18 },
-            "monounsaturatedFat": { "value": 40.801 },
-            "polyunsaturatedFat": { "value": 21.614 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 0 },
-            "totalCarbohydrate": { "value": 13.86 },
-            "dietaryFiber": { "value": 9.6 },
-            "protein": { "value": 9.17 },
-            "calcium": { "value": 70 },
-            "iron": { "value": 2.53 },
-            "potassium": { "value": 410 },
-            "zinc": { "value": 4.53 }
-        },
-        "nutritionSummary": {
-            "calories": 691,
-            "fat": "72.0g",
-            "carbs": "13.9g",
-            "protein": "9.2g",
-            "summaryText": "A sweet, buttery nut, often used in desserts. High in healthy fats.",
-            "breakdown": "87% fat, 8% carbs, 5% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 691 }, { "size": "1 oz (28g)", "calories": 196 }]
-    },
-    {
-        "slug": "pine-nut",
-        "name": "Pine Nut",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 673,
-            "totalFat": { "value": 68.37 },
-            "saturatedFat": { "value": 4.899 },
-            "monounsaturatedFat": { "value": 18.764 },
-            "polyunsaturatedFat": { "value": 34.071 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 2 },
-            "totalCarbohydrate": { "value": 13.08 },
-            "dietaryFiber": { "value": 3.7 },
-            "protein": { "value": 13.69 },
-            "calcium": { "value": 16 },
-            "iron": { "value": 5.53 },
-            "potassium": { "value": 597 },
-            "zinc": { "value": 6.45 }
-        },
-        "nutritionSummary": {
-            "calories": 673,
-            "fat": "68.4g",
-            "carbs": "13.1g",
-            "protein": "13.7g",
-            "summaryText": "Edible seeds of pines, used in pesto and as a snack. A good source of healthy fats.",
-            "breakdown": "84% fat, 8% carbs, 8% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 673 }, { "size": "1 tbsp (8g)", "calories": 54 }]
-    },
-    {
-        "slug": "pistachio-nut",
-        "name": "Pistachio Nut",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 560,
-            "totalFat": { "value": 45.32 },
-            "saturatedFat": { "value": 5.907 },
-            "monounsaturatedFat": { "value": 23.257 },
-            "polyunsaturatedFat": { "value": 14.38 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 1 },
-            "totalCarbohydrate": { "value": 27.17 },
-            "dietaryFiber": { "value": 10.6 },
-            "protein": { "value": 20.16 },
-            "calcium": { "value": 105 },
-            "iron": { "value": 3.92 },
-            "potassium": { "value": 1025 },
-            "zinc": { "value": 2.2 }
-        },
-        "nutritionSummary": {
-            "calories": 560,
-            "fat": "45.3g",
-            "carbs": "27.2g",
-            "protein": "20.2g",
-            "summaryText": "A small green nut, often eaten salted. A great source of protein, fiber, and healthy fats.",
-            "breakdown": "68% fat, 19% carbs, 13% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 560 }, { "size": "1 oz (28g)", "calories": 159 }]
-    },
-    {
-        "slug": "pumpkin-seed-kernel",
-        "name": "Pumpkin Seed Kernel",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 559,
-            "totalFat": { "value": 49.05 },
-            "saturatedFat": { "value": 8.659 },
-            "monounsaturatedFat": { "value": 16.242 },
-            "polyunsaturatedFat": { "value": 20.976 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 7 },
-            "totalCarbohydrate": { "value": 10.71 },
-            "dietaryFiber": { "value": 6 },
-            "protein": { "value": 30.23 },
-            "calcium": { "value": 46 },
-            "iron": { "value": 8.82 },
-            "potassium": { "value": 809 },
-            "zinc": { "value": 7.81 }
-        },
-        "nutritionSummary": {
-            "calories": 559,
-            "fat": "49.1g",
-            "carbs": "10.7g",
-            "protein": "30.2g",
-            "summaryText": "Edible seeds of a pumpkin, rich in magnesium and zinc. A nutrient-dense snack.",
-            "breakdown": "73% fat, 7% carbs, 20% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 559 }, { "size": "1 oz (28g)", "calories": 158 }]
-    },
-    {
-        "slug": "sesame-seed",
-        "name": "Sesame Seed",
-        "aliases": ["Sesame Seed Kernel", "Sesame Seed Whole"],
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 573,
-            "totalFat": { "value": 49.67 },
-            "saturatedFat": { "value": 6.957 },
-            "monounsaturatedFat": { "value": 18.759 },
-            "polyunsaturatedFat": { "value": 21.773 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 11 },
-            "totalCarbohydrate": { "value": 23.45 },
-            "dietaryFiber": { "value": 11.8 },
-            "protein": { "value": 17.73 },
-            "calcium": { "value": 975 },
-            "iron": { "value": 14.55 },
-            "potassium": { "value": 468 },
-            "zinc": { "value": 7.75 }
-        },
-        "nutritionSummary": {
-            "calories": 573,
-            "fat": "49.7g",
-            "carbs": "23.5g",
-            "protein": "17.7g",
-            "summaryText": "Tiny, oil-rich seeds used in many cuisines. An excellent source of calcium.",
-            "breakdown": "72% fat, 16% carbs, 12% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 573 }, { "size": "1 tbsp (9g)", "calories": 52 }]
-    },
-    {
-        "slug": "sunflower-seed-kernel",
-        "name": "Sunflower Seed Kernel",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 584,
-            "totalFat": { "value": 51.46 },
-            "saturatedFat": { "value": 4.455 },
-            "monounsaturatedFat": { "value": 18.528 },
-            "polyunsaturatedFat": { "value": 23.137 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 9 },
-            "totalCarbohydrate": { "value": 20 },
-            "dietaryFiber": { "value": 8.6 },
-            "protein": { "value": 20.78 },
-            "calcium": { "value": 78 },
-            "iron": { "value": 5.25 },
-            "potassium": { "value": 645 },
-            "zinc": { "value": 5 }
-        },
-        "nutritionSummary": {
-            "calories": 584,
-            "fat": "51.5g",
-            "carbs": "20.0g",
-            "protein": "20.8g",
-            "summaryText": "The edible part of the sunflower seed, high in vitamin E. A great addition to salads and snacks.",
-            "breakdown": "73% fat, 13% carbs, 14% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 584 }, { "size": "1 oz (28g)", "calories": 165 }]
-    },
-    {
-        "slug": "walnut",
-        "name": "Walnut",
-        "cuisine": "Generic",
-        "mealCategory": "Snack",
-        "foodGroup": "Nuts & Seeds",
-        "nutritionFacts": {
-            "servingSize": "100 g",
-            "calories": 654,
-            "totalFat": { "value": 65.21 },
-            "saturatedFat": { "value": 6.126 },
-            "monounsaturatedFat": { "value": 8.933 },
-            "polyunsaturatedFat": { "value": 47.174 },
-            "cholesterol": { "value": 0 },
-            "sodium": { "value": 2 },
-            "totalCarbohydrate": { "value": 13.71 },
-            "dietaryFiber": { "value": 6.7 },
-            "protein": { "value": 15.23 },
-            "calcium": { "value": 98 },
-            "iron": { "value": 2.91 },
-            "potassium": { "value": 441 },
-            "zinc": { "value": 3.09 }
-        },
-        "nutritionSummary": {
-            "calories": 654,
-            "fat": "65.2g",
-            "carbs": "13.7g",
-            "protein": "15.2g",
-            "summaryText": "A wrinkled, brain-shaped nut, high in n-3 PUFA. An important source of essential fatty acids for vegetarians.",
-            "breakdown": "83% fat, 8% carbs, 9% protein."
-        },
-        "servingSizes": [{ "size": "100 g", "calories": 654 }, { "size": "1 oz (28g)", "calories": 185 }]
+let baseFoodDatabase: FoodItem[] = [];
+let isInitialized = false;
+
+export class FoodService {
+  private foodDatabase: FoodItem[];
+
+  constructor(
+    categoryOverrides: Record<string, MealCategory[]> = {},
+    aliasOverrides: Record<string, string[]> = {}
+  ) {
+    if (!isInitialized) {
+        console.warn("FoodService used before explicit initialization. This may lead to an empty food database on first load.");
     }
-]
+    this.foodDatabase = this.applyOverrides(baseFoodDatabase, categoryOverrides, aliasOverrides);
+  }
+
+  public static async initialize() {
+    if (isInitialized) {
+      return;
+    }
+    
+    const foodData = await import('@/lib/food-data.json');
+    
+    // Using a Map to ensure unique items by slug, preventing duplicates.
+    const foodMap = new Map<string, FoodItem>();
+    foodData.default.forEach(item => {
+        foodMap.set(item.slug, item as FoodItem);
+    });
+
+    baseFoodDatabase = Array.from(foodMap.values());
+    isInitialized = true;
+  }
+
+  private applyOverrides(
+    baseData: FoodItem[],
+    catOverrides: Record<string, MealCategory[]>,
+    aliasOverrides: Record<string, string[]>
+  ): FoodItem[] {
+    if (!baseData || baseData.length === 0) {
+        return [];
+    }
+    return baseData.map(item => ({
+      ...item,
+      mealCategory: catOverrides[item.slug] || item.mealCategory,
+      aliases: aliasOverrides[item.slug] || item.aliases,
+    }));
+  }
+
+  public getFoodDatabase(): FoodItem[] {
+    return this.foodDatabase;
+  }
+  
+  public findFoodBySlug(slug: string): FoodItem | undefined {
+    return this.getFoodDatabase().find(item => item.slug === slug);
+  }
+}
+
+export const getFoodService = (
+  categoryOverrides?: Record<string, MealCategory[]>,
+  aliasOverrides?: Record<string, string[]>
+) => {
+  return new FoodService(categoryOverrides, aliasOverrides);
+};
+
+export const foodService = new FoodService();
