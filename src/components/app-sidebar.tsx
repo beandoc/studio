@@ -54,10 +54,10 @@ const ProfileSwitcher = () => {
 
     return (
         <div className="p-2 space-y-2">
-            <div className="group-data-[collapsible=icon]:hidden">
-                <Label className="text-xs text-sidebar-foreground/70 px-2">Active Profile</Label>
+            <div className="group-data-[collapsible=icon]:hidden space-y-1">
+                <Label className="text-xs text-sidebar-foreground/70 px-2" htmlFor="profile-switcher">Active Profile</Label>
                 <Select value={activeProfile?.id} onValueChange={setActiveProfileId}>
-                    <SelectTrigger className="truncate bg-sidebar-accent border-sidebar-border text-sidebar-accent-foreground">
+                    <SelectTrigger id="profile-switcher" className="truncate bg-sidebar-accent border-sidebar-border text-sidebar-accent-foreground">
                         <SelectValue placeholder="Select a profile" />
                     </SelectTrigger>
                     <SelectContent>
@@ -94,5 +94,3 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
-
-    

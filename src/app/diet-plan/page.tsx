@@ -141,16 +141,14 @@ export default function DietPlanPage() {
     }
   };
   
-  const handleFlipMeal = (day: string, mealType: string, mealItemName: string) => {
-    const mealToFlip = findFoodBySlug(mealItemName.toLowerCase().replace(/\s+/g, '-'));
-    
-    if (mealToFlip && mealToFlip.slug) {
-        router.push(`/meal-alternatives?mealSlug=${mealToFlip.slug}&day=${day}&mealType=${mealType}&originalMealName=${encodeURIComponent(mealItemName)}`);
+  const handleFlipMeal = (day: string, mealType: string, mealSlug: string, mealName: string) => {
+    if (mealSlug) {
+        router.push(`/meal-alternatives?mealSlug=${mealSlug}&day=${day}&mealType=${mealType}&originalMealName=${encodeURIComponent(mealName)}`);
     } else {
         toast({
             variant: "destructive",
             title: "Meal not found",
-            description: `Could not find "${mealItemName}" in the database to get alternatives.`
+            description: `Could not find "${mealName}" in the database to get alternatives.`
         });
     }
   };
@@ -316,7 +314,7 @@ export default function DietPlanPage() {
                                     <p className="text-sm text-muted-foreground mt-1">{foodItem?.nutritionSummary?.summaryText || 'A nutritious food item.'}</p>
                                     <p className="text-xs text-muted-foreground mt-2">{item.calories} kcal</p>
                                   </div>
-                                  <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type, foodItem?.name || '')} disabled={!foodItem?.slug}>
+                                  <Button variant="outline" size="sm" onClick={() => handleFlipMeal(dayPlan.day, meal.type, foodItem?.slug || '', item.name)} disabled={!foodItem?.slug}>
                                     <Replace className="mr-2 h-4 w-4" /> Flip
                                   </Button>
                                 </Card>
