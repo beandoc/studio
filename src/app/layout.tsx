@@ -9,8 +9,8 @@ import { FoodDataProvider } from "@/context/food-context";
 import { pt_sans } from "@/app/font";
 
 export const metadata: Metadata = {
-  title: "KidneyWise Diet",
-  description: "Your smart meal companion for kidney health.",
+  title: "Flip and Toss",
+  description: "Your smart meal companion for healthy eating.",
 };
 
 export default function RootLayout({

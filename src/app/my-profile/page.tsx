@@ -217,7 +217,7 @@ export default function MyProfilePage() {
                 <div className="flex justify-center mb-4">
                   <Image
                       src="/logo.png"
-                      alt="KidneyWise Diet Logo"
+                      alt="Flip and Toss Logo"
                       width={100}
                       height={100}
                       className="rounded-full"

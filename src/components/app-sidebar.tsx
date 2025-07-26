@@ -21,7 +21,7 @@ import { Label } from "./ui/label";
 
 const Logo = () => (
     <div className="flex items-center justify-center p-1 rounded-full bg-sidebar-primary shrink-0">
-        <Image src="/logo.png" alt="KidneyWise Logo" width={32} height={32} />
+        <Image src="/logo.png" alt="Flip and Toss Logo" width={32} height={32} />
     </div>
 );
 
@@ -83,7 +83,7 @@ export default function AppSidebar() {
         <Link href="/" className="flex w-full items-center gap-2 p-2">
             <Logo />
             <div className="group-data-[collapsible=icon]:hidden">
-                <span className="text-lg font-semibold text-sidebar-foreground">KidneyWise Diet</span>
+                <span className="text-lg font-semibold text-sidebar-foreground">Flip and Toss</span>
             </div>
         </Link>
       </SidebarHeader>

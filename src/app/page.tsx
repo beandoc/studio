@@ -14,11 +14,11 @@ import Header from '@/components/header';
 
 export default function WelcomePage() {
   const t = {
-    title: 'Welcome to KidneyWise Diet',
-    description: 'Your smart meal companion for kidney health.',
-    cardTitle: 'Take Control of Your Kidney Health',
+    title: 'Welcome to Flip and Toss',
+    description: 'Your smart meal companion for healthy eating.',
+    cardTitle: 'Take Control of Your Health',
     cardDescription:
-      'Manage diet with personalized meal plans, tracking, and smart food suggestions. Select your role to get started.',
+      'Manage your diet with personalized meal plans, tracking, and smart food suggestions. Select your role to get started.',
     doctorButton: "I'm a Doctor / Dietitian",
     patientButton: "I'm a Patient / User",
   };
@@ -31,7 +31,7 @@ export default function WelcomePage() {
           <div className="flex flex-col items-center text-center">
              <Image
               src="/logo.png"
-              alt="KidneyWise Diet Logo"
+              alt="Flip and Toss Logo"
               width={150}
               height={150}
               className="mb-6 rounded-full"
